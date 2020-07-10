@@ -5,7 +5,7 @@
  * @package VK Filter Search
  */
 
-if ( class_exists( 'VK_Filter_Search' ) ) {
+if ( ! class_exists( 'VK_Filter_Search' ) ) {
 
 	/**
 	 * VK Filter Search
