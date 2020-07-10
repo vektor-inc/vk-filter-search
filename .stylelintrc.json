@@ -1,0 +1,10 @@
+{
+	"plugins": ["stylelint-scss"],
+	"extends": ["stylelint-config-wordpress", "stylelint-config-wordpress/scss"],
+	"rules": {
+		"max-line-length": null,
+		"no-descending-specificity": null,
+		"font-weight-notation": null,
+		"selector-class-pattern": null
+	}
+}

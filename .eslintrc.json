@@ -1,0 +1,12 @@
+{
+	"extends": ["wordpress", "plugin:prettier/recommended"],
+	"plugins": ["react"],
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true,
+            "jsx": true
+        }
+    }
+}
