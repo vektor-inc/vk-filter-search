@@ -21,7 +21,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 		 */
 		public static function search_form( $keyword = true, $post_types = array(), $taxonomies = array() ) {
 			?>
-			
+
 			<form method="get" action="<?php echo esc_url( site_url( '/' ) ); ?>">
 
 				<?php if ( true === $keyword ) : ?>
