@@ -21,7 +21,9 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 		 */
 		public static function search_form( $keyword = true, $post_types = array(), $taxonomies = array() ) {
 			?>
+			
 			<form method="get" action="<?php echo esc_url( site_url( '/' ) ); ?>">
+
 				<?php if ( true === $keyword ) : ?>
 					<label for="post_type"><?php __( 'Keyword Search', 'vk_filter_search' ); ?></label>
 					<input type="text" name="s" id="s" placeholder="<?php __( 'Input Keyword', 'vk_filter_search' ); ?>" />
@@ -90,8 +92,11 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 					}
 				}
 				?>
+
 				<input type="submit" value="<?php esc_html_e( 'Search', 'vk_filter_search' ); ?>" />
+
 			</form>
+
 			<?php
 		}
 	}
