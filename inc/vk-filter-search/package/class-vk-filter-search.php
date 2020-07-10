@@ -46,8 +46,8 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 							echo '<label for="cat">' . esc_html__( 'Filter by', 'vk_filter_search' ) . esc_html( $taxonomy->labels->singular_name ) . '</label>';
 							wp_dropdown_categories(
 								array(
-									'show_option_all'  => $taxonomy->labels->singular_name . __( 'list', 'vk_filter_search' ),
-									'show_option_none' => $taxonomy->labels->singular_name . __( 'none', 'vk_filter_search' ),
+									'show_option_all'  => $taxonomy->labels->singular_name . __( ' list', 'vk_filter_search' ),
+									'show_option_none' => $taxonomy->labels->singular_name . __( ' none', 'vk_filter_search' ),
 									'orderby'          => 'name',
 									'hide_if_empty'    => true,
 									'selected'         => get_query_var( 'cat' ),
@@ -61,8 +61,8 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 							echo '<label for="tag">' . esc_html__( 'Filter by', 'vk_filter_search' ) . esc_html( $taxonomy->labels->singular_name ) . '</label>';
 							wp_dropdown_categories(
 								array(
-									'show_option_all'  => $taxonomy->labels->singular_name . __( 'list', 'vk_filter_search' ),
-									'show_option_none' => $taxonomy->labels->singular_name . __( 'none', 'vk_filter_search' ),
+									'show_option_all'  => $taxonomy->labels->singular_name . __( ' list', 'vk_filter_search' ),
+									'show_option_none' => $taxonomy->labels->singular_name . __( ' none', 'vk_filter_search' ),
 									'orderby'          => 'name',
 									'hide_if_empty'    => true,
 									'selected'         => get_query_var( 'tag' ),
@@ -76,8 +76,8 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 							echo '<label for="' . esc_html( $taxonomy->name ) . '">' . esc_html__( 'Filter by', 'vk_filter_search' ) . esc_html( $taxonomy->labels->singular_name ) . '</label>';
 							wp_dropdown_categories(
 								array(
-									'show_option_all'  => $taxonomy->labels->singular_name . __( 'list', 'vk_filter_search' ),
-									'show_option_none' => $taxonomy->labels->singular_name . __( 'none', 'vk_filter_search' ),
+									'show_option_all'  => $taxonomy->labels->singular_name . __( ' list', 'vk_filter_search' ),
+									'show_option_none' => $taxonomy->labels->singular_name . __( ' none', 'vk_filter_search' ),
 									'orderby'          => 'name',
 									'selected'         => get_query_var( $taxonomy->name ),
 									'hide_if_empty'    => true,
