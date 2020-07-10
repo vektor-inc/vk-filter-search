@@ -42,7 +42,6 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 				<?php
 				if ( ! empty( $taxonomies ) ) {
 					foreach ( $taxonomies as $taxonomy ) {
-
 						if ( 'category' === $taxonomy ) {
 							$taxonomy = get_taxonomy( $taxonomy );
 							echo '<label for="cat">' . esc_html__( 'Filter by', 'vk_filter_search' ) . esc_html( $taxonomy->labels->singular_name ) . '</label>';
