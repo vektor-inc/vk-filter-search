@@ -16,8 +16,8 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 		 * Search Form
 		 *
 		 * @param bool  $keyword    Filer by Keyword or not.
-		 * @param array $post_types Filter Post Types.
-		 * @param array $taxonomies Filter Taxonomies.
+		 * @param array $post_types Names of Post Types.
+		 * @param array $taxonomies Names of Taxonomies.
 		 */
 		public static function search_form( $keyword = true, $post_types = array(), $taxonomies = array() ) {
 			?>
