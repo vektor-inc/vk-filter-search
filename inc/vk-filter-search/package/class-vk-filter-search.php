@@ -34,7 +34,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 					<select name="post_type" id="post_type">
 						<option><?php __( 'Post Types', 'vk-filter-search' ); ?></option>
 						<?php foreach ( $post_types as $post_type ) : ?>
-							<option value="<?php echo esc_attr( $post_type ); ?>"><?php echo esc_html( get_post_type_object( $post_type->post_type )->labels->singular_name ); ?></option>
+							<option value="<?php echo esc_attr( $post_type ); ?>"><?php echo esc_html( get_post_type_object( $post_type )->labels->singular_name ); ?></option>
 						<?php endforeach; ?>
 					</select>
 				<?php endif; ?>
