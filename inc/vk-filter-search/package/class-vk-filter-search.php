@@ -30,10 +30,10 @@ if ( class_exists( 'VK_Filter_Search' ) ) {
 				<?php if ( ! empty( $post_types ) ) : ?>
 					<label for="post_type"><?php __( 'Filter by post type', 'vk_filter_search' ); ?></label>
 					<select name="post_type" id="post_type">
-					<option><?php __( 'Post Types', 'vk_filter_search' ); ?></option>
-					<?php foreach ( $post_types as $post_type ) : ?>
-						<option value="<?php echo esc_attr( $post_type ); ?>"><?php echo esc_html( get_post_type_object( $post_type->post_type )->labels->singular_name ); ?></option>
-					<?php endforeach; ?>
+						<option><?php __( 'Post Types', 'vk_filter_search' ); ?></option>
+						<?php foreach ( $post_types as $post_type ) : ?>
+							<option value="<?php echo esc_attr( $post_type ); ?>"><?php echo esc_html( get_post_type_object( $post_type->post_type )->labels->singular_name ); ?></option>
+						<?php endforeach; ?>
 					</select>
 				<?php endif; ?>
 
@@ -90,7 +90,7 @@ if ( class_exists( 'VK_Filter_Search' ) ) {
 					}
 				}
 				?>
-				<input type="submit" value="<?php esc_html_e( 'Search', 'vk_filter_search' ) ?>" />
+				<input type="submit" value="<?php esc_html_e( 'Search', 'vk_filter_search' ); ?>" />
 			</form>
 			<?php
 		}
