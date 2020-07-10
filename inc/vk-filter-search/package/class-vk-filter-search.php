@@ -43,7 +43,7 @@ if ( class_exists( 'VK_Filter_Search' ) ) {
 
 						if ( 'category' === $taxonomy ) {
 							$taxonomy = get_taxonomy( $taxonomy );
-							echo '<label for="cat">' . __( 'Filter by', 'vk_filter_search' ) . $taxonomy->labels->singular_name . '</label>';
+							echo '<label for="cat">' . esc_html__( 'Filter by', 'vk_filter_search' ) . esc_html( $taxonomy->labels->singular_name ) . '</label>';
 							wp_dropdown_categories(
 								array(
 									'show_option_all'  => $taxonomy->labels->singular_name . __( 'list', 'vk_filter_search' ),
@@ -58,7 +58,7 @@ if ( class_exists( 'VK_Filter_Search' ) ) {
 							);
 						} elseif ( 'post_tag' === $taxonomy ) {
 							$taxonomy = get_taxonomy( $taxonomy );
-							echo '<label for="tag">' . __( 'Filter by', 'vk_filter_search' ) . $taxonomy->labels->singular_name . '</label>';
+							echo '<label for="tag">' . esc_html__( 'Filter by', 'vk_filter_search' ) . esc_html( $taxonomy->labels->singular_name ) . '</label>';
 							wp_dropdown_categories(
 								array(
 									'show_option_all'  => $taxonomy->labels->singular_name . __( 'list', 'vk_filter_search' ),
@@ -73,7 +73,7 @@ if ( class_exists( 'VK_Filter_Search' ) ) {
 							);
 						} else {
 							$taxonomy = get_taxonomy( $taxonomy );
-							echo '<label for="' . $taxonomy->name . '">' . __( 'Filter by', 'vk_filter_search' ) . $taxonomy->labels->singular_name . '</label>';
+							echo '<label for="' . esc_html( $taxonomy->name ) . '">' . esc_html__( 'Filter by', 'vk_filter_search' ) . esc_html( $taxonomy->labels->singular_name ) . '</label>';
 							wp_dropdown_categories(
 								array(
 									'show_option_all'  => $taxonomy->labels->singular_name . __( 'list', 'vk_filter_search' ),
