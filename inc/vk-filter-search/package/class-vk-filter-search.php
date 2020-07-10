@@ -90,10 +90,10 @@ if ( class_exists( 'VK_Filter_Search' ) ) {
 					}
 				}
 				?>
+				<input type="submit" value="<?php esc_html_e( 'Search', 'vk_filter_search' ) ?>" />
 			</form>
 			<?php
 		}
-
 	}
 	new VK_Filter_Search();
 }
