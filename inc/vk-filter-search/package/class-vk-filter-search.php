@@ -25,7 +25,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 			<form method="get" action="<?php echo esc_url( site_url( '/' ) ); ?>">
 
 				<?php if ( true === $keyword ) : ?>
-					<label for="post_type"><?php __( 'Keyword Search', 'vk-filter-search' ); ?></label>
+					<label for="s"><?php __( 'Keyword Search', 'vk-filter-search' ); ?></label>
 					<input type="text" name="s" id="s" placeholder="<?php __( 'Input Keyword', 'vk-filter-search' ); ?>" />
 				<?php endif; ?>
 
@@ -83,7 +83,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 									'selected'         => get_query_var( $taxonomy->name ),
 									'hide_if_empty'    => true,
 									'name'             => $taxonomy->name,
-									'name'             => $taxonomy->name,
+									'taxonomy'         => $taxonomy->name,
 									'value_field'      => 'slug',
 								)
 							);
