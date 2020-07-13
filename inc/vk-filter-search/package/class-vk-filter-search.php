@@ -16,7 +16,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 		 * Constructor
 		 */
 		public function __construct() {
-			add_shortcode( 'vk_filter_search', array( __CLASS__, 'shortcode_display' ) );
+			add_shortcode( 'vk_filter_search', array( __CLASS__, 'display_shortcode' ) );
 		}
 
 		/**
@@ -26,7 +26,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 		 * @param array $post_types Names of Post Types.
 		 * @param array $taxonomies Names of Taxonomies.
 		 */
-		public static function search_form( $keyword = true, $post_types = array(), $taxonomies = array() ) {
+		public static function get_search_form_html( $keyword = true, $post_types = array(), $taxonomies = array() ) {
 			$form_html = '<form method="get" action="' . site_url( '/' ) . '">';
 			if ( true === $keyword ) {
 				$form_html .= '<label for="s">' . __( 'Keyword Search', 'vk-filter-search' ) . '</label>';
@@ -106,7 +106,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 		 *
 		 * @param array $atts Attributes..
 		 */
-		public static function shortcode_display( $atts ) {
+		public static function display_shortcode( $atts ) {
 			$atts = shortcode_atts(
 				array(
 					'keyword'    => true,
@@ -120,7 +120,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 			$post_types = ! empty( $atts['post_types'] ) ? explode( ',', $atts['post_types'] ) : array();
 			$taxonomies = ! empty( $atts['taxonomies'] ) ? explode( ',', $atts['taxonomies'] ) : array();
 
-			return self::search_form( $keyword, $post_types, $taxonomies );
+			return self::get_search_form_html( $keyword, $post_types, $taxonomies );
 		}
 	}
 	new VK_Filter_Search();
