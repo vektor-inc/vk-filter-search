@@ -112,7 +112,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 
 			$display_html = self::get_search_form_html( $keyword, $post_types, $taxonomies );
 
-			$allowsd_html = array(
+			$allowed_html = array(
 				'form'   => array(
 					'class'  => array(),
 					'id'     => array(),
@@ -135,11 +135,10 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 					'type'        => array(),
 					'name'        => array(),
 					'placeholder' => array(),
-
 				),
 			);
 
-			echo wp_kses( $display_html, $allowsd_html );
+			echo wp_kses( $display_html, $allowed_html );
 		}
 
 		/**
