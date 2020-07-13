@@ -20,7 +20,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 		}
 
 		/**
-		 * Search Form
+		 * Get Search Form HTML
 		 *
 		 * @param bool  $keyword    Filer by Keyword or not.
 		 * @param array $post_types Names of Post Types.
@@ -102,7 +102,48 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 		}
 
 		/**
-		 * Shortcode Display
+		 * Display Search Form HTML
+		 *
+		 * @param bool  $keyword    Filer by Keyword or not.
+		 * @param array $post_types Names of Post Types.
+		 * @param array $taxonomies Names of Taxonomies.
+		 */
+		public static function display_search_form_html( $keyword = true, $post_types = array(), $taxonomies = array() ) {
+
+			$display_html = self::get_search_form_html( $keyword, $post_types, $taxonomies );
+
+			$allowsd_html = array(
+				'form'   => array(
+					'class'  => array(),
+					'id'     => array(),
+					'method' => array(),
+					'action' => array(),
+				),
+				'label'  => array(
+					'class' => array(),
+					'id'    => array(),
+					'for'   => array(),
+				),
+				'select' => array(
+					'class' => array(),
+					'id'    => array(),
+					'name'  => array(),
+				),
+				'input'  => array(
+					'class'       => array(),
+					'id'          => array(),
+					'type'        => array(),
+					'name'        => array(),
+					'placeholder' => array(),
+
+				),
+			);
+
+			echo wp_kses( $display_html, $allowsd_html );
+		}
+
+		/**
+		 * Display Shortcode
 		 *
 		 * @param array $atts Attributes..
 		 */
@@ -116,7 +157,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 				$atts
 			);
 
-			$keyword    = ! empty( $atts['keyword'] ) ? $atts['post_types'] : false;
+			$keyword    = ! empty( $atts['keyword'] ) ? $atts['keyword'] : false;
 			$post_types = ! empty( $atts['post_types'] ) ? explode( ',', $atts['post_types'] ) : array();
 			$taxonomies = ! empty( $atts['taxonomies'] ) ? explode( ',', $atts['taxonomies'] ) : array();
 
