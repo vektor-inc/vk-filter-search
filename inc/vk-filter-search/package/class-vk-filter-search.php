@@ -116,9 +116,9 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 				$atts
 			);
 
-			$keyword    = $atts['keyword'];
-			$post_types = explode( ',', $atts['post_types'] );
-			$taxonomies = explode( ',', $atts['taxonomies'] );
+			$keyword    = ! empty( $atts['keyword'] ) ? $atts['post_types'] : false;
+			$post_types = ! empty( $atts['post_types'] ) ? explode( ',', $atts['post_types'] ) : array();
+			$taxonomies = ! empty( $atts['taxonomies'] ) ? explode( ',', $atts['taxonomies'] ) : array();
 
 			return self::search_form( $keyword, $post_types, $taxonomies );
 		}
