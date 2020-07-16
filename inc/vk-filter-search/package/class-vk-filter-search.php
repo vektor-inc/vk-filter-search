@@ -29,24 +29,26 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 		public static function get_search_form_html( $keyword = true, $post_types = array(), $taxonomies = array() ) {
 			$form_html = '<form method="get" action="' . site_url( '/' ) . '">';
 			if ( true === $keyword ) {
-				$form_html .= '<label for="s">' . __( 'Keyword Search', 'vk-filter-search' ) . '</label>';
+				$form_html .= '<label>' . __( 'Keyword Search', 'vk-filter-search' );
 				$form_html .= '<input type="text" name="s" id="s" placeholder="' . __( 'Input Keyword', 'vk-filter-search' ) . '" />';
+				$form_html .= '</label>';
 			}
 
 			if ( ! empty( $post_types ) ) {
-				$form_html .= '<label for="post_type">' . __( 'Filter by post type', 'vk-filter-search' ) . '</label>';
+				$form_html .= '<label>' . __( 'Filter by post type', 'vk-filter-search' );
 				$form_html .= '<select name="post_type" id="post_type">';
 				foreach ( $post_types as $post_type ) {
 					$form_html .= '<option value="' . $post_type . '">' . get_post_type_object( $post_type )->labels->singular_name . '</option>';
 				}
 				$form_html .= '</select>';
+				$form_html .= '</label>';
 			}
 
 			if ( ! empty( $taxonomies ) ) {
 				foreach ( $taxonomies as $taxonomy ) {
 					if ( 'category' === $taxonomy ) {
 						$taxonomy   = get_taxonomy( $taxonomy );
-						$form_html .= '<label for="cat">' . __( 'Filter by', 'vk-filter-search' ) . $taxonomy->labels->singular_name . '</label>';
+						$form_html .= '<label>' . __( 'Filter by', 'vk-filter-search' ) . $taxonomy->labels->singular_name;
 						$form_html .= wp_dropdown_categories(
 							array(
 								'show_option_all'  => __( 'All of ', 'vk-filter-search' ) . $taxonomy->labels->singular_name,
@@ -60,9 +62,10 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 								'value_field'      => 'slug',
 							)
 						);
+						$form_html .= '</label>';
 					} elseif ( 'post_tag' === $taxonomy ) {
 						$taxonomy   = get_taxonomy( $taxonomy );
-						$form_html .= '<label for="tag">' . __( 'Filter by', 'vk-filter-search' ) . $taxonomy->labels->singular_name . '</label>';
+						$form_html .= '<label for="tag">' . __( 'Filter by', 'vk-filter-search' ) . $taxonomy->labels->singular_name;
 						$form_html .= wp_dropdown_categories(
 							array(
 								'show_option_all'  => __( 'All of ', 'vk-filter-search' ) . $taxonomy->labels->singular_name,
@@ -76,9 +79,10 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 								'value_field'      => 'slug',
 							)
 						);
+						$form_html .= '</label>';
 					} else {
 						$taxonomy   = get_taxonomy( $taxonomy );
-						$form_html .= '<label for="' . esc_html( $taxonomy->name ) . '">' . __( 'Filter by', 'vk-filter-search' ) . $taxonomy->labels->singular_name . '</label>';
+						$form_html .= '<label for="' . esc_html( $taxonomy->name ) . '">' . __( 'Filter by', 'vk-filter-search' ) . $taxonomy->labels->singular_name;
 						$form_html .= wp_dropdown_categories(
 							array(
 								'show_option_all'  => __( 'All of ', 'vk-filter-search' ) . $taxonomy->labels->singular_name,
@@ -92,6 +96,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 								'value_field'      => 'slug',
 							)
 						);
+						$form_html .= '</label>';
 					}
 				}
 			}
