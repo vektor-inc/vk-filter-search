@@ -43,7 +43,6 @@ function vk_search_filter_block() {
 		$asset_file['version'],
 	);
 
-
 	wp_register_script(
 		'vk-filter-search',
 		plugins_url( 'build/index.js', __FILE__ ),
@@ -75,10 +74,21 @@ function vk_search_filter_block_render( $attributes, $content = '' ) {
 		$attributes,
 		array(
 			'keyword'    => true,
-			'post_types' => 'post,page',
-			'taxonomies' => 'category,post_tag',
+			'post_types' => '["post","page"]',
+			'taxonomies' => '["category","post_tag"]',
 		)
 	);
+	if ( ! empty( $attributes['post_types'] ) ) {
+		$attributes['post_types'] = str_replace( '[', '', $attributes['post_types'] );
+		$attributes['post_types'] = str_replace( ']', '', $attributes['post_types'] );
+		$attributes['post_types'] = str_replace( '"', '', $attributes['post_types'] );
+	}
+
+	if ( ! empty( $attributes['taxonomies'] ) ) {
+		$attributes['taxonomies'] = str_replace( '[', '', $attributes['taxonomies'] );
+		$attributes['taxonomies'] = str_replace( ']', '', $attributes['taxonomies'] );
+		$attributes['taxonomies'] = str_replace( '"', '', $attributes['taxonomies'] );
+	}
 
 	$keyword    = ! empty( $attributes['keyword'] ) ? $attributes['keyword'] : false;
 	$post_types = ! empty( $attributes['post_types'] ) ? explode( ',', $attributes['post_types'] ) : array();

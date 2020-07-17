@@ -4,7 +4,7 @@ import ServerSideRender from '@wordpress/server-side-render';
 registerBlockType( 'vk-filter-search/filter-search', {
     title: 'VK Filter Search',
     icon: 'search',
-    category: 'widgets',
+	category: 'widgets',
 
     edit: ( props ) => {
         return (
