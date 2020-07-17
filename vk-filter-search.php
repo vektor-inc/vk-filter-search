@@ -78,6 +78,7 @@ function vk_search_filter_block_render( $attributes, $content = '' ) {
 			'taxonomies' => '["category","post_tag"]',
 		)
 	);
+
 	if ( ! empty( $attributes['post_types'] ) ) {
 		$attributes['post_types'] = str_replace( '[', '', $attributes['post_types'] );
 		$attributes['post_types'] = str_replace( ']', '', $attributes['post_types'] );
