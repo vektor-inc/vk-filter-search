@@ -8,10 +8,12 @@ registerBlockType( 'vk-filter-search/filter-search', {
 
     edit: ( props ) => {
         return (
-            <ServerSideRender
-                block="vk-filter-search/filter-search"
-                attributes={ props.attributes }
-            />
-        );
+
+				<ServerSideRender
+					block="vk-filter-search/filter-search"
+					attributes={ props.attributes }
+				/>
+
+		);
     },
 } );
