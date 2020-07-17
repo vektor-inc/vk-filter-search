@@ -2,9 +2,10 @@
   "name": "vk-filter-search",
   "version": "1.0.0",
   "description": "Support Filtering Search of keyword, post-type and taxonomy.",
-  "main": "index.js",
+  "main": "build/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "wp-scripts build",
+    "start": "wp-scripts start"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
   },
   "homepage": "https://github.com/vektor-inc/vk-filter-search#readme",
   "dependencies": {
-    "@wordpress/scripts": "^12.1.1"
+    "@wordpress/scripts": "^12.1.1",
+    "@wordpress/server-side-render": "^1.16.1"
   }
 }
