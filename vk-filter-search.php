@@ -3,7 +3,7 @@
  * Plugin Name: VK Filter Search
  * Plugin URI: https://lightning.nagoya/
  * Description: This plugin for filter search.
- * Version: 0.0.1
+ * Version: 1.0.0
  * Author:  Vektor,Inc.
  * Author URI: https://lightning.nagoya/
  * Text Domain: vk-filter-search
