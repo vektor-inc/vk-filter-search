@@ -10,5 +10,5 @@ export const schema = {
 	isCheckedTaxonomy: {
 		type: "string",
 		default: '["post"]',
-	  },
+	},
 };

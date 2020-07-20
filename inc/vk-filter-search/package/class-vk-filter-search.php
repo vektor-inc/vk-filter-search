@@ -51,11 +51,11 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 					if ( 'category' === $taxonomy ) {
 						$taxonomy   = get_taxonomy( $taxonomy );
 						$form_html .= '<label>';
-						$form_html .= '<p>' . __( 'Filter by', 'vk-filter-search' ) . $taxonomy->labels->singular_name . '</p>';
+						$form_html .= '<p>' . __( 'Filter by', 'vk-filter-search' ) . $taxonomy->label . '</p>';
 						$form_html .= wp_dropdown_categories(
 							array(
-								'show_option_all'  => __( 'All of ', 'vk-filter-search' ) . $taxonomy->labels->singular_name,
-								'show_option_none' => __( 'None of ', 'vk-filter-search' ) . $taxonomy->labels->singular_name,
+								'show_option_all'  => __( 'All of ', 'vk-filter-search' ) . $taxonomy->label,
+								'show_option_none' => __( 'None of ', 'vk-filter-search' ) . $taxonomy->label,
 								'orderby'          => 'name',
 								'hide_if_empty'    => true,
 								'echo'             => false,
@@ -69,11 +69,11 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 					} elseif ( 'post_tag' === $taxonomy ) {
 						$taxonomy   = get_taxonomy( $taxonomy );
 						$form_html .= '<label>';
-						$form_html .= '<p>' . __( 'Filter by', 'vk-filter-search' ) . $taxonomy->labels->singular_name . '</p>';
+						$form_html .= '<p>' . __( 'Filter by', 'vk-filter-search' ) . $taxonomy->label . '</p>';
 						$form_html .= wp_dropdown_categories(
 							array(
-								'show_option_all'  => __( 'All of ', 'vk-filter-search' ) . $taxonomy->labels->singular_name,
-								'show_option_none' => __( 'None of ', 'vk-filter-search' ) . $taxonomy->labels->singular_name,
+								'show_option_all'  => __( 'All of ', 'vk-filter-search' ) . $taxonomy->label,
+								'show_option_none' => __( 'None of ', 'vk-filter-search' ) . $taxonomy->label,
 								'orderby'          => 'name',
 								'hide_if_empty'    => true,
 								'echo'             => false,
@@ -87,11 +87,11 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 					} else {
 						$taxonomy   = get_taxonomy( $taxonomy );
 						$form_html .= '<label>';
-						$form_html .= '<p>' . __( 'Filter by', 'vk-filter-search' ) . $taxonomy->labels->singular_name . '</p>';
+						$form_html .= '<p>' . __( 'Filter by', 'vk-filter-search' ) . $taxonomy->label . '</p>';
 						$form_html .= wp_dropdown_categories(
 							array(
-								'show_option_all'  => __( 'All of ', 'vk-filter-search' ) . $taxonomy->labels->singular_name,
-								'show_option_none' => __( 'None of ', 'vk-filter-search' ) . $taxonomy->labels->singular_name,
+								'show_option_all'  => __( 'All of ', 'vk-filter-search' ) . $taxonomy->label,
+								'show_option_none' => __( 'None of ', 'vk-filter-search' ) . $taxonomy->label,
 								'orderby'          => 'name',
 								'selected'         => get_query_var( $taxonomy->name ),
 								'hide_if_empty'    => true,

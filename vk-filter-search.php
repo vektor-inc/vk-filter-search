@@ -54,6 +54,22 @@ function vk_search_filter_block() {
 	register_block_type(
 		'vk-filter-search/filter-search',
 		array(
+			'attributes'      => array_merge(
+				array(
+					'showKeyword'       => array(
+						'type'    => 'boolean',
+						'default' => true,
+					),
+					'isCheckedPostType' => array(
+						'type'    => 'string',
+						'default' => '["post","page"]',
+					),
+					'isCheckedTaxonomy' => array(
+						'type'    => 'string',
+						'default' => '["category","post_tag"]',
+					),
+				),
+			),
 			'style'           => 'vk-filter-search',
 			'editor_style'    => 'vk-filter-search-editor',
 			'editor_script'   => 'vk-filter-search',
@@ -91,7 +107,7 @@ function vk_search_filter_block_render( $attributes, $content = '' ) {
 		$attributes['isCheckedTaxonomy'] = str_replace( '"', '', $attributes['isCheckedTaxonomy'] );
 	}
 
-	$keyword    = ! empty( $attributes['keyword'] ) ? $attributes['keyword'] : false;
+	$keyword    = ! empty( $attributes['showKeyword'] ) ? $attributes['showKeyword'] : false;
 	$post_types = ! empty( $attributes['isCheckedPostType'] ) ? explode( ',', $attributes['isCheckedPostType'] ) : array();
 	$taxonomies = ! empty( $attributes['isCheckedTaxonomy'] ) ? explode( ',', $attributes['isCheckedTaxonomy'] ) : array();
 
