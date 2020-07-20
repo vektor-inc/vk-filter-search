@@ -5,10 +5,10 @@ export const schema = {
   	},
 	isCheckedPostType: {
 	  type: "string",
-	  default: '["post"]',
+	  default: '["post","page"]',
 	},
 	isCheckedTaxonomy: {
 		type: "string",
-		default: '["post"]',
+		default: '["category","post_tag"]',
 	},
 };
