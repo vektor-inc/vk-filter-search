@@ -72,7 +72,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 				</InspectorControls>
 				<ServerSideRender
 					block="vk-filter-search/filter-search"
-					attributes={ props.attributes }
+					attributes={ attributes }
 				/>
 			</Fragment>
 		);
