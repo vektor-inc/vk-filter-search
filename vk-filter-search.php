@@ -73,27 +73,27 @@ function vk_search_filter_block_render( $attributes, $content = '' ) {
 	$attributes = wp_parse_args(
 		$attributes,
 		array(
-			'keyword'    => true,
-			'post_types' => '["post","page"]',
-			'taxonomies' => '["category","post_tag"]',
+			'showKeyword'       => true,
+			'isCheckedPostType' => '["post","page"]',
+			'isCheckedTaxonomy' => '["category","post_tag"]',
 		)
 	);
 
-	if ( ! empty( $attributes['post_types'] ) ) {
-		$attributes['post_types'] = str_replace( '[', '', $attributes['post_types'] );
-		$attributes['post_types'] = str_replace( ']', '', $attributes['post_types'] );
-		$attributes['post_types'] = str_replace( '"', '', $attributes['post_types'] );
+	if ( ! empty( $attributes['isCheckedPostType'] ) ) {
+		$attributes['isCheckedPostType'] = str_replace( '[', '', $attributes['isCheckedPostType'] );
+		$attributes['isCheckedPostType'] = str_replace( ']', '', $attributes['isCheckedPostType'] );
+		$attributes['isCheckedPostType'] = str_replace( '"', '', $attributes['isCheckedPostType'] );
 	}
 
-	if ( ! empty( $attributes['taxonomies'] ) ) {
-		$attributes['taxonomies'] = str_replace( '[', '', $attributes['taxonomies'] );
-		$attributes['taxonomies'] = str_replace( ']', '', $attributes['taxonomies'] );
-		$attributes['taxonomies'] = str_replace( '"', '', $attributes['taxonomies'] );
+	if ( ! empty( $attributes['isCheckedTaxonomy'] ) ) {
+		$attributes['isCheckedTaxonomy'] = str_replace( '[', '', $attributes['isCheckedTaxonomy'] );
+		$attributes['isCheckedTaxonomy'] = str_replace( ']', '', $attributes['isCheckedTaxonomy'] );
+		$attributes['isCheckedTaxonomy'] = str_replace( '"', '', $attributes['isCheckedTaxonomy'] );
 	}
 
 	$keyword    = ! empty( $attributes['keyword'] ) ? $attributes['keyword'] : false;
-	$post_types = ! empty( $attributes['post_types'] ) ? explode( ',', $attributes['post_types'] ) : array();
-	$taxonomies = ! empty( $attributes['taxonomies'] ) ? explode( ',', $attributes['taxonomies'] ) : array();
+	$post_types = ! empty( $attributes['isCheckedPostType'] ) ? explode( ',', $attributes['isCheckedPostType'] ) : array();
+	$taxonomies = ! empty( $attributes['isCheckedTaxonomy'] ) ? explode( ',', $attributes['isCheckedTaxonomy'] ) : array();
 
 	return VK_Filter_Search::get_search_form_html( $keyword, $post_types, $taxonomies );
 }
