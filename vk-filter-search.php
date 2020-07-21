@@ -56,6 +56,10 @@ function vk_search_filter_block() {
 		array(
 			'attributes'      => array_merge(
 				array(
+					'name' => array(
+						'type'    => 'string',
+						'default' => 'vk-filter-search/filter-search',
+					),
 					'showKeyword'       => array(
 						'type'    => 'boolean',
 						'default' => true,
