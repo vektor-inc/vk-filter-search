@@ -4,7 +4,7 @@
   "description": "Support Filtering Search of keyword, post-type and taxonomy.",
   "main": "build/index.js",
   "scripts": {
-    "build": "wp-scripts build",
+    "build": "wp-scripts build inc/vk-filter-search/package/assets/_js/block.js --output-path=inc/vk-filter-search/package/assets/js/",
     "start": "wp-scripts start"
   },
   "repository": {
