@@ -5,7 +5,7 @@
   "main": "build/index.js",
   "scripts": {
     "build": "wp-scripts build inc/vk-filter-search/package/assets/_js/block.js --output-path=inc/vk-filter-search/package/assets/js/",
-    "start": "wp-scripts start"
+    "start": "wp-scripts start inc/vk-filter-search/package/assets/_js/block.js --output-path=inc/vk-filter-search/package/assets/js/"
   },
   "repository": {
     "type": "git",
