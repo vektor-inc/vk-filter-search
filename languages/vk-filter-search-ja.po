@@ -1,0 +1,90 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: VK Filter Search\n"
+"POT-Creation-Date: 2020-07-29 11:28+0900\n"
+"PO-Revision-Date: 2020-07-29 11:29+0900\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: vk-filter-search.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+"X-Poedit-SearchPathExcluded-1: node_modules\n"
+
+#: inc/vk-filter-search/package/class-vk-filter-search.php:31
+msgid "Keyword Search"
+msgstr "キーワードで検索する"
+
+#: inc/vk-filter-search/package/class-vk-filter-search.php:32
+msgid "Input Keyword"
+msgstr "キーワードを入力してください"
+
+#: inc/vk-filter-search/package/class-vk-filter-search.php:38
+msgid "Filter by post type"
+msgstr "投稿タイプで絞り込む"
+
+#: inc/vk-filter-search/package/class-vk-filter-search.php:53
+#: inc/vk-filter-search/package/class-vk-filter-search.php:72
+#: inc/vk-filter-search/package/class-vk-filter-search.php:91
+msgid "Filter by"
+msgstr "絞り込む"
+
+#: inc/vk-filter-search/package/class-vk-filter-search.php:56
+#: inc/vk-filter-search/package/class-vk-filter-search.php:75
+#: inc/vk-filter-search/package/class-vk-filter-search.php:94
+msgid "All of "
+msgstr "すべての"
+
+#: inc/vk-filter-search/package/class-vk-filter-search.php:57
+#: inc/vk-filter-search/package/class-vk-filter-search.php:76
+#: inc/vk-filter-search/package/class-vk-filter-search.php:95
+msgid "None of "
+msgstr "なし"
+
+#: inc/vk-filter-search/package/class-vk-filter-search.php:110
+msgid "Search"
+msgstr "検索する"
+
+#: inc/vk-filter-search/package/assets/_js/block.js:43
+msgid "Display conditions"
+msgstr "表示条件"
+
+#: inc/vk-filter-search/package/assets/_js/block.js:46
+msgid "Filter by Keyword"
+msgstr "キーワード"
+
+#: inc/vk-filter-search/package/assets/_js/block.js:54
+msgid "Filtering PostTypes"
+msgstr "絞り込むカスタム投稿タイプ"
+
+#: inc/vk-filter-search/package/assets/_js/block.js:63
+msgid "Filtering Taxonomies"
+msgstr "絞り込むカスタム分類"
+
+#. Plugin Name of the plugin/theme
+msgid "VK Filter Search"
+msgstr "VK Filter Search"
+
+#. Plugin URI of the plugin/theme
+#. Author URI of the plugin/theme
+msgid "https://lightning.nagoya/"
+msgstr "https://lightning.nagoya/ja/"
+
+#. Description of the plugin/theme
+msgid "This plugin for filter search."
+msgstr "絞り込み検索が行えるプラグインです。"
+
+#. Author of the plugin/theme
+msgid "Vektor,Inc."
+msgstr "Vektor,Inc."

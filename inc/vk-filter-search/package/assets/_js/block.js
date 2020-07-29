@@ -51,7 +51,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 							/>
 						</BaseControl>
 
-						<BaseControl label={__("Filter by PostTypes", "vk-blocks")}>
+						<BaseControl label={__("Filtering PostTypes", "vk-blocks")}>
 							<AdvancedCheckboxControl
 								schema={"isCheckedPostType"}
 								rawData={postTypesProps}
@@ -60,7 +60,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 							/>
 						</BaseControl>
 
-						<BaseControl label={__("Filter by Taxonomies", "vk-blocks")}>
+						<BaseControl label={__("Filtering Taxonomies", "vk-blocks")}>
 							<AdvancedCheckboxControl
 								schema={"isCheckedTaxonomy"}
 								rawData={taxonomiesProps}

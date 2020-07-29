@@ -45,6 +45,8 @@ class VK_Filter_Search_Block {
 			true
 		);
 
+		wp_set_script_translations( 'vk-filter-search', 'vk-filter-search', plugin_dir_path( __FILE__ ) . '/languages/' );
+
 		register_block_type(
 			'vk-filter-search/filter-search',
 			array(

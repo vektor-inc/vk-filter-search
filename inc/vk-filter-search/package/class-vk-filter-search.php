@@ -50,7 +50,7 @@ class VK_Filter_Search {
 					$taxonomy = get_taxonomy( $taxonomy );
 					if ( $taxonomy ) {
 						$form_html .= '<label>';
-						$form_html .= '<p>' . __( 'Filter by', 'vk-filter-search' ) . $taxonomy->labels->singular_name . '</p>';
+						$form_html .= '<p>' . $taxonomy->labels->singular_name . '</p>';
 						$form_html .= wp_dropdown_categories(
 							array(
 								'show_option_all'  => __( 'All of ', 'vk-filter-search' ) . $taxonomy->labels->singular_name,
