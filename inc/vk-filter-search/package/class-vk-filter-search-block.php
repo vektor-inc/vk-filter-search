@@ -68,7 +68,7 @@ class VK_Filter_Search_Block {
 							'type'    => 'string',
 							'default' => '["category","post_tag"]',
 						),
-					),
+					)
 				),
 				'style'           => 'vk-filter-search',
 				'editor_style'    => 'vk-filter-search-editor',
