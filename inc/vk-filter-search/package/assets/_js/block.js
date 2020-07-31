@@ -15,10 +15,9 @@ registerBlockType( 'vk-filter-search/filter-search', {
 
     edit: ( props ) => {
 
-		const { attributes, setAttributes, name } = props;
+		const { attributes, setAttributes } = props;
 
 		const { showKeyword, isCheckedPostType, isCheckedTaxonomy } = attributes;
-		attributes.name = name;
 
 		const postTypes = usePostTypes();
 		const postTypesProps = postTypes.map(postType => {

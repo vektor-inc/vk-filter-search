@@ -1,8 +1,4 @@
 export const schema = {
-	name: {
-		type: "string",
-		default: '',
-	},
 	showKeyword: {
 		type: "boolean",
 		default: true,
