@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VK Filter Search\n"
-"POT-Creation-Date: 2020-07-29 11:28+0900\n"
-"PO-Revision-Date: 2020-07-29 11:29+0900\n"
+"POT-Creation-Date: 2020-07-31 14:42+0900\n"
+"PO-Revision-Date: 2020-07-31 14:42+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ja\n"
@@ -28,49 +28,56 @@ msgstr "キーワードで検索する"
 
 #: inc/vk-filter-search/package/class-vk-filter-search.php:32
 msgid "Input Keyword"
-msgstr "キーワードを入力してください"
+msgstr "キーワードを入力"
 
 #: inc/vk-filter-search/package/class-vk-filter-search.php:38
 msgid "Filter by post type"
 msgstr "投稿タイプで絞り込む"
 
-#: inc/vk-filter-search/package/class-vk-filter-search.php:53
-#: inc/vk-filter-search/package/class-vk-filter-search.php:72
-#: inc/vk-filter-search/package/class-vk-filter-search.php:91
-msgid "Filter by"
-msgstr "絞り込む"
-
-#: inc/vk-filter-search/package/class-vk-filter-search.php:56
-#: inc/vk-filter-search/package/class-vk-filter-search.php:75
-#: inc/vk-filter-search/package/class-vk-filter-search.php:94
-msgid "All of "
-msgstr "すべての"
-
-#: inc/vk-filter-search/package/class-vk-filter-search.php:57
+#: inc/vk-filter-search/package/class-vk-filter-search.php:54
 #: inc/vk-filter-search/package/class-vk-filter-search.php:76
-#: inc/vk-filter-search/package/class-vk-filter-search.php:95
-msgid "None of "
-msgstr "なし"
+#: inc/vk-filter-search/package/class-vk-filter-search.php:98
+#, php-format
+msgid "Filter by %s"
+msgstr "%sで絞り込む"
 
-#: inc/vk-filter-search/package/class-vk-filter-search.php:110
+#: inc/vk-filter-search/package/class-vk-filter-search.php:58
+#: inc/vk-filter-search/package/class-vk-filter-search.php:80
+#: inc/vk-filter-search/package/class-vk-filter-search.php:102
+#, php-format
+msgid "All of %s"
+msgstr "すべての%s"
+
+#: inc/vk-filter-search/package/class-vk-filter-search.php:60
+#: inc/vk-filter-search/package/class-vk-filter-search.php:82
+#: inc/vk-filter-search/package/class-vk-filter-search.php:104
+#, php-format
+msgid "None of %s"
+msgstr "%sなし"
+
+#: inc/vk-filter-search/package/class-vk-filter-search.php:119
 msgid "Search"
 msgstr "検索する"
 
-#: inc/vk-filter-search/package/assets/_js/block.js:43
-msgid "Display conditions"
-msgstr "表示条件"
+#: inc/vk-filter-search/package/assets/_js/block.js:42
+msgid "Filtering Options"
+msgstr "絞り込み設定"
 
-#: inc/vk-filter-search/package/assets/_js/block.js:46
-msgid "Filter by Keyword"
+#: inc/vk-filter-search/package/assets/_js/block.js:45
+msgid "Keyword"
 msgstr "キーワード"
 
+#: inc/vk-filter-search/package/assets/_js/block.js:47
+msgid "Filter by Keyword"
+msgstr "キーワードで絞り込む"
+
 #: inc/vk-filter-search/package/assets/_js/block.js:54
-msgid "Filtering PostTypes"
-msgstr "絞り込むカスタム投稿タイプ"
+msgid "PostTypes"
+msgstr "投稿タイプ"
 
 #: inc/vk-filter-search/package/assets/_js/block.js:63
-msgid "Filtering Taxonomies"
-msgstr "絞り込むカスタム分類"
+msgid "Taxonomies"
+msgstr "カスタム分類"
 
 #. Plugin Name of the plugin/theme
 msgid "VK Filter Search"
@@ -88,3 +95,6 @@ msgstr "絞り込み検索が行えるプラグインです。"
 #. Author of the plugin/theme
 msgid "Vektor,Inc."
 msgstr "Vektor,Inc."
+
+#~ msgid "Display conditions"
+#~ msgstr "表示条件"

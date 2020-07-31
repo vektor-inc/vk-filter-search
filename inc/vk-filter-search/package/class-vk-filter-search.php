@@ -50,11 +50,14 @@ class VK_Filter_Search {
 					$taxonomy = get_taxonomy( $taxonomy );
 					if ( $taxonomy ) {
 						$form_html .= '<label>';
-						$form_html .= '<p>' . $taxonomy->labels->singular_name . '</p>';
+						// Translators: Filter by Category.
+						$form_html .= '<p>' . sprintf( __( 'Filter by %s', 'vk-filter-search' ), $taxonomy->labels->singular_name ) . '</p>';
 						$form_html .= wp_dropdown_categories(
 							array(
-								'show_option_all'  => __( 'All of ', 'vk-filter-search' ) . $taxonomy->labels->singular_name,
-								'show_option_none' => __( 'None of ', 'vk-filter-search' ) . $taxonomy->labels->singular_name,
+								// Translators: All of Category.
+								'show_option_all'  => sprintf( __( 'All of %s', 'vk-filter-search' ), $taxonomy->labels->singular_name ),
+								// Translators: None of Category.
+								'show_option_none' => sprintf( __( 'None of %s', 'vk-filter-search' ), $taxonomy->labels->singular_name ),
 								'orderby'          => 'name',
 								'echo'             => false,
 								'selected'         => get_query_var( 'tag' ),
@@ -69,11 +72,14 @@ class VK_Filter_Search {
 					$taxonomy = get_taxonomy( $taxonomy );
 					if ( $taxonomy ) {
 						$form_html .= '<label>';
-						$form_html .= '<p>' . __( 'Filter by', 'vk-filter-search' ) . $taxonomy->labels->singular_name . '</p>';
+						// Translators: Filter by Tag.
+						$form_html .= '<p>' . sprintf( __( 'Filter by %s', 'vk-filter-search' ), $taxonomy->labels->singular_name ) . '</p>';
 						$form_html .= wp_dropdown_categories(
 							array(
-								'show_option_all'  => __( 'All of ', 'vk-filter-search' ) . $taxonomy->labels->singular_name,
-								'show_option_none' => __( 'None of ', 'vk-filter-search' ) . $taxonomy->labels->singular_name,
+								// Translators: All of Tag.
+								'show_option_all'  => sprintf( __( 'All of %s', 'vk-filter-search' ), $taxonomy->labels->singular_name ),
+								// Translators: None of Tag.
+								'show_option_none' => sprintf( __( 'None of %s', 'vk-filter-search' ), $taxonomy->labels->singular_name ),
 								'orderby'          => 'name',
 								'echo'             => false,
 								'selected'         => get_query_var( 'tag' ),
@@ -88,11 +94,14 @@ class VK_Filter_Search {
 					$taxonomy = get_taxonomy( $taxonomy );
 					if ( $taxonomy ) {
 						$form_html .= '<label>';
-						$form_html .= '<p>' . __( 'Filter by', 'vk-filter-search' ) . $taxonomy->labels->singular_name . '</p>';
+						// Translators: Filter by the taxonomy.
+						$form_html .= '<p>' . sprintf( __( 'Filter by %s', 'vk-filter-search' ), $taxonomy->labels->singular_name ) . '</p>';
 						$form_html .= wp_dropdown_categories(
 							array(
-								'show_option_all'  => __( 'All of ', 'vk-filter-search' ) . $taxonomy->labels->singular_name,
-								'show_option_none' => __( 'None of ', 'vk-filter-search' ) . $taxonomy->labels->singular_name,
+								// Translators: All of the taxonomy.
+								'show_option_all'  => sprintf( __( 'All of %s', 'vk-filter-search' ), $taxonomy->labels->singular_name ),
+								// Translators: None of the taxonomy.
+								'show_option_none' => sprintf( __( 'None of %s', 'vk-filter-search' ), $taxonomy->labels->singular_name ),
 								'orderby'          => 'name',
 								'selected'         => get_query_var( $taxonomy->name ),
 								'echo'             => false,

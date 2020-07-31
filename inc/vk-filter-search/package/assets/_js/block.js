@@ -39,18 +39,19 @@ registerBlockType( 'vk-filter-search/filter-search', {
 			<Fragment>
 				<InspectorControls>
 					<PanelBody
-						title={__("Display conditions", "vk-blocks")}
+						title={__("Filtering Options", "vk-filter-search")}
 						initialOpen={false}
 					>
-						<BaseControl label={__("Filter by Keyword", "vk-blocks")}>
+						<BaseControl label={__("Keyword", "vk-filter-search")}>
 							<CheckboxControl
+								label={__("Filter by Keyword", "vk-filter-search")}
 								className={ "mb-1" }
 								checked={ showKeyword }
 								onChange={ (checked) => setAttributes({ showKeyword: checked }) }
 							/>
 						</BaseControl>
 
-						<BaseControl label={__("Filtering PostTypes", "vk-blocks")}>
+						<BaseControl label={__("PostTypes", "vk-filter-search")}>
 							<AdvancedCheckboxControl
 								schema={"isCheckedPostType"}
 								rawData={postTypesProps}
@@ -59,7 +60,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 							/>
 						</BaseControl>
 
-						<BaseControl label={__("Filtering Taxonomies", "vk-blocks")}>
+						<BaseControl label={__("Taxonomies", "vk-filter-search")}>
 							<AdvancedCheckboxControl
 								schema={"isCheckedTaxonomy"}
 								rawData={taxonomiesProps}
