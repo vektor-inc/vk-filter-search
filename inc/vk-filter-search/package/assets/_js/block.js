@@ -10,7 +10,7 @@ const ServerSideRender = wp.serverSideRender;
 registerBlockType( 'vk-filter-search/filter-search', {
     title: 'VK Filter Search',
     icon: 'search',
-	category: 'widgets',
+	category: "vk-blocks-cat",
 	attributes: schema,
 
     edit: ( props ) => {
