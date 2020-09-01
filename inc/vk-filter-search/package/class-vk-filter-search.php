@@ -25,24 +25,8 @@ class VK_Filter_Search {
 	 * @param array $taxonomies Names of Taxonomies.
 	 */
 	public static function get_search_form_html( $keyword = true, $post_types = array(), $taxonomies = array() ) {
-		$form_html = '<form class="vk-filter-search" method="get" action="' . site_url( '/' ) . '">';
-		if ( true === $keyword ) {
-			$form_html .= '<label>';
-			$form_html .= '<p>' . __( 'Keyword Search', 'vk-filter-search' ) . '</p>';
-			$form_html .= '<input type="text" name="s" id="s" placeholder="' . __( 'Input Keyword', 'vk-filter-search' ) . '" />';
-			$form_html .= '</label>';
-		}
-
-		if ( ! empty( $post_types ) ) {
-			$form_html .= '<label>';
-			$form_html .= '<p>' . __( 'Filter by post type', 'vk-filter-search' ) . '</p>';
-			$form_html .= '<select name="post_type" id="post_type">';
-			foreach ( $post_types as $post_type ) {
-				$form_html .= '<option value="' . $post_type . '">' . get_post_type_object( $post_type )->labels->singular_name . '</option>';
-			}
-			$form_html .= '</select>';
-			$form_html .= '</label>';
-		}
+		$form_html  = '<form class="vk-filter-search" method="get" action="' . site_url( '/' ) . '">';
+		$form_html .= '<div class="vk-filter-search__labels">';
 
 		if ( ! empty( $taxonomies ) ) {
 			foreach ( $taxonomies as $taxonomy ) {
@@ -50,8 +34,7 @@ class VK_Filter_Search {
 					$taxonomy = get_taxonomy( $taxonomy );
 					if ( $taxonomy ) {
 						$form_html .= '<label>';
-						// Translators: Filter by Category.
-						$form_html .= '<p>' . sprintf( __( 'Filter by %s', 'vk-filter-search' ), $taxonomy->labels->singular_name ) . '</p>';
+						$form_html .= '<div class="vk-filter-search__label-name">' . $taxonomy->labels->singular_name . '</div>';
 						$form_html .= wp_dropdown_categories(
 							array(
 								// Translators: All of Category.
@@ -72,8 +55,7 @@ class VK_Filter_Search {
 					$taxonomy = get_taxonomy( $taxonomy );
 					if ( $taxonomy ) {
 						$form_html .= '<label>';
-						// Translators: Filter by Tag.
-						$form_html .= '<p>' . sprintf( __( 'Filter by %s', 'vk-filter-search' ), $taxonomy->labels->singular_name ) . '</p>';
+						$form_html .= '<div class="vk-filter-search__label-name">' . $taxonomy->labels->singular_name . '</div>';
 						$form_html .= wp_dropdown_categories(
 							array(
 								// Translators: All of Tag.
@@ -94,8 +76,7 @@ class VK_Filter_Search {
 					$taxonomy = get_taxonomy( $taxonomy );
 					if ( $taxonomy ) {
 						$form_html .= '<label>';
-						// Translators: Filter by the taxonomy.
-						$form_html .= '<p>' . sprintf( __( 'Filter by %s', 'vk-filter-search' ), $taxonomy->labels->singular_name ) . '</p>';
+						$form_html .= '<div class="vk-filter-search__label-name">' . $taxonomy->labels->singular_name . '</div>';
 						$form_html .= wp_dropdown_categories(
 							array(
 								// Translators: All of the taxonomy.
@@ -116,7 +97,26 @@ class VK_Filter_Search {
 			}
 		}
 
-		$form_html .= '<input type="submit" value="' . __( 'Search', 'vk-filter-search' ) . '" />';
+		if ( ! empty( $post_types ) ) {
+			$form_html .= '<label>';
+			$form_html .= '<div class="vk-filter-search__label-name">' . __( 'Post Type', 'vk-filter-search' ) . '</div>';
+			$form_html .= '<select name="post_type" id="post_type">';
+			foreach ( $post_types as $post_type ) {
+				$form_html .= '<option value="' . $post_type . '">' . get_post_type_object( $post_type )->labels->singular_name . '</option>';
+			}
+			$form_html .= '</select>';
+			$form_html .= '</label>';
+		}
+
+		if ( true === $keyword ) {
+			$form_html .= '<label>';
+			$form_html .= '<div class="vk-filter-search__label-name">' . __( 'Keyword', 'vk-filter-search' ) . '</div>';
+			$form_html .= '<input type="text" name="s" id="s" placeholder="' . __( 'Input Keyword', 'vk-filter-search' ) . '" />';
+			$form_html .= '</label>';
+		}
+
+		$form_html .= '</div>';
+		$form_html .= '<input type="submit" value="' . __( 'Refine search', 'vk-filter-search' ) . '" />';
 		$form_html .= '</form>';
 		return $form_html;
 	}
