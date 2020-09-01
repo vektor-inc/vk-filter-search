@@ -1,0 +1,12 @@
+{
+    "core": "WordPress/WordPress#master",
+    "plugins": [
+        ".",
+        "../common/plugins/vektorinc-vk-blocks-pro"
+    ],
+    "themes": [
+        "../common/themes/lightning-pro"
+    ],
+    "port": 7585,
+    "testsPort": 7586    
+}
