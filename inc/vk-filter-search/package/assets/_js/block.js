@@ -51,7 +51,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 							/>
 						</BaseControl>
 
-						<BaseControl label={__("PostTypes", "vk-filter-search")}>
+						<BaseControl label={__("Post Types", "vk-filter-search")}>
 							<AdvancedCheckboxControl
 								schema={"isCheckedPostType"}
 								rawData={postTypesProps}
