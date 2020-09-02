@@ -5,8 +5,9 @@
   "main": "build/index.js",
   "scripts": {
     "build": "wp-scripts build inc/vk-filter-search/package/assets/_js/block.js --output-path=inc/vk-filter-search/package/assets/js/ && npm run translate",
-	"start": "wp-scripts start inc/vk-filter-search/package/assets/_js/block.js --output-path=inc/vk-filter-search/package/assets/js/ &&  npm run translate ",
-	"translate": "./node_modules/.bin/po2json ./languages/vk-filter-search-ja.po ./languages/vk-filter-search-ja-vk-filter-search-build-js.json -f jed"
+    "start": "wp-scripts start inc/vk-filter-search/package/assets/_js/block.js --output-path=inc/vk-filter-search/package/assets/js/ &&  npm run translate ",
+    "make-pot": "wp i18n make-pot ./ --domain=vk-filter-search",
+    "translate": "./node_modules/.bin/po2json ./languages/vk-filter-search-ja.po ./languages/vk-filter-search-ja-vk-filter-search-build-js.json -f jed"
   },
   "repository": {
     "type": "git",
@@ -18,14 +19,12 @@
     "url": "https://github.com/vektor-inc/vk-filter-search/issues"
   },
   "homepage": "https://github.com/vektor-inc/vk-filter-search#readme",
-  "dependencies": {
-    
-  },
+  "dependencies": {},
   "devDependencies": {
     "@wordpress/scripts": "^12.1.1",
     "@wordpress/server-side-render": "^1.16.1",
     "@wordpress/env": "^1.6.0",
-	"@wordpress/i18n": "^3.14.0",
-	"po2json": "^0.4.5"
+    "@wordpress/i18n": "^3.14.0",
+    "po2json": "^0.4.5"
   }
 }
