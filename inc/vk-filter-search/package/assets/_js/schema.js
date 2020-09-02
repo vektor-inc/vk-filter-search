@@ -1,14 +1,14 @@
 export const schema = {
 	showKeyword: {
-		type: "boolean",
+		type: 'boolean',
 		default: true,
-  	},
+	},
 	isCheckedPostType: {
-	  type: "string",
-	  default: '["post","page"]',
+		type: 'string',
+		default: '["post","page"]',
 	},
 	isCheckedTaxonomy: {
-		type: "string",
+		type: 'string',
 		default: '["category","post_tag"]',
 	},
 };

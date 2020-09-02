@@ -136,7 +136,7 @@ registerBlockType('vk-filter-search/filter-search', {
     d: "m6.38331 14-1.80817.0069c-.04003 0-.08007.0276-.09341.0691l-.23353.6562c-.02669.069.02669.1381.09341.1381h.76063c.06673 0 .11343.0691.09342.1382l-2.15513 6.106c-.03336.0898-.15346.0898-.18682 0l-1.54795-4.4069c-.02669-.069.02669-.1381.09341-.1381h.78065c.04003 0 .08006.0276.09341.0691l.56046 1.5886c.03336.0898.15346.0898.18682 0l.86739-2.4728c.02669-.069-.02669-.1381-.09341-.1381h-3.6964038c-.0667221 0-.1134276.0691-.09341092.1381l2.84236472 8.1783c.03336.0897.15346.0897.18682 0l3.44286-9.7946c.02002-.069-.02669-.1381-.09341-.1381z",
     fill: "#d8141c"
   })),
-  category: "vk-blocks-cat",
+  category: 'vk-blocks-cat',
   attributes: _schema__WEBPACK_IMPORTED_MODULE_2__["schema"],
   edit: function edit(props) {
     var attributes = props.attributes,
@@ -159,13 +159,14 @@ registerBlockType('vk-filter-search/filter-search', {
       };
     });
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(Fragment, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(InspectorControls, null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(PanelBody, {
-      title: __("Filtering Options", "vk-filter-search"),
+      title: __('Filtering Options', 'vk-filter-search'),
       initialOpen: false
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(BaseControl, {
-      label: __("Keyword", "vk-filter-search")
+      id: 'vsfs01',
+      label: __('Keyword', 'vk-filter-search')
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(CheckboxControl, {
-      label: __("Filter by Keyword", "vk-filter-search"),
-      className: "mb-1",
+      label: __('Filter by Keyword', 'vk-filter-search'),
+      className: 'mb-1',
       checked: showKeyword,
       onChange: function onChange(checked) {
         return setAttributes({
@@ -173,15 +174,17 @@ registerBlockType('vk-filter-search/filter-search', {
         });
       }
     })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(BaseControl, {
-      label: __("Post Types", "vk-filter-search")
+      id: 'vsfs02',
+      label: __('Post Types', 'vk-filter-search')
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_component__WEBPACK_IMPORTED_MODULE_3__["AdvancedCheckboxControl"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({
-      schema: "isCheckedPostType",
+      schema: 'isCheckedPostType',
       rawData: postTypesProps,
       checkedData: JSON.parse(isCheckedPostType)
     }, props))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(BaseControl, {
-      label: __("Taxonomies", "vk-filter-search")
+      id: 'vsfs03',
+      label: __('Taxonomies', 'vk-filter-search')
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_component__WEBPACK_IMPORTED_MODULE_3__["AdvancedCheckboxControl"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({
-      schema: "isCheckedTaxonomy",
+      schema: 'isCheckedTaxonomy',
       rawData: taxonomiesProps,
       checkedData: JSON.parse(isCheckedTaxonomy)
     }, props))))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(ServerSideRender, {
@@ -224,14 +227,14 @@ __webpack_require__.r(__webpack_exports__);
 
 var usePostTypes = function usePostTypes() {
   return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__["useSelect"])(function (select) {
-    return select("core").getPostTypes({
+    return select('core').getPostTypes({
       per_page: -1
     }) || [];
   }, []);
 };
 var useTaxonomies = function useTaxonomies() {
   return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__["useSelect"])(function (select) {
-    return select("core").getTaxonomies({
+    return select('core').getTaxonomies({
       per_page: -1
     }) || [];
   }, []);
@@ -292,15 +295,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "schema", function() { return schema; });
 var schema = {
   showKeyword: {
-    type: "boolean",
+    type: 'boolean',
     default: true
   },
   isCheckedPostType: {
-    type: "string",
+    type: 'string',
     default: '["post","page"]'
   },
   isCheckedTaxonomy: {
-    type: "string",
+    type: 'string',
     default: '["category","post_tag"]'
   }
 };
