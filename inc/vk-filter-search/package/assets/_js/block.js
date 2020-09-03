@@ -1,8 +1,8 @@
 import { schema } from './schema';
 import {
 	AdvancedCheckboxControl,
-	usePostTypes,
-	useTaxonomies,
+	UsePostTypes,
+	UseTaxonomies,
 } from './component';
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
@@ -52,7 +52,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 			isCheckedTaxonomy,
 		} = attributes;
 
-		const postTypes = usePostTypes();
+		const postTypes = UsePostTypes();
 		const postTypesProps = postTypes.map( ( postType ) => {
 			return {
 				label: postType.name,
@@ -60,7 +60,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 			};
 		} );
 
-		const taxonomies = useTaxonomies();
+		const taxonomies = UseTaxonomies();
 		const taxonomiesProps = taxonomies.map( ( taxonomy ) => {
 			return {
 				label: taxonomy.name,

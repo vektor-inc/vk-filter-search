@@ -144,14 +144,14 @@ registerBlockType('vk-filter-search/filter-search', {
     var showKeyword = attributes.showKeyword,
         isCheckedPostType = attributes.isCheckedPostType,
         isCheckedTaxonomy = attributes.isCheckedTaxonomy;
-    var postTypes = Object(_component__WEBPACK_IMPORTED_MODULE_3__["usePostTypes"])();
+    var postTypes = Object(_component__WEBPACK_IMPORTED_MODULE_3__["UsePostTypes"])();
     var postTypesProps = postTypes.map(function (postType) {
       return {
         label: postType.name,
         slug: postType.slug
       };
     });
-    var taxonomies = Object(_component__WEBPACK_IMPORTED_MODULE_3__["useTaxonomies"])();
+    var taxonomies = Object(_component__WEBPACK_IMPORTED_MODULE_3__["UseTaxonomies"])();
     var taxonomiesProps = taxonomies.map(function (taxonomy) {
       return {
         label: taxonomy.name,
@@ -200,13 +200,13 @@ registerBlockType('vk-filter-search/filter-search', {
 /*!**************************************************************!*\
   !*** ./inc/vk-filter-search/package/assets/_js/component.js ***!
   \**************************************************************/
-/*! exports provided: usePostTypes, useTaxonomies, destructiveDeleteFromArray, AdvancedCheckboxControl */
+/*! exports provided: UsePostTypes, UseTaxonomies, destructiveDeleteFromArray, AdvancedCheckboxControl */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "usePostTypes", function() { return usePostTypes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useTaxonomies", function() { return useTaxonomies; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UsePostTypes", function() { return UsePostTypes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UseTaxonomies", function() { return UseTaxonomies; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "destructiveDeleteFromArray", function() { return destructiveDeleteFromArray; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AdvancedCheckboxControl", function() { return AdvancedCheckboxControl; });
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
@@ -225,14 +225,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var usePostTypes = function usePostTypes() {
+var UsePostTypes = function UsePostTypes() {
   return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__["useSelect"])(function (select) {
     return select('core').getPostTypes({
       per_page: -1
     }) || [];
   }, []);
 };
-var useTaxonomies = function useTaxonomies() {
+var UseTaxonomies = function UseTaxonomies() {
   return Object(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__["useSelect"])(function (select) {
     return select('core').getTaxonomies({
       per_page: -1
@@ -248,15 +248,16 @@ var AdvancedCheckboxControl = function AdvancedCheckboxControl(props) {
       rawData = props.rawData,
       checkedData = props.checkedData,
       setAttributes = props.setAttributes;
-  if (!rawData || !checkedData) return false;
 
   var _useState = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__["useState"])(checkedData),
       _useState2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default()(_useState, 2),
       checkedState = _useState2[0],
       setCheckedState = _useState2[1];
 
-  var advancedSetAttributes = function advancedSetAttributes(schema, saveData) {
-    setAttributes(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()({}, schema, JSON.stringify(saveData)));
+  if (!rawData || !checkedData) return false;
+
+  var advancedSetAttributes = function advancedSetAttributes(schema2, saveData) {
+    setAttributes(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()({}, schema2, JSON.stringify(saveData)));
   };
 
   var checkBoxComponents = rawData.map(function (data) {

@@ -2,13 +2,13 @@ import { useSelect } from '@wordpress/data';
 import { CheckboxControl } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 
-export const usePostTypes = () => {
+export const UsePostTypes = () => {
 	return useSelect( ( select ) => {
 		return select( 'core' ).getPostTypes( { per_page: -1 } ) || [];
 	}, [] );
 };
 
-export const useTaxonomies = () => {
+export const UseTaxonomies = () => {
 	return useSelect( ( select ) => {
 		return select( 'core' ).getTaxonomies( { per_page: -1 } ) || [];
 	}, [] );
@@ -21,13 +21,12 @@ export const destructiveDeleteFromArray = ( array, value ) => {
 
 export const AdvancedCheckboxControl = ( props ) => {
 	const { schema, rawData, checkedData, setAttributes } = props;
+	const [ checkedState, setCheckedState ] = useState( checkedData );
 
 	if ( ! rawData || ! checkedData ) return false;
 
-	const [ checkedState, setCheckedState ] = useState( checkedData );
-
-	const advancedSetAttributes = ( schema, saveData ) => {
-		setAttributes( { [ schema ]: JSON.stringify( saveData ) } );
+	const advancedSetAttributes = ( schema2, saveData ) => {
+		setAttributes( { [ schema2 ]: JSON.stringify( saveData ) } );
 	};
 
 	const checkBoxComponents = rawData.map( ( data ) => {
