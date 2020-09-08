@@ -26,4 +26,5 @@
 ### 2. PoEdit 等でpoファイルを作成
 
 ### 3. poファイルをjsonに変換
+
 `npm run translate`

@@ -1,5 +1,6 @@
 import { schema } from './schema';
-import '../css/test.scss';
+import './style.scss';
+import './editor.scss';
 import {
 	AdvancedCheckboxControl,
 	UsePostTypes,

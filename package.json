@@ -4,12 +4,13 @@
   "description": "Support Filtering Search of keyword, post-type and taxonomy.",
   "main": "build/index.js",
   "scripts": {
-    "build": "wp-scripts build inc/vk-filter-search/package/assets/_js/block.js --output-path=inc/vk-filter-search/package/assets/js/ && npm run translate",
-    "start": "wp-scripts start inc/vk-filter-search/package/assets/_js/block.js --output-path=inc/vk-filter-search/package/assets/js/ &&  npm run translate",
+    "build": "wp-scripts build",
+    "start": "wp-scripts start",
     "check-engines": "wp-scripts check-engines",
     "check-licenses": "wp-scripts check-licenses",
-    "lint:css": "wp-scripts lint-style inc/vk-filter-search/package/assets/css/ --fix",
-    "lint:js": "wp-scripts lint-js inc/vk-filter-search/package/assets/_js/ --fix",
+    "format:js": "wp-scripts format-js",
+    "lint:css": "wp-scripts lint-style --fix",
+    "lint:js": "wp-scripts lint-js --fix",
     "make-pot": "wp i18n make-pot ./ --domain=vk-filter-search",
     "translate": "./node_modules/.bin/po2json ./languages/vk-filter-search-ja.po ./languages/vk-filter-search-ja-vk-filter-search-build-js.json -f jed"
   },
