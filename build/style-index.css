@@ -1,2 +1,2 @@
-.vk-filter-search{padding:1em}.vk-filter-search__labels{display:flex;flex-wrap:wrap;gap:1em}.vk-filter-search__labels label{flex-basis:calc(50% - 1em);margin-bottom:0}.vk-filter-search__label-name{font-weight:700}.vk-filter-search input[type="submit"]{padding:0.5em 1em;margin-top:1em}
+.vk-filter-search,.vkfs{padding:1em}.vk-filter-search__labels,.vkfs__labels{display:flex;flex-wrap:wrap;gap:1em}.vk-filter-search__labels label,.vkfs__labels label{flex-basis:calc(50% - 1em);margin-bottom:0}.vk-filter-search__label-name,.vkfs__label-name{font-weight:700}.vk-filter-search input[type="submit"],.vkfs input[type="submit"]{padding:0.5em 1em;margin-top:1em}
 
