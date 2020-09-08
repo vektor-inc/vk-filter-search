@@ -23,17 +23,19 @@ class VK_Filter_Search_Block {
 	public static function register_block() {
 		global $plugin_version;
 
+		$editor_css = '../../../build/index.css';
 		wp_register_style(
-			'vk-filter-search',
-			plugins_url( '/assets/css/style.css', __FILE__ ),
+			'vk-filter-search-editor',
+			plugins_url( $editor_css, __FILE__ ),
 			array(),
 			$plugin_version
 		);
 
+		$style_css = '../../../build/style-index.css';
 		wp_register_style(
-			'vk-filter-search-editor',
-			plugins_url( '/assets/css/editor.css', __FILE__ ),
-			array( 'wp-edit-blocks' ),
+			'vk-filter-search',
+			plugins_url( $style_css, __FILE__ ),
+			array(),
 			$plugin_version
 		);
 

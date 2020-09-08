@@ -1,0 +1,25 @@
+// editor and front styles
+
+.vkfs {
+	padding: 1em;
+
+	&__labels {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1em;
+
+		label {
+			flex-basis: calc(50% - 1em);
+			margin-bottom: 0;
+		}
+	}
+
+	&__label-name {
+		font-weight: 700;
+	}
+
+	input[type="submit"] {
+		padding: 0.5em 1em;
+		margin-top: 1em;
+	}
+}
