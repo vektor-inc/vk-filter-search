@@ -41,7 +41,7 @@ class VK_Filter_Search_Block {
 
 		wp_register_script(
 			'vk-filter-search',
-			plugins_url( '/assets/js/block.js', __FILE__ ),
+			plugins_url( '../../../build/index.js', __FILE__ ),
 			array( 'wp-components', 'wp-data', 'wp-element', 'wp-polyfill' ),
 			$plugin_version,
 			true
