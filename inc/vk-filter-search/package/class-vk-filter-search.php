@@ -116,7 +116,7 @@ class VK_Filter_Search {
 		}
 
 		$form_html .= '</div>';
-		$form_html .= '<input type="submit" value="' . __( 'Refine search', 'vk-filter-search' ) . '" />';
+		$form_html .= '<input class="btn btn-primary" type="submit" value="' . __( 'Refine search', 'vk-filter-search' ) . '" />';
 		$form_html .= '</form>';
 		return $form_html;
 	}
