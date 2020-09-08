@@ -23,19 +23,19 @@ class VK_Filter_Search_Block {
 	public static function register_block() {
 		global $plugin_version;
 
-		wp_register_style(
-			'vk-filter-search',
-			plugins_url( '/assets/css/style.css', __FILE__ ),
-			array(),
-			$plugin_version
-		);
+		// wp_register_style(
+		// 	'vk-filter-search',
+		// 	plugins_url( '/assets/css/style.css', __FILE__ ),
+		// 	array(),
+		// 	$plugin_version
+		// );
 
-		wp_register_style(
-			'vk-filter-search-editor',
-			plugins_url( '/assets/css/editor.css', __FILE__ ),
-			array( 'wp-edit-blocks' ),
-			$plugin_version
-		);
+		// wp_register_style(
+		// 	'vk-filter-search-editor',
+		// 	plugins_url( '/assets/css/editor.css', __FILE__ ),
+		// 	array( 'wp-edit-blocks' ),
+		// 	$plugin_version
+		// );
 
 		wp_register_script(
 			'vk-filter-search',

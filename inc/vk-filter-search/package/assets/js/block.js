@@ -100,7 +100,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _schema__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./schema */ "./inc/vk-filter-search/package/assets/_js/schema.js");
-/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./component */ "./inc/vk-filter-search/package/assets/_js/component.js");
+/* harmony import */ var _css_test_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../css/test.scss */ "./inc/vk-filter-search/package/assets/css/test.scss");
+/* harmony import */ var _css_test_scss__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_css_test_scss__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./component */ "./inc/vk-filter-search/package/assets/_js/component.js");
+
 
 
 
@@ -144,14 +147,14 @@ registerBlockType('vk-filter-search/filter-search', {
     var showKeyword = attributes.showKeyword,
         isCheckedPostType = attributes.isCheckedPostType,
         isCheckedTaxonomy = attributes.isCheckedTaxonomy;
-    var postTypes = Object(_component__WEBPACK_IMPORTED_MODULE_3__["UsePostTypes"])();
+    var postTypes = Object(_component__WEBPACK_IMPORTED_MODULE_4__["UsePostTypes"])();
     var postTypesProps = postTypes.map(function (postType) {
       return {
         label: postType.name,
         slug: postType.slug
       };
     });
-    var taxonomies = Object(_component__WEBPACK_IMPORTED_MODULE_3__["UseTaxonomies"])();
+    var taxonomies = Object(_component__WEBPACK_IMPORTED_MODULE_4__["UseTaxonomies"])();
     var taxonomiesProps = taxonomies.map(function (taxonomy) {
       return {
         label: taxonomy.name,
@@ -176,14 +179,14 @@ registerBlockType('vk-filter-search/filter-search', {
     })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(BaseControl, {
       id: 'vsfs02',
       label: __('Post Types', 'vk-filter-search')
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_component__WEBPACK_IMPORTED_MODULE_3__["AdvancedCheckboxControl"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_component__WEBPACK_IMPORTED_MODULE_4__["AdvancedCheckboxControl"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({
       schema: 'isCheckedPostType',
       rawData: postTypesProps,
       checkedData: JSON.parse(isCheckedPostType)
     }, props))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(BaseControl, {
       id: 'vsfs03',
       label: __('Taxonomies', 'vk-filter-search')
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_component__WEBPACK_IMPORTED_MODULE_3__["AdvancedCheckboxControl"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_component__WEBPACK_IMPORTED_MODULE_4__["AdvancedCheckboxControl"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({
       schema: 'isCheckedTaxonomy',
       rawData: taxonomiesProps,
       checkedData: JSON.parse(isCheckedTaxonomy)
@@ -308,6 +311,17 @@ var schema = {
     default: '["category","post_tag"]'
   }
 };
+
+/***/ }),
+
+/***/ "./inc/vk-filter-search/package/assets/css/test.scss":
+/*!***********************************************************!*\
+  !*** ./inc/vk-filter-search/package/assets/css/test.scss ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
