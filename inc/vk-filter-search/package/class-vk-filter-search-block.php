@@ -40,14 +40,14 @@ class VK_Filter_Search_Block {
 		);
 
 		wp_register_script(
-			'vk-filter-search',
+			'vk-filter-search-js',
 			plugins_url( '../../../build/index.js', __FILE__ ),
-			array( 'wp-components', 'wp-data', 'wp-element', 'wp-polyfill' ),
+			array( 'wp-components', 'wp-data', 'wp-element', 'wp-polyfill', 'wp-i18n' ),
 			$plugin_version,
 			true
 		);
 
-		wp_set_script_translations( 'vk-filter-search', 'vk-filter-search', plugin_dir_path( __FILE__ ) . '/languages/' );
+		wp_set_script_translations( 'vk-filter-search-js', 'vk-filter-search', VKFS_PATH . '/languages' );
 
 		register_block_type(
 			'vk-filter-search/filter-search',
@@ -70,7 +70,7 @@ class VK_Filter_Search_Block {
 				),
 				'style'           => 'vk-filter-search',
 				'editor_style'    => 'vk-filter-search-editor',
-				'editor_script'   => 'vk-filter-search',
+				'editor_script'   => 'vk-filter-search-js',
 				'render_callback' => array( __CLASS__, 'render_callback' ),
 			)
 		);

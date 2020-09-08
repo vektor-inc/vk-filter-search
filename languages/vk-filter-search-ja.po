@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the VK Filter Search plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: VK Filter Search 1.0.0\n"
+"Project-Id-Version: VK Filter Search 0.1.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/vk-filter-search\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-09-02T09:59:53+09:00\n"
-"PO-Revision-Date: 2020-09-02 10:07+0900\n"
+"POT-Creation-Date: 2020-09-08T14:52:19+09:00\n"
+"PO-Revision-Date: 2020-09-08 14:55+0900\n"
 "X-Generator: Poedit 2.4\n"
 "X-Domain: vk-filter-search\n"
 "Last-Translator: \n"
@@ -55,8 +55,7 @@ msgstr "%sなし"
 msgid "Post Type"
 msgstr "投稿タイプ"
 
-#: inc/vk-filter-search/package/class-vk-filter-search.php:113
-#: inc/vk-filter-search/package/assets/_js/block.js:45
+#: inc/vk-filter-search/package/class-vk-filter-search.php:113 src/index.js:82
 msgid "Keyword"
 msgstr "キーワード"
 
@@ -68,18 +67,18 @@ msgstr "キーワードを入力"
 msgid "Refine search"
 msgstr "絞り込み検索"
 
-#: inc/vk-filter-search/package/assets/_js/block.js:42
+#: src/index.js:77
 msgid "Filtering Options"
 msgstr "絞り込み設定"
 
-#: inc/vk-filter-search/package/assets/_js/block.js:47
+#: src/index.js:85
 msgid "Filter by Keyword"
 msgstr "キーワードで絞り込み"
 
-#: inc/vk-filter-search/package/assets/_js/block.js:54
+#: src/index.js:99
 msgid "Post Types"
 msgstr "投稿タイプ"
 
-#: inc/vk-filter-search/package/assets/_js/block.js:63
+#: src/index.js:111
 msgid "Taxonomies"
 msgstr "タクソノミー"
