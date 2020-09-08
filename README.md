@@ -28,3 +28,17 @@
 ### 3. poファイルをjsonに変換
 
 `npm run translate`
+
+## CSS
+
+editorとfront（style.css)共通のスタイルは `/src/scss/_common.scss` に記載。
+
+### 命名規則
+
+※ 暫定の命名規則です。
+
+`vkfs` をprefixとします。
+
+`vkfs__element`
+
+ex) .vkfs__labels
