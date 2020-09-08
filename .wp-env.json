@@ -4,8 +4,6 @@
         "."
     ],
     "themes": [
-        "../common/themes/lightning-pro"
-    ],
-    "port": 7585,
-    "testsPort": 7586    
+        "https://downloads.wordpress.org/theme/lightning.zip"
+    ]
 }
