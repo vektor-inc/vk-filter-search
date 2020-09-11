@@ -23,6 +23,8 @@ class VK_Filter_Search_Block {
 	public static function register_block() {
 		global $plugin_version;
 
+		$script_dependencies = include( VKFS_PATH . '/build/index.asset.php' );
+
 		$editor_css = '../../../build/index.css';
 		wp_register_style(
 			'vk-filter-search-editor',
@@ -40,37 +42,37 @@ class VK_Filter_Search_Block {
 		);
 
 		wp_register_script(
-			'vk-filter-search',
-			plugins_url( '/assets/js/block.js', __FILE__ ),
-			array( 'wp-components', 'wp-data', 'wp-element', 'wp-polyfill' ),
+			'vk-filter-search-js',
+			plugins_url( '../../../build/index.js', __FILE__ ),
+			$script_dependencies['dependencies'],
 			$plugin_version,
 			true
 		);
 
-		wp_set_script_translations( 'vk-filter-search', 'vk-filter-search', plugin_dir_path( __FILE__ ) . '/languages/' );
+		if ( function_exists( 'wp_set_script_translations' ) ) {
+			wp_set_script_translations( 'vk-filter-search-js', 'vk-filter-search', VKFS_PATH . '/languages' );
+		}
 
 		register_block_type(
 			'vk-filter-search/filter-search',
 			array(
-				'attributes'      => array_merge(
-					array(
-						'showKeyword'       => array(
-							'type'    => 'boolean',
-							'default' => true,
-						),
-						'isCheckedPostType' => array(
-							'type'    => 'string',
-							'default' => '["post","page"]',
-						),
-						'isCheckedTaxonomy' => array(
-							'type'    => 'string',
-							'default' => '["category","post_tag"]',
-						),
-					)
-				),
 				'style'           => 'vk-filter-search',
 				'editor_style'    => 'vk-filter-search-editor',
-				'editor_script'   => 'vk-filter-search',
+				'editor_script'   => 'vk-filter-search-js',
+				'attributes'      => array(
+					'showKeyword'       => array(
+						'type'    => 'boolean',
+						'default' => true,
+					),
+					'isCheckedPostType' => array(
+						'type'    => 'string',
+						'default' => '["post","page"]',
+					),
+					'isCheckedTaxonomy' => array(
+						'type'    => 'string',
+						'default' => '["category","post_tag"]',
+					),
+				),
 				'render_callback' => array( __CLASS__, 'render_callback' ),
 			)
 		);

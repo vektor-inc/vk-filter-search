@@ -4,15 +4,17 @@
   "description": "Support Filtering Search of keyword, post-type and taxonomy.",
   "main": "build/index.js",
   "scripts": {
+    "start": "wp-scripts build && wp-env start",
+    "stop": "wp-env stop",
     "build": "wp-scripts build",
-    "start": "wp-scripts start",
+    "watch": "wp-scripts start",
     "check-engines": "wp-scripts check-engines",
     "check-licenses": "wp-scripts check-licenses",
     "format:js": "wp-scripts format-js",
     "lint:css": "wp-scripts lint-style --fix",
     "lint:js": "wp-scripts lint-js --fix",
     "make-pot": "wp i18n make-pot ./ --domain=vk-filter-search",
-    "translate": "./node_modules/.bin/po2json ./languages/vk-filter-search-ja.po ./languages/vk-filter-search-ja-vk-filter-search-build-js.json -f jed"
+    "translate": "./node_modules/.bin/po2json ./languages/vk-filter-search-ja.po ./languages/vk-filter-search-ja-vk-filter-search-js.json -f jed"
   },
   "repository": {
     "type": "git",
@@ -30,6 +32,6 @@
     "@wordpress/server-side-render": "^1.16.1",
     "@wordpress/env": "^1.6.0",
     "@wordpress/i18n": "^3.14.0",
-    "po2json": "^0.4.5"
+    "po2json": "^1.0.0-alpha"
   }
 }

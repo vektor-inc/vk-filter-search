@@ -14,7 +14,7 @@ const { InspectorControls } = wp.blockEditor;
 const ServerSideRender = wp.serverSideRender;
 
 registerBlockType( 'vk-filter-search/filter-search', {
-	title: 'VK Filter Search',
+	title: __('VK Filter Search','vk-filter-search' ),
 	icon: (
 		<svg
 			height="25"
