@@ -4,7 +4,7 @@
   "description": "Support Filtering Search of keyword, post-type and taxonomy.",
   "main": "build/index.js",
   "scripts": {
-    "start": "wp-env start",
+    "start": "wp-scripts build && wp-env start",
     "stop": "wp-env stop",
     "build": "wp-scripts build",
     "watch": "wp-scripts start",
