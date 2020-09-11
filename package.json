@@ -32,6 +32,6 @@
     "@wordpress/server-side-render": "^1.16.1",
     "@wordpress/env": "^1.6.0",
     "@wordpress/i18n": "^3.14.0",
-    "po2json": "^0.4.5"
+    "po2json": "^1.0.0-alpha"
   }
 }

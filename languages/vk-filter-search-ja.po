@@ -14,7 +14,7 @@ msgstr ""
 "X-Domain: vk-filter-search\n"
 "Last-Translator: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Language: ja\n"
+"Language: ja_JP\n"
 
 #. Plugin Name of the plugin
 msgid "VK Filter Search"
