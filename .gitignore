@@ -112,3 +112,5 @@ dist
 *.code-workspace
 
 build/
+.wp-env.override.json
+.DS_Store
