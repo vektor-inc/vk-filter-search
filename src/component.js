@@ -14,6 +14,22 @@ export const UseTaxonomies = () => {
 	}, [] );
 };
 
+export const useTermsGroupbyTaxnomy = taxonomies => {
+	return useSelect(
+	  select => {
+		const obj = {};
+		for (const taxonomy of taxonomies) {
+		  obj[taxonomy.rest_base] =
+			select("core").getEntityRecords("taxonomy", taxonomy.slug, {
+			  per_page: -1
+			}) || [];
+		}
+		return obj;
+	  },
+	  [taxonomies]
+	);
+};
+
 export const destructiveDeleteFromArray = ( array, value ) => {
 	const index = array.indexOf( value );
 	index !== -1 && array.splice( index, 1 );

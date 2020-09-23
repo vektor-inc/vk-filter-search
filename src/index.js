@@ -5,6 +5,7 @@ import {
 	AdvancedCheckboxControl,
 	UsePostTypes,
 	UseTaxonomies,
+	useTermsGroupbyTaxnomy
 } from './component';
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
@@ -63,12 +64,18 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		} );
 
 		const taxonomies = UseTaxonomies();
-		const taxonomiesProps = taxonomies.map( ( taxonomy ) => {
+		const terms = useTermsGroupbyTaxnomy(taxonomies);
+		let taxonomiesProps = taxonomies.map( ( taxonomy ) => {
 			return {
 				label: taxonomy.name,
 				slug: taxonomy.slug,
 			};
 		} );
+
+		// If No tags, Remove Label from sidebar.
+		if(!terms.tags.length){
+			taxonomiesProps = taxonomiesProps.filter( taxonomiesProp => taxonomiesProp.slug !== "post_tag")
+		}
 
 		return (
 			<Fragment>
@@ -105,7 +112,6 @@ registerBlockType( 'vk-filter-search/filter-search', {
 								{ ...props }
 							/>
 						</BaseControl>
-
 						<BaseControl
 							id={ 'vsfs03' }
 							label={ __( 'Taxonomies', 'vk-filter-search' ) }
