@@ -72,10 +72,24 @@ registerBlockType( 'vk-filter-search/filter-search', {
 			};
 		} );
 
-		// If No tags, Remove Label from sidebar.
-		if(!terms.tags.length){
-			taxonomiesProps = taxonomiesProps.filter( taxonomiesProp => taxonomiesProp.slug !== "post_tag")
-		}
+
+		// If No terms in Taxonomy, Remove checkbox from sidebar.
+		let taxonomiesIncludeTerms = [];
+		Object.keys(terms).forEach(term => {
+
+			if(Array.isArray(terms[term]) && terms[term].length){
+				let taxonomiesIncludeTermsTemp;
+				if(term === "tags"){
+					taxonomiesIncludeTermsTemp = taxonomiesProps.filter( taxonomiesProp => taxonomiesProp.slug === "post_tag" );
+				}else if(term === "categories"){
+					taxonomiesIncludeTermsTemp = taxonomiesProps.filter( taxonomiesProp => taxonomiesProp.slug === "category" );
+				}else{
+					taxonomiesIncludeTermsTemp = taxonomiesProps.filter( taxonomiesProp => taxonomiesProp.slug === term );
+				}
+				taxonomiesIncludeTerms = taxonomiesIncludeTerms.concat(taxonomiesIncludeTermsTemp)
+			}
+
+		});
 
 		return (
 			<Fragment>
@@ -118,7 +132,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 						>
 							<AdvancedCheckboxControl
 								schema={ 'isCheckedTaxonomy' }
-								rawData={ taxonomiesProps }
+								rawData={ taxonomiesIncludeTerms }
 								checkedData={ JSON.parse( isCheckedTaxonomy ) }
 								{ ...props }
 							/>
