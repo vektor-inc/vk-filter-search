@@ -67,9 +67,9 @@ class VK_Filter_Search_Block {
 		register_block_type(
 			'vk-filter-search/keyword-search',
 			array(
-				'style'         => 'vk-filter-search',
-				'editor_style'  => 'vk-filter-search-editor',
-				'editor_script' => 'vk-filter-search-js',
+				'style'           => 'vk-filter-search',
+				'editor_style'    => 'vk-filter-search-editor',
+				'editor_script'   => 'vk-filter-search-js',
 				'render_callback' => array( __CLASS__, 'render_taxonomy_callback' ),
 			)
 		);
