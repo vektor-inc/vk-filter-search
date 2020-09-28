@@ -17,7 +17,7 @@ class VK_Filter_Search_Shortcode {
 		add_shortcode( 'vk_filter_search', array( __CLASS__, 'add_search_form_shortcode' ) );
 		add_shortcode( 'vk_filter_search_keyword', array( __CLASS__, 'add_keyword_form_shortcode' ) );
 		add_shortcode( 'vk_filter_search_post_type', array( __CLASS__, 'add_post_type_form_shortcode' ) );
-		add_shortcode( 'vk_filter_search_taxonomy', array( __CLASS__, 'add_post_type_form_taxonomy' ) );
+		add_shortcode( 'vk_filter_search_taxonomy', array( __CLASS__, 'add_taxonomy_form_shortcode' ) );
 	}
 
 	/**

@@ -57,10 +57,12 @@ class VK_Filter_Search {
 		$post_type_form_html = '';
 		if ( ! empty( $post_types ) ) {
 			$post_type_form_html .= '<label>';
-			$post_type_form_html .= '<div class="vkfs__label-name">' . $post_type_label . '</div>';
+			$post_type_form_html .= '<div class="vkfs__label-name">' . __( 'Post Type', 'vk-filter-search' ) . '</div>';
 			$post_type_form_html .= '<select name="post_type" id="post_type">';
 			foreach ( $post_types as $post_type ) {
-				$post_type_form_html .= '<option value="' . $post_type . '">' . get_post_type_object( $post_type )->labels->singular_name . '</option>';
+				if ( ! empty( get_post_type_object( $post_type ) ) ) {
+					$post_type_form_html .= '<option value="' . $post_type . '">' . get_post_type_object( $post_type )->labels->singular_name . '</option>';
+				}
 			}
 			$post_type_form_html .= '</select>';
 			$post_type_form_html .= '</label>';
@@ -109,19 +111,17 @@ class VK_Filter_Search {
 		if ( ! empty( $taxonomy ) ) {
 			$taxonomy_object = get_taxonomy( $taxonomy );
 			$taxonomy_terms  = get_terms( $taxonomy );
-			$taxonomy_label  = ! empty( $label ) ? $label : $taxonomy_object->labels->singular_name;
-			$taxonomy_design = ! empty( $design ) ? $design : 'pull-down';
 
 			if ( ! empty( $taxonomy_object ) && ! empty( $taxonomy_terms ) ) {
 				$taxonomy_form_html .= '<label>';
-				$taxonomy_form_html .= '<div class="vkfs__label-name">' . $taxonomy_label . '</div>';
+				$taxonomy_form_html .= '<div class="vkfs__label-name">' . $taxonomy_object->labels->singular_name . '</div>';
 				if ( 'category' === $taxonomy ) {
 					$taxonomy_form_html .= wp_dropdown_categories(
 						array(
 							// Translators: All of Category.
-							'show_option_all'  => sprintf( __( 'All of %s', 'vk-filter-search' ), $taxonomy_label ),
+							'show_option_all'  => sprintf( __( 'All of %s', 'vk-filter-search' ), $taxonomy_object->labels->singular_name ),
 							// Translators: None of Category.
-							'show_option_none' => sprintf( __( 'None of %s', 'vk-filter-search' ), $taxonomy_label ),
+							'show_option_none' => sprintf( __( 'None of %s', 'vk-filter-search' ), $taxonomy_object->labels->singular_name ),
 							'orderby'          => 'name',
 							'echo'             => false,
 							'selected'         => get_query_var( 'tag' ),
@@ -134,9 +134,9 @@ class VK_Filter_Search {
 					$taxonomy_form_html .= wp_dropdown_categories(
 						array(
 							// Translators: All of Tag.
-							'show_option_all'  => sprintf( __( 'All of %s', 'vk-filter-search' ), $taxonomy_label ),
+							'show_option_all'  => sprintf( __( 'All of %s', 'vk-filter-search' ), $taxonomy_object->labels->singular_name ),
 							// Translators: None of Tag.
-							'show_option_none' => sprintf( __( 'None of %s', 'vk-filter-search' ), $taxonomy_label ),
+							'show_option_none' => sprintf( __( 'None of %s', 'vk-filter-search' ), $taxonomy_object->labels->singular_name ),
 							'orderby'          => 'name',
 							'echo'             => false,
 							'selected'         => get_query_var( 'tag' ),
@@ -147,13 +147,13 @@ class VK_Filter_Search {
 					);
 				} else {
 					$taxonomy_form_html .= '<label>';
-					$taxonomy_form_html .= '<div class="vkfs__label-name">' . $taxonomy_label . '</div>';
+					$taxonomy_form_html .= '<div class="vkfs__label-name">' . $taxonomy_object->labels->singular_name . '</div>';
 					$taxonomy_form_html .= wp_dropdown_categories(
 						array(
 							// Translators: All of the taxonomy.
-							'show_option_all'  => sprintf( __( 'All of %s', 'vk-filter-search' ), $taxonomy_label ),
+							'show_option_all'  => sprintf( __( 'All of %s', 'vk-filter-search' ), $taxonomy_object->labels->singular_name ),
 							// Translators: None of the taxonomy.
-							'show_option_none' => sprintf( __( 'None of %s', 'vk-filter-search' ), $taxonomy_label ),
+							'show_option_none' => sprintf( __( 'None of %s', 'vk-filter-search' ), $taxonomy_object->labels->singular_name ),
 							'orderby'          => 'name',
 							'selected'         => get_query_var( $taxonomy_object->name ),
 							'echo'             => false,
@@ -198,7 +198,5 @@ class VK_Filter_Search {
 
 		echo wp_kses( $display_html, $allowed_html );
 	}
-
-
 }
 new VK_Filter_Search();
