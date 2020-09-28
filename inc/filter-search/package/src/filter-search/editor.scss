@@ -1,6 +1,6 @@
 // 一部CSSがコアの指定に負けてしまうため .wp-core-ui の中に変更
 .wp-core-ui {
-    @import "./scss/common";
+    @import "./common";
 }
 
 // only editor
