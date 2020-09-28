@@ -44,106 +44,11 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		</svg>
 	),
 	category: 'vk-blocks-cat',
-	attributes: schema,
 
-	edit: ( props ) => {
-		const { attributes, setAttributes } = props;
-
-		const {
-			showKeyword,
-			isCheckedPostType,
-			isCheckedTaxonomy,
-		} = attributes;
-
-		const postTypes = UsePostTypes();
-		const postTypesProps = postTypes.map( ( postType ) => {
-			return {
-				label: postType.name,
-				slug: postType.slug,
-			};
-		} );
-
-		const taxonomies = UseTaxonomies();
-		const terms = useTermsGroupbyTaxnomy(taxonomies);
-		let taxonomiesProps = taxonomies.map( ( taxonomy ) => {
-			return {
-				label: taxonomy.name,
-				slug: taxonomy.slug,
-			};
-		} );
-
-
-		// If No terms in Taxonomy, Remove checkbox from sidebar.
-		// return array( label, slug);
-		let taxonomiesIncludeTerms = [];
-		Object.keys(terms).forEach(term => {
-
-			if(Array.isArray(terms[term]) && terms[term].length){
-				let taxonomiesIncludeTermsTemp;
-				if(term === "tags"){
-					taxonomiesIncludeTermsTemp = taxonomiesProps.filter( taxonomiesProp => taxonomiesProp.slug === "post_tag" );
-				}else if(term === "categories"){
-					taxonomiesIncludeTermsTemp = taxonomiesProps.filter( taxonomiesProp => taxonomiesProp.slug === "category" );
-				}else{
-					taxonomiesIncludeTermsTemp = taxonomiesProps.filter( taxonomiesProp => taxonomiesProp.slug === term );
-				}
-				taxonomiesIncludeTerms = taxonomiesIncludeTerms.concat(taxonomiesIncludeTermsTemp)
-			}
-
-		});
-
+	edit: () => {
 		return (
 			<Fragment>
-				<InspectorControls>
-					<PanelBody
-						title={ __( 'Filtering Options', 'vk-filter-search' ) }
-						initialOpen={ false }
-					>
-						<BaseControl
-							id={ 'vsfs01' }
-							label={ __( 'Keyword', 'vk-filter-search' ) }
-						>
-							<CheckboxControl
-								label={ __(
-									'Filter by Keyword',
-									'vk-filter-search'
-								) }
-								className={ 'mb-1' }
-								checked={ showKeyword }
-								onChange={ ( checked ) =>
-									setAttributes( { showKeyword: checked } )
-								}
-							/>
-						</BaseControl>
-
-						<BaseControl
-							id={ 'vsfs02' }
-							label={ __( 'Post Types', 'vk-filter-search' ) }
-						>
-							<AdvancedCheckboxControl
-								schema={ 'isCheckedPostType' }
-								rawData={ postTypesProps }
-								checkedData={ JSON.parse( isCheckedPostType ) }
-								{ ...props }
-							/>
-						</BaseControl>
-						<BaseControl
-							id={ 'vsfs03' }
-							label={ __( 'Taxonomies', 'vk-filter-search' ) }
-						>
-							<AdvancedCheckboxControl
-								schema={ 'isCheckedTaxonomy' }
-								rawData={ taxonomiesIncludeTerms }
-								checkedData={ JSON.parse( isCheckedTaxonomy ) }
-								{ ...props }
-							/>
-						</BaseControl>
-					</PanelBody>
-				</InspectorControls>
-				<ServerSideRender
-					block="vk-filter-search/filter-search"
-					attributes={ props.attributes }
-				/>
+				
 			</Fragment>
 		);
 	},
