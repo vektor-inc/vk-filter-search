@@ -22,4 +22,4 @@ $plugin_data    = get_file_data( __FILE__, array( 'version' => 'Version' ) );
 $plugin_version = $plugin_data['version'];
 
 load_plugin_textdomain( 'vk-filter-search', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-require_once plugin_dir_path( __FILE__ ) . 'inc/vk-filter-search/vk-filter-search-config.php';
+require_once plugin_dir_path( __FILE__ ) . 'inc/filter-search/vk-filter-search-config.php';
