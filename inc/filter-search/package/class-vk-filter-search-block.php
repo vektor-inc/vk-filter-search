@@ -70,7 +70,7 @@ class VK_Filter_Search_Block {
 				'style'           => 'vk-filter-search',
 				'editor_style'    => 'vk-filter-search-editor',
 				'editor_script'   => 'vk-filter-search-js',
-				'render_callback' => array( __CLASS__, 'render_taxonomy_callback' ),
+				'render_callback' => array( __CLASS__, 'render_keyword_callback' ),
 			)
 		);
 
