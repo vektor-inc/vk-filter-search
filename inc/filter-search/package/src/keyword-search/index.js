@@ -1,8 +1,6 @@
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
-const { PanelBody, BaseControl, CheckboxControl } = wp.components;
 const { Fragment } = wp.element;
-const { InspectorControls } = wp.blockEditor;
 const ServerSideRender = wp.serverSideRender;
 
 registerBlockType( 'vk-filter-search/keyword-search', {
@@ -36,12 +34,11 @@ registerBlockType( 'vk-filter-search/keyword-search', {
 	),
 	category: 'vk-blocks-cat',
 
-	edit: ( props ) => {
+	edit: () => {
 		return (
 			<Fragment>
 				<ServerSideRender
 					block="vk-filter-search/keyword-search"
-					attributes={ props.attributes }
 				/>
 			</Fragment>
 		);
