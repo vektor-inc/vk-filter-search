@@ -74,6 +74,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 
 
 		// If No terms in Taxonomy, Remove checkbox from sidebar.
+		// return array( label, slug);
 		let taxonomiesIncludeTerms = [];
 		Object.keys(terms).forEach(term => {
 
