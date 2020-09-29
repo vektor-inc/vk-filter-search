@@ -135,6 +135,7 @@ class VK_Filter_Search {
 				}
 			}
 		}
+	}
 
 	/**
 	 * Get Post Type Filter Form HTML
@@ -334,7 +335,7 @@ class VK_Filter_Search {
 			'option' => array(
 				'value' => array(),
 			),
-			$atts
+			$atts,
 		);
 
 		echo wp_kses( $display_html, $allowed_html );
