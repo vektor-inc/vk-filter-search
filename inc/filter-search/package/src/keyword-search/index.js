@@ -33,6 +33,7 @@ registerBlockType( 'vk-filter-search/keyword-search', {
 		</svg>
 	),
 	category: 'vk-blocks-cat',
+	parent: ["vk-filter-search/filter-search"],
 
 	edit: () => {
 		return (

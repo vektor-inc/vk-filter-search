@@ -1,18 +1,10 @@
-import { schema } from './schema';
 import './style.scss';
 import './editor.scss';
-import {
-	AdvancedCheckboxControl,
-	UsePostTypes,
-	UseTaxonomies,
-	useTermsGroupbyTaxnomy
-} from '../common/component';
+
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
-const { PanelBody, BaseControl, CheckboxControl } = wp.components;
 const { Fragment } = wp.element;
-const { InspectorControls } = wp.blockEditor;
-const ServerSideRender = wp.serverSideRender;
+const { InnerBlocks } = wp.blockEditor;
 
 registerBlockType( 'vk-filter-search/filter-search', {
 	title: __('VK Filter Search','vk-filter-search' ),
@@ -48,8 +40,30 @@ registerBlockType( 'vk-filter-search/filter-search', {
 	edit: () => {
 		return (
 			<Fragment>
-				
+				<form class="vk-filter-search vkfs" method="get" action={ vk_filter_search_url }>
+					<div class="vkfs__labels">
+						<InnerBlocks
+							allowedBlocks={[
+								'vk-filter-search/keyword-search',
+								'vk-filter-search/post-type-search',
+								'vk-filter-search/taxmony-search',
+							]}
+							templateLock={false}
+						/>
+					</div>
+					<input class="btn btn-primary" type="submit" value={ __( 'Refine search', 'vk-filter-search' ) } />
+				</form>
 			</Fragment>
 		);
 	},
+	save: () => {
+		return (
+				<form class="vk-filter-search vkfs" method="get" action={ vk_filter_search_url }>
+					<div class="vkfs__labels">
+						<InnerBlocks.Content />
+					</div>
+					<input class="btn btn-primary" type="submit" value={ __( 'Refine search', 'vk-filter-search' ) } />
+				</form>
+		);
+	}
 } );

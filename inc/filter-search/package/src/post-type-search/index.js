@@ -9,8 +9,8 @@ const { Fragment } = wp.element;
 const { InspectorControls } = wp.blockEditor;
 const ServerSideRender = wp.serverSideRender;
 
-registerBlockType( 'vk-filter-search/filter-search', {
-	title: __('VK Filter Search','vk-filter-search' ),
+registerBlockType( 'vk-filter-search/post-type-search', {
+	title: __('VK Post Type Search','vk-filter-search' ),
 	icon: (
 		<svg
 			height="25"
@@ -39,6 +39,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		</svg>
 	),
 	category: 'vk-blocks-cat',
+	parent: ["vk-filter-search/filter-search"],
 	attributes: {
 		isCheckedPostType: {
 			type: 'string',

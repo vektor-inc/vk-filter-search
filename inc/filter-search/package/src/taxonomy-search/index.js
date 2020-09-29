@@ -5,13 +5,13 @@ import {
 } from '../common/component';
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
-const { PanelBody, BaseControl } = wp.components;
+const { PanelBody, BaseControl, SelectControl } = wp.components;
 const { Fragment } = wp.element;
 const { InspectorControls } = wp.blockEditor;
 const ServerSideRender = wp.serverSideRender;
 
-registerBlockType( 'vk-filter-search/filter-search', {
-	title: __('VK Filter Search','vk-filter-search' ),
+registerBlockType( 'vk-filter-search/taxonomy-search', {
+	title: __('VK Taxonomy Search','vk-filter-search' ),
 	icon: (
 		<svg
 			height="25"
@@ -40,18 +40,19 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		</svg>
 	),
 	category: 'vk-blocks-cat',
+	parent: ["vk-filter-search/filter-search"],
 	attributes: {
-		isCheckedTaxonomy: {
+		isSelectedTaxonomy: {
 			type: 'string',
 			default: 'category',
 		},
 	},
 
 	edit: ( props ) => {
-		const { attributes, setAttributes } = props;
+		const { attributes } = props;
 
 		const {
-			isCheckedTaxonomy,
+			isSelectedTaxonomy,
 		} = attributes;
 
 		const taxonomies = UseTaxonomies();
@@ -59,13 +60,12 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		let taxonomiesProps = taxonomies.map( ( taxonomy ) => {
 			return {
 				label: taxonomy.name,
-				slug: taxonomy.slug,
+				value: taxonomy.slug,
 			};
 		} );
 
 
 		// If No terms in Taxonomy, Remove checkbox from sidebar.
-		// return array( label, slug);
 		let taxonomiesIncludeTerms = [];
 		Object.keys(terms).forEach(term => {
 
@@ -82,6 +82,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 			}
 
 		});
+		console.log(taxonomiesIncludeTerms);
 
 		return (
 			<Fragment>
@@ -94,11 +95,11 @@ registerBlockType( 'vk-filter-search/filter-search', {
 							id={ 'vsfs03' }
 							label={ __( 'Taxonomy', 'vk-filter-search' ) }
 						>
-							<AdvancedCheckboxControl
-								schema={ 'isCheckedTaxonomy' }
-								rawData={ taxonomiesIncludeTerms }
-								checkedData={ JSON.parse( isCheckedTaxonomy ) }
-								{ ...props }
+							<SelectControl
+								label={ __( 'Taxonomy', 'vk-filter-search' ) }
+								value={ isSelectedTaxonomy }
+								options={ taxonomiesIncludeTerms }
+								onChange={ ( isSelectedTaxonomy ) => { setState( { isSelectedTaxonomy } ) } }
 							/>
 						</BaseControl>
 					</PanelBody>
