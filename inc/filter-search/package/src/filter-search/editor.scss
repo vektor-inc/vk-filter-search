@@ -1,6 +1,23 @@
 // 一部CSSがコアの指定に負けてしまうため .wp-core-ui の中に変更
 .wp-core-ui {
-    @import "../common/common";
+	@import "../common/common";
+	.vkfs {
+		&__labels {
+			display: block;
+			.block-editor-block-list__layout {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 1em 1.6em;
+				.wp-block {
+					flex-basis: calc(50% - 0.8em);
+					margin: 0;
+					label {
+						width: 100%;
+					}
+				}
+			}
+		}
+	}
 }
 
 // only editor
