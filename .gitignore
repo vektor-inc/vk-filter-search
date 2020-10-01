@@ -111,6 +111,5 @@ dist
 !.vscode/extensions.json
 *.code-workspace
 
-build/
 .wp-env.override.json
 .DS_Store
