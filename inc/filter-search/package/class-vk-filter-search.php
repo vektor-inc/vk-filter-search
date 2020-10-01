@@ -178,10 +178,7 @@ class VK_Filter_Search {
 			$post_type_form_html .= '</label>';
 		}
 
-		$form_html .= '</div>';
-		$form_html .= '<input class="btn btn-primary" type="submit" value="' . __( 'Refine search', 'vk-filter-search' ) . '" />';
-		$form_html .= '</form>';
-		return $form_html;
+		return $post_type_form_html;
 	}
 
 	/**
