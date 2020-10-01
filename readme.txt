@@ -12,8 +12,8 @@ This plugin allows you to add a search function as a block to narrow down your s
 
 == Description ==
 
-This plugin can create the filter serach block on your edit screen.
-If you have custom post type, you can fliter the search by custom post types.
+This plugin can create the Filter Serach Block on your edit screen.
+If you have custom post type, you can also narrow down the search by custom post types.
 
 == Installation ==
 
