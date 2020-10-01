@@ -49,7 +49,7 @@ registerBlockType( 'vk-filter-search/taxonomy-search', {
 	},
 
 	edit: ( props ) => {
-		const { attributes } = props;
+		const { attributes, setAttributes } = props;
 
 		const {
 			isSelectedTaxonomy,
@@ -60,7 +60,7 @@ registerBlockType( 'vk-filter-search/taxonomy-search', {
 		let taxonomiesProps = taxonomies.map( ( taxonomy ) => {
 			return {
 				label: taxonomy.name,
-				value: taxonomy.slug,
+				slug: taxonomy.slug,
 			};
 		} );
 
@@ -82,7 +82,13 @@ registerBlockType( 'vk-filter-search/taxonomy-search', {
 			}
 
 		});
-		console.log(taxonomiesIncludeTerms);
+		let taxonomiesOption = taxonomiesIncludeTerms.map( ( taxonomy ) => {
+			return {
+				label: taxonomy.label,
+				value: taxonomy.slug,
+			};
+		} );
+
 
 		return (
 			<Fragment>
@@ -93,13 +99,12 @@ registerBlockType( 'vk-filter-search/taxonomy-search', {
 					>
 						<BaseControl
 							id={ 'vsfs03' }
-							label={ __( 'Taxonomy', 'vk-filter-search' ) }
 						>
 							<SelectControl
 								label={ __( 'Taxonomy', 'vk-filter-search' ) }
 								value={ isSelectedTaxonomy }
-								options={ taxonomiesIncludeTerms }
-								onChange={ ( isSelectedTaxonomy ) => { setState( { isSelectedTaxonomy } ) } }
+								options={ taxonomiesOption }
+								onChange={ value => setAttributes({ isSelectedTaxonomy: value }) }
 							/>
 						</BaseControl>
 					</PanelBody>

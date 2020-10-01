@@ -156,11 +156,11 @@ class VK_Filter_Search_Block {
 		$attributes = wp_parse_args(
 			$attributes,
 			array(
-				'isCheckedTaxonomy' => 'category',
+				'isSelectedTaxonomy' => 'category',
 			)
 		);
 
-		$taxonomy = ! empty( $attributes['isCheckedTaxonomy'] ) ? $attributes['isCheckedTaxonomy'] : '';
+		$taxonomy = ! empty( $attributes['isSelectedTaxonomy'] ) ? $attributes['isSelectedTaxonomy'] : '';
 
 		return VK_Filter_Search::get_taxonomy_form_html( $taxonomy );
 	}
