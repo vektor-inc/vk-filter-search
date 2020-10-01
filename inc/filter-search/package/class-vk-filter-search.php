@@ -38,35 +38,6 @@ class VK_Filter_Search {
 	}
 
 	/**
-	 * Display Search Form HTML
-	 *
-	 * @param string $label       label of form.
-	 * @param string $placeholder placeholder of text.
-	 */
-	public static function display_keyword_form_html( $label = '', $placeholder = '' ) {
-
-		$display_html = self::get_keyword_form_html( $label, $placeholder );
-		$allowed_html = array(
-			'label' => array(
-				'class' => array(),
-				'id'    => array(),
-				'for'   => array(),
-			),
-			'div'   => array(
-				'class' => array(),
-			),
-			'input' => array(
-				'class'       => array(),
-				'id'          => array(),
-				'type'        => array(),
-				'name'        => array(),
-				'placeholder' => array(),
-			),
-		);
-		echo wp_kses( $display_html, $allowed_html );
-	}
-
-	/**
 	 * Get Post Type Filter Form HTML
 	 *
 	 * @param array  $post_types  filtering post types.
@@ -108,45 +79,6 @@ class VK_Filter_Search {
 		}
 
 		return $post_type_form_html;
-	}
-
-	/**
-	 * Display Search Form HTML
-	 *
-	 * @param array  $post_types  filtering post types.
-	 * @param string $label       label of form.
-	 * @param string $form_design design of form.
-	 */
-	public static function display_post_type_form_html( $post_types = array(), $label = '', $form_design = '' ) {
-
-		$display_html = self::get_post_type_form_html( $post_types, $label, $form_design );
-		$allowed_html = array(
-			'form'   => array(
-				'class'  => array(),
-				'id'     => array(),
-				'method' => array(),
-				'action' => array(),
-			),
-			'label'  => array(
-				'class' => array(),
-				'id'    => array(),
-				'for'   => array(),
-			),
-			'select' => array(
-				'class' => array(),
-				'id'    => array(),
-				'name'  => array(),
-			),
-			'input'  => array(
-				'class'       => array(),
-				'id'          => array(),
-				'type'        => array(),
-				'name'        => array(),
-				'placeholder' => array(),
-			),
-		);
-
-		echo wp_kses( $display_html, $allowed_html );
 	}
 
 	/**
@@ -232,38 +164,6 @@ class VK_Filter_Search {
 			$taxonomy_form_html .= '</label>';
 		}
 		return apply_filters( 'vk_filter_search_taxonomy_form_html', $taxonomy_form_html );
-	}
-
-	/**
-	 * Display Taxonomy Filter Form HTML
-	 *
-	 * @param string $taxonomy name of taxonomy.
-	 * @param string $label       label of form.
-	 * @param string $form_design design of form.
-	 */
-	public static function display_taxonomy_form_html( $taxonomy = '', $label = '', $form_design = '' ) {
-
-		$display_html = self::get_taxonomy_form_html( $taxonomy, $label, $form_design );
-		$allowed_html = array(
-			'label'  => array(
-				'class' => array(),
-				'id'    => array(),
-				'for'   => array(),
-			),
-			'div'    => array(
-				'class' => array(),
-			),
-			'select' => array(
-				'class' => array(),
-				'id'    => array(),
-				'name'  => array(),
-			),
-			'option' => array(
-				'value' => array(),
-			),
-		);
-
-		echo wp_kses( $display_html, $allowed_html );
 	}
 }
 new VK_Filter_Search();
