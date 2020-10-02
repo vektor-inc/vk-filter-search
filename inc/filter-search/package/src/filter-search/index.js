@@ -36,6 +36,31 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		</svg>
 	),
 	category: 'vk-blocks-cat',
+	example: {
+		innerBlocks: [
+			{
+				name: 'vk-filter-search/post-type-search',
+				attributes: {
+					isCheckedPostType: '["post","page"]',
+				},
+			},
+			{
+				name: 'vk-filter-search/taxonomy-search',
+				attributes: {
+					isSelectedTaxonomy: 'category',
+				},
+			},
+			{
+				name: 'vk-filter-search/taxonomy-search',
+				attributes: {
+					isSelectedTaxonomy: 'post_tag',
+				},
+			},
+			{
+				name: 'vk-filter-search/keyword-search',
+			},
+		],
+	},
 
 	edit: () => {
 		return (
@@ -46,9 +71,30 @@ registerBlockType( 'vk-filter-search/filter-search', {
 							allowedBlocks={[
 								'vk-filter-search/keyword-search',
 								'vk-filter-search/post-type-search',
-								'vk-filter-search/taxmony-search',
+								'vk-filter-search/taxonomy-search',
 							]}
 							templateLock={false}
+							template={ [
+								[
+									'vk-filter-search/post-type-search',
+									{
+										isCheckedPostType: '["post","page"]',
+									}
+								],
+								[
+									'vk-filter-search/taxonomy-search',
+									{
+										isSelectedTaxonomy: 'category',
+									}
+								],
+								[
+									'vk-filter-search/taxonomy-search',
+									{
+										isSelectedTaxonomy: 'post_tag',
+									}
+								],
+								[ 'vk-filter-search/keyword-search' ],
+							] }
 						/>
 					</div>
 					<input class="btn btn-primary" type="submit" value={ __( 'Refine search', 'vk-filter-search' ) } />
