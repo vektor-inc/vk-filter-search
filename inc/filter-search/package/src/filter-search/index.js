@@ -65,8 +65,8 @@ registerBlockType( 'vk-filter-search/filter-search', {
 	edit: () => {
 		return (
 			<Fragment>
-				<form class="vk-filter-search vkfs" method="get" action={ vk_filter_search_url }>
-					<div class="vkfs__labels">
+				<form className={ `vk-filter-search vkfs`} method={ `get` } action={ vk_filter_search_url }>
+					<div className={ `vkfs__labels` } >
 						<InnerBlocks
 							allowedBlocks={[
 								'vk-filter-search/keyword-search',
@@ -97,18 +97,18 @@ registerBlockType( 'vk-filter-search/filter-search', {
 							] }
 						/>
 					</div>
-					<input class="btn btn-primary" type="submit" value={ __( 'Refine search', 'vk-filter-search' ) } />
+					<input className={`btn btn-primary`} type={`submit`} value={ __( 'Refine search', 'vk-filter-search' ) } />
 				</form>
 			</Fragment>
 		);
 	},
 	save: () => {
 		return (
-				<form class="vk-filter-search vkfs" method="get" action={ vk_filter_search_url }>
-					<div class="vkfs__labels">
+				<form className={ `vk-filter-search vkfs`} method={ `get` } action={ vk_filter_search_url }>
+					<div className={ `vkfs__labels` } >
 						<InnerBlocks.Content />
 					</div>
-					<input class="btn btn-primary" type="submit" value={ __( 'Refine search', 'vk-filter-search' ) } />
+					<input className={`btn btn-primary`} type={`submit`} value={ __( 'Refine search', 'vk-filter-search' ) } />
 				</form>
 		);
 	}
