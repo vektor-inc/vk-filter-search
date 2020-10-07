@@ -1,21 +1,16 @@
-import { schema } from './schema';
-import './style.scss';
-import './editor.scss';
 import {
 	AdvancedCheckboxControl,
 	UsePostTypes,
-	UseTaxonomies,
-	useTermsGroupbyTaxnomy
-} from './component';
+} from '../common/component';
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
-const { PanelBody, BaseControl, CheckboxControl } = wp.components;
+const { PanelBody, BaseControl } = wp.components;
 const { Fragment } = wp.element;
 const { InspectorControls } = wp.blockEditor;
 const ServerSideRender = wp.serverSideRender;
 
-registerBlockType( 'vk-filter-search/filter-search', {
-	title: __('VK Filter Search','vk-filter-search' ),
+registerBlockType( 'vk-filter-search/post-type-search', {
+	title: __('VK Post Type Search','vk-filter-search' ),
 	icon: (
 		<svg
 			height="25"
@@ -44,15 +39,19 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		</svg>
 	),
 	category: 'vk-blocks-cat',
-	attributes: schema,
+	parent: ["vk-filter-search/filter-search"],
+	attributes: {
+		isCheckedPostType: {
+			type: 'string',
+			default: '["post","page"]',
+		},
+	},
 
 	edit: ( props ) => {
-		const { attributes, setAttributes } = props;
+		const { attributes } = props;
 
 		const {
-			showKeyword,
 			isCheckedPostType,
-			isCheckedTaxonomy,
 		} = attributes;
 
 		const postTypes = UsePostTypes();
@@ -63,59 +62,13 @@ registerBlockType( 'vk-filter-search/filter-search', {
 			};
 		} );
 
-		const taxonomies = UseTaxonomies();
-		const terms = useTermsGroupbyTaxnomy(taxonomies);
-		let taxonomiesProps = taxonomies.map( ( taxonomy ) => {
-			return {
-				label: taxonomy.name,
-				slug: taxonomy.slug,
-			};
-		} );
-
-
-		// If No terms in Taxonomy, Remove checkbox from sidebar.
-		// return array( label, slug);
-		let taxonomiesIncludeTerms = [];
-		Object.keys(terms).forEach(term => {
-
-			if(Array.isArray(terms[term]) && terms[term].length){
-				let taxonomiesIncludeTermsTemp;
-				if(term === "tags"){
-					taxonomiesIncludeTermsTemp = taxonomiesProps.filter( taxonomiesProp => taxonomiesProp.slug === "post_tag" );
-				}else if(term === "categories"){
-					taxonomiesIncludeTermsTemp = taxonomiesProps.filter( taxonomiesProp => taxonomiesProp.slug === "category" );
-				}else{
-					taxonomiesIncludeTermsTemp = taxonomiesProps.filter( taxonomiesProp => taxonomiesProp.slug === term );
-				}
-				taxonomiesIncludeTerms = taxonomiesIncludeTerms.concat(taxonomiesIncludeTermsTemp)
-			}
-
-		});
-
 		return (
 			<Fragment>
 				<InspectorControls>
 					<PanelBody
-						title={ __( 'Filtering Options', 'vk-filter-search' ) }
+						title={ __( 'Post Type Option', 'vk-filter-search' ) }
 						initialOpen={ false }
 					>
-						<BaseControl
-							id={ 'vsfs01' }
-							label={ __( 'Keyword', 'vk-filter-search' ) }
-						>
-							<CheckboxControl
-								label={ __(
-									'Filter by Keyword',
-									'vk-filter-search'
-								) }
-								className={ 'mb-1' }
-								checked={ showKeyword }
-								onChange={ ( checked ) =>
-									setAttributes( { showKeyword: checked } )
-								}
-							/>
-						</BaseControl>
-
 						<BaseControl
 							id={ 'vsfs02' }
 							label={ __( 'Post Types', 'vk-filter-search' ) }
@@ -127,21 +80,10 @@ registerBlockType( 'vk-filter-search/filter-search', {
 								{ ...props }
 							/>
 						</BaseControl>
-						<BaseControl
-							id={ 'vsfs03' }
-							label={ __( 'Taxonomies', 'vk-filter-search' ) }
-						>
-							<AdvancedCheckboxControl
-								schema={ 'isCheckedTaxonomy' }
-								rawData={ taxonomiesIncludeTerms }
-								checkedData={ JSON.parse( isCheckedTaxonomy ) }
-								{ ...props }
-							/>
-						</BaseControl>
 					</PanelBody>
 				</InspectorControls>
 				<ServerSideRender
-					block="vk-filter-search/filter-search"
+					block="vk-filter-search/post-type-search"
 					attributes={ props.attributes }
 				/>
 			</Fragment>

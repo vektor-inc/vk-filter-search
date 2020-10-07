@@ -49,48 +49,89 @@ class VK_Filter_Search_Block {
 			true
 		);
 
+		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_url', site_url( '/' ) );
+
 		if ( function_exists( 'wp_set_script_translations' ) ) {
 			wp_set_script_translations( 'vk-filter-search-js', 'vk-filter-search', VKFS_PATH . '/languages' );
 		}
 
+		// filter-search.
 		register_block_type(
 			'vk-filter-search/filter-search',
+			array(
+				'style'         => 'vk-filter-search',
+				'editor_style'  => 'vk-filter-search-editor',
+				'editor_script' => 'vk-filter-search-js',
+			)
+		);
+
+		// keyword-search.
+		register_block_type(
+			'vk-filter-search/keyword-search',
+			array(
+				'style'           => 'vk-filter-search',
+				'editor_style'    => 'vk-filter-search-editor',
+				'editor_script'   => 'vk-filter-search-js',
+				'render_callback' => array( __CLASS__, 'render_keyword_callback' ),
+			)
+		);
+
+		// post-type-search.
+		register_block_type(
+			'vk-filter-search/post-type-search',
 			array(
 				'style'           => 'vk-filter-search',
 				'editor_style'    => 'vk-filter-search-editor',
 				'editor_script'   => 'vk-filter-search-js',
 				'attributes'      => array(
-					'showKeyword'       => array(
-						'type'    => 'boolean',
-						'default' => true,
-					),
 					'isCheckedPostType' => array(
 						'type'    => 'string',
 						'default' => '["post","page"]',
 					),
-					'isCheckedTaxonomy' => array(
+				),
+				'render_callback' => array( __CLASS__, 'render_post_type_callback' ),
+			)
+		);
+
+		// taxmony-search.
+		register_block_type(
+			'vk-filter-search/taxonomy-search',
+			array(
+				'style'           => 'vk-filter-search',
+				'editor_style'    => 'vk-filter-search-editor',
+				'editor_script'   => 'vk-filter-search-js',
+				'attributes'      => array(
+					'isSelectedTaxonomy' => array(
 						'type'    => 'string',
-						'default' => '["category","post_tag"]',
+						'default' => 'category',
 					),
 				),
-				'render_callback' => array( __CLASS__, 'render_callback' ),
+				'render_callback' => array( __CLASS__, 'render_taxonomy_callback' ),
 			)
 		);
 	}
 
 	/**
-	 * Rendering Block
+	 * Rendering Keyword Search Block
 	 *
 	 * @param array $attributes attributes.
 	 * @param html  $content content.
 	 */
-	public static function render_callback( $attributes, $content = '' ) {
+	public static function render_keyword_callback( $attributes, $content = '' ) {
+		return VK_Filter_Search::get_keyword_form_html();
+	}
+
+	/**
+	 * Rendering Post Type Search Block
+	 *
+	 * @param array $attributes attributes.
+	 * @param html  $content content.
+	 */
+	public static function render_post_type_callback( $attributes, $content = '' ) {
 		$attributes = wp_parse_args(
 			$attributes,
 			array(
-				'showKeyword'       => true,
 				'isCheckedPostType' => '["post","page"]',
-				'isCheckedTaxonomy' => '["category","post_tag"]',
 			)
 		);
 
@@ -100,17 +141,28 @@ class VK_Filter_Search_Block {
 			$attributes['isCheckedPostType'] = str_replace( '"', '', $attributes['isCheckedPostType'] );
 		}
 
-		if ( ! empty( $attributes['isCheckedTaxonomy'] ) ) {
-			$attributes['isCheckedTaxonomy'] = str_replace( '[', '', $attributes['isCheckedTaxonomy'] );
-			$attributes['isCheckedTaxonomy'] = str_replace( ']', '', $attributes['isCheckedTaxonomy'] );
-			$attributes['isCheckedTaxonomy'] = str_replace( '"', '', $attributes['isCheckedTaxonomy'] );
-		}
-
-		$keyword    = ! empty( $attributes['showKeyword'] ) ? $attributes['showKeyword'] : false;
 		$post_types = ! empty( $attributes['isCheckedPostType'] ) ? explode( ',', $attributes['isCheckedPostType'] ) : array();
-		$taxonomies = ! empty( $attributes['isCheckedTaxonomy'] ) ? explode( ',', $attributes['isCheckedTaxonomy'] ) : array();
 
-		return VK_Filter_Search::get_search_form_html( $keyword, $post_types, $taxonomies );
+		return VK_Filter_Search::get_post_type_form_html( $post_types );
+	}
+
+	/**
+	 * Rendering Taxonomy Search Block
+	 *
+	 * @param array $attributes attributes.
+	 * @param html  $content content.
+	 */
+	public static function render_taxonomy_callback( $attributes, $content = '' ) {
+		$attributes = wp_parse_args(
+			$attributes,
+			array(
+				'isSelectedTaxonomy' => 'category',
+			)
+		);
+
+		$taxonomy = ! empty( $attributes['isSelectedTaxonomy'] ) ? $attributes['isSelectedTaxonomy'] : '';
+
+		return VK_Filter_Search::get_taxonomy_form_html( $taxonomy );
 	}
 }
 new VK_Filter_Search_Block();
