@@ -117,9 +117,10 @@ class VK_Filter_Search {
 					$taxonomy_design_html .= wp_dropdown_categories(
 						array(
 							// Translators: All of Category.
-							'show_option_all'  => sprintf( __( 'All of %s', 'vk-filter-search' ), $label ),
+							// 'show_option_all'  => sprintf( __( 'All of %s', 'vk-filter-search' ), $label ),
 							// Translators: None of Category.
-							'show_option_none' => sprintf( __( 'None of %s', 'vk-filter-search' ), $label ),
+							'show_option_none' => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
+							'option_none_value'=> '',
 							'orderby'          => 'name',
 							'echo'             => false,
 							'selected'         => get_query_var( 'tag' ),
@@ -132,9 +133,10 @@ class VK_Filter_Search {
 					$taxonomy_design_html .= wp_dropdown_categories(
 						array(
 							// Translators: All of Tag.
-							'show_option_all'  => sprintf( __( 'All of %s', 'vk-filter-search' ), $label ),
+							// 'show_option_all'  => sprintf( __( 'All of %s', 'vk-filter-search' ), $label ),
 							// Translators: None of Tag.
-							'show_option_none' => sprintf( __( 'None of %s', 'vk-filter-search' ), $label ),
+							'show_option_none' => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
+							'option_none_value'=> '',
 							'orderby'          => 'name',
 							'echo'             => false,
 							'selected'         => get_query_var( 'tag' ),
@@ -147,9 +149,10 @@ class VK_Filter_Search {
 					$taxonomy_design_html .= wp_dropdown_categories(
 						array(
 							// Translators: All of the taxonomy.
-							'show_option_all'  => sprintf( __( 'All of %s', 'vk-filter-search' ), $label ),
+							// 'show_option_all'  => sprintf( __( 'All of %s', 'vk-filter-search' ), $label ),
 							// Translators: None of the taxonomy.
-							'show_option_none' => sprintf( __( 'None of %s', 'vk-filter-search' ), $label ),
+							'show_option_none' => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
+							'option_none_value'=> '',
 							'orderby'          => 'name',
 							'selected'         => get_query_var( $taxonomy_object->name ),
 							'echo'             => false,
