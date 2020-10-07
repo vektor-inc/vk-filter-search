@@ -123,7 +123,7 @@ class VK_Filter_Search {
 							'option_none_value'=> '',
 							'orderby'          => 'name',
 							'echo'             => false,
-							'selected'         => get_query_var( 'tag' ),
+							'selected'         => get_query_var( 'category' ),
 							'name'             => 'category_name',
 							'taxonomy'         => 'category',
 							'value_field'      => 'slug',
