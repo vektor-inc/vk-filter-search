@@ -171,6 +171,7 @@ class VK_Filter_Search {
 			$taxonomy_form_html .= '<div class="vkfs__warning">';
 
 			$taxonomy_form_html .= sprintf(
+				// translators: %s is taxonomy's name.
 				__( 'Because %s has no term, this block will not render.', 'vk-filter-search' ),
 				$taxonomy_object->labels->singular_name
 			);
