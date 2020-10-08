@@ -165,7 +165,7 @@ class VK_Filter_Search {
 			}
 			$taxonomy_form_html .= apply_filters( 'vk_search_filter_taxonomy_design_html', $taxonomy_design_html );
 			$taxonomy_form_html .= '</label>';
-		} elseif ( ! is_front_page() && ! is_home() && ! is_singular() && ! is_archive() && ! is_404() && ! is_preview() ) {
+		} elseif ( ! is_front_page() && ! is_home() && ! is_singular() && ! is_archive() && ! is_search() && ! is_404() && ! is_preview() ) {
 			$taxonomy_form_html .= '<label>';
 			$taxonomy_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
 			$taxonomy_form_html .= '<div class="vkfs__warning">';
