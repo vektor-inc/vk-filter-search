@@ -119,14 +119,14 @@ class VK_Filter_Search {
 							// Translators: All of Category.
 							// 'show_option_all'  => sprintf( __( 'All of %s', 'vk-filter-search' ), $label ),
 							// Translators: None of Category.
-							'show_option_none' => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
-							'option_none_value'=> '',
-							'orderby'          => 'name',
-							'echo'             => false,
-							'selected'         => get_query_var( 'category' ),
-							'name'             => 'category_name',
-							'taxonomy'         => 'category',
-							'value_field'      => 'slug',
+							'show_option_none'  => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
+							'option_none_value' => '',
+							'orderby'           => 'name',
+							'echo'              => false,
+							'selected'          => get_query_var( 'category' ),
+							'name'              => 'category_name',
+							'taxonomy'          => 'category',
+							'value_field'       => 'slug',
 						)
 					);
 				} elseif ( 'post_tag' === $taxonomy ) {
@@ -135,14 +135,14 @@ class VK_Filter_Search {
 							// Translators: All of Tag.
 							// 'show_option_all'  => sprintf( __( 'All of %s', 'vk-filter-search' ), $label ),
 							// Translators: None of Tag.
-							'show_option_none' => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
-							'option_none_value'=> '',
-							'orderby'          => 'name',
-							'echo'             => false,
-							'selected'         => get_query_var( 'tag' ),
-							'name'             => 'tag',
-							'taxonomy'         => 'post_tag',
-							'value_field'      => 'slug',
+							'show_option_none'  => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
+							'option_none_value' => '',
+							'orderby'           => 'name',
+							'echo'              => false,
+							'selected'          => get_query_var( 'tag' ),
+							'name'              => 'tag',
+							'taxonomy'          => 'post_tag',
+							'value_field'       => 'slug',
 						)
 					);
 				} else {
@@ -151,14 +151,14 @@ class VK_Filter_Search {
 							// Translators: All of the taxonomy.
 							// 'show_option_all'  => sprintf( __( 'All of %s', 'vk-filter-search' ), $label ),
 							// Translators: None of the taxonomy.
-							'show_option_none' => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
-							'option_none_value'=> '',
-							'orderby'          => 'name',
-							'selected'         => get_query_var( $taxonomy_object->name ),
-							'echo'             => false,
-							'name'             => $taxonomy_object->name,
-							'taxonomy'         => $taxonomy_object->name,
-							'value_field'      => 'slug',
+							'show_option_none'  => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
+							'option_none_value' => '',
+							'orderby'           => 'name',
+							'selected'          => get_query_var( $taxonomy_object->name ),
+							'echo'              => false,
+							'name'              => $taxonomy_object->name,
+							'taxonomy'          => $taxonomy_object->name,
+							'value_field'       => 'slug',
 						)
 					);
 				}
