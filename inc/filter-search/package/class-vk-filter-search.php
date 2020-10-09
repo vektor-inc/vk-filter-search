@@ -76,6 +76,15 @@ class VK_Filter_Search {
 			}
 			$post_type_form_html .= apply_filters( 'vk_search_filter_post_type_design_html', $post_type_design_html );
 			$post_type_form_html .= '</label>';
+		} elseif ( ! is_front_page() && ! is_home() && ! is_singular() && ! is_archive() && ! is_search() && ! is_404() && ! is_preview() ) {
+			$post_type_form_html .= '<div class="vkfs__warning">';
+			$post_type_form_html .= '<label>';
+			$post_type_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
+			$post_type_form_html .= '<div class="vkfs__warning-text">';
+			$post_type_form_html .= __( 'Because no post type is selected, this block will not render.', 'vk-filter-search' );
+			$post_type_form_html .= '</div>';
+			$post_type_form_html .= '</label>';
+			$post_type_form_html .= '</div>';
 		}
 
 		return $post_type_form_html;
