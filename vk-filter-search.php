@@ -23,3 +23,13 @@ $plugin_version = $plugin_data['version'];
 
 load_plugin_textdomain( 'vk-filter-search', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 require_once plugin_dir_path( __FILE__ ) . 'inc/filter-search/vk-filter-search-config.php';
+
+
+function exclude_category( $query ) {
+    if ( !is_admin() && $query->is_main_query() ) {
+        if ( isset( $_GET['post_type'] ) &&  isset( $_GET['s'] ) && $_GET['post_type'] === 'page' ){
+            $query->set( 'post_type', 'page' );
+        }
+    }
+}
+add_action( 'pre_get_posts', 'exclude_category' );
