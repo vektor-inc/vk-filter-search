@@ -181,7 +181,7 @@ class VK_Filter_Search {
 	 *
 	 * @param opject $query WP Query.
 	 */
-	public function pre_get_posts_on_page_result( $query ) {
+	public static function pre_get_posts_on_page_result( $query ) {
 		if ( ! is_admin() && $query->is_main_query() ) {
 			if ( isset( $_GET['post_type'] ) && isset( $_GET['s'] ) && 'page' === $_GET['post_type'] ) {
 				$query->set( 'post_type', 'page' );
