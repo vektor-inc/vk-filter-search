@@ -51,12 +51,6 @@ registerBlockType( 'vk-filter-search/filter-search', {
 				},
 			},
 			{
-				name: 'vk-filter-search/taxonomy-search',
-				attributes: {
-					isSelectedTaxonomy: 'post_tag',
-				},
-			},
-			{
 				name: 'vk-filter-search/keyword-search',
 			},
 		],
@@ -85,12 +79,6 @@ registerBlockType( 'vk-filter-search/filter-search', {
 									'vk-filter-search/taxonomy-search',
 									{
 										isSelectedTaxonomy: 'category',
-									}
-								],
-								[
-									'vk-filter-search/taxonomy-search',
-									{
-										isSelectedTaxonomy: 'post_tag',
 									}
 								],
 								[ 'vk-filter-search/keyword-search' ],
