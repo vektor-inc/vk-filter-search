@@ -1,10 +1,15 @@
 import './style.scss';
 import './editor.scss';
+import {
+	UsePostTypes,
+} from '../common/component';
 
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 const { Fragment } = wp.element;
 const { InnerBlocks } = wp.blockEditor;
+const { InspectorControls } = wp.blockEditor;
+const { PanelBody, BaseControl, SelectControl } = wp.components;
 
 registerBlockType( 'vk-filter-search/filter-search', {
 	title: __('VK Filter Search','vk-filter-search' ),
@@ -36,14 +41,17 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		</svg>
 	),
 	category: 'vk-blocks-cat',
+	attributes: {
+		TargetPostType: {
+			type: 'string',
+			default: '',
+		},
+	},
 	example: {
+		attributes: {
+			TargetPostType: 'post',
+		},
 		innerBlocks: [
-			{
-				name: 'vk-filter-search/post-type-search',
-				attributes: {
-					isCheckedPostType: '["post","page"]',
-				},
-			},
 			{
 				name: 'vk-filter-search/taxonomy-search',
 				attributes: {
@@ -56,25 +64,82 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		],
 	},
 
-	edit: () => {
+	edit: ( props ) => {
+		const { attributes, setAttributes } = props;
+
+		const {
+			TargetPostType,
+		} = attributes;
+
+		const postTypes = UsePostTypes();
+		const postTypesProps = postTypes.map( ( postType ) => {
+			return {
+				label: postType.name,
+				value: postType.slug,
+			};
+		} );
+
+		let postTypesOption =  [
+			{
+				label: __( "not specified", "vk-blocks" ),
+				value: ''
+			}
+		];
+		let i = 0;
+		if ( postTypesProps !== null && postTypesProps !== undefined ) {
+			for ( i=0; i< postTypesProps.length; i++ ) {
+				postTypesOption.push({
+					label: postTypesProps[i].label,
+					value: postTypesProps[i].value
+				});
+			}
+		}
+
+		let allowedBlocks;
+		let hiddenPostTypes;
+
+		if ( TargetPostType === '' ) {
+			allowedBlocks=[
+				'vk-filter-search/keyword-search',
+				'vk-filter-search/post-type-search',
+				'vk-filter-search/taxonomy-search',
+			];
+			hiddenPostTypes = '';
+		}
+		else {
+			allowedBlocks=[
+				'vk-filter-search/keyword-search',
+				'vk-filter-search/taxonomy-search',
+			];
+			hiddenPostTypes = <input type="hidden" name="post_type" value={ TargetPostType } />;
+		}
+
 		return (
 			<Fragment>
+				<InspectorControls>
+					<PanelBody
+						title={ __( 'Target of Post Type', 'vk-filter-search' ) }
+						initialOpen={ true }
+					>
+						<BaseControl
+							id={ 'vsfs-post-type01' }
+						>
+							<SelectControl
+								label={ __( 'Target of Post Type', 'vk-filter-search' ) }
+								value={ TargetPostType }
+								options={ postTypesOption }
+								onChange={ value => setAttributes({ TargetPostType: value }) }
+							/>
+						</BaseControl>
+					</PanelBody>
+				</InspectorControls>
 				<form className={ `vk-filter-search vkfs`} method={ `get` } action={ vk_filter_search_url }>
 					<div className={ `vkfs__labels` } >
+						{ hiddenPostTypes }
 						<InnerBlocks
-							allowedBlocks={[
-								'vk-filter-search/keyword-search',
-								'vk-filter-search/post-type-search',
-								'vk-filter-search/taxonomy-search',
-							]}
+							allowedBlocks={ allowedBlocks }
 							templateLock={false}
 							template={ [
-								[
-									'vk-filter-search/post-type-search',
-									{
-										isCheckedPostType: '["post","page"]',
-									}
-								],
 								[
 									'vk-filter-search/taxonomy-search',
 									{
@@ -90,10 +155,26 @@ registerBlockType( 'vk-filter-search/filter-search', {
 			</Fragment>
 		);
 	},
-	save: () => {
+	save: ( props ) => {
+		const { attributes } = props;
+
+		const {
+			TargetPostType,
+		} = attributes;
+
+		let hiddenPostTypes;
+
+		if ( TargetPostType === '' ) {
+			hiddenPostTypes = '';
+		}
+		else {
+			hiddenPostTypes = <input type="hidden" name="post_type" value={ TargetPostType } />;
+		}
+
 		return (
 				<form className={ `vk-filter-search vkfs`} method={ `get` } action={ vk_filter_search_url }>
 					<div className={ `vkfs__labels` } >
+						{ hiddenPostTypes }
 						<InnerBlocks.Content />
 					</div>
 					<input className={`btn btn-primary`} type={`submit`} value={ __( 'Refine search', 'vk-filter-search' ) } />

@@ -11,6 +11,13 @@
 class VK_Filter_Search {
 
 	/**
+	 * Constructor
+	 */
+	public function __construct() {
+		add_action( 'pre_get_posts', array( __CLASS__, 'pre_get_posts_on_page_result' ) );
+	}
+
+	/**
 	 * Form Stryle Option.
 	 */
 	public static function form_style_option() {
@@ -191,6 +198,19 @@ class VK_Filter_Search {
 			$taxonomy_form_html .= '</div>';
 		}
 		return apply_filters( 'vk_filter_search_taxonomy_form_html', $taxonomy_form_html );
+	}
+
+	/**
+	 * Pre Get Post of Search Result on Only Page.
+	 *
+	 * @param opject $query WP Query.
+	 */
+	public static function pre_get_posts_on_page_result( $query ) {
+		if ( ! is_admin() && $query->is_main_query() ) {
+			if ( isset( $_GET['post_type'] ) && isset( $_GET['s'] ) && 'page' === $_GET['post_type'] ) {
+				$query->set( 'post_type', 'page' );
+			}
+		}
 	}
 }
 new VK_Filter_Search();
