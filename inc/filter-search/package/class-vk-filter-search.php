@@ -76,6 +76,15 @@ class VK_Filter_Search {
 			}
 			$post_type_form_html .= apply_filters( 'vk_search_filter_post_type_design_html', $post_type_design_html );
 			$post_type_form_html .= '</label>';
+		} elseif ( ! is_front_page() && ! is_home() && ! is_singular() && ! is_archive() && ! is_search() && ! is_404() && ! is_preview() ) {
+			$post_type_form_html .= '<div class="vkfs__warning">';
+			$post_type_form_html .= '<label>';
+			$post_type_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
+			$post_type_form_html .= '<div class="vkfs__warning-text">';
+			$post_type_form_html .= __( 'Because no post type is selected, this block will not render.', 'vk-filter-search' );
+			$post_type_form_html .= '</div>';
+			$post_type_form_html .= '</label>';
+			$post_type_form_html .= '</div>';
 		}
 
 		return $post_type_form_html;
@@ -165,6 +174,21 @@ class VK_Filter_Search {
 			}
 			$taxonomy_form_html .= apply_filters( 'vk_search_filter_taxonomy_design_html', $taxonomy_design_html );
 			$taxonomy_form_html .= '</label>';
+		} elseif ( ! is_front_page() && ! is_home() && ! is_singular() && ! is_archive() && ! is_search() && ! is_404() && ! is_preview() ) {
+			$taxonomy_form_html .= '<div class="vkfs__warning">';
+			$taxonomy_form_html .= '<label>';
+			$taxonomy_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
+			$taxonomy_form_html .= '<div class="vkfs__warning-text">';
+
+			$taxonomy_form_html .= sprintf(
+				// translators: %s is taxonomy's name.
+				__( 'Because %s has no term, this block will not render.', 'vk-filter-search' ),
+				$taxonomy_object->labels->singular_name
+			);
+
+			$taxonomy_form_html .= '</div>';
+			$taxonomy_form_html .= '</label>';
+			$taxonomy_form_html .= '</div>';
 		}
 		return apply_filters( 'vk_filter_search_taxonomy_form_html', $taxonomy_form_html );
 	}
