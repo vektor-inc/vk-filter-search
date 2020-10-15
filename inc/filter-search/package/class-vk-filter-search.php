@@ -49,15 +49,19 @@ class VK_Filter_Search {
 	 *
 	 * @param array  $post_types  filtering post types.
 	 * @param string $label       label of form.
+	 * @param string $post_label  label for post.
+	 * @param string $page_label  label for page.
 	 * @param string $form_design design of form.
 	 */
 	public static function get_post_type_form_html( $post_types = array( 'post', 'page' ), $label = '', $post_label = '', $page_label = '', $form_design = 'select' ) {
 
 		// 投稿タイプの調整.
-		$post_types = ! empty( $post_types ) ? $post_types : array();
+		$post_types = ! empty( $post_types ) ? $post_types : array( 'post', 'page' );
 
 		// ラベルの調整.
-		$label = ! empty( $label ) ? $label : __( 'Post Type', 'vk-filter-search' );
+		$label      = ! empty( $label ) ? $label : __( 'Post Type', 'vk-filter-search' );
+		$post_label = ! empty( $post_label ) ? $post_label : get_post_type_object( 'post' )->labels->singular_name;
+		$page_label = ! empty( $page_label ) ? $page_label : get_post_type_object( 'page' )->labels->singular_name;
 
 		// デザインの調整.
 		$form_style_option = self::form_style_option();
@@ -110,7 +114,7 @@ class VK_Filter_Search {
 	 * @param string $label       label of form.
 	 * @param string $form_design design of form.
 	 */
-	public static function get_taxonomy_form_html(  $taxonomy = 'category', $label = '', $form_design = 'select'  ) {
+	public static function get_taxonomy_form_html( $taxonomy = 'category', $label = '', $form_design = 'select' ) {
 
 		// タクソノミーの調整.
 		$taxonomy        = ! empty( $taxonomy ) ? $taxonomy : '';
