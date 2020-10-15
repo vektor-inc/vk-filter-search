@@ -74,7 +74,7 @@ class VK_Filter_Search {
 		// 描画開始.
 		if ( ! empty( $post_types ) ) {
 			$post_type_form_html .= '<label>';
-			$post_type_form_html .= '<div class="vkfs__label-name">' . __( 'Post Type', 'vk-filter-search' ) . '</div>';
+			$post_type_form_html .= '<div class="vkfs__label-name">' . $label  . '</div>';
 			// デザインに応じて切り替え開始.
 			if ( 'select' === $form_design ) {
 				$post_type_design_html .= '<select name="post_type" id="post_type">';
