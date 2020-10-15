@@ -41,7 +41,7 @@ class VK_Filter_Search {
 		$keyword_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
 		$keyword_form_html .= '<input type="text" name="s" id="s" placeholder="' . $placeholder . '" />';
 		$keyword_form_html .= '</label>';
-		return apply_filters( 'vk_filter_search_keyword_form_html', $keyword_form_html );
+		return $keyword_form_html;
 	}
 
 	/**
@@ -51,7 +51,7 @@ class VK_Filter_Search {
 	 * @param string $label       label of form.
 	 * @param string $form_design design of form.
 	 */
-	public static function get_post_type_form_html( $post_types = array(), $label = '', $form_design = '' ) {
+	public static function get_post_type_form_html( $post_types = array( 'post', 'page' ), $label = '', $post_label = '', $page_label = '', $form_design = 'select' ) {
 
 		// 投稿タイプの調整.
 		$post_types = ! empty( $post_types ) ? $post_types : array();
@@ -76,7 +76,13 @@ class VK_Filter_Search {
 				$post_type_design_html .= '<select name="post_type" id="post_type">';
 				foreach ( $post_types as $post_type ) {
 					if ( ! empty( get_post_type_object( $post_type ) ) ) {
-						$post_type_design_html .= '<option value="' . $post_type . '">' . get_post_type_object( $post_type )->labels->singular_name . '</option>';
+						if ( 'post' === $post_type ) {
+							$post_type_design_html .= '<option value="' . $post_type . '">' . $post_label . '</option>';
+						} elseif ( 'page' === $post_type ) {
+							$post_type_design_html .= '<option value="' . $post_type . '">' . $page_label . '</option>';
+						} else {
+							$post_type_design_html .= '<option value="' . $post_type . '">' . get_post_type_object( $post_type )->labels->singular_name . '</option>';
+						}
 					}
 				}
 				$post_type_design_html .= '</select>';
@@ -104,7 +110,7 @@ class VK_Filter_Search {
 	 * @param string $label       label of form.
 	 * @param string $form_design design of form.
 	 */
-	public static function get_taxonomy_form_html( $taxonomy = '', $label = '', $form_design = '' ) {
+	public static function get_taxonomy_form_html(  $taxonomy = 'category', $label = '', $form_design = 'select'  ) {
 
 		// タクソノミーの調整.
 		$taxonomy        = ! empty( $taxonomy ) ? $taxonomy : '';
@@ -197,7 +203,7 @@ class VK_Filter_Search {
 			$taxonomy_form_html .= '</label>';
 			$taxonomy_form_html .= '</div>';
 		}
-		return apply_filters( 'vk_filter_search_taxonomy_form_html', $taxonomy_form_html );
+		return $taxonomy_form_html;
 	}
 
 	/**
