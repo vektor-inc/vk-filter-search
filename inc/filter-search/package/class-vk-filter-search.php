@@ -11,6 +11,13 @@
 class VK_Filter_Search {
 
 	/**
+	 * Constructor
+	 */
+	public function __construct() {
+		add_action( 'pre_get_posts', array( __CLASS__, 'pre_get_posts_on_page_result' ) );
+	}
+
+	/**
 	 * Form Stryle Option.
 	 */
 	public static function form_style_option() {
@@ -34,7 +41,7 @@ class VK_Filter_Search {
 		$keyword_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
 		$keyword_form_html .= '<input type="text" name="s" id="s" placeholder="' . $placeholder . '" />';
 		$keyword_form_html .= '</label>';
-		return apply_filters( 'vk_filter_search_keyword_form_html', $keyword_form_html );
+		return $keyword_form_html;
 	}
 
 	/**
@@ -42,15 +49,19 @@ class VK_Filter_Search {
 	 *
 	 * @param array  $post_types  filtering post types.
 	 * @param string $label       label of form.
+	 * @param string $post_label  label for post.
+	 * @param string $page_label  label for page.
 	 * @param string $form_design design of form.
 	 */
-	public static function get_post_type_form_html( $post_types = array(), $label = '', $form_design = '' ) {
+	public static function get_post_type_form_html( $post_types = array( 'post', 'page' ), $label = '', $post_label = '', $page_label = '', $form_design = 'select' ) {
 
 		// 投稿タイプの調整.
-		$post_types = ! empty( $post_types ) ? $post_types : array();
+		$post_types = ! empty( $post_types ) ? $post_types : array( 'post', 'page' );
 
 		// ラベルの調整.
-		$label = ! empty( $label ) ? $label : __( 'Post Type', 'vk-filter-search' );
+		$label      = ! empty( $label ) ? $label : __( 'Post Type', 'vk-filter-search' );
+		$post_label = ! empty( $post_label ) ? $post_label : get_post_type_object( 'post' )->labels->singular_name;
+		$page_label = ! empty( $page_label ) ? $page_label : get_post_type_object( 'page' )->labels->singular_name;
 
 		// デザインの調整.
 		$form_style_option = self::form_style_option();
@@ -63,19 +74,34 @@ class VK_Filter_Search {
 		// 描画開始.
 		if ( ! empty( $post_types ) ) {
 			$post_type_form_html .= '<label>';
-			$post_type_form_html .= '<div class="vkfs__label-name">' . __( 'Post Type', 'vk-filter-search' ) . '</div>';
+			$post_type_form_html .= '<div class="vkfs__label-name">' . $label  . '</div>';
 			// デザインに応じて切り替え開始.
 			if ( 'select' === $form_design ) {
 				$post_type_design_html .= '<select name="post_type" id="post_type">';
 				foreach ( $post_types as $post_type ) {
 					if ( ! empty( get_post_type_object( $post_type ) ) ) {
-						$post_type_design_html .= '<option value="' . $post_type . '">' . get_post_type_object( $post_type )->labels->singular_name . '</option>';
+						if ( 'post' === $post_type ) {
+							$post_type_design_html .= '<option value="' . $post_type . '">' . $post_label . '</option>';
+						} elseif ( 'page' === $post_type ) {
+							$post_type_design_html .= '<option value="' . $post_type . '">' . $page_label . '</option>';
+						} else {
+							$post_type_design_html .= '<option value="' . $post_type . '">' . get_post_type_object( $post_type )->labels->singular_name . '</option>';
+						}
 					}
 				}
 				$post_type_design_html .= '</select>';
 			}
 			$post_type_form_html .= apply_filters( 'vk_search_filter_post_type_design_html', $post_type_design_html );
 			$post_type_form_html .= '</label>';
+		} elseif ( ! is_front_page() && ! is_home() && ! is_singular() && ! is_archive() && ! is_search() && ! is_404() && ! is_preview() ) {
+			$post_type_form_html .= '<div class="vkfs__warning">';
+			$post_type_form_html .= '<label>';
+			$post_type_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
+			$post_type_form_html .= '<div class="vkfs__warning-text">';
+			$post_type_form_html .= __( 'Because no post type is selected, this block will not render.', 'vk-filter-search' );
+			$post_type_form_html .= '</div>';
+			$post_type_form_html .= '</label>';
+			$post_type_form_html .= '</div>';
 		}
 
 		return $post_type_form_html;
@@ -88,7 +114,7 @@ class VK_Filter_Search {
 	 * @param string $label       label of form.
 	 * @param string $form_design design of form.
 	 */
-	public static function get_taxonomy_form_html( $taxonomy = '', $label = '', $form_design = '' ) {
+	public static function get_taxonomy_form_html( $taxonomy = 'category', $label = '', $form_design = 'select' ) {
 
 		// タクソノミーの調整.
 		$taxonomy        = ! empty( $taxonomy ) ? $taxonomy : '';
@@ -165,8 +191,36 @@ class VK_Filter_Search {
 			}
 			$taxonomy_form_html .= apply_filters( 'vk_search_filter_taxonomy_design_html', $taxonomy_design_html );
 			$taxonomy_form_html .= '</label>';
+		} elseif ( ! is_front_page() && ! is_home() && ! is_singular() && ! is_archive() && ! is_search() && ! is_404() && ! is_preview() ) {
+			$taxonomy_form_html .= '<div class="vkfs__warning">';
+			$taxonomy_form_html .= '<label>';
+			$taxonomy_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
+			$taxonomy_form_html .= '<div class="vkfs__warning-text">';
+
+			$taxonomy_form_html .= sprintf(
+				// translators: %s is taxonomy's name.
+				__( 'Because %s has no term, this block will not render.', 'vk-filter-search' ),
+				$taxonomy_object->labels->singular_name
+			);
+
+			$taxonomy_form_html .= '</div>';
+			$taxonomy_form_html .= '</label>';
+			$taxonomy_form_html .= '</div>';
 		}
-		return apply_filters( 'vk_filter_search_taxonomy_form_html', $taxonomy_form_html );
+		return $taxonomy_form_html;
+	}
+
+	/**
+	 * Pre Get Post of Search Result on Only Page.
+	 *
+	 * @param opject $query WP Query.
+	 */
+	public static function pre_get_posts_on_page_result( $query ) {
+		if ( ! is_admin() && $query->is_main_query() ) {
+			if ( isset( $_GET['post_type'] ) && isset( $_GET['s'] ) && 'page' === $_GET['post_type'] ) {
+				$query->set( 'post_type', 'page' );
+			}
+		}
 	}
 }
 new VK_Filter_Search();

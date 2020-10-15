@@ -67,7 +67,7 @@ registerBlockType( 'vk-filter-search/post-type-search', {
 				<InspectorControls>
 					<PanelBody
 						title={ __( 'Post Type Option', 'vk-filter-search' ) }
-						initialOpen={ false }
+						initialOpen={ true }
 					>
 						<BaseControl
 							id={ 'vsfs02' }
