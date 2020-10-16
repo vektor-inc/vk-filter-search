@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: VK Filter Search
- * Plugin URI: https://lightning.nagoya/
+ * Plugin URI: https://github.com/vektor-inc/vk-filter-search/
  * Description: This plugin for filter search.
  * Version: 0.1.0
  * Author:  Vektor,Inc.
- * Author URI: https://lightning.nagoya/
+ * Author URI: https://vektor-inc.co.jp
  * Text Domain: vk-filter-search
  * Domain Path: /languages
  * License: GPL 2.0 or Later
