@@ -36,11 +36,11 @@ class VK_Filter_Search {
 	public static function get_keyword_form_html( $label = '', $placeholder = '' ) {
 		$label       = ! empty( $label ) ? $label : __( 'Keyword', 'vk-filter-search' );
 		$placeholder = ! empty( $placeholder ) ? $placeholder : __( 'Input Keyword', 'vk-filter-search' );
-		$placeholder = ! empty( get_query_var( 's' ) ) ? get_query_var( 's' ) : $placeholder;
+		$value       = ! empty( get_query_var( 's' ) ) ? 'value="' . get_query_var( 's' ) . '"' : '';
 
 		$keyword_form_html  = '<label>';
 		$keyword_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
-		$keyword_form_html .= '<input type="text" name="s" id="s" placeholder="' . $placeholder . '" />';
+		$keyword_form_html .= '<input type="text" name="s" id="s" placeholder="' . $placeholder . '"' . $value . '/>';
 		$keyword_form_html .= '</label>';
 		return $keyword_form_html;
 	}
