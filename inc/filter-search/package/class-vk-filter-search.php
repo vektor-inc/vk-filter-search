@@ -81,12 +81,13 @@ class VK_Filter_Search {
 				$post_type_design_html .= '<select name="post_type" id="post_type">';
 				foreach ( $post_types as $post_type ) {
 					if ( ! empty( get_post_type_object( $post_type ) ) ) {
+						$selected = ( get_query_var( 'post_type' ) === $post_type ) ? ' selected' : '';
 						if ( 'post' === $post_type ) {
-							$post_type_design_html .= '<option value="' . $post_type . '">' . $post_label . '</option>';
+							$post_type_design_html .= '<option value="' . $post_type . '"' . $selected . '>' . $post_label . '</option>';
 						} elseif ( 'page' === $post_type ) {
-							$post_type_design_html .= '<option value="' . $post_type . '">' . $page_label . '</option>';
+							$post_type_design_html .= '<option value="' . $post_type . '"' . $selected . '>' . $page_label . '</option>';
 						} else {
-							$post_type_design_html .= '<option value="' . $post_type . '">' . get_post_type_object( $post_type )->labels->singular_name . '</option>';
+							$post_type_design_html .= '<option value="' . $post_type . '"' . $selected . '>' . get_post_type_object( $post_type )->labels->singular_name . '</option>';
 						}
 					}
 				}
