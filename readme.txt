@@ -27,7 +27,6 @@ This plugin can be installed directly from your site.
 == Screenshots ==
 
 1. Editor View
-2. Front View
 
 == Changelog ==
 
