@@ -36,6 +36,7 @@ class VK_Filter_Search {
 	public static function get_keyword_form_html( $label = '', $placeholder = '' ) {
 		$label       = ! empty( $label ) ? $label : __( 'Keyword', 'vk-filter-search' );
 		$placeholder = ! empty( $placeholder ) ? $placeholder : __( 'Input Keyword', 'vk-filter-search' );
+		$placeholder = ! empty( get_query_var( 's' ) ) ? get_query_var( 's' ) : $placeholder;
 
 		$keyword_form_html  = '<label>';
 		$keyword_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
