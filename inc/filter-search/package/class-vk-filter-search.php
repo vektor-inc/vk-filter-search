@@ -79,11 +79,10 @@ class VK_Filter_Search {
 			// デザインに応じて切り替え開始.
 			if ( 'select' === $form_design ) {
 				$post_type_design_html .= '<select name="post_type" id="post_type">';
-				$select_none            = ( 'any' === get_query_var( 'post_type' ) ) ? ' selected="selected"' : '';
-				$post_type_design_html .= '<option value=""' . $select_none . '>' . sprintf( __( 'Do not specify a post type', 'vk-filter-search' ), $label ) . '</option>';
+				$post_type_design_html .= '<option value=""' . selected( 'any', get_query_var( 'post_type' ), false ) . '>' . sprintf( __( 'Do not specify a post type', 'vk-filter-search' ), $label ) . '</option>';
 				foreach ( $post_types as $post_type ) {
 					if ( ! empty( get_post_type_object( $post_type ) ) ) {
-						$selected = ( get_query_var( 'post_type' ) === $post_type ) ? ' selected="selected"' : '';
+						$selected = selected( $post_type, get_query_var( 'post_type' ), false );
 						if ( 'post' === $post_type ) {
 							$post_type_design_html .= '<option value="' . $post_type . '"' . $selected . '>' . $post_label . '</option>';
 						} elseif ( 'page' === $post_type ) {
