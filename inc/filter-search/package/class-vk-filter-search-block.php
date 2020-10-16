@@ -15,6 +15,7 @@ class VK_Filter_Search_Block {
 	 */
 	public function __construct() {
 		add_action( 'init', array( __CLASS__, 'register_block' ) );
+		add_filter( 'render_block', array( __CLASS__, 'render_block_control' ), 10, 2 );
 	}
 
 	/**
@@ -163,6 +164,21 @@ class VK_Filter_Search_Block {
 		$taxonomy = ! empty( $attributes['isSelectedTaxonomy'] ) ? $attributes['isSelectedTaxonomy'] : '';
 
 		return VK_Filter_Search::get_taxonomy_form_html( $taxonomy );
+	}
+
+	/**
+	 * Render Block Control
+	 *
+	 * @param string $block_content The block content about to be appended.
+	 * @param array  $block         The full block, including name and attributes.
+	 */
+	public static function render_block_control( $block_content, $block ) {
+		if ( has_block( 'vk-filter-search/filter-search' ) && ! has_block( 'vk-filter-search/keyword-search' ) ) {
+			$block_content = str_replace( '[no_keyword_hidden_input]', '<input type="hidden" name="s" value="" />', $block_content );
+		} else {
+			$block_content = str_replace( '[no_keyword_hidden_input]', '', $block_content );
+		}
+		return $block_content;
 	}
 }
 new VK_Filter_Search_Block();
