@@ -189,6 +189,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 						{ hiddenPostTypes }
 						<InnerBlocks.Content />
 					</div>
+					[no_keyword_hidden_input]
 					<input className={`btn btn-primary`} type={`submit`} value={ __( 'Refine search', 'vk-filter-search' ) } />
 				</form>
 		);
