@@ -40,7 +40,12 @@ class VK_Filter_Search_Shortcode {
 			$form_before_html .= '<input type="hidden" name="post_type" value=' . $atts['post_type'] . '/>';
 		}
 
-		$content = do_shortcode( shortcode_unautop( $content ) );
+		$inner_content = shortcode_unautop( $content );
+		$content       = do_shortcode( $inner_content );
+
+		if ( false === str_pos( $inner_content, 'vk_filter_search_keyword' ) ) {
+			$content .= '<input type="hidden" name="s" value="" />';
+		}
 
 		$form_after_html  = '</div>';
 		$form_after_html .= '<input class="btn btn-primary" type="submit" value="' . __( 'Refine search', 'vk-filter-search' ) . '" />';
