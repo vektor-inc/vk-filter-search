@@ -43,11 +43,10 @@ class VK_Filter_Search_Shortcode {
 		$inner_content = shortcode_unautop( $content );
 		$content       = do_shortcode( $inner_content );
 
-		if ( false === strpos( $inner_content, 'vk_filter_search_keyword' ) ) {
-			$content .= '<input type="hidden" name="s" value="" />';
-		}
-
 		$form_after_html  = '</div>';
+		if ( false === strpos( $inner_content, 'vk_filter_search_keyword' ) ) {
+			$form_after_html .= '<input type="hidden" name="s" value="" />';
+		}
 		$form_after_html .= '<input class="btn btn-primary" type="submit" value="' . __( 'Refine search', 'vk-filter-search' ) . '" />';
 		$form_after_html .= '</form>';
 
