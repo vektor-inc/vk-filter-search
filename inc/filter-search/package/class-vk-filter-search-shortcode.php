@@ -43,7 +43,7 @@ class VK_Filter_Search_Shortcode {
 		$inner_content = shortcode_unautop( $content );
 		$content       = do_shortcode( $inner_content );
 
-		if ( false === str_pos( $inner_content, 'vk_filter_search_keyword' ) ) {
+		if ( false === strpos( $inner_content, 'vk_filter_search_keyword' ) ) {
 			$content .= '<input type="hidden" name="s" value="" />';
 		}
 
