@@ -95,7 +95,7 @@ registerBlockType( 'vk-filter-search/taxonomy-search', {
 				<InspectorControls>
 					<PanelBody
 						title={ __( 'Taxonomy Option', 'vk-filter-search' ) }
-						initialOpen={ false }
+						initialOpen={ true }
 					>
 						<BaseControl
 							id={ 'vsfs03' }

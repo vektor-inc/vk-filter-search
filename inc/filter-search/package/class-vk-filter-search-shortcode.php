@@ -27,9 +27,18 @@ class VK_Filter_Search_Shortcode {
 	 * @param string $content Inner Contents.
 	 */
 	public static function add_search_form_shortcode( $atts = array(), $content = null ) {
+		$atts = shortcode_atts(
+			array(
+				'post_type' => '',
+			),
+			$atts
+		);
 
 		$form_before_html  = '<form class="vk-filter-search vkfs" method="get" action="' . site_url( '/' ) . '">';
 		$form_before_html .= '<div class="vkfs__labels">';
+		if ( ! empty( $atts['post_type'] ) ) {
+			$form_before_html .= '<input type="hidden" name="post_type" value=' . $atts['post_type'] . '/>';
+		}
 
 		$content = do_shortcode( shortcode_unautop( $content ) );
 
