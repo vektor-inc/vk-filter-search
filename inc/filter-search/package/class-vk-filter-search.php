@@ -69,32 +69,13 @@ class VK_Filter_Search {
 		$form_design       = ! empty( $form_design ) && in_array( $form_design, $form_style_option, true ) ? $form_design : 'select';
 
 		// 変数の初期化.
-		$post_type_form_html   = '';
-		$post_type_design_html = '';
+		$post_type_form_html = '';
 
 		// 描画開始.
 		if ( ! empty( $post_types ) ) {
 			$post_type_form_html .= '<label>';
 			$post_type_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
-			// デザインに応じて切り替え開始.
-			if ( 'select' === $form_design ) {
-				$post_type_design_html .= '<select name="post_type" id="post_type">';
-				$post_type_design_html .= '<option value=""' . selected( 'any', get_query_var( 'post_type' ), false ) . '>' . sprintf( __( 'Do not specify a post type', 'vk-filter-search' ), $label ) . '</option>';
-				foreach ( $post_types as $post_type ) {
-					if ( ! empty( get_post_type_object( $post_type ) ) ) {
-						$selected = selected( $post_type, get_query_var( 'post_type' ), false );
-						if ( 'post' === $post_type ) {
-							$post_type_design_html .= '<option value="' . $post_type . '"' . $selected . '>' . $post_label . '</option>';
-						} elseif ( 'page' === $post_type ) {
-							$post_type_design_html .= '<option value="' . $post_type . '"' . $selected . '>' . $page_label . '</option>';
-						} else {
-							$post_type_design_html .= '<option value="' . $post_type . '"' . $selected . '>' . get_post_type_object( $post_type )->labels->singular_name . '</option>';
-						}
-					}
-				}
-				$post_type_design_html .= '</select>';
-			}
-			$post_type_form_html .= apply_filters( 'vk_search_filter_post_type_design_html', $post_type_design_html );
+			$post_type_form_html .= self::get_post_type_design_html( $post_types, $post_label, $page_label, $form_design );
 			$post_type_form_html .= '</label>';
 		} elseif ( ! is_front_page() && ! is_home() && ! is_singular() && ! is_archive() && ! is_search() && ! is_404() && ! is_preview() ) {
 			$post_type_form_html .= '<div class="vkfs__warning">';
@@ -108,6 +89,83 @@ class VK_Filter_Search {
 		}
 
 		return $post_type_form_html;
+	}
+
+	/**
+	 * Get Post Type Filter Design HTML
+	 *
+	 * @param array  $post_types  filtering post types.
+	 * @param string $post_label  label for post.
+	 * @param string $page_label  label for page.
+	 * @param string $form_design design of form.
+	 */
+	public static function get_post_type_design_html( $post_types = array( 'post', 'page' ), $post_label = '', $page_label = '', $form_design = 'select' ) {
+		// 投稿タイプの調整.
+		$post_types = ! empty( $post_types ) ? $post_types : array( 'post', 'page' );
+
+		// ラベルの調整.
+		$post_label = ! empty( $post_label ) ? $post_label : get_post_type_object( 'post' )->labels->singular_name;
+		$page_label = ! empty( $page_label ) ? $page_label : get_post_type_object( 'page' )->labels->singular_name;
+
+		// デザインの調整.
+		$form_style_option = self::form_style_option();
+		$form_design       = ! empty( $form_design ) && in_array( $form_design, $form_style_option, true ) ? $form_design : 'select';
+
+		// 変数の初期化.
+		$post_type_design_html = '';
+
+		// デザインに応じて切り替え開始.
+		if ( 'select' === $form_design ) {
+
+			// パーツを配列に格納.
+			$option_parts = array(
+				'any' => array(
+					'value'    => 'any',
+					'selected' => selected( 'any', get_query_var( 'post_type' ), false ),
+					'label'    => __( 'Do not specify a post type', 'vk-filter-search' ),
+				),
+			);
+
+			foreach ( $post_types as $post_type ) {
+				if ( ! empty( get_post_type_object( $post_type ) ) ) {
+					$selected = selected( $post_type, get_query_var( 'post_type' ), false );
+					if ( 'post' === $post_type ) {
+						$option_parts[] = array(
+							$post_type => array(
+								'value'    => $post_type,
+								'selected' => $selected,
+								'label'    => $post_label,
+							),
+						);
+					} elseif ( 'page' === $post_type ) {
+						$option_parts[] = array(
+							$post_type => array(
+								'value'    => $post_type,
+								'selected' => $selected,
+								'label'    => $page_label,
+							),
+						);
+					} else {
+						$option_parts[] = array(
+							$post_type => array(
+								'value'    => $post_type,
+								'selected' => $selected,
+								'label'    => get_post_type_object( $post_type )->labels->singular_name,
+							),
+						);
+					}
+				}
+			}
+
+			// 描画開始.
+			$post_type_design_html .= '<select name="post_type" id="post_type">';
+
+			foreach ( $option_parts as $option_part ) {
+				$post_type_design_html .= '<option value="' . $option_part['value'] . '"' . $option_part['selected'] . '>' . $option_part['label'] . '</option>';
+			}
+			$post_type_design_html .= '</select>';
+		}
+		return apply_filters( 'vk_search_filter_post_type_design_html', $post_type_design_html );
 	}
 
 	/**
@@ -139,60 +197,7 @@ class VK_Filter_Search {
 		if ( ! empty( $taxonomy_object ) && ! empty( $taxonomy_terms ) ) {
 			$taxonomy_form_html .= '<label>';
 			$taxonomy_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
-			// デザインに応じて HTML を描画.
-			if ( 'select' === $form_design ) {
-				// 分類毎に出力を表示.
-				if ( 'category' === $taxonomy ) {
-					$taxonomy_design_html .= wp_dropdown_categories(
-						array(
-							// Translators: All of Category.
-							// 'show_option_all'  => sprintf( __( 'All of %s', 'vk-filter-search' ), $label ),
-							// Translators: None of Category.
-							'show_option_none'  => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
-							'option_none_value' => '',
-							'orderby'           => 'name',
-							'echo'              => false,
-							'selected'          => get_query_var( 'category_name' ),
-							'name'              => 'category_name',
-							'taxonomy'          => 'category',
-							'value_field'       => 'slug',
-						)
-					);
-				} elseif ( 'post_tag' === $taxonomy ) {
-					$taxonomy_design_html .= wp_dropdown_categories(
-						array(
-							// Translators: All of Tag.
-							// 'show_option_all'  => sprintf( __( 'All of %s', 'vk-filter-search' ), $label ),
-							// Translators: None of Tag.
-							'show_option_none'  => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
-							'option_none_value' => '',
-							'orderby'           => 'name',
-							'echo'              => false,
-							'selected'          => get_query_var( 'tag' ),
-							'name'              => 'tag',
-							'taxonomy'          => 'post_tag',
-							'value_field'       => 'slug',
-						)
-					);
-				} else {
-					$taxonomy_design_html .= wp_dropdown_categories(
-						array(
-							// Translators: All of the taxonomy.
-							// 'show_option_all'  => sprintf( __( 'All of %s', 'vk-filter-search' ), $label ),
-							// Translators: None of the taxonomy.
-							'show_option_none'  => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
-							'option_none_value' => '',
-							'orderby'           => 'name',
-							'selected'          => get_query_var( $taxonomy_object->name ),
-							'echo'              => false,
-							'name'              => $taxonomy_object->name,
-							'taxonomy'          => $taxonomy_object->name,
-							'value_field'       => 'slug',
-						)
-					);
-				}
-			}
-			$taxonomy_form_html .= apply_filters( 'vk_search_filter_taxonomy_design_html', $taxonomy_design_html );
+			$taxonomy_form_html .= self::get_taxonomy_design_html( $taxonomy, $form_design );
 			$taxonomy_form_html .= '</label>';
 		} elseif ( ! is_front_page() && ! is_home() && ! is_singular() && ! is_archive() && ! is_search() && ! is_404() && ! is_preview() ) {
 			$taxonomy_form_html .= '<div class="vkfs__warning">';
@@ -211,6 +216,82 @@ class VK_Filter_Search {
 			$taxonomy_form_html .= '</div>';
 		}
 		return $taxonomy_form_html;
+	}
+
+	/**
+	 * Get Taxonomy Filter Design HTML
+	 *
+	 * @param string $taxonomy name of taxonomy.
+	 * @param string $form_design design of form.
+	 */
+	public static function get_taxonomy_design_html( $taxonomy = 'category', $form_design = 'select' ) {
+
+		// タクソノミーの調整.
+		$taxonomy        = ! empty( $taxonomy ) ? $taxonomy : '';
+		$taxonomy_object = get_taxonomy( $taxonomy );
+		$taxonomy_terms  = get_terms( $taxonomy );
+
+		// デザインの調整.
+		$form_style_option = self::form_style_option();
+		$form_design       = ! empty( $form_design ) && in_array( $form_design, $form_style_option, true ) ? $form_design : 'select';
+
+		// 変数を初期化.
+		$taxonomy_design_html = '';
+
+		// デザインに応じて HTML を描画.
+		if ( 'select' === $form_design ) {
+			// 分類毎に出力を表示.
+			if ( 'category' === $taxonomy ) {
+				$taxonomy_design_html .= wp_dropdown_categories(
+					array(
+						// Translators: All of Category.
+						// 'show_option_all'  => sprintf( __( 'All of %s', 'vk-filter-search' ), $label ),
+						// Translators: None of Category.
+						'show_option_none'  => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
+						'option_none_value' => '',
+						'orderby'           => 'name',
+						'echo'              => false,
+						'selected'          => get_query_var( 'category_name' ),
+						'name'              => 'category_name',
+						'taxonomy'          => 'category',
+						'value_field'       => 'slug',
+					)
+				);
+			} elseif ( 'post_tag' === $taxonomy ) {
+				$taxonomy_design_html .= wp_dropdown_categories(
+					array(
+						// Translators: All of Tag.
+						// 'show_option_all'  => sprintf( __( 'All of %s', 'vk-filter-search' ), $label ),
+						// Translators: None of Tag.
+						'show_option_none'  => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
+						'option_none_value' => '',
+						'orderby'           => 'name',
+						'echo'              => false,
+						'selected'          => get_query_var( 'tag' ),
+						'name'              => 'tag',
+						'taxonomy'          => 'post_tag',
+						'value_field'       => 'slug',
+					)
+				);
+			} else {
+				$taxonomy_design_html .= wp_dropdown_categories(
+					array(
+						// Translators: All of the taxonomy.
+						// 'show_option_all'  => sprintf( __( 'All of %s', 'vk-filter-search' ), $label ),
+						// Translators: None of the taxonomy.
+						'show_option_none'  => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
+						'option_none_value' => '',
+						'orderby'           => 'name',
+						'selected'          => get_query_var( $taxonomy_object->name ),
+						'echo'              => false,
+						'name'              => $taxonomy_object->name,
+						'taxonomy'          => $taxonomy_object->name,
+						'value_field'       => 'slug',
+					)
+				);
+			}
+		}
+		return apply_filters( 'vk_search_filter_taxonomy_design_html', $taxonomy_design_html );
 	}
 
 	/**
