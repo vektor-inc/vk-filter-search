@@ -197,7 +197,7 @@ class VK_Filter_Search {
 		if ( ! empty( $taxonomy_object ) && ! empty( $taxonomy_terms ) ) {
 			$taxonomy_form_html .= '<label>';
 			$taxonomy_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
-			$taxonomy_form_html .= self::get_taxonomy_design_html( $taxonomy, $form_design );
+			$taxonomy_form_html .= self::get_taxonomy_design_html( $taxonomy, $label, $form_design );
 			$taxonomy_form_html .= '</label>';
 		} elseif ( ! is_front_page() && ! is_home() && ! is_singular() && ! is_archive() && ! is_search() && ! is_404() && ! is_preview() ) {
 			$taxonomy_form_html .= '<div class="vkfs__warning">';
@@ -224,7 +224,7 @@ class VK_Filter_Search {
 	 * @param string $taxonomy name of taxonomy.
 	 * @param string $form_design design of form.
 	 */
-	public static function get_taxonomy_design_html( $taxonomy = 'category', $form_design = 'select' ) {
+	public static function get_taxonomy_design_html( $taxonomy = 'category', $label = '', $form_design = 'select' ) {
 
 		// タクソノミーの調整.
 		$taxonomy        = ! empty( $taxonomy ) ? $taxonomy : '';
