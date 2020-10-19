@@ -161,7 +161,7 @@ class VK_Filter_Search {
 			$post_type_design_html .= '<select name="post_type" id="post_type">';
 
 			foreach ( $option_parts as $option_part ) {
-				$post_type_design_html .= '<option value="' . $option_part['value'] . '"' . $option_part['selected'] . '>' . $option_part['label'] . '</option>';
+				$post_type_design_html .= '<option value="' . $option_part['value'] . '" ' . $option_part['selected'] . '>' . $option_part['label'] . '</option>';
 			}
 			$post_type_design_html .= '</select>';
 		}
