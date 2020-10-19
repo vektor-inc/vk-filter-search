@@ -171,7 +171,7 @@ class VK_Filter_Search {
 	/**
 	 * Get Taxonomy Filter Form HTML
 	 *
-	 * @param string $taxonomy name of taxonomy.
+	 * @param string $taxonomy    name of taxonomy.
 	 * @param string $label       label of form.
 	 * @param string $form_design design of form.
 	 */
@@ -221,7 +221,8 @@ class VK_Filter_Search {
 	/**
 	 * Get Taxonomy Filter Design HTML
 	 *
-	 * @param string $taxonomy name of taxonomy.
+	 * @param string $taxonomy    name of taxonomy.
+	 * @param string $label       label of form.
 	 * @param string $form_design design of form.
 	 */
 	public static function get_taxonomy_design_html( $taxonomy = 'category', $label = '', $form_design = 'select' ) {
