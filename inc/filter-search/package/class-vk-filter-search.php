@@ -159,7 +159,7 @@ class VK_Filter_Search {
 			}
 			$post_type_design_html .= '</select>';
 		}
-		return apply_filters( 'vk_search_filter_post_type_design_html', $post_type_design_html );
+		return apply_filters( 'vk_search_filter_post_type_design_html', $post_type_design_html, $post_types, $post_label, $page_label, $form_design );
 	}
 
 	/**
@@ -286,7 +286,8 @@ class VK_Filter_Search {
 				);
 			}
 		}
-		return apply_filters( 'vk_search_filter_taxonomy_design_html', $taxonomy_design_html );
+		return apply_filters( 'vk_search_filter_taxonomy_design_html', $taxonomy_design_html, $taxonomy, $label, $form_design );
+
 	}
 
 	/**
