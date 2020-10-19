@@ -119,7 +119,7 @@ class VK_Filter_Search {
 
 			// パーツを配列に格納.
 			$option_parts = array(
-				'any' => array(
+				array(
 					'value'    => 'any',
 					'selected' => selected( 'any', get_query_var( 'post_type' ), false ),
 					'label'    => __( 'Do not specify a post type', 'vk-filter-search' ),
@@ -131,27 +131,21 @@ class VK_Filter_Search {
 					$selected = selected( $post_type, get_query_var( 'post_type' ), false );
 					if ( 'post' === $post_type ) {
 						$option_parts[] = array(
-							$post_type => array(
-								'value'    => $post_type,
-								'selected' => $selected,
-								'label'    => $post_label,
-							),
+							'value'    => $post_type,
+							'selected' => $selected,
+							'label'    => $post_label,
 						);
 					} elseif ( 'page' === $post_type ) {
 						$option_parts[] = array(
-							$post_type => array(
-								'value'    => $post_type,
-								'selected' => $selected,
-								'label'    => $page_label,
-							),
+							'value'    => $post_type,
+							'selected' => $selected,
+							'label'    => $page_label,
 						);
 					} else {
 						$option_parts[] = array(
-							$post_type => array(
-								'value'    => $post_type,
-								'selected' => $selected,
-								'label'    => get_post_type_object( $post_type )->labels->singular_name,
-							),
+							'value'    => $post_type,
+							'selected' => $selected,
+							'label'    => get_post_type_object( $post_type )->labels->singular_name,
 						);
 					}
 				}
