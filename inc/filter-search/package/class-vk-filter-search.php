@@ -152,7 +152,7 @@ class VK_Filter_Search {
 			}
 
 			// 描画開始.
-			$post_type_design_html .= '<select name="post_type" id="post_type">';
+			$post_type_design_html .= '<select name="post_types[]" id="post_type">';
 
 			foreach ( $option_parts as $option_part ) {
 				$post_type_design_html .= '<option value="' . $option_part['value'] . '" ' . $option_part['selected'] . '>' . $option_part['label'] . '</option>';
@@ -297,8 +297,8 @@ class VK_Filter_Search {
 	 */
 	public static function pre_get_posts_on_page_result( $query ) {
 		if ( ! is_admin() && $query->is_main_query() ) {
-			if ( isset( $_GET['post_type'] ) && isset( $_GET['s'] ) && 'page' === $_GET['post_type'] ) {
-				$query->set( 'post_type', 'page' );
+			if ( isset( $_GET['post_types'] ) ) {
+				$query->set( 'post_type', $_GET['post_types'] );
 			}
 		}
 	}
