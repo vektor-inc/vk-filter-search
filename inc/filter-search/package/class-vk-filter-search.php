@@ -298,7 +298,7 @@ class VK_Filter_Search {
 	public static function pre_get_posts_on_page_result( $query ) {
 		if ( ! is_admin() && $query->is_main_query() ) {
 			if ( isset( $_GET['post_types'] ) ) {
-				$query->set( 'post_type', $_GET['post_types'] );
+				$query->set( 'post_type', wp_unslash( $_GET['post_types'] ) );
 			}
 		}
 	}
