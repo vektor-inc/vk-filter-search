@@ -125,15 +125,22 @@ class VK_Filter_Search {
 			array(
 				// translators: Don't specify Post Type.
 				'label'    => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
-				'value'    => 'any',
-				'selected' => is_array( get_query_var( 'post_type' ) ) && in_array( 'any', get_query_var( 'post_type' ), true ) ? 'selected' : '',
+				'value'    => '',
+				'selected' => '' === get_query_var( 'post_type' ) ? 'selected' : '',
+				'checked'  => '' === get_query_var( 'post_type' ) ? 'checked' : '',
 			),
 		);
 
 		foreach ( $post_types as $post_type ) {
 			if ( ! empty( get_post_type_object( $post_type ) ) ) {
-				$selected = is_array( get_query_var( 'post_type' ) ) && in_array( $post_type, get_query_var( 'post_type' ), true ) ? 'selected' : '';
-				$checked  = is_array( get_query_var( 'post_type' ) ) && in_array( $post_type, get_query_var( 'post_type' ), true ) ? 'checked' : '';
+				$condition = false;
+				if ( is_array( get_query_var( 'post_type' ) ) && in_array( $post_type, get_query_var( 'post_type' ), true ) ) {
+					$condition = true;
+				} elseif ( get_query_var( 'post_type' ) === $post_type ) {
+					$condition = true;
+				}
+				$selected = true === $condition ? 'selected' : '';
+				$checked  = true === $condition ? 'checked' : '';
 				if ( 'post' === $post_type ) {
 					$post_type_option_array[] = array(
 						'value'    => $post_type,
@@ -596,7 +603,12 @@ class VK_Filter_Search {
 
 			// 投稿タイプ.
 			if ( isset( $_GET['post_type'] ) ) {
-				$query->set( 'post_type', explode( ',', sanitize_text_field( wp_unslash( $_GET['post_type'] ) ) ) );
+				$post_types = sanitize_text_field( wp_unslash( $_GET['post_type'] ) );
+				if ( false !== strpos( $post_types, ' ' ) ) {
+					$query->set( 'post_type', explode( ',', $post_types ) );
+				} else {
+					$query->set( 'post_type', $post_types );
+				}
 			}
 
 			// カテゴリー.
