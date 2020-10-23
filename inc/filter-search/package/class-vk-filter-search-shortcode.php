@@ -37,7 +37,7 @@ class VK_Filter_Search_Shortcode {
 		$form_before_html  = '<form class="vk-filter-search vkfs" method="get" action="' . site_url( '/' ) . '">';
 		$form_before_html .= '<div class="vkfs__labels">';
 		if ( ! empty( $atts['post_type'] ) ) {
-			$form_before_html .= '<input type="hidden" name="post_type" value="' . $atts['post_type'] . '" />';
+			$form_before_html .= '<input type="hidden" name="vkfs_post_type[]" value="' . $atts['post_type'] . '" />';
 		}
 
 		$inner_content = shortcode_unautop( $content );
@@ -47,10 +47,13 @@ class VK_Filter_Search_Shortcode {
 		if ( false === strpos( $inner_content, 'vk_filter_search_keyword' ) ) {
 			$form_after_html .= '<input type="hidden" name="s" value="" />';
 		}
+		$form_after_html .= '<input type="hidden" name="vkfs_submitted" value="true" />';
 		$form_after_html .= '<input class="btn btn-primary" type="submit" value="' . __( 'Refine search', 'vk-filter-search' ) . '" />';
 		$form_after_html .= '</form>';
 
-		return $form_before_html . $content . $form_after_html;
+		$search_form = $form_before_html . $content . $form_after_html;
+		$search_form = preg_replace( '/\<p\>|\<\/p\>|\<br \/\>/', '', $search_form );
+		return $search_form;
 	}
 
 	/**
