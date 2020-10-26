@@ -3,6 +3,7 @@ import './editor.scss';
 import {
 	UsePostTypes,
 } from '../common/component';
+import { deprecated } from "./deprecated/deprecated";
 
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
@@ -180,7 +181,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 			hiddenPostTypes = '';
 		}
 		else {
-			hiddenPostTypes = <input type="hidden" name="post_type" value={ TargetPostType } />;
+			hiddenPostTypes = <input type="hidden" name="vkfs_post_type[]" value={ TargetPostType } />;
 		}
 
 		return (
@@ -190,8 +191,10 @@ registerBlockType( 'vk-filter-search/filter-search', {
 						<InnerBlocks.Content />
 					</div>
 					[no_keyword_hidden_input]
+					<input type="hidden" name="vkfs_submitted" value="true" />
 					<input className={`btn btn-primary`} type={`submit`} value={ __( 'Refine search', 'vk-filter-search' ) } />
 				</form>
 		);
-	}
+	},
+	deprecated
 } );
