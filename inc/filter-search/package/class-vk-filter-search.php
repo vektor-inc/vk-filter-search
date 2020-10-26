@@ -667,7 +667,7 @@ class VK_Filter_Search {
 		register_post_type(
 			'vk-filter-search',
 			array(
-				'label'        => $vkfs_prefix . __( 'Filter Search Form', 'vk-filter-search' ),
+				'label'        => $vkfs_prefix . __( 'Filter Search', 'vk-filter-search' ),
 				'public'       => false,
 				'show_ui'      => true,
 				'show_in_menu' => true,

@@ -76,9 +76,9 @@ class VK_Filter_Search_Block {
 			wp_set_script_translations( 'vk-filter-search-js', 'vk-filter-search', VKFS_PATH . '/languages' );
 		}
 
-		// call-filter-search.
+		// call-search-form.
 		register_block_type(
-			'vk-filter-search/call-filter-search',
+			'vk-filter-search/call-search-form',
 			array(
 				'style'           => 'vk-filter-search',
 				'editor_style'    => 'vk-filter-search-editor',
@@ -160,9 +160,8 @@ class VK_Filter_Search_Block {
 		global $vkfs_before_form_id;
 		$vkfs_before_form_id = ! empty( $attributes['isCheckedPostType'] ) ? $attributes['isCheckedPostType'] : -1;
 
-		$content = apply_filters( 'the_content', get_the_content( $vkfs_before_form_id ) );
-		$content = str_replace( ']]>', ']]&gt;', $content );
-		return $content;
+		$form_content = get_the_content( 2299 );
+		return $form_content;
 	}
 
 	/**

@@ -1,10 +1,12 @@
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 const { Fragment } = wp.element;
+const { PanelBody, BaseControl, SelectControl } = wp.components;
+const { InspectorControls } = wp.blockEditor;
 const ServerSideRender = wp.serverSideRender;
 
-registerBlockType( 'vk-filter-search/call-filter-search', {
-	title: __('Call Filter Search','vk-filter-search' ),
+registerBlockType( 'vk-filter-search/call-search-form', {
+	title: __('Call Search Form','vk-filter-search' ),
 	icon: (
 		<svg
 			height="25"
@@ -33,16 +35,41 @@ registerBlockType( 'vk-filter-search/call-filter-search', {
 		</svg>
 	),
 	category: 'vk-blocks-cat',
-	TargetPost: {
-		type: "number",
-		default: -1,
+	attributes: {
+		TargetPost: {
+			type: "number",
+			default: -1,
+		},
 	},
 
-	edit: () => {
+
+	edit: ( props ) => {
+		const { attributes, setAttributes } = props;
+
+		const {
+			TargetPost,
+		} = attributes;
 		return (
 			<Fragment>
+				<InspectorControls>
+					<PanelBody
+						title={ __( 'Taxonomy Option', 'vk-filter-search' ) }
+						initialOpen={ true }
+					>
+						<BaseControl
+							id={ 'vsfs-call-01' }
+						>
+							<SelectControl
+								label={ __( 'Select Form', 'vk-filter-search' ) }
+								value={ TargetPost }
+								options={ vk_filter_search_posts }
+								onChange={ value => setAttributes({ TargetPost: value }) }
+							/>
+						</BaseControl>
+					</PanelBody>
+				</InspectorControls>
 				<ServerSideRender
-					block="vk-filter-search/call-filter-search"
+					block="vk-filter-search/call-search-form"
 				/>
 			</Fragment>
 		);
