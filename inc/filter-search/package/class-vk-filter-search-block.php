@@ -5,6 +5,9 @@
  * @package VK Filter Search
  */
 
+global $vkfs_before_form_id;
+var_dump($vkfs_before_form_id  );
+
 /**
  * VK Filter Search Block
  */
@@ -16,6 +19,15 @@ class VK_Filter_Search_Block {
 	public function __construct() {
 		add_action( 'init', array( __CLASS__, 'register_block' ) );
 		add_filter( 'render_block', array( __CLASS__, 'render_block_control' ), 10, 2 );
+		// add_action( 'loop_start', array( __CLASS__, 'display_form_on_loop' ) );
+		add_filter( 'vkfs_form_content', 'do_blocks', 9 );
+		add_filter( 'vkfs_form_content', 'wptexturize' );
+		add_filter( 'vkfs_form_content', 'convert_smilies', 20 );
+		add_filter( 'vkfs_form_content', 'shortcode_unautop' );
+		add_filter( 'vkfs_form_content', 'prepend_attachment' );
+		add_filter( 'vkfs_form_content', 'wp_filter_content_tags' );
+		add_filter( 'vkfs_form_content', 'do_shortcode', 11 );
+		add_filter( 'vkfs_form_content', 'capital_P_dangit', 11 );
 	}
 
 	/**
@@ -150,7 +162,7 @@ class VK_Filter_Search_Block {
 					),
 				),
 				'render_callback' => array( __CLASS__, 'render_taxonomy_callback' ),
-			)
+			),
 		);
 	}
 
@@ -168,8 +180,8 @@ class VK_Filter_Search_Block {
 			)
 		);
 		global $vkfs_before_form_id;
-		$vkfs_before_form_id = ! empty( $attributes['TargetPost'] ) ? absint( $attributes['TargetPost'] ) : null;
-		return apply_filters( 'the_content', get_post( $vkfs_before_form_id )->post_content );
+		$vkfs_before_form_id = ! empty( $attributes['TargetPost'] ) ? absint( $attributes['TargetPost'] ) : -1;
+		return apply_filters( 'vkfs_form_content', get_post( $vkfs_before_form_id )->post_content );
 	}
 
 	/**
@@ -239,6 +251,15 @@ class VK_Filter_Search_Block {
 			$block_content = str_replace( '[no_keyword_hidden_input]', '', $block_content );
 		}
 		return $block_content;
+	}
+
+	public static function display_form_on_loop() {
+		$content_id = apply_filters( 'vkfs_before_form_id', 0 );
+		global $vkfs_before_form_id;
+		var_dump( $vkfs_before_form_id );
+		if ( is_search() ) {
+			echo self::render_call_form_callback();
+		}
 	}
 }
 new VK_Filter_Search_Block();
