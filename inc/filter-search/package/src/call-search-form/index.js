@@ -49,11 +49,21 @@ registerBlockType( 'vk-filter-search/call-search-form', {
 		const {
 			TargetPost,
 		} = attributes;
+
+		let editContent;
+		if ( TargetPost === -1 ) {
+			editContent = <p>{ __( 'Because no post is selected, The block Will not render', 'vk-filter-search' ) }</p>;
+		} else {
+			editContent = <ServerSideRender
+				block="vk-filter-search/call-search-form"
+				attributes={ props.attributes }
+			/>
+		}
 		return (
 			<Fragment>
 				<InspectorControls>
 					<PanelBody
-						title={ __( 'Taxonomy Option', 'vk-filter-search' ) }
+						title={ __( 'Form Option', 'vk-filter-search' ) }
 						initialOpen={ true }
 					>
 						<BaseControl
@@ -63,16 +73,13 @@ registerBlockType( 'vk-filter-search/call-search-form', {
 								label={ __( 'Select Form', 'vk-filter-search' ) }
 								value={ TargetPost }
 								options={ vk_filter_search_posts }
-								onChange={ value => setAttributes({ TargetPost: value }) }
+								onChange={ value => setAttributes({ TargetPost: parseInt(value, 10) }) }
 							/>
 						</BaseControl>
 					</PanelBody>
 				</InspectorControls>
-				<ServerSideRender
-					block="vk-filter-search/call-search-form"
-					attributes={ props.attributes }
-				/>
+				{ editContent }
 			</Fragment>
 		);
 	},
-} );
+});

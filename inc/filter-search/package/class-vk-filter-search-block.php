@@ -176,8 +176,7 @@ class VK_Filter_Search_Block {
 				'TargetPost' => -1,
 			)
 		);
-		global $vkfs_before_form_id;
-		$vkfs_before_form_id = ! empty( $attributes['TargetPost'] ) ? intval( $attributes['TargetPost'] ) : -1;
+		$vkfs_before_form_id = ! empty( $attributes['TargetPost'] ) ? $attributes['TargetPost'] : -1;
 		return apply_filters( 'vkfs_form_content', get_post( $vkfs_before_form_id )->post_content );
 	}
 
