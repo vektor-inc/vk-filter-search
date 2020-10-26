@@ -53,7 +53,12 @@ class VK_Filter_Search_Block {
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_url', site_url( '/' ) );
 
 		// 選択可能なリストを抽出.
-		$option_posts = array();
+		$option_posts = array(
+			array(
+				'label' => __( 'Unspecified', 'vk-filter-search' ),
+				'value' => -1,
+			),
+		);
 
 		$the_args = array(
 			'posts_per_page' => -1,
@@ -83,6 +88,12 @@ class VK_Filter_Search_Block {
 				'style'           => 'vk-filter-search',
 				'editor_style'    => 'vk-filter-search-editor',
 				'editor_script'   => 'vk-filter-search-js',
+				'attributes'      => array(
+					'TargetPost' => array(
+						'type'    => 'number',
+						'default' => -1,
+					),
+				),
 				'render_callback' => array( __CLASS__, 'render_call_form_callback' ),
 			)
 		);
@@ -156,12 +167,9 @@ class VK_Filter_Search_Block {
 				'TargetPost' => -1,
 			)
 		);
-
 		global $vkfs_before_form_id;
-		$vkfs_before_form_id = ! empty( $attributes['isCheckedPostType'] ) ? $attributes['isCheckedPostType'] : -1;
-
-		$form_content = get_the_content( 2299 );
-		return $form_content;
+		$vkfs_before_form_id = ! empty( $attributes['TargetPost'] ) ? absint( $attributes['TargetPost'] ) : null;
+		return apply_filters( 'the_content', get_post( $vkfs_before_form_id )->post_content );
 	}
 
 	/**

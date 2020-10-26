@@ -70,6 +70,7 @@ registerBlockType( 'vk-filter-search/call-search-form', {
 				</InspectorControls>
 				<ServerSideRender
 					block="vk-filter-search/call-search-form"
+					attributes={ props.attributes }
 				/>
 			</Fragment>
 		);
