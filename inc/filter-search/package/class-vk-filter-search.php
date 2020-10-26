@@ -589,6 +589,23 @@ class VK_Filter_Search {
 				// 値を追加.
 				$url .= 's=' . $keyword;
 			}
+
+			// キーワードの処理.
+			if ( isset( $_GET['vkfs_form_id'] ) ) {
+				$vkfs_form_id = sanitize_text_field( wp_unslash( $_GET['vkfs_form_id'] ) );
+
+				// ? か & を追加.
+				if ( false === $has_question ) {
+					$url         .= '?';
+					$has_question = true;
+				} else {
+					$url .= '&';
+				}
+
+				// 値を追加.
+				$url .= 'vkfs_form_id=' . $vkfs_form_id;
+			}
+			
 			wp_safe_redirect( home_url() . $url );
 			exit;
 		}

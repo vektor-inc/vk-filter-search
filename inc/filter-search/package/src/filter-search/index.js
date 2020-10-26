@@ -175,6 +175,8 @@ registerBlockType( 'vk-filter-search/filter-search', {
 			TargetPostType,
 		} = attributes;
 
+		const post_id = wp.data.select("core/editor").getCurrentPostId();
+
 		let hiddenPostTypes;
 
 		if ( TargetPostType === '' ) {
@@ -192,6 +194,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 					</div>
 					[no_keyword_hidden_input]
 					<input type="hidden" name="vkfs_submitted" value="true" />
+					<input type="hidden" name="vkfs_form_id" value={ post_id } />
 					<input className={`btn btn-primary`} type={`submit`} value={ __( 'Refine search', 'vk-filter-search' ) } />
 				</form>
 		);

@@ -5,9 +5,6 @@
  * @package VK Filter Search
  */
 
-global $vkfs_before_form_id;
-var_dump($vkfs_before_form_id  );
-
 /**
  * VK Filter Search Block
  */
@@ -19,7 +16,7 @@ class VK_Filter_Search_Block {
 	public function __construct() {
 		add_action( 'init', array( __CLASS__, 'register_block' ) );
 		add_filter( 'render_block', array( __CLASS__, 'render_block_control' ), 10, 2 );
-		// add_action( 'loop_start', array( __CLASS__, 'display_form_on_loop' ) );
+		add_action( 'loop_start', array( __CLASS__, 'display_form_on_loop' ) );
 		add_filter( 'vkfs_form_content', 'do_blocks', 9 );
 		add_filter( 'vkfs_form_content', 'wptexturize' );
 		add_filter( 'vkfs_form_content', 'convert_smilies', 20 );
@@ -180,7 +177,7 @@ class VK_Filter_Search_Block {
 			)
 		);
 		global $vkfs_before_form_id;
-		$vkfs_before_form_id = ! empty( $attributes['TargetPost'] ) ? absint( $attributes['TargetPost'] ) : -1;
+		$vkfs_before_form_id = ! empty( $attributes['TargetPost'] ) ? intval( $attributes['TargetPost'] ) : -1;
 		return apply_filters( 'vkfs_form_content', get_post( $vkfs_before_form_id )->post_content );
 	}
 
@@ -253,12 +250,48 @@ class VK_Filter_Search_Block {
 		return $block_content;
 	}
 
+	/**
+	 * Display Search Form on Loop
+	 */
 	public static function display_form_on_loop() {
-		$content_id = apply_filters( 'vkfs_before_form_id', 0 );
-		global $vkfs_before_form_id;
-		var_dump( $vkfs_before_form_id );
-		if ( is_search() ) {
-			echo self::render_call_form_callback();
+		if ( isset( $_GET['vkfs_form_id'] ) ) {
+			$form_id = intval( sanitize_text_field( wp_unslash( $_GET['vkfs_form_id'] ) ) );
+
+			$content_html = apply_filters( 'vkfs_form_content', get_post( $form_id )->post_content );
+			$allowed_html = array(
+				'div'    => array(
+					'id'    => array(),
+					'class' => array(),
+				),
+				'label'  => array(
+					'id'    => array(),
+					'class' => array(),
+					'for'   => array(),
+				),
+				'input'  => array(
+					'id'          => array(),
+					'class'       => array(),
+					'type'        => array(),
+					'name'        => array(),
+					'value'       => array(),
+					'placeholder' => array(),
+					'checked'     => array(),
+				),
+				'select' => array(
+					'id'    => array(),
+					'class' => array(),
+					'name'  => array(),
+				),
+				'option' => array(
+					'id'       => array(),
+					'class'    => array(),
+					'value'    => array(),
+					'selected' => array(),
+				),
+			);
+			if ( is_search() ) {
+				echo wp_kses( $content_html, $allowed_html );
+			}
 		}
 	}
 }
