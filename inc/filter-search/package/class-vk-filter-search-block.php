@@ -52,9 +52,40 @@ class VK_Filter_Search_Block {
 
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_url', site_url( '/' ) );
 
+		// 選択可能なリストを抽出.
+		$option_posts = array();
+
+		$the_args = array(
+			'posts_per_page' => -1,
+			'post_type'      => 'vk-filter-search',
+		);
+
+		$the_posts = get_posts( $the_args );
+
+		foreach ( $the_posts as $the_post ) {
+			if ( has_block( 'vk-filter-search/filter-search', $the_post->ID ) ) {
+				$option_posts[] = array(
+					'label' => $the_post->post_title,
+					'value' => $the_post->ID,
+				);
+			}
+		}
+		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_posts', $option_posts );
+
 		if ( function_exists( 'wp_set_script_translations' ) ) {
 			wp_set_script_translations( 'vk-filter-search-js', 'vk-filter-search', VKFS_PATH . '/languages' );
 		}
+
+		// call-filter-search.
+		register_block_type(
+			'vk-filter-search/call-filter-search',
+			array(
+				'style'           => 'vk-filter-search',
+				'editor_style'    => 'vk-filter-search-editor',
+				'editor_script'   => 'vk-filter-search-js',
+				'render_callback' => array( __CLASS__, 'render_call_form_callback' ),
+			)
+		);
 
 		// filter-search.
 		register_block_type(
@@ -110,6 +141,28 @@ class VK_Filter_Search_Block {
 				'render_callback' => array( __CLASS__, 'render_taxonomy_callback' ),
 			)
 		);
+	}
+
+	/**
+	 * Rendering Call Filter Search Block
+	 *
+	 * @param array $attributes attributes.
+	 * @param html  $content content.
+	 */
+	public static function render_call_form_callback( $attributes, $content = '' ) {
+		$attributes = wp_parse_args(
+			$attributes,
+			array(
+				'TargetPost' => -1,
+			)
+		);
+
+		global $vkfs_before_form_id;
+		$vkfs_before_form_id = ! empty( $attributes['isCheckedPostType'] ) ? $attributes['isCheckedPostType'] : -1;
+
+		$content = apply_filters( 'the_content', get_the_content( $vkfs_before_form_id ) );
+		$content = str_replace( ']]>', ']]&gt;', $content );
+		return $content;
 	}
 
 	/**

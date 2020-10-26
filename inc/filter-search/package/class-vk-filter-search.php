@@ -16,6 +16,7 @@ class VK_Filter_Search {
 	public function __construct() {
 		add_action( 'pre_get_posts', array( __CLASS__, 'pre_get_posts' ) );
 		add_action( 'wp', array( __CLASS__, 'get_header' ) );
+		add_action( 'init', array( __CLASS__, 'register_post_types' ) );
 	}
 
 	/**
@@ -656,6 +657,30 @@ class VK_Filter_Search {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Register Post Type
+	 */
+	public static function register_post_types() {
+		global $vkfs_prefix;
+		register_post_type(
+			'vk-filter-search',
+			array(
+				'label'        => $vkfs_prefix . __( 'Filter Search Form', 'vk-filter-search' ),
+				'public'       => false,
+				'show_ui'      => true,
+				'show_in_menu' => true,
+				'capabilities' => array(
+					'edit_posts' => 'create_vk_block_patterns',
+				),
+				'map_meta_cap' => true,
+				'has_archive'  => false,
+				'menu_icon'    => 'dashicons-screenoptions',
+				'show_in_rest' => true,
+				'supports'     => array( 'title', 'editor' ),
+			)
+		);
 	}
 }
 new VK_Filter_Search();
