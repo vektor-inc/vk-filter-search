@@ -79,17 +79,7 @@ class VK_Filter_Search {
 			$post_type_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
 			$post_type_form_html .= self::get_post_type_design_html( $post_types, $label, $post_label, $page_label, $form_design );
 			$post_type_form_html .= '</label>';
-		} elseif ( ! is_front_page() && ! is_home() && ! is_singular() && ! is_archive() && ! is_search() && ! is_404() && ! is_preview() ) {
-			$post_type_form_html .= '<div class="vkfs__warning">';
-			$post_type_form_html .= '<label>';
-			$post_type_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
-			$post_type_form_html .= '<div class="vkfs__warning-text">';
-			$post_type_form_html .= __( 'Because no post type is selected, this block will not render.', 'vk-filter-search' );
-			$post_type_form_html .= '</div>';
-			$post_type_form_html .= '</label>';
-			$post_type_form_html .= '</div>';
 		}
-
 		return $post_type_form_html;
 	}
 
@@ -223,21 +213,6 @@ class VK_Filter_Search {
 			$taxonomy_form_html .= self::get_taxonomy_design_html( $taxonomy, $label, $form_design );
 			$taxonomy_form_html .= '</label>';
 			$taxonomy_form_html .= '<input type="hidden" name="vkfs_' . $taxonomy . '_operator" value="' . $operator . '" />';
-		} elseif ( ! is_front_page() && ! is_home() && ! is_singular() && ! is_archive() && ! is_search() && ! is_404() && ! is_preview() ) {
-			$taxonomy_form_html .= '<div class="vkfs__warning">';
-			$taxonomy_form_html .= '<label>';
-			$taxonomy_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
-			$taxonomy_form_html .= '<div class="vkfs__warning-text">';
-
-			$taxonomy_form_html .= sprintf(
-				// translators: %s is taxonomy's name.
-				__( 'Because %s has no term, this block will not render.', 'vk-filter-search' ),
-				$taxonomy_object->labels->singular_name
-			);
-
-			$taxonomy_form_html .= '</div>';
-			$taxonomy_form_html .= '</label>';
-			$taxonomy_form_html .= '</div>';
 		}
 		return $taxonomy_form_html;
 	}
@@ -605,7 +580,7 @@ class VK_Filter_Search {
 				// 値を追加.
 				$url .= 'vkfs_form_id=' . $vkfs_form_id;
 			}
-			
+
 			wp_safe_redirect( home_url() . $url );
 			exit;
 		}

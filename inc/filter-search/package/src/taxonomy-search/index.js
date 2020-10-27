@@ -3,7 +3,7 @@ import {
 	UseTaxonomies,
 	useTermsGroupbyTaxnomy
 } from '../common/component';
-const { __ } = wp.i18n;
+const { __, sprintf } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 const { PanelBody, BaseControl, SelectControl } = wp.components;
 const { Fragment } = wp.element;
@@ -89,6 +89,35 @@ registerBlockType( 'vk-filter-search/taxonomy-search', {
 			};
 		} );
 
+		let editContent;
+
+		const condition = ( taxonomy ) => taxonomy.slug === isSelectedTaxonomy;
+		const selected = ( taxonomy ) => taxonomy.slug === isSelectedTaxonomy;
+	
+		const selectedTaxonomy = taxonomiesProps.find( selected );
+
+		let selectedTaxonomyName;
+		if ( selectedTaxonomy !== undefined && selectedTaxonomy !== null ) {
+			selectedTaxonomyName = selectedTaxonomy.label;
+		} else {
+			selectedTaxonomyName = '';
+		}
+
+		if ( taxonomiesIncludeTerms.some( condition ) ) {
+			editContent = <ServerSideRender
+				block="vk-filter-search/taxonomy-search"
+				attributes={ props.attributes }
+			/>;
+		} else {
+			editContent = <div className="vkfs__warning">
+				<label>
+					<div className="vkfs__label-name">{ selectedTaxonomyName }</div>
+					<div className="vkfs__warning-text">
+						{ __( 'Because the taxonomy has no term, this block will not render.', 'vk-filter-search' ) }
+					</div>
+				</label>
+			</div>
+		}
 
 		return (
 			<Fragment>
@@ -109,10 +138,7 @@ registerBlockType( 'vk-filter-search/taxonomy-search', {
 						</BaseControl>
 					</PanelBody>
 				</InspectorControls>
-				<ServerSideRender
-					block="vk-filter-search/taxonomy-search"
-					attributes={ props.attributes }
-				/>
+				{ editContent }
 			</Fragment>
 		);
 	},

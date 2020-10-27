@@ -177,7 +177,11 @@ class VK_Filter_Search_Block {
 			)
 		);
 		$vkfs_before_form_id = ! empty( $attributes['TargetPost'] ) ? $attributes['TargetPost'] : -1;
-		return apply_filters( 'vkfs_form_content', get_post( $vkfs_before_form_id )->post_content );
+		$form_html = '';
+		if ( -1 !== $vkfs_before_form_id ) {
+			$form_html = apply_filters( 'vkfs_form_content', get_post( $vkfs_before_form_id )->post_content );
+		}
+		return $form_html;
 	}
 
 	/**
@@ -212,7 +216,11 @@ class VK_Filter_Search_Block {
 
 		$post_types = ! empty( $attributes['isCheckedPostType'] ) ? explode( ',', $attributes['isCheckedPostType'] ) : array();
 
-		return VK_Filter_Search::get_post_type_form_html( $post_types );
+		$post_type_html = '';
+		if ( ! empty( $post_types ) ) {
+			$post_type_html = VK_Filter_Search::get_post_type_form_html( $post_types );
+		}
+		return $post_type_html;
 	}
 
 	/**
@@ -229,9 +237,16 @@ class VK_Filter_Search_Block {
 			)
 		);
 
-		$taxonomy = ! empty( $attributes['isSelectedTaxonomy'] ) ? $attributes['isSelectedTaxonomy'] : '';
+		$taxonomy        = ! empty( $attributes['isSelectedTaxonomy'] ) ? $attributes['isSelectedTaxonomy'] : '';
+		$taxonomy_object = get_taxonomy( $taxonomy );
+		$taxonomy_terms  = get_terms( $taxonomy );
 
-		return VK_Filter_Search::get_taxonomy_form_html( $taxonomy );
+		$taxonomy_html = '';
+
+		if ( ! empty( $taxonomy_object ) && ! empty( $taxonomy_terms ) ) {
+			$taxonomy_html = VK_Filter_Search::get_taxonomy_form_html( $taxonomy );
+		}
+		return $taxonomy_html;
 	}
 
 	/**

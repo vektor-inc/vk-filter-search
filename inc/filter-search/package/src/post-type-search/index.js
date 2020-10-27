@@ -62,6 +62,24 @@ registerBlockType( 'vk-filter-search/post-type-search', {
 			};
 		} );
 
+		let editContent ;
+
+		if( isCheckedPostType !== '[]' ) {
+			editContent= <ServerSideRender
+				block="vk-filter-search/post-type-search"
+				attributes={ props.attributes }
+			/>
+		} else {
+			editContent = <div className="vkfs_warning">
+				<label>
+					<div className="vkfs__label-name">{ __( 'Post Type', 'vk-filter-search' ) }</div>
+					<div className="vkfs__warning-text">
+						{ __( 'Because no post type is selected, this block will not render.', 'vk-filter-search' ) }
+					</div>
+				</label>
+			</div>
+		}
+
 		return (
 			<Fragment>
 				<InspectorControls>
@@ -82,10 +100,7 @@ registerBlockType( 'vk-filter-search/post-type-search', {
 						</BaseControl>
 					</PanelBody>
 				</InspectorControls>
-				<ServerSideRender
-					block="vk-filter-search/post-type-search"
-					attributes={ props.attributes }
-				/>
+				{ editContent }
 			</Fragment>
 		);
 	},
