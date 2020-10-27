@@ -273,6 +273,12 @@ class VK_Filter_Search_Block {
 
 			$content_html = apply_filters( 'vkfs_form_content', get_post( $form_id )->post_content );
 			$allowed_html = array(
+				'form'   => array(
+					'id'     => array(),
+					'class'  => array(),
+					'method' => array(),
+					'action' => array(),
+				),
 				'div'    => array(
 					'id'    => array(),
 					'class' => array(),
