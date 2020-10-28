@@ -85,7 +85,7 @@ registerBlockType( 'vk-filter-search/post-type-search', {
 						>
 							<AdvancedCheckboxControl
 								schema={ 'isCheckedPostType' }
-								rawData={ vk_filter_search_post_types }
+								rawData={ vk_filter_search_post_type_checkbox }
 								checkedData={ JSON.parse( isCheckedPostType ) }
 								{ ...props }
 							/>

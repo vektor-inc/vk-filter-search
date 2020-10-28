@@ -70,12 +70,12 @@ class VK_Filter_Search_Block {
 			),
 		);
 
-		$the_args = array(
-			'posts_per_page' => -1,
-			'post_type'      => 'vk-filter-search',
+		$the_posts = get_posts(
+			array(
+				'posts_per_page' => -1,
+				'post_type'      => 'vk-filter-search',
+			)
 		);
-
-		$the_posts = get_posts( $the_args );
 
 		foreach ( $the_posts as $the_post ) {
 			if ( has_block( 'vk-filter-search/filter-search', $the_post->ID ) ) {
@@ -98,15 +98,26 @@ class VK_Filter_Search_Block {
 			'and'
 		);
 
-		$post_type_option = array();
+		$post_type_checkbox = array();
+		$post_type_select   = array(
+			array(
+				'label' => __( 'Do not specify post type', 'vk-filter-search' ),
+				'value' => '',
+			),
+		);
 		foreach ( $the_post_types as $the_post_type ) {
-			$post_type_option[] = array(
+			$post_type_checkbox[] = array(
+				'label' => $the_post_type->labels->singular_name,
+				'slug'  => $the_post_type->name,
+			);
+			$post_type_select[]   = array(
 				'label' => $the_post_type->labels->singular_name,
 				'value' => $the_post_type->name,
 			);
 		}
 		// 投稿タイプのリストをブロック側に渡す.
-		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_post_types', $post_type_option );
+		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_post_type_checkbox', $post_type_checkbox );
+		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_post_type_select', $post_type_select );
 
 		// タクソノミーリストを生成.
 		$the_taxonomies = get_taxonomies(

@@ -110,7 +110,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 							<SelectControl
 								label={ __( 'Target of Post Type', 'vk-filter-search' ) }
 								value={ TargetPostType }
-								options={ vk_filter_search_post_types }
+								options={ vk_filter_search_post_type_select }
 								onChange={ value => setAttributes({ TargetPostType: value }) }
 							/>
 						</BaseControl>
