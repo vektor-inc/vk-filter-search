@@ -63,7 +63,7 @@ Filter Search ブロックのインナーブロックとしてのみ使用可能
 #### Call Search Form ブロックの説明
 投稿タイプ「VK Filter Search」に登録された投稿を呼び出します。
 
-##　開発者向け
+## 開発者向け
 
 ### Install
 
