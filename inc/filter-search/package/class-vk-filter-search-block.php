@@ -78,12 +78,10 @@ class VK_Filter_Search_Block {
 		);
 
 		foreach ( $the_posts as $the_post ) {
-			if ( has_block( 'vk-filter-search/filter-search', $the_post->ID ) ) {
-				$option_posts[] = array(
-					'label' => $the_post->post_title,
-					'value' => $the_post->ID,
-				);
-			}
+			$option_posts[] = array(
+				'label' => $the_post->post_title,
+				'value' => $the_post->ID,
+			);
 		}
 		// 投稿リストをブロック側に渡す.
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_posts', $option_posts );

@@ -1,6 +1,5 @@
 import {
 	AdvancedCheckboxControl,
-	UsePostTypes,
 } from '../common/component';
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
@@ -58,7 +57,7 @@ registerBlockType( 'vk-filter-search/post-type-search', {
 
 		if( isCheckedPostType !== '[]' ) {
 			editContent= <ServerSideRender
-				block="vk-filter-search/post-type-search"
+				block="vk-filter-search-pro/post-type-search-pro"
 				attributes={ props.attributes }
 			/>
 		} else {

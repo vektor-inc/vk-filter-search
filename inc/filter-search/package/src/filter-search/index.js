@@ -1,8 +1,5 @@
 import './style.scss';
 import './editor.scss';
-import {
-	UsePostTypes,
-} from '../common/component';
 import { deprecated } from "./deprecated/deprecated";
 
 const { __ } = wp.i18n;

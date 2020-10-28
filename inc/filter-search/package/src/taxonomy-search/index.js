@@ -1,8 +1,3 @@
-import {
-	AdvancedCheckboxControl,
-	UseTaxonomies,
-	useTermsGroupbyTaxnomy
-} from '../common/component';
 const { __, sprintf } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 const { PanelBody, BaseControl, SelectControl } = wp.components;
