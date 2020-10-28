@@ -663,10 +663,6 @@ class VK_Filter_Search {
 				'public'       => false,
 				'show_ui'      => true,
 				'show_in_menu' => true,
-				'capabilities' => array(
-					'edit_posts' => 'create_vk_block_patterns',
-				),
-				'map_meta_cap' => true,
 				'has_archive'  => false,
 				'menu_icon'    => 'dashicons-screenoptions',
 				'show_in_rest' => true,
