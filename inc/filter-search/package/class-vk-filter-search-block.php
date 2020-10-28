@@ -59,9 +59,10 @@ class VK_Filter_Search_Block {
 			true
 		);
 
+		// 検索結果の URL をブロック側に渡す.
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_url', site_url( '/' ) );
 
-		// 選択可能なフォームのリストを抽出.
+		// 選択可能なフォームを生成.
 		$option_posts = array(
 			array(
 				'label' => __( 'Unspecified', 'vk-filter-search' ),
@@ -84,9 +85,10 @@ class VK_Filter_Search_Block {
 				);
 			}
 		}
+		// 投稿リストをブロック側に渡す.
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_posts', $option_posts );
 
-		// 投稿タイプのリストを抽出.
+		// 投稿タイプのリストを生成.
 		$the_post_types = get_post_types(
 			array(
 				'public'  => true,
@@ -103,9 +105,10 @@ class VK_Filter_Search_Block {
 				'value' => $the_post_type->name,
 			);
 		}
+		// 投稿タイプのリストをブロック側に渡す.
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_post_types', $post_type_option );
 
-		// タクソノミーリストの抽出
+		// タクソノミーリストを生成.
 		$the_taxonomies = get_taxonomies(
 			array(
 				'public'  => true,
@@ -121,7 +124,7 @@ class VK_Filter_Search_Block {
 			$taxonomy_list[] = array(
 				'label' => $the_taxonomy->labels->singular_name,
 				'value' => $the_taxonomy->name,
-			);;
+			);
 			$terms           = get_terms( $the_taxonomy->name );
 			if ( ! empty( $terms ) ) {
 				$taxonomy_option[] = array(
@@ -130,7 +133,9 @@ class VK_Filter_Search_Block {
 				);
 			}
 		}
+		// タクソノミーリストをブロック側に渡す.
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_taxonomy_list', $taxonomy_list );
+		// タクソノミーの選択リストをブロック側に渡す.
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_taxonomy_option', $taxonomy_option );
 
 		if ( function_exists( 'wp_set_script_translations' ) ) {
