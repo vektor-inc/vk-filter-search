@@ -565,7 +565,7 @@ class VK_Filter_Search {
 				$url .= 's=' . $keyword;
 			}
 
-			// キーワードの処理.
+			// 呼び出し元パラメーターの処理.
 			if ( isset( $_GET['vkfs_form_id'] ) ) {
 				$vkfs_form_id = sanitize_text_field( wp_unslash( $_GET['vkfs_form_id'] ) );
 
