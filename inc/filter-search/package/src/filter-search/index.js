@@ -7,7 +7,7 @@ const { registerBlockType } = wp.blocks;
 const { Fragment } = wp.element;
 const { InnerBlocks } = wp.blockEditor;
 const { InspectorControls } = wp.blockEditor;
-const { PanelBody, BaseControl, SelectControl } = wp.components;
+const { PanelBody, BaseControl, SelectControl, ToggleControl } = wp.components;
 
 registerBlockType( 'vk-filter-search/filter-search', {
 	title: __('VK Filter Search','vk-filter-search' ),
@@ -44,6 +44,10 @@ registerBlockType( 'vk-filter-search/filter-search', {
 			type: 'string',
 			default: '',
 		},
+		DisplayOnResult: {
+			type: 'boolean',
+			default: false,
+		}
 	},
 	example: {
 		attributes: {
@@ -73,6 +77,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 
 		const {
 			TargetPostType,
+			DisplayOnResult
 		} = attributes;
 
 		let allowedBlocks;
@@ -111,6 +116,15 @@ registerBlockType( 'vk-filter-search/filter-search', {
 								onChange={ value => setAttributes({ TargetPostType: value }) }
 							/>
 						</BaseControl>
+						<BaseControl
+							id={ 'vsfs-post-type02' }
+						>
+							<ToggleControl
+								label="Display this form on search result page"
+								checked={ DisplayOnResult }
+								onChange={ (checked) => setAttributes({ DisplayOnResult: checked }) }
+							/>
+						</BaseControl>
 					</PanelBody>
 				</InspectorControls>
 				<form className={ `vk-filter-search vkfs`} method={ `get` } action={ vk_filter_search_url }>
@@ -146,6 +160,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 
 		const {
 			TargetPostType,
+			DisplayOnResult
 		} = attributes;
 
 		const post_id = wp.data.select("core/editor").getCurrentPostId();
@@ -159,6 +174,14 @@ registerBlockType( 'vk-filter-search/filter-search', {
 			hiddenPostTypes = <input type="hidden" name="vkfs_post_type[]" value={ TargetPostType } />;
 		}
 
+		let hiddenResult;
+		if ( DisplayOnResult ) {
+			hiddenResult = <input type="hidden" name="vkfs_form_id" value={ post_id } />;
+		} else {
+			hiddenResult = '';
+		}
+
+
 		return (
 				<form className={ `vk-filter-search vkfs`} method={ `get` } action={ vk_filter_search_url }>
 					<div className={ `vkfs__labels` } >
@@ -167,7 +190,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 					</div>
 					[no_keyword_hidden_input]
 					<input type="hidden" name="vkfs_submitted" value="true" />
-					<input type="hidden" name="vkfs_form_id" value={ post_id } />
+					{ hiddenResult }
 					<input className={`btn btn-primary`} type={`submit`} value={ __( 'Refine search', 'vk-filter-search' ) } />
 				</form>
 		);
