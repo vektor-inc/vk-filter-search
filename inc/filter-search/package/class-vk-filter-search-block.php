@@ -95,9 +95,10 @@ class VK_Filter_Search_Block {
 			'objects',
 			'and'
 		);
-
+		// 投稿タイプ用のブロックで使うチェックボックスリスト.
 		$post_type_checkbox = array();
-		$post_type_select   = array(
+		// フォーム用のブロックで使うプルダウンリスト.
+		$post_type_select = array(
 			array(
 				'label' => __( 'Do not specify post type', 'vk-filter-search' ),
 				'value' => '',
@@ -113,8 +114,12 @@ class VK_Filter_Search_Block {
 				'value' => $the_post_type->name,
 			);
 		}
-		// 投稿タイプのリストをブロック側に渡す.
+		/**
+		 * 投稿タイプのリストをブロック側に渡す.
+		 */
+		// 投稿タイプ用のブロックで使うチェックボックスリスト.
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_post_type_checkbox', $post_type_checkbox );
+		// フォーム用のブロックで使うプルダウンリスト.
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_post_type_select', $post_type_select );
 
 		// タクソノミーリストを生成.
@@ -127,7 +132,9 @@ class VK_Filter_Search_Block {
 			'and'
 		);
 
-		$taxonomy_list   = array();
+		// タクソノミーブロックで警告を出す際に使うタクソノミーのリスト.
+		$taxonomy_list = array();
+		// タクソノミーブロックで使うタクソノミーの選択肢.
 		$taxonomy_option = array();
 		foreach ( $the_taxonomies as $the_taxonomy ) {
 			$taxonomy_list[] = array(
@@ -142,9 +149,12 @@ class VK_Filter_Search_Block {
 				);
 			}
 		}
-		// タクソノミーリストをブロック側に渡す.
+		/**
+		 * タクソノミーリストをブロック側に渡す.
+		 */
+		// タクソノミーブロックで警告を出す際に使うタクソノミーのリスト.
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_taxonomy_list', $taxonomy_list );
-		// タクソノミーの選択リストをブロック側に渡す.
+		// タクソノミーブロックで使うタクソノミーの選択肢.
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_taxonomy_option', $taxonomy_option );
 
 		if ( function_exists( 'wp_set_script_translations' ) ) {
