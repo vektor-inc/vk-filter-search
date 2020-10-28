@@ -78,30 +78,6 @@ registerBlockType( 'vk-filter-search/filter-search', {
 			TargetPostType,
 		} = attributes;
 
-		const postTypes = UsePostTypes();
-		const postTypesProps = postTypes.map( ( postType ) => {
-			return {
-				label: postType.name,
-				value: postType.slug,
-			};
-		} );
-
-		let postTypesOption =  [
-			{
-				label: __( "not specified", "vk-blocks" ),
-				value: ''
-			}
-		];
-		let i = 0;
-		if ( postTypesProps !== null && postTypesProps !== undefined ) {
-			for ( i=0; i< postTypesProps.length; i++ ) {
-				postTypesOption.push({
-					label: postTypesProps[i].label,
-					value: postTypesProps[i].value
-				});
-			}
-		}
-
 		let allowedBlocks;
 		let hiddenPostTypes;
 
@@ -134,7 +110,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 							<SelectControl
 								label={ __( 'Target of Post Type', 'vk-filter-search' ) }
 								value={ TargetPostType }
-								options={ postTypesOption }
+								options={ vk_filter_search_post_types }
 								onChange={ value => setAttributes({ TargetPostType: value }) }
 							/>
 						</BaseControl>

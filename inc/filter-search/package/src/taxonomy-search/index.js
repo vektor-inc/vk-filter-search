@@ -55,55 +55,12 @@ registerBlockType( 'vk-filter-search/taxonomy-search', {
 			isSelectedTaxonomy,
 		} = attributes;
 
-		const taxonomies = UseTaxonomies();
-		const terms = useTermsGroupbyTaxnomy(taxonomies);
-		let taxonomiesProps = taxonomies.map( ( taxonomy ) => {
-			return {
-				label: taxonomy.name,
-				slug: taxonomy.slug,
-			};
-		} );
-
-
-		// If No terms in Taxonomy, Remove checkbox from sidebar.
-		let taxonomiesIncludeTerms = [];
-		Object.keys(terms).forEach(term => {
-
-			if(Array.isArray(terms[term]) && terms[term].length){
-				let taxonomiesIncludeTermsTemp;
-				if(term === "tags"){
-					taxonomiesIncludeTermsTemp = taxonomiesProps.filter( taxonomiesProp => taxonomiesProp.slug === "post_tag" );
-				}else if(term === "categories"){
-					taxonomiesIncludeTermsTemp = taxonomiesProps.filter( taxonomiesProp => taxonomiesProp.slug === "category" );
-				}else{
-					taxonomiesIncludeTermsTemp = taxonomiesProps.filter( taxonomiesProp => taxonomiesProp.slug === term );
-				}
-				taxonomiesIncludeTerms = taxonomiesIncludeTerms.concat(taxonomiesIncludeTermsTemp)
-			}
-
-		});
-		let taxonomiesOption = taxonomiesIncludeTerms.map( ( taxonomy ) => {
-			return {
-				label: taxonomy.label,
-				value: taxonomy.slug,
-			};
-		} );
-
 		let editContent;
+		const selected = ( taxonomy ) => taxonomy.value === isSelectedTaxonomy;
+		const selectedTaxonomy = vk_filter_search_taxonomy_list.find( selected );
 
-		const condition = ( taxonomy ) => taxonomy.slug === isSelectedTaxonomy;
-		const selected = ( taxonomy ) => taxonomy.slug === isSelectedTaxonomy;
-	
-		const selectedTaxonomy = taxonomiesProps.find( selected );
-
-		let selectedTaxonomyName;
-		if ( selectedTaxonomy !== undefined && selectedTaxonomy !== null ) {
-			selectedTaxonomyName = selectedTaxonomy.label;
-		} else {
-			selectedTaxonomyName = '';
-		}
-
-		if ( taxonomiesIncludeTerms.some( condition ) ) {
+		const condition = ( taxonomy ) => taxonomy.value === isSelectedTaxonomy;
+		if ( vk_filter_search_taxonomy_option.some( condition ) ) {
 			editContent = <ServerSideRender
 				block="vk-filter-search/taxonomy-search"
 				attributes={ props.attributes }
@@ -111,7 +68,7 @@ registerBlockType( 'vk-filter-search/taxonomy-search', {
 		} else {
 			editContent = <div className="vkfs__warning">
 				<label>
-					<div className="vkfs__label-name">{ selectedTaxonomyName }</div>
+					<div className="vkfs__label-name">{ selectedTaxonomy.label }</div>
 					<div className="vkfs__warning-text">
 						{ __( 'Because the taxonomy has no term, this block will not render.', 'vk-filter-search' ) }
 					</div>
@@ -132,7 +89,7 @@ registerBlockType( 'vk-filter-search/taxonomy-search', {
 							<SelectControl
 								label={ __( 'Taxonomy', 'vk-filter-search' ) }
 								value={ isSelectedTaxonomy }
-								options={ taxonomiesOption }
+								options={ vk_filter_search_taxonomy_option }
 								onChange={ value => setAttributes({ isSelectedTaxonomy: value }) }
 							/>
 						</BaseControl>

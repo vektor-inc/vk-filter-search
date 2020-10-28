@@ -61,7 +61,7 @@ class VK_Filter_Search_Block {
 
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_url', site_url( '/' ) );
 
-		// 選択可能なリストを抽出.
+		// 選択可能なフォームのリストを抽出.
 		$option_posts = array(
 			array(
 				'label' => __( 'Unspecified', 'vk-filter-search' ),
@@ -85,6 +85,53 @@ class VK_Filter_Search_Block {
 			}
 		}
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_posts', $option_posts );
+
+		// 投稿タイプのリストを抽出.
+		$the_post_types = get_post_types(
+			array(
+				'public'  => true,
+				'show_ui' => true,
+			),
+			'objects',
+			'and'
+		);
+
+		$post_type_option = array();
+		foreach ( $the_post_types as $the_post_type ) {
+			$post_type_option[] = array(
+				'label' => $the_post_type->labels->singular_name,
+				'value' => $the_post_type->name,
+			);
+		}
+		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_post_types', $post_type_option );
+
+		// タクソノミーリストの抽出
+		$the_taxonomies = get_taxonomies(
+			array(
+				'public'  => true,
+				'show_ui' => true,
+			),
+			'objects',
+			'and'
+		);
+
+		$taxonomy_list   = array();
+		$taxonomy_option = array();
+		foreach ( $the_taxonomies as $the_taxonomy ) {
+			$taxonomy_list[] = array(
+				'label' => $the_taxonomy->labels->singular_name,
+				'value' => $the_taxonomy->name,
+			);;
+			$terms           = get_terms( $the_taxonomy->name );
+			if ( ! empty( $terms ) ) {
+				$taxonomy_option[] = array(
+					'label' => $the_taxonomy->labels->singular_name,
+					'value' => $the_taxonomy->name,
+				);
+			}
+		}
+		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_taxonomy_list', $taxonomy_list );
+		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_taxonomy_option', $taxonomy_option );
 
 		if ( function_exists( 'wp_set_script_translations' ) ) {
 			wp_set_script_translations( 'vk-filter-search-js', 'vk-filter-search', VKFS_PATH . '/languages' );

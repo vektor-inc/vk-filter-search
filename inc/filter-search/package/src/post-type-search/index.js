@@ -54,14 +54,6 @@ registerBlockType( 'vk-filter-search/post-type-search', {
 			isCheckedPostType,
 		} = attributes;
 
-		const postTypes = UsePostTypes();
-		const postTypesProps = postTypes.map( ( postType ) => {
-			return {
-				label: postType.name,
-				slug: postType.slug,
-			};
-		} );
-
 		let editContent ;
 
 		if( isCheckedPostType !== '[]' ) {
@@ -93,7 +85,7 @@ registerBlockType( 'vk-filter-search/post-type-search', {
 						>
 							<AdvancedCheckboxControl
 								schema={ 'isCheckedPostType' }
-								rawData={ postTypesProps }
+								rawData={ vk_filter_search_post_types }
 								checkedData={ JSON.parse( isCheckedPostType ) }
 								{ ...props }
 							/>
