@@ -5,8 +5,8 @@
   "main": "inc/filter-search/package/build/index.js",
   "scripts": {
     "start": "npm run build && wp-env start",
-	"stop": "wp-env stop",
-	"build": "npm run build:free && npm run translate",
+    "stop": "wp-env stop",
+    "build": "npm run build:free && npm run translate",
     "build:free": "wp-scripts build inc/filter-search/package/src/filter-search/index.js inc/filter-search/package/src/keyword-search/index.js inc/filter-search/package/src/post-type-search/index.js inc/filter-search/package/src/taxonomy-search/index.js inc/filter-search/package/src/call-search-form/index.js --output-path=inc/filter-search/package/build",
     "watch": "wp-scripts start inc/filter-search/package/src/filter-search/index.js inc/filter-search/package/src/keyword-search/index.js inc/filter-search/package/src/post-type-search/index.js inc/filter-search/package/src/taxonomy-search/index.js inc/filter-search/package/src/call-search-form/index.js --output-path=inc/filter-search/package/build",
     "check-engines": "wp-scripts check-engines",
