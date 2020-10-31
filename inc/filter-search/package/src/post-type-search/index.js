@@ -57,7 +57,7 @@ registerBlockType( 'vk-filter-search/post-type-search', {
 
 		if( isCheckedPostType !== '[]' ) {
 			editContent= <ServerSideRender
-				block="vk-filter-search-pro/post-type-search-pro"
+				block="vk-filter-search/post-type-search"
 				attributes={ props.attributes }
 			/>
 		} else {
