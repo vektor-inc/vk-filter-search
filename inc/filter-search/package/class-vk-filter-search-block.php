@@ -14,6 +14,8 @@ class VK_Filter_Search_Block {
 	 * Constructor
 	 */
 	public function __construct() {
+		add_action( 'dynamic_sidebar_before', array( __CLASS__, 'dynamic_sidebar_before' ) );
+		add_action( 'dynamic_sidebar_after', array( __CLASS__, 'dynamic_sidebar_after' ) );
 		add_action( 'init', array( __CLASS__, 'register_block' ) );
 		add_filter( 'render_block', array( __CLASS__, 'render_block_control' ), 10, 2 );
 		add_action( 'loop_start', array( __CLASS__, 'display_form_on_loop' ) );
@@ -25,6 +27,30 @@ class VK_Filter_Search_Block {
 		add_filter( 'vkfs_form_content', 'wp_filter_content_tags' );
 		add_filter( 'vkfs_form_content', 'do_shortcode', 11 );
 		add_filter( 'vkfs_form_content', 'capital_P_dangit', 11 );
+	}
+
+	/**
+	 * Dynamic Sidebar Before
+	 */
+	public static function dynamic_sidebar_before() {
+		global $vkfs_is_widget_area;
+		$vkfs_is_widget_area = true;
+	}
+
+	/**
+	 * Dynamic Sidebar After
+	 */
+	public static function dynamic_sidebar_after() {
+		global $vkfs_is_widget_area;
+		$vkfs_is_widget_area = false;
+	}
+
+	/**
+	 * Dynamic Sidebar After
+	 */
+	public static function is_widget_area() {
+		global $vkfs_is_widget_area;
+		return $vkfs_is_widget_area ? true : false;
 	}
 
 	/**
@@ -382,7 +408,7 @@ class VK_Filter_Search_Block {
 					'selected' => array(),
 				),
 			);
-			if ( is_search() ) {
+			if ( is_search() && ! self::is_widget_area() ) {
 				echo wp_kses( $content_html, $allowed_html );
 			}
 		}
