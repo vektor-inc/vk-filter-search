@@ -14,43 +14,8 @@ class VK_Filter_Search_Block {
 	 * Constructor
 	 */
 	public function __construct() {
-		add_action( 'dynamic_sidebar_before', array( __CLASS__, 'dynamic_sidebar_before' ) );
-		add_action( 'dynamic_sidebar_after', array( __CLASS__, 'dynamic_sidebar_after' ) );
 		add_action( 'init', array( __CLASS__, 'register_block' ) );
 		add_filter( 'render_block', array( __CLASS__, 'render_block_control' ), 10, 2 );
-		add_action( 'loop_start', array( __CLASS__, 'display_form_on_loop' ) );
-		add_filter( 'vkfs_form_content', 'do_blocks', 9 );
-		add_filter( 'vkfs_form_content', 'wptexturize' );
-		add_filter( 'vkfs_form_content', 'convert_smilies', 20 );
-		add_filter( 'vkfs_form_content', 'shortcode_unautop' );
-		add_filter( 'vkfs_form_content', 'prepend_attachment' );
-		add_filter( 'vkfs_form_content', 'wp_filter_content_tags' );
-		add_filter( 'vkfs_form_content', 'do_shortcode', 11 );
-		add_filter( 'vkfs_form_content', 'capital_P_dangit', 11 );
-	}
-
-	/**
-	 * Dynamic Sidebar Before
-	 */
-	public static function dynamic_sidebar_before() {
-		global $vkfs_is_widget_area;
-		$vkfs_is_widget_area = true;
-	}
-
-	/**
-	 * Dynamic Sidebar After
-	 */
-	public static function dynamic_sidebar_after() {
-		global $vkfs_is_widget_area;
-		$vkfs_is_widget_area = false;
-	}
-
-	/**
-	 * Dynamic Sidebar After
-	 */
-	public static function is_widget_area() {
-		global $vkfs_is_widget_area;
-		return $vkfs_is_widget_area ? true : false;
 	}
 
 	/**
@@ -85,9 +50,14 @@ class VK_Filter_Search_Block {
 			true
 		);
 
-		// 検索結果の URL をブロック側に渡す.
+		/**
+		 * 検索結果の URL をブロック側に渡す
+		 */
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_url', site_url( '/' ) );
 
+		/**
+		 * 呼び出す投稿のリストを生成し渡す
+		 */
 		// 選択可能なフォームを生成.
 		$option_posts = array(
 			array(
@@ -112,15 +82,9 @@ class VK_Filter_Search_Block {
 		// 投稿リストをブロック側に渡す.
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_posts', $option_posts );
 
-		// 投稿タイプのリストを生成.
-		$the_post_types = get_post_types(
-			array(
-				'public'  => true,
-				'show_ui' => true,
-			),
-			'objects',
-			'and'
-		);
+		/**
+		 * 選択させる投稿タイプのリストを生成し渡す
+		 */
 		// 投稿タイプ用のブロックで使うチェックボックスリスト.
 		$post_type_checkbox = array();
 		// フォーム用のブロックで使うプルダウンリスト.
@@ -130,24 +94,78 @@ class VK_Filter_Search_Block {
 				'value' => '',
 			),
 		);
-		foreach ( $the_post_types as $the_post_type ) {
+
+		// 投稿が空でない場合にリスト・選択肢に追加.
+		$get_posts = get_posts(
+			array(
+				'post_type' => 'post',
+			),
+		);
+		if ( ! empty( $get_posts ) ) {
 			$post_type_checkbox[] = array(
-				'label' => $the_post_type->labels->singular_name,
-				'slug'  => $the_post_type->name,
+				'label' => get_post_type_object( 'post' )->labels->singular_name,
+				'slug'  => get_post_type_object( 'post' )->name,
 			);
 			$post_type_select[]   = array(
-				'label' => $the_post_type->labels->singular_name,
-				'value' => $the_post_type->name,
+				'label' => get_post_type_object( 'post' )->labels->singular_name,
+				'value' => get_post_type_object( 'post' )->name,
+			);
+
+		}
+
+		// 固定ページが空でない場合にリスト・選択肢に追加.
+		$get_posts = get_posts(
+			array(
+				'post_type' => 'page',
+			),
+		);
+		if ( ! empty( $get_posts ) ) {
+			$post_type_checkbox[] = array(
+				'label' => get_post_type_object( 'page' )->labels->singular_name,
+				'slug'  => get_post_type_object( 'page' )->name,
+			);
+			$post_type_select[]   = array(
+				'label' => get_post_type_object( 'page' )->labels->singular_name,
+				'value' => get_post_type_object( 'page' )->name,
 			);
 		}
-		/**
-		 * 投稿タイプのリストをブロック側に渡す.
-		 */
-		// 投稿タイプ用のブロックで使うチェックボックスリスト.
+
+		// その他の投稿タイプが空でないい場合にリスト・選択肢に追加.
+		$the_post_types = get_post_types(
+			array(
+				'public'   => true,
+				'show_ui'  => true,
+				'_builtin' => false,
+			),
+			'objects',
+			'and'
+		);
+		foreach ( $the_post_types as $the_post_type ) {
+			$get_posts = get_posts(
+				array(
+					'post_type' => $the_post_type->name,
+				)
+			);
+			if ( ! empty( $get_posts ) ) {
+				$post_type_checkbox[] = array(
+					'label' => $the_post_type->labels->singular_name,
+					'slug'  => $the_post_type->name,
+				);
+				$post_type_select[]   = array(
+					'label' => $the_post_type->labels->singular_name,
+					'value' => $the_post_type->name,
+				);
+			}
+		}
+
+		// 投稿タイプ用のブロックで使うチェックボックスリストを渡す.
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_post_type_checkbox', $post_type_checkbox );
-		// フォーム用のブロックで使うプルダウンリスト.
+		// フォーム用のブロックで使うプルダウンリストを渡す.
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_post_type_select', $post_type_select );
 
+		/**
+		 * 選択させるタクソノミーのリストを生成し渡す
+		 */
 		// タクソノミーリストを生成.
 		$the_taxonomies = get_taxonomies(
 			array(
@@ -175,12 +193,9 @@ class VK_Filter_Search_Block {
 				);
 			}
 		}
-		/**
-		 * タクソノミーリストをブロック側に渡す.
-		 */
-		// タクソノミーブロックで警告を出す際に使うタクソノミーのリスト.
+		// タクソノミーブロックで警告を出す際に使うタクソノミーのリストを渡す.
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_taxonomy_list', $taxonomy_list );
-		// タクソノミーブロックで使うタクソノミーの選択肢.
+		// タクソノミーブロックで使うタクソノミーの選択肢を渡す.
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_taxonomy_option', $taxonomy_option );
 
 		if ( function_exists( 'wp_set_script_translations' ) ) {
@@ -361,57 +376,6 @@ class VK_Filter_Search_Block {
 			$block_content = str_replace( '[no_keyword_hidden_input]', '', $block_content );
 		}
 		return $block_content;
-	}
-
-	/**
-	 * Display Search Form on Loop
-	 */
-	public static function display_form_on_loop() {
-		if ( isset( $_GET['vkfs_form_id'] ) ) {
-			$form_id = intval( sanitize_text_field( wp_unslash( $_GET['vkfs_form_id'] ) ) );
-
-			$content_html = apply_filters( 'vkfs_form_content', get_post( $form_id )->post_content );
-			$allowed_html = array(
-				'form'   => array(
-					'id'     => array(),
-					'class'  => array(),
-					'method' => array(),
-					'action' => array(),
-				),
-				'div'    => array(
-					'id'    => array(),
-					'class' => array(),
-				),
-				'label'  => array(
-					'id'    => array(),
-					'class' => array(),
-					'for'   => array(),
-				),
-				'input'  => array(
-					'id'          => array(),
-					'class'       => array(),
-					'type'        => array(),
-					'name'        => array(),
-					'value'       => array(),
-					'placeholder' => array(),
-					'checked'     => array(),
-				),
-				'select' => array(
-					'id'    => array(),
-					'class' => array(),
-					'name'  => array(),
-				),
-				'option' => array(
-					'id'       => array(),
-					'class'    => array(),
-					'value'    => array(),
-					'selected' => array(),
-				),
-			);
-			if ( is_search() && ! self::is_widget_area() ) {
-				echo wp_kses( $content_html, $allowed_html );
-			}
-		}
 	}
 }
 new VK_Filter_Search_Block();

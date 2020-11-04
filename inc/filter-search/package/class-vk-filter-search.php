@@ -17,6 +17,17 @@ class VK_Filter_Search {
 		add_action( 'pre_get_posts', array( __CLASS__, 'pre_get_posts' ) );
 		add_action( 'wp', array( __CLASS__, 'get_header' ) );
 		add_action( 'init', array( __CLASS__, 'register_post_types' ) );
+		add_action( 'dynamic_sidebar_before', array( __CLASS__, 'dynamic_sidebar_before' ) );
+		add_action( 'dynamic_sidebar_after', array( __CLASS__, 'dynamic_sidebar_after' ) );
+		add_action( 'loop_start', array( __CLASS__, 'display_form_on_loop' ) );
+		add_filter( 'vkfs_form_content', 'do_blocks', 9 );
+		add_filter( 'vkfs_form_content', 'wptexturize' );
+		add_filter( 'vkfs_form_content', 'convert_smilies', 20 );
+		add_filter( 'vkfs_form_content', 'shortcode_unautop' );
+		add_filter( 'vkfs_form_content', 'prepend_attachment' );
+		add_filter( 'vkfs_form_content', 'wp_filter_content_tags' );
+		add_filter( 'vkfs_form_content', 'do_shortcode', 11 );
+		add_filter( 'vkfs_form_content', 'capital_P_dangit', 11 );
 	}
 
 	/**
@@ -168,7 +179,14 @@ class VK_Filter_Search {
 
 			// 項目のループ.
 			foreach ( $post_type_option_array as $post_type_option ) {
-				$post_type_design_html .= '<option value="' . $post_type_option['value'] . '" ' . $post_type_option['selected'] . '>' . $post_type_option['label'] . '</option>';
+				$get_posts = get_posts(
+					array(
+						'post_type' => $post_type_option['value'],
+					)
+				);
+				if ( ! empty( $get_posts ) ) {
+					$post_type_design_html .= '<option value="' . $post_type_option['value'] . '" ' . $post_type_option['selected'] . '>' . $post_type_option['label'] . '</option>';
+				}
 			}
 
 			$post_type_design_html .= '</select>';
@@ -669,6 +687,81 @@ class VK_Filter_Search {
 				'supports'     => array( 'title', 'editor' ),
 			)
 		);
+	}
+
+	/**
+	 * Dynamic Sidebar Before
+	 */
+	public static function dynamic_sidebar_before() {
+		global $vkfs_is_widget_area;
+		$vkfs_is_widget_area = true;
+	}
+
+	/**
+	 * Dynamic Sidebar After
+	 */
+	public static function dynamic_sidebar_after() {
+		global $vkfs_is_widget_area;
+		$vkfs_is_widget_area = false;
+	}
+
+	/**
+	 * Dynamic Sidebar After
+	 */
+	public static function is_widget_area() {
+		global $vkfs_is_widget_area;
+		return $vkfs_is_widget_area ? true : false;
+	}
+
+	/**
+	 * Display Search Form on Loop
+	 */
+	public static function display_form_on_loop() {
+		if ( isset( $_GET['vkfs_form_id'] ) ) {
+			$form_id = intval( sanitize_text_field( wp_unslash( $_GET['vkfs_form_id'] ) ) );
+
+			$content_html = apply_filters( 'vkfs_form_content', get_post( $form_id )->post_content );
+			$allowed_html = array(
+				'form'   => array(
+					'id'     => array(),
+					'class'  => array(),
+					'method' => array(),
+					'action' => array(),
+				),
+				'div'    => array(
+					'id'    => array(),
+					'class' => array(),
+				),
+				'label'  => array(
+					'id'    => array(),
+					'class' => array(),
+					'for'   => array(),
+				),
+				'input'  => array(
+					'id'          => array(),
+					'class'       => array(),
+					'type'        => array(),
+					'name'        => array(),
+					'value'       => array(),
+					'placeholder' => array(),
+					'checked'     => array(),
+				),
+				'select' => array(
+					'id'    => array(),
+					'class' => array(),
+					'name'  => array(),
+				),
+				'option' => array(
+					'id'       => array(),
+					'class'    => array(),
+					'value'    => array(),
+					'selected' => array(),
+				),
+			);
+			if ( is_search() && ! self::is_widget_area() ) {
+				echo wp_kses( $content_html, $allowed_html );
+			}
+		}
 	}
 }
 new VK_Filter_Search();
