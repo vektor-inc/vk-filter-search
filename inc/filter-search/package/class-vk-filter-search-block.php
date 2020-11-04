@@ -14,14 +14,40 @@ class VK_Filter_Search_Block {
 	 * Constructor
 	 */
 	public function __construct() {
-		add_action( 'init', array( __CLASS__, 'register_block' ) );
+		add_filter( 'block_categories', 'register_block_category', 10, 2 );
+		add_action( 'init', array( __CLASS__, 'register_blocks' ) );
 		add_filter( 'render_block', array( __CLASS__, 'render_block_control' ), 10, 2 );
 	}
 
 	/**
-	 * VK Filter Search Block
+	 * Register Block Category
+	 *
+	 * @param array  $categories Block Categories.
+	 * @param Object $post       Post Object.
 	 */
-	public static function register_block() {
+	public static function register_block_category( $categories, $post ) {
+		if ( ! function_exists( 'vkblocks_blocks_categories' ) ) {
+
+			global $vkfs_prefix;
+
+			$categories = array_merge(
+				$categories,
+				array(
+					array(
+						'slug'  => 'vk-blocks-cat',
+						'title' => $vkfs_prefix . __( 'Blocks', 'vk-filter-search' ),
+						'icon'  => '',
+					),
+				)
+			);
+			return $categories;
+		}
+	}
+
+	/**
+	 * Register Blocks
+	 */
+	public static function register_blocks() {
 		global $plugin_version;
 
 		$script_dependencies = include dirname( __FILE__ ) . '/build/index.asset.php';
