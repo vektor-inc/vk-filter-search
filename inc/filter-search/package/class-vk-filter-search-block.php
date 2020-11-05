@@ -26,22 +26,20 @@ class VK_Filter_Search_Block {
 	 * @param Object $post       Post Object.
 	 */
 	public static function register_block_category( $categories, $post ) {
-		if ( function_exists( 'vkblocks_blocks_categories' ) ) {
 
-			global $vkfs_prefix;
+		global $vkfs_prefix;
 
-			$categories = array_merge(
-				$categories,
+		$categories = array_merge(
+			$categories,
+			array(
 				array(
-					array(
-						'slug'  => 'vk-blocks-cat',
-						'title' => $vkfs_prefix . __( 'Blocks', 'vk-filter-search' ),
-						'icon'  => '',
-					),
-				)
-			);
-			return $categories;
-		}
+					'slug'  => 'vk-blocks-cat',
+					'title' => $vkfs_prefix . __( 'Blocks', 'vk-filter-search' ),
+					'icon'  => '',
+				),
+			)
+		);
+		return $categories;
 	}
 
 	/**
