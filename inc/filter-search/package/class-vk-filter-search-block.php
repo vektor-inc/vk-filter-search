@@ -26,7 +26,7 @@ class VK_Filter_Search_Block {
 	 * @param Object $post       Post Object.
 	 */
 	public static function register_block_category( $categories, $post ) {
-		if ( ! function_exists( 'vkblocks_blocks_categories' ) ) {
+		if ( function_exists( 'vkblocks_blocks_categories' ) ) {
 
 			global $vkfs_prefix;
 
