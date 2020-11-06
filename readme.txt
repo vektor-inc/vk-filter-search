@@ -3,8 +3,8 @@ Contributors: vektor-inc,kurudrive,rickaddison7634,naoki0h,mimitips
 Donate link: 
 Tags: Guternberg, Search
 Requires at least: 5.5
-Tested up to: 5.5.1
-Stable tag: 0.1.0
+Tested up to: 5.5.3
+Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,9 @@ This plugin can be installed directly from your site.
 1. Editor View
 
 == Changelog ==
+
+= 0.2.0 =
+[ Add function ] Can be add search form in result page.
 
 = 0.1.0 =
 * Initial release.
