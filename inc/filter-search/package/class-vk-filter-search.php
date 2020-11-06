@@ -529,7 +529,7 @@ class VK_Filter_Search {
 					'_builtin' => false,
 				),
 				'names',
-				'and',
+				'and'
 			);
 
 			foreach ( $get_taxonomies as $get_taxonomy ) {
