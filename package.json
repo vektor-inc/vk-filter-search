@@ -6,8 +6,8 @@
   "scripts": {
     "start": "npm run build && wp-env start",
     "stop": "wp-env stop",
-	"build": "npm run build:free && npm run translate",
-	"build:free": "wp-scripts build inc/filter-search/package/src/filter-search/index.js inc/filter-search/package/src/keyword-search/index.js inc/filter-search/package/src/post-type-search/index.js inc/filter-search/package/src/taxonomy-search/index.js --output-path=inc/filter-search/package/build",
+    "build": "npm run build:free && npm run translate",
+    "build:free": "wp-scripts build inc/filter-search/package/src/filter-search/index.js inc/filter-search/package/src/keyword-search/index.js inc/filter-search/package/src/post-type-search/index.js inc/filter-search/package/src/taxonomy-search/index.js --output-path=inc/filter-search/package/build",
     "watch": "wp-scripts start inc/filter-search/package/src/filter-search/index.js inc/filter-search/package/src/keyword-search/index.js inc/filter-search/package/src/post-type-search/index.js inc/filter-search/package/src/taxonomy-search/index.js --output-path=inc/filter-search/package/build",
     "check-engines": "wp-scripts check-engines",
     "check-licenses": "wp-scripts check-licenses",
@@ -32,6 +32,7 @@
     "@wordpress/i18n": "^3.16.0",
     "@wordpress/scripts": "^12.5.0",
     "@wordpress/server-side-render": "^1.19.1",
+    "npm-check-updates": "^9.2.4",
     "po2json": "^1.0.0-beta-3"
   }
 }
