@@ -51,10 +51,12 @@ class VK_Filter_Search {
 		$placeholder = ! empty( $placeholder ) ? $placeholder : __( 'Input Keyword', 'vk-filter-search' );
 		$value       = ! empty( get_query_var( 's' ) ) ? get_query_var( 's' ) : '';
 
-		$keyword_form_html  = '<label>';
+		$keyword_form_html  = '<div class="vkfs__keyword">';
+		$keyword_form_html .= '<label>';
 		$keyword_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
 		$keyword_form_html .= '<input type="text" name="s" id="s" placeholder="' . $placeholder . '" value="' . $value . '" />';
 		$keyword_form_html .= '</label>';
+		$keyword_form_html .= '</div>';
 		return $keyword_form_html;
 	}
 
@@ -86,10 +88,12 @@ class VK_Filter_Search {
 
 		// 描画開始.
 		if ( ! empty( $post_types ) ) {
+			$post_type_form_html .= '<div class="vkfs__post-type">';
 			$post_type_form_html .= '<label>';
 			$post_type_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
 			$post_type_form_html .= self::get_post_type_design_html( $post_types, $label, $post_label, $page_label, $form_design );
 			$post_type_form_html .= '</label>';
+			$post_type_form_html .= '</div>';
 		}
 		return $post_type_form_html;
 	}
@@ -226,11 +230,13 @@ class VK_Filter_Search {
 
 		// 描画開始.
 		if ( ! empty( $taxonomy_object ) && ! empty( $taxonomy_terms ) ) {
+			$taxonomy_form_html .= '<div class="vkfs__taxonomy">';
 			$taxonomy_form_html .= '<label>';
 			$taxonomy_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
 			$taxonomy_form_html .= self::get_taxonomy_design_html( $taxonomy, $label, $form_design );
 			$taxonomy_form_html .= '</label>';
 			$taxonomy_form_html .= '<input type="hidden" name="vkfs_' . $taxonomy . '_operator" value="' . $operator . '" />';
+			$taxonomy_form_html .= '</div>';
 		}
 		return $taxonomy_form_html;
 	}
@@ -720,7 +726,13 @@ class VK_Filter_Search {
 		if ( isset( $_GET['vkfs_form_id'] ) ) {
 			$form_id = intval( sanitize_text_field( wp_unslash( $_GET['vkfs_form_id'] ) ) );
 
-			$content_html = apply_filters( 'vkfs_form_content', get_post( $form_id )->post_content );
+			$block_content = get_post( $form_id )->post_content;
+			if ( has_block( 'vk-filter-search/filter-search', $block_content ) && ! has_block( 'vk-filter-search/keyword-search', $block_content ) ) {
+				$block_content = str_replace( '[no_keyword_hidden_input]', '<input type="hidden" name="s" value="" />', $block_content );
+			} else {
+				$block_content = str_replace( '[no_keyword_hidden_input]', '', $block_content );
+			}
+			$content_html = apply_filters( 'vkfs_form_content', $block_content );
 			$allowed_html = array(
 				'form'   => array(
 					'id'     => array(),

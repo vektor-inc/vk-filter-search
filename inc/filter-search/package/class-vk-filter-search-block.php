@@ -324,7 +324,15 @@ class VK_Filter_Search_Block {
 
 		$form_html = '';
 		if ( -1 !== $vkfs_before_form_id ) {
-			$form_html = apply_filters( 'vkfs_form_content', get_post( $vkfs_before_form_id )->post_content );
+			$form_html    .= '<div class="vkfs__call-filter-search">';
+			$block_content = get_post( $vkfs_before_form_id )->post_content;
+			if ( has_block( 'vk-filter-search/filter-search', $block_content ) && ! has_block( 'vk-filter-search/keyword-search', $block_content ) ) {
+				$block_content = str_replace( '[no_keyword_hidden_input]', '<input type="hidden" name="s" value="" />', $block_content );
+			} else {
+				$block_content = str_replace( '[no_keyword_hidden_input]', '', $block_content );
+			}
+			$form_html .= apply_filters( 'vkfs_form_content', $block_content );
+			$form_html .= '</div>';
 		}
 		return $form_html;
 	}
@@ -401,7 +409,7 @@ class VK_Filter_Search_Block {
 	 * @param array  $block         The full block, including name and attributes.
 	 */
 	public static function render_block_control( $block_content, $block ) {
-		if ( has_block( 'vk-filter-search/filter-search' ) && ! has_block( 'vk-filter-search/keyword-search' ) ) {
+		if ( has_block( 'vk-filter-search/filter-search', $block_content ) && ! has_block( 'vk-filter-search/keyword-search', $block_content ) ) {
 			$block_content = str_replace( '[no_keyword_hidden_input]', '<input type="hidden" name="s" value="" />', $block_content );
 		} else {
 			$block_content = str_replace( '[no_keyword_hidden_input]', '', $block_content );
