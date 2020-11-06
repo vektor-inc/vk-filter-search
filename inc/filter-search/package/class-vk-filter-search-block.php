@@ -233,6 +233,7 @@ class VK_Filter_Search_Block {
 			wp_set_script_translations( 'vk-filter-search-js', 'vk-filter-search', VKFS_PATH . '/languages' );
 		}
 
+		/*
 		// call-search-form.
 		register_block_type(
 			'vk-filter-search/call-search-form',
@@ -249,6 +250,7 @@ class VK_Filter_Search_Block {
 				'render_callback' => array( __CLASS__, 'render_call_form_callback' ),
 			)
 		);
+		*/
 
 		// filter-search.
 		register_block_type(

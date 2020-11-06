@@ -16,7 +16,7 @@ class VK_Filter_Search {
 	public function __construct() {
 		add_action( 'pre_get_posts', array( __CLASS__, 'pre_get_posts' ) );
 		add_action( 'wp', array( __CLASS__, 'get_header' ) );
-		add_action( 'init', array( __CLASS__, 'register_post_types' ) );
+		// add_action( 'init', array( __CLASS__, 'register_post_types' ) );
 		add_action( 'dynamic_sidebar_before', array( __CLASS__, 'dynamic_sidebar_before' ) );
 		add_action( 'dynamic_sidebar_after', array( __CLASS__, 'dynamic_sidebar_after' ) );
 		add_action( 'loop_start', array( __CLASS__, 'display_form_on_loop' ) );
