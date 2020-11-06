@@ -29,16 +29,23 @@ class VK_Filter_Search_Block {
 
 		global $vkfs_prefix;
 
-		$categories = array_merge(
-			$categories,
-			array(
+		foreach ( $categories as $key => $value ) {
+			$keys[] = $value['slug'];
+		}
+
+		if ( ! in_array( 'vk-blocks-cat', $keys, true ) ) {
+			$categories = array_merge(
+				$categories,
 				array(
-					'slug'  => 'vk-blocks-cat',
-					'title' => $vkfs_prefix . __( 'Blocks', 'vk-filter-search' ),
-					'icon'  => '',
-				),
-			)
-		);
+					array(
+						'slug'  => 'vk-blocks-cat',
+						'title' => $vkfs_prefix . __( 'Blocks', 'vk-filter-search' ),
+						'icon'  => '',
+					),
+				)
+			);
+		}
+
 		return $categories;
 	}
 
