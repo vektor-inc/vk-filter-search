@@ -130,7 +130,7 @@ class VK_Filter_Search_Block {
 		$get_posts = get_posts(
 			array(
 				'post_type' => 'post',
-			),
+			)
 		);
 		if ( ! empty( $get_posts ) ) {
 			$post_type_checkbox[] = array(
@@ -148,7 +148,7 @@ class VK_Filter_Search_Block {
 		$get_posts = get_posts(
 			array(
 				'post_type' => 'page',
-			),
+			)
 		);
 		if ( ! empty( $get_posts ) ) {
 			$post_type_checkbox[] = array(
@@ -304,7 +304,7 @@ class VK_Filter_Search_Block {
 					),
 				),
 				'render_callback' => array( __CLASS__, 'render_taxonomy_callback' ),
-			),
+			)
 		);
 	}
 
