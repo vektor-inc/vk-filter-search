@@ -6,7 +6,8 @@
   "scripts": {
     "start": "npm run build && wp-env start",
     "stop": "wp-env stop",
-    "build": "wp-scripts build inc/filter-search/package/src/filter-search/index.js inc/filter-search/package/src/keyword-search/index.js inc/filter-search/package/src/post-type-search/index.js inc/filter-search/package/src/taxonomy-search/index.js --output-path=inc/filter-search/package/build",
+    "build": "npm run build:free && npm run translate",
+    "build:free": "wp-scripts build inc/filter-search/package/src/filter-search/index.js inc/filter-search/package/src/keyword-search/index.js inc/filter-search/package/src/post-type-search/index.js inc/filter-search/package/src/taxonomy-search/index.js --output-path=inc/filter-search/package/build",
     "watch": "wp-scripts start inc/filter-search/package/src/filter-search/index.js inc/filter-search/package/src/keyword-search/index.js inc/filter-search/package/src/post-type-search/index.js inc/filter-search/package/src/taxonomy-search/index.js --output-path=inc/filter-search/package/build",
     "check-engines": "wp-scripts check-engines",
     "check-licenses": "wp-scripts check-licenses",
@@ -14,7 +15,7 @@
     "lint:css": "wp-scripts lint-style --fix",
     "lint:js": "wp-scripts lint-js --fix",
     "make-pot": "wp i18n make-pot ./ --domain=vk-filter-search",
-    "translate": "./node_modules/.bin/po2json ./languages/vk-filter-search-ja.po ./languages/vk-filter-search-ja-vk-filter-search-js.json -f jed"
+    "translate": "po2json languages/vk-filter-search-ja.po languages/vk-filter-search-ja-vk-filter-search-js.json -f jed"
   },
   "repository": {
     "type": "git",
@@ -26,12 +27,12 @@
     "url": "https://github.com/vektor-inc/vk-filter-search/issues"
   },
   "homepage": "https://github.com/vektor-inc/vk-filter-search#readme",
-  "dependencies": {},
   "devDependencies": {
-    "@wordpress/scripts": "^12.1.1",
-    "@wordpress/server-side-render": "^1.16.1",
-    "@wordpress/env": "^1.6.0",
-    "@wordpress/i18n": "^3.14.0",
-    "po2json": "^1.0.0-alpha"
+    "@wordpress/env": "^2.1.0",
+    "@wordpress/i18n": "^3.16.0",
+    "@wordpress/scripts": "^12.5.0",
+    "@wordpress/server-side-render": "^1.19.1",
+    "npm-check-updates": "^9.2.4",
+    "po2json": "^1.0.0-beta-3"
   }
 }

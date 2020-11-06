@@ -1,34 +1,5 @@
-import { useSelect } from '@wordpress/data';
 import { CheckboxControl } from '@wordpress/components';
 import { useState } from '@wordpress/element';
-
-export const UsePostTypes = () => {
-	return useSelect( ( select ) => {
-		return select( 'core' ).getPostTypes( { per_page: -1 } ) || [];
-	}, [] );
-};
-
-export const UseTaxonomies = () => {
-	return useSelect( ( select ) => {
-		return select( 'core' ).getTaxonomies( { per_page: -1 } ) || [];
-	}, [] );
-};
-
-export const useTermsGroupbyTaxnomy = taxonomies => {
-	return useSelect(
-	  select => {
-		const obj = {};
-		for (const taxonomy of taxonomies) {
-		  obj[taxonomy.rest_base] =
-			select("core").getEntityRecords("taxonomy", taxonomy.slug, {
-			  per_page: -1
-			}) || [];
-		}
-		return obj;
-	  },
-	  [taxonomies]
-	);
-};
 
 export const destructiveDeleteFromArray = ( array, value ) => {
 	const index = array.indexOf( value );

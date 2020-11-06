@@ -1,6 +1,5 @@
 import {
 	AdvancedCheckboxControl,
-	UsePostTypes,
 } from '../common/component';
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
@@ -54,13 +53,23 @@ registerBlockType( 'vk-filter-search/post-type-search', {
 			isCheckedPostType,
 		} = attributes;
 
-		const postTypes = UsePostTypes();
-		const postTypesProps = postTypes.map( ( postType ) => {
-			return {
-				label: postType.name,
-				slug: postType.slug,
-			};
-		} );
+		let editContent ;
+
+		if( isCheckedPostType !== '[]' ) {
+			editContent= <ServerSideRender
+				block="vk-filter-search/post-type-search"
+				attributes={ props.attributes }
+			/>
+		} else {
+			editContent = <div className="vkfs_warning">
+				<label>
+					<div className="vkfs__label-name">{ __( 'Post Type', 'vk-filter-search' ) }</div>
+					<div className="vkfs__warning-text">
+						{ __( 'Because no post type is selected, this block will not render.', 'vk-filter-search' ) }
+					</div>
+				</label>
+			</div>
+		}
 
 		return (
 			<Fragment>
@@ -75,17 +84,14 @@ registerBlockType( 'vk-filter-search/post-type-search', {
 						>
 							<AdvancedCheckboxControl
 								schema={ 'isCheckedPostType' }
-								rawData={ postTypesProps }
+								rawData={ vk_filter_search_post_type_checkbox }
 								checkedData={ JSON.parse( isCheckedPostType ) }
 								{ ...props }
 							/>
 						</BaseControl>
 					</PanelBody>
 				</InspectorControls>
-				<ServerSideRender
-					block="vk-filter-search/post-type-search"
-					attributes={ props.attributes }
-				/>
+				{ editContent }
 			</Fragment>
 		);
 	},

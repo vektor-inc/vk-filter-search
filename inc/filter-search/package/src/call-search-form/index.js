@@ -1,16 +1,12 @@
-import './style.scss';
-import './editor.scss';
-import { deprecated } from "./deprecated/deprecated";
-
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 const { Fragment } = wp.element;
-const { InnerBlocks } = wp.blockEditor;
+const { PanelBody, BaseControl, SelectControl } = wp.components;
 const { InspectorControls } = wp.blockEditor;
-const { PanelBody, BaseControl, SelectControl, ToggleControl } = wp.components;
+const ServerSideRender = wp.serverSideRender;
 
-registerBlockType( 'vk-filter-search/filter-search', {
-	title: __('VK Filter Search','vk-filter-search' ),
+registerBlockType( 'vk-filter-search/call-search-form', {
+	title: __('Call Search Form','vk-filter-search' ),
 	icon: (
 		<svg
 			height="25"
@@ -40,160 +36,50 @@ registerBlockType( 'vk-filter-search/filter-search', {
 	),
 	category: 'vk-blocks-cat',
 	attributes: {
-		TargetPostType: {
-			type: 'string',
-			default: '',
+		TargetPost: {
+			type: "number",
+			default: -1,
 		},
-		DisplayOnResult: {
-			type: 'boolean',
-			default: false,
-		}
 	},
-	example: {
-		attributes: {
-			TargetPostType: 'post',
-		},
-		innerBlocks: [
-			{
-				name: 'vk-filter-search/taxonomy-search',
-				attributes: {
-					isSelectedTaxonomy: 'category',
-				},
-			},
-			{
-				name: 'vk-filter-search/taxonomy-search',
-				attributes: {
-					isSelectedTaxonomy: 'post_tag',
-				},
-			},
-			{
-				name: 'vk-filter-search/keyword-search',
-			},
-		],
-	},
+
 
 	edit: ( props ) => {
 		const { attributes, setAttributes } = props;
 
 		const {
-			TargetPostType,
-			DisplayOnResult
+			TargetPost,
 		} = attributes;
 
-		let allowedBlocks;
-		let hiddenPostTypes;
-
-		if ( TargetPostType === '' ) {
-			allowedBlocks=[
-				'vk-filter-search/keyword-search',
-				'vk-filter-search/post-type-search',
-				'vk-filter-search/taxonomy-search',
-			];
-			hiddenPostTypes = '';
+		let editContent;
+		if ( TargetPost === -1 ) {
+			editContent = <p>{ __( 'Because no post is selected, The block Will not render', 'vk-filter-search' ) }</p>;
+		} else {
+			editContent = <ServerSideRender
+				block="vk-filter-search/call-search-form"
+				attributes={ props.attributes }
+			/>
 		}
-		else {
-			allowedBlocks=[
-				'vk-filter-search/keyword-search',
-				'vk-filter-search/taxonomy-search',
-			];
-			hiddenPostTypes = <input type="hidden" name="post_type" value={ TargetPostType } />;
-		}
-
 		return (
 			<Fragment>
 				<InspectorControls>
 					<PanelBody
-						title={ __( 'Target of Post Type', 'vk-filter-search' ) }
+						title={ __( 'Form Option', 'vk-filter-search' ) }
 						initialOpen={ true }
 					>
 						<BaseControl
-							id={ 'vsfs-post-type01' }
+							id={ 'vsfs-call-01' }
 						>
 							<SelectControl
-								label={ __( 'Target of Post Type', 'vk-filter-search' ) }
-								value={ TargetPostType }
-								options={ vk_filter_search_post_type_select }
-								onChange={ value => setAttributes({ TargetPostType: value }) }
-							/>
-						</BaseControl>
-						<BaseControl
-							id={ 'vsfs-post-type02' }
-						>
-							<ToggleControl
-								label="Display this form on search result page"
-								checked={ DisplayOnResult }
-								onChange={ (checked) => setAttributes({ DisplayOnResult: checked }) }
+								label={ __( 'Select Form', 'vk-filter-search' ) }
+								value={ TargetPost }
+								options={ vk_filter_search_posts }
+								onChange={ value => setAttributes({ TargetPost: parseInt(value, 10) }) }
 							/>
 						</BaseControl>
 					</PanelBody>
 				</InspectorControls>
-				<form className={ `vk-filter-search vkfs`} method={ `get` } action={ vk_filter_search_url }>
-					<div className={ `vkfs__labels` } >
-						{ hiddenPostTypes }
-						<InnerBlocks
-							allowedBlocks={ allowedBlocks }
-							templateLock={false}
-							template={ [
-								[
-									'vk-filter-search/taxonomy-search',
-									{
-										isSelectedTaxonomy: 'category',
-									}
-								],
-								[
-									'vk-filter-search/taxonomy-search',
-									{
-										isSelectedTaxonomy: 'post_tag',
-									}
-								],
-								[ 'vk-filter-search/keyword-search' ],
-							] }
-						/>
-					</div>
-					<input className={`btn btn-primary`} type={`submit`} value={ __( 'Refine search', 'vk-filter-search' ) } />
-				</form>
+				{ editContent }
 			</Fragment>
 		);
 	},
-	save: ( props ) => {
-		const { attributes } = props;
-
-		const {
-			TargetPostType,
-			DisplayOnResult
-		} = attributes;
-
-		const post_id = wp.data.select("core/editor").getCurrentPostId();
-
-		let hiddenPostTypes;
-
-		if ( TargetPostType === '' ) {
-			hiddenPostTypes = '';
-		}
-		else {
-			hiddenPostTypes = <input type="hidden" name="vkfs_post_type[]" value={ TargetPostType } />;
-		}
-
-		let hiddenResult;
-		if ( DisplayOnResult ) {
-			hiddenResult = <input type="hidden" name="vkfs_form_id" value={ post_id } />;
-		} else {
-			hiddenResult = '';
-		}
-
-
-		return (
-				<form className={ `vk-filter-search vkfs`} method={ `get` } action={ vk_filter_search_url }>
-					<div className={ `vkfs__labels` } >
-						{ hiddenPostTypes }
-						<InnerBlocks.Content />
-					</div>
-					[no_keyword_hidden_input]
-					<input type="hidden" name="vkfs_submitted" value="true" />
-					{ hiddenResult }
-					<input className={`btn btn-primary`} type={`submit`} value={ __( 'Refine search', 'vk-filter-search' ) } />
-				</form>
-		);
-	},
-	deprecated
-} );
+});

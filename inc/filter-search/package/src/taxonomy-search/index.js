@@ -1,9 +1,4 @@
-import {
-	AdvancedCheckboxControl,
-	UseTaxonomies,
-	useTermsGroupbyTaxnomy
-} from '../common/component';
-const { __ } = wp.i18n;
+const { __, sprintf } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 const { PanelBody, BaseControl, SelectControl } = wp.components;
 const { Fragment } = wp.element;
@@ -55,40 +50,26 @@ registerBlockType( 'vk-filter-search/taxonomy-search', {
 			isSelectedTaxonomy,
 		} = attributes;
 
-		const taxonomies = UseTaxonomies();
-		const terms = useTermsGroupbyTaxnomy(taxonomies);
-		let taxonomiesProps = taxonomies.map( ( taxonomy ) => {
-			return {
-				label: taxonomy.name,
-				slug: taxonomy.slug,
-			};
-		} );
+		let editContent;
+		const selected = ( taxonomy ) => taxonomy.value === isSelectedTaxonomy;
+		const selectedTaxonomy = vk_filter_search_taxonomy_list.find( selected );
 
-
-		// If No terms in Taxonomy, Remove checkbox from sidebar.
-		let taxonomiesIncludeTerms = [];
-		Object.keys(terms).forEach(term => {
-
-			if(Array.isArray(terms[term]) && terms[term].length){
-				let taxonomiesIncludeTermsTemp;
-				if(term === "tags"){
-					taxonomiesIncludeTermsTemp = taxonomiesProps.filter( taxonomiesProp => taxonomiesProp.slug === "post_tag" );
-				}else if(term === "categories"){
-					taxonomiesIncludeTermsTemp = taxonomiesProps.filter( taxonomiesProp => taxonomiesProp.slug === "category" );
-				}else{
-					taxonomiesIncludeTermsTemp = taxonomiesProps.filter( taxonomiesProp => taxonomiesProp.slug === term );
-				}
-				taxonomiesIncludeTerms = taxonomiesIncludeTerms.concat(taxonomiesIncludeTermsTemp)
-			}
-
-		});
-		let taxonomiesOption = taxonomiesIncludeTerms.map( ( taxonomy ) => {
-			return {
-				label: taxonomy.label,
-				value: taxonomy.slug,
-			};
-		} );
-
+		const condition = ( taxonomy ) => taxonomy.value === isSelectedTaxonomy;
+		if ( vk_filter_search_taxonomy_option.some( condition ) ) {
+			editContent = <ServerSideRender
+				block="vk-filter-search/taxonomy-search"
+				attributes={ props.attributes }
+			/>;
+		} else {
+			editContent = <div className="vkfs__warning">
+				<label>
+					<div className="vkfs__label-name">{ selectedTaxonomy.label }</div>
+					<div className="vkfs__warning-text">
+						{ __( 'Because the taxonomy has no term, this block will not render.', 'vk-filter-search' ) }
+					</div>
+				</label>
+			</div>
+		}
 
 		return (
 			<Fragment>
@@ -103,16 +84,13 @@ registerBlockType( 'vk-filter-search/taxonomy-search', {
 							<SelectControl
 								label={ __( 'Taxonomy', 'vk-filter-search' ) }
 								value={ isSelectedTaxonomy }
-								options={ taxonomiesOption }
+								options={ vk_filter_search_taxonomy_option }
 								onChange={ value => setAttributes({ isSelectedTaxonomy: value }) }
 							/>
 						</BaseControl>
 					</PanelBody>
 				</InspectorControls>
-				<ServerSideRender
-					block="vk-filter-search/taxonomy-search"
-					attributes={ props.attributes }
-				/>
+				{ editContent }
 			</Fragment>
 		);
 	},
