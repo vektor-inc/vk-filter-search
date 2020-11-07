@@ -181,7 +181,6 @@ registerBlockType( 'vk-filter-search/filter-search', {
 			hiddenResult = '';
 		}
 
-
 		return (
 				<form className={ `vk-filter-search vkfs`} method={ `get` } action={ vk_filter_search_url }>
 					<div className={ `vkfs__labels` } >
