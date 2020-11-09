@@ -77,7 +77,8 @@ registerBlockType( 'vk-filter-search/filter-search', {
 
 		const {
 			TargetPostType,
-			DisplayOnResult
+			DisplayOnResult,
+			postID
 		} = attributes;
 
 		const post_id = wp.data.select("core/editor").getCurrentPostId();
@@ -103,7 +104,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 
 		let hiddenResult;
 		if ( DisplayOnResult ) {
-			hiddenResult = <input type="hidden" name="vkfs_form_id" value={ post_id } />;
+			hiddenResult = <input type="hidden" name="vkfs_form_id" value={ postID } />;
 		} else {
 			hiddenResult = '';
 		}
@@ -131,7 +132,10 @@ registerBlockType( 'vk-filter-search/filter-search', {
 							<ToggleControl
 								label="Display this form on search result page"
 								checked={ DisplayOnResult }
-								onChange={ (checked) => setAttributes({ DisplayOnResult: checked }) }
+								onChange={ (checked) => setAttributes(
+									{ DisplayOnResult: checked },
+									{ postID: post_id }
+								) }
 							/>
 						</BaseControl>
 					</PanelBody>
@@ -171,7 +175,8 @@ registerBlockType( 'vk-filter-search/filter-search', {
 
 		const {
 			TargetPostType,
-			DisplayOnResult
+			DisplayOnResult,
+			postID
 		} = attributes;
 
 		const post_id = wp.data.select("core/editor").getCurrentPostId();
@@ -187,7 +192,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 
 		let hiddenResult;
 		if ( DisplayOnResult ) {
-			hiddenResult = <input type="hidden" name="vkfs_form_id" value={ post_id } />;
+			hiddenResult = <input type="hidden" name="vkfs_form_id" value={ postID } />;
 		} else {
 			hiddenResult = '';
 		}
