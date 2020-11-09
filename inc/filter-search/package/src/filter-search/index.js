@@ -80,6 +80,8 @@ registerBlockType( 'vk-filter-search/filter-search', {
 			DisplayOnResult
 		} = attributes;
 
+		const post_id = wp.data.select("core/editor").getCurrentPostId();
+
 		let allowedBlocks;
 		let hiddenPostTypes;
 
@@ -97,6 +99,13 @@ registerBlockType( 'vk-filter-search/filter-search', {
 				'vk-filter-search/taxonomy-search',
 			];
 			hiddenPostTypes = <input type="hidden" name="post_type" value={ TargetPostType } />;
+		}
+
+		let hiddenResult;
+		if ( DisplayOnResult ) {
+			hiddenResult = <input type="hidden" name="vkfs_form_id" value={ post_id } />;
+		} else {
+			hiddenResult = '';
 		}
 
 		return (
@@ -129,7 +138,6 @@ registerBlockType( 'vk-filter-search/filter-search', {
 				</InspectorControls>
 				<form className={ `vk-filter-search vkfs`} method={ `get` } action={ vk_filter_search_url }>
 					<div className={ `vkfs__labels` } >
-						{ hiddenPostTypes }
 						<InnerBlocks
 							allowedBlocks={ allowedBlocks }
 							templateLock={false}
@@ -150,6 +158,9 @@ registerBlockType( 'vk-filter-search/filter-search', {
 							] }
 						/>
 					</div>
+					{ hiddenPostTypes }
+					{ hiddenResult }
+					<input type="hidden" name="vkfs_submitted" value="true" />
 					<input className={`btn btn-primary`} type={`submit`} value={ __( 'Refine search', 'vk-filter-search' ) } />
 				</form>
 			</Fragment>
@@ -184,12 +195,12 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		return (
 				<form className={ `vk-filter-search vkfs`} method={ `get` } action={ vk_filter_search_url }>
 					<div className={ `vkfs__labels` } >
-						{ hiddenPostTypes }
 						<InnerBlocks.Content />
 					</div>
 					[no_keyword_hidden_input]
-					<input type="hidden" name="vkfs_submitted" value="true" />
+					{ hiddenPostTypes }
 					{ hiddenResult }
+					<input type="hidden" name="vkfs_submitted" value="true" />
 					<input className={`btn btn-primary`} type={`submit`} value={ __( 'Refine search', 'vk-filter-search' ) } />
 				</form>
 		);
