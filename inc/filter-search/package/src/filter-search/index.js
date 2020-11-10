@@ -48,6 +48,10 @@ registerBlockType( 'vk-filter-search/filter-search', {
 			type: 'boolean',
 			default: false,
 		},
+		PostID: {
+			type: 'number',
+			default: -1,
+		},
 	},
 	example: {
 		attributes: {
@@ -78,9 +82,11 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		const {
 			TargetPostType,
 			DisplayOnResult,
+			PostID
 		} = attributes;
 
-		const post_id = wp.data.select("core/editor").getCurrentPostId();
+		const post_id =( PostID !== null && PostID !== undefined ) ? PostID : wp.data.select("core/editor").getCurrentPostId();
+		setAttributes( { PostID: post_id } );
 
 		let allowedBlocks;
 		let hiddenPostTypes;
@@ -103,7 +109,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 
 		let hiddenResult;
 		if ( DisplayOnResult ) {
-			hiddenResult = <input type="hidden" name="vkfs_form_id" value={ post_id } />;
+			hiddenResult = <input type="hidden" name="vkfs_form_id" value={ PostID } />;
 		} else {
 			hiddenResult = '';
 		}
@@ -172,10 +178,8 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		const {
 			TargetPostType,
 			DisplayOnResult,
-			postID
+			PostID
 		} = attributes;
-
-		const post_id = wp.data.select("core/editor").getCurrentPostId();
 
 		let hiddenPostTypes;
 
@@ -188,7 +192,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 
 		let hiddenResult;
 		if ( DisplayOnResult ) {
-			hiddenResult = <input type="hidden" name="vkfs_form_id" value={ post_id } />;
+			hiddenResult = <input type="hidden" name="vkfs_form_id" value={ PostID } />;
 		} else {
 			hiddenResult = '';
 		}
