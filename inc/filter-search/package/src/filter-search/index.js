@@ -50,7 +50,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		},
 		PostID: {
 			type: 'number',
-			default: -1,
+			default: null,
 		},
 	},
 	example: {
