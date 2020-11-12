@@ -48,7 +48,7 @@ class VK_Filter_Search_Shortcode {
 			$form_after_html .= '<input type="hidden" name="s" value="" />';
 		}
 		$form_after_html .= '<input type="hidden" name="vkfs_submitted" value="true" />';
-		$form_after_html .= '<input class="btn btn-primary" type="submit" value="' . __( 'Refine search', 'vk-filter-search' ) . '" />';
+		$form_after_html .= '<input class="btn btn-primary" type="submit" value="' . __( 'Search', 'vk-filter-search' ) . '" />';
 		$form_after_html .= '</form>';
 
 		$search_form = $form_before_html . $content . $form_after_html;
