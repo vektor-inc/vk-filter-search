@@ -18,4 +18,4 @@ jobs:
         TRELLO_API_KEY: ${{ secrets.TRELLO_API_KEY }}
         TRELLO_API_TOKEN: ${{ secrets.TRELLO_API_TOKEN }}
         TRELLO_BOARD_ID: ${{ secrets.TRELLO_BOARD_ID }}
-        TRELLO_LIST_ID: ${{ secrets.TRELLO_TO_DO_LIST_ID }} # To Doリストにカードを作成する
+        TRELLO_LIST_ID: ${{ secrets.TRELLO_WAITING_LIST_ID }} # 作業待ちリストにカードを作成する
