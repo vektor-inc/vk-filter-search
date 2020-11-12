@@ -4,7 +4,7 @@ Donate link:
 Tags: Guternberg, Search
 Requires at least: 5.5
 Tested up to: 5.5.3
-Stable tag: 0.2.3
+Stable tag: 0.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,12 @@ This plugin can be installed directly from your site.
 1. Editor View
 
 == Changelog ==
+
+= 0.3.1 =
+[ Specification Change ] padding and margin tuning
+
+= 0.3.0 =
+[ Specification Change ] padding and margin tuning
 
 = 0.2.3 =
 [ Other ] Rebuild only

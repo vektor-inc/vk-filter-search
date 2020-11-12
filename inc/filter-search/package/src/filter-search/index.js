@@ -167,7 +167,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 					{ hiddenPostTypes }
 					{ hiddenResult }
 					<input type="hidden" name="vkfs_submitted" value="true" />
-					<input className={`btn btn-primary`} type={`submit`} value={ __( 'Refine search', 'vk-filter-search' ) } />
+					<input className={`btn btn-primary`} type={`submit`} value={ __( 'Search', 'vk-filter-search' ) } />
 				</form>
 			</Fragment>
 		);
@@ -206,7 +206,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 					{ hiddenPostTypes }
 					{ hiddenResult }
 					<input type="hidden" name="vkfs_submitted" value="true" />
-					<input className={`btn btn-primary`} type={`submit`} value={ __( 'Refine search', 'vk-filter-search' ) } />
+					<input className={`btn btn-primary`} type={`submit`} value={ __( 'Search', 'vk-filter-search' ) } />
 				</form>
 		);
 	},

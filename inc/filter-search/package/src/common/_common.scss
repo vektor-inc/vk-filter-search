@@ -1,12 +1,15 @@
 // editor and front styles
-
+:root {
+	// テーマ側などで指定が実装させたらこちらからは削除
+	--vk-margin-section-bottom : 2em;
+}
 .vkfs {
-	padding: 1em;
 	font-size:0.88rem;
+	margin-bottom: var( --vk-margin-section-bottom, 2em );
 	&__labels {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 1em 1.6em;
+		gap: 0 1.6em;
 	}
 	&__keyword,
 	&__post-type,
