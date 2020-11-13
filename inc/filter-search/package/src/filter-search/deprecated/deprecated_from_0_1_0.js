@@ -21,7 +21,7 @@ export const deprecated_from_0_1_0 = {
 			hiddenPostTypes = '';
 		}
 		else {
-			hiddenPostTypes = <input type="hidden" name="vkfs_post_type[]" value={ TargetPostType } />;
+			hiddenPostTypes = <input type="hidden" name="post_type" value={ TargetPostType } />;
 		}
 
 		return (
@@ -31,7 +31,6 @@ export const deprecated_from_0_1_0 = {
 						<InnerBlocks.Content />
 					</div>
 					[no_keyword_hidden_input]
-					<input type="hidden" name="vkfs_submitted" value="true" />
 					<input className={`btn btn-primary`} type={`submit`} value={ __( 'Refine search', 'vk-filter-search' ) } />
 				</form>
 		);
