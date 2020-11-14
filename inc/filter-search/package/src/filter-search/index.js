@@ -1,7 +1,6 @@
 import './style.scss';
 import './editor.scss';
 import { deprecated } from "./deprecated/deprecated";
-import { AdvancedCheckboxControl } from '../common/component';
 
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
@@ -49,21 +48,15 @@ registerBlockType( 'vk-filter-search/filter-search', {
 			type: 'boolean',
 			default: false,
 		},
-		DisplayOnArchive: {
-			type: 'string',
-			default: '[]',
-		},
 		FormID: {
 			type: 'string',
 			default: null,
 		},
-
 	},
 	example: {
 		attributes: {
 			TargetPostType: 'post',
 			DisplayOnResult: false,
-			DisplayOnArchive: '[]',
 			FormID: null
 		},
 		innerBlocks: [
@@ -91,7 +84,6 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		const {
 			TargetPostType,
 			DisplayOnResult,
-			DisplayOnArchive,
 			FormID
 		} = attributes;
 
@@ -149,17 +141,6 @@ registerBlockType( 'vk-filter-search/filter-search', {
 								label="Display this form on search result page"
 								checked={ DisplayOnResult }
 								onChange={ (checked) => setAttributes({ DisplayOnResult: checked }) }
-							/>
-						</BaseControl>
-						<BaseControl
-							id={ 'vkfs-search-form-03' }
-							label={ __( 'Display this form on post type archive page.', 'vk-filter-search' ) }
-						>
-							<AdvancedCheckboxControl
-								schema={ 'DisplayOnArchive' }
-								rawData={ vk_filter_search_post_type_checkbox }
-								checkedData={ JSON.parse( DisplayOnArchive ) }
-								{ ...props }
 							/>
 						</BaseControl>
 					</PanelBody>

@@ -253,10 +253,6 @@ class VK_Filter_Search_Block {
 						'type'    => 'boolean',
 						'default' => false,
 					),
-					'DisplayOnArchive' => array(
-						'type'    => 'string',
-						'default' => '[]',
-					),
 					'FormID'           => array(
 						'type'    => 'string',
 						'default' => null,
@@ -324,7 +320,6 @@ class VK_Filter_Search_Block {
 			array(
 				'TargetPostType'   => '',
 				'DisplayOnResult'  => false,
-				'DisplayOnArchive' => '[]',
 				'FormID'           => null,
 			)
 		);
