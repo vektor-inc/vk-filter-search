@@ -16,7 +16,6 @@ class VK_Filter_Search_Block {
 	public function __construct() {
 		add_filter( 'block_categories', array( __CLASS__, 'register_block_category' ), 10, 2 );
 		add_action( 'init', array( __CLASS__, 'register_blocks' ) );
-		add_filter( 'render_block', array( __CLASS__, 'render_block_control' ), 10, 2 );
 	}
 
 	/**
@@ -85,6 +84,11 @@ class VK_Filter_Search_Block {
 		 * 検索結果の URL をブロック側に渡す
 		 */
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_url', site_url( '/' ) );
+
+		/**
+		 * 生成されたフォームのID を渡す
+		 */
+		wp_localize_script( 'vk-filter-search-js', 'vkfs_form_id', VK_Filter_Search::form_id() );
 
 		/**
 		 * 呼び出す投稿のリストを生成し渡す
@@ -233,32 +237,32 @@ class VK_Filter_Search_Block {
 			wp_set_script_translations( 'vk-filter-search-js', 'vk-filter-search', VKFS_PATH . '/languages' );
 		}
 
-		/*
-		// call-search-form.
+		// filter-search.
 		register_block_type(
-			'vk-filter-search/call-search-form',
+			'vk-filter-search/filter-search',
 			array(
 				'style'           => 'vk-filter-search',
 				'editor_style'    => 'vk-filter-search-editor',
 				'editor_script'   => 'vk-filter-search-js',
 				'attributes'      => array(
-					'TargetPost' => array(
-						'type'    => 'number',
-						'default' => -1,
+					'TargetPostType'   => array(
+						'type'    => 'string',
+						'default' => '',
+					),
+					'DisplayOnResult'  => array(
+						'type'    => 'boolean',
+						'default' => false,
+					),
+					'DisplayOnArchive' => array(
+						'type'    => 'string',
+						'default' => '[]',
+					),
+					'FormID'           => array(
+						'type'    => 'string',
+						'default' => null,
 					),
 				),
-				'render_callback' => array( __CLASS__, 'render_call_form_callback' ),
-			)
-		);
-		*/
-
-		// filter-search.
-		register_block_type(
-			'vk-filter-search/filter-search',
-			array(
-				'style'         => 'vk-filter-search',
-				'editor_style'  => 'vk-filter-search-editor',
-				'editor_script' => 'vk-filter-search-js',
+				'render_callback' => array( __CLASS__, 'render_filter_search_callback' ),
 			)
 		);
 
@@ -269,7 +273,7 @@ class VK_Filter_Search_Block {
 				'style'           => 'vk-filter-search',
 				'editor_style'    => 'vk-filter-search-editor',
 				'editor_script'   => 'vk-filter-search-js',
-				'render_callback' => array( __CLASS__, 'render_keyword_callback' ),
+				'render_callback' => array( __CLASS__, 'render_keyword_search_callback' ),
 			)
 		);
 
@@ -286,7 +290,7 @@ class VK_Filter_Search_Block {
 						'default' => '["post","page"]',
 					),
 				),
-				'render_callback' => array( __CLASS__, 'render_post_type_callback' ),
+				'render_callback' => array( __CLASS__, 'render_post_type_search_callback' ),
 			)
 		);
 
@@ -303,40 +307,41 @@ class VK_Filter_Search_Block {
 						'default' => 'category',
 					),
 				),
-				'render_callback' => array( __CLASS__, 'render_taxonomy_callback' ),
+				'render_callback' => array( __CLASS__, 'render_taxonomy_search_callback' ),
 			)
 		);
 	}
 
 	/**
-	 * Rendering Call Filter Search Block
+	 * Rendering Filter Search Block
 	 *
 	 * @param array $attributes attributes.
 	 * @param html  $content content.
 	 */
-	public static function render_call_form_callback( $attributes, $content = '' ) {
+	public static function render_filter_search_callback( $attributes, $content = '' ) {
 		$attributes = wp_parse_args(
 			$attributes,
 			array(
-				'TargetPost' => -1,
+				'TargetPostType'   => '',
+				'DisplayOnResult'  => false,
+				'DisplayOnArchive' => '[]',
+				'FormID'           => null,
 			)
 		);
 
-		$vkfs_before_form_id = ! empty( $attributes['TargetPost'] ) ? $attributes['TargetPost'] : -1;
-
-		$form_html = '';
-		if ( -1 !== $vkfs_before_form_id ) {
-			$form_html    .= '<div class="vkfs__call-filter-search">';
-			$block_content = get_post( $vkfs_before_form_id )->post_content;
-			if ( has_block( 'vk-filter-search/filter-search', $block_content ) && ! has_block( 'vk-filter-search/keyword-search', $block_content ) ) {
-				$block_content = str_replace( '[no_keyword_hidden_input]', '<input type="hidden" name="s" value="" />', $block_content );
-			} else {
-				$block_content = str_replace( '[no_keyword_hidden_input]', '', $block_content );
-			}
-			$form_html .= apply_filters( 'vkfs_form_content', $block_content );
-			$form_html .= '</div>';
+		if ( false === strpos( $content, 'vkfs__keyword' ) ) {
+			$content = str_replace( '[no_keyword_hidden_input]', '<input type="hidden" name="s" value="" />', $content );
+		} else {
+			$content = str_replace( '[no_keyword_hidden_input]', '', $content );
 		}
-		return $form_html;
+
+		$options = VK_Filter_Search::get_options();
+
+		$options['display_on_result'][ $attributes['FormID'] ] = $content;
+
+		update_option( 'vk_filter_search', $options );
+
+		return $content;
 	}
 
 	/**
@@ -345,7 +350,7 @@ class VK_Filter_Search_Block {
 	 * @param array $attributes attributes.
 	 * @param html  $content content.
 	 */
-	public static function render_keyword_callback( $attributes, $content = '' ) {
+	public static function render_keyword_search_callback( $attributes, $content = '' ) {
 		return VK_Filter_Search::get_keyword_form_html();
 	}
 
@@ -355,7 +360,7 @@ class VK_Filter_Search_Block {
 	 * @param array $attributes attributes.
 	 * @param html  $content content.
 	 */
-	public static function render_post_type_callback( $attributes, $content = '' ) {
+	public static function render_post_type_search_callback( $attributes, $content = '' ) {
 		$attributes = wp_parse_args(
 			$attributes,
 			array(
@@ -384,7 +389,7 @@ class VK_Filter_Search_Block {
 	 * @param array $attributes attributes.
 	 * @param html  $content content.
 	 */
-	public static function render_taxonomy_callback( $attributes, $content = '' ) {
+	public static function render_taxonomy_search_callback( $attributes, $content = '' ) {
 		$attributes = wp_parse_args(
 			$attributes,
 			array(
@@ -402,21 +407,6 @@ class VK_Filter_Search_Block {
 			$taxonomy_html = VK_Filter_Search::get_taxonomy_form_html( $taxonomy );
 		}
 		return $taxonomy_html;
-	}
-
-	/**
-	 * Render Block Control
-	 *
-	 * @param string $block_content The block content about to be appended.
-	 * @param array  $block         The full block, including name and attributes.
-	 */
-	public static function render_block_control( $block_content, $block ) {
-		if ( has_block( 'vk-filter-search/filter-search', $block_content ) && ! has_block( 'vk-filter-search/keyword-search', $block_content ) ) {
-			$block_content = str_replace( '[no_keyword_hidden_input]', '<input type="hidden" name="s" value="" />', $block_content );
-		} else {
-			$block_content = str_replace( '[no_keyword_hidden_input]', '', $block_content );
-		}
-		return $block_content;
 	}
 }
 new VK_Filter_Search_Block();

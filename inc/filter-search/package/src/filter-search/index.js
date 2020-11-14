@@ -1,6 +1,7 @@
 import './style.scss';
 import './editor.scss';
 import { deprecated } from "./deprecated/deprecated";
+import { AdvancedCheckboxControl } from '../common/component';
 
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
@@ -48,14 +49,22 @@ registerBlockType( 'vk-filter-search/filter-search', {
 			type: 'boolean',
 			default: false,
 		},
-		PostID: {
-			type: 'number',
+		DisplayOnArchive: {
+			type: 'string',
+			default: '[]',
+		},
+		FormID: {
+			type: 'string',
 			default: null,
 		},
+
 	},
 	example: {
 		attributes: {
 			TargetPostType: 'post',
+			DisplayOnResult: false,
+			DisplayOnArchive: '[]',
+			FormID: null
 		},
 		innerBlocks: [
 			{
@@ -82,11 +91,13 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		const {
 			TargetPostType,
 			DisplayOnResult,
-			PostID
+			DisplayOnArchive,
+			FormID
 		} = attributes;
 
-		const post_id =( PostID !== null && PostID !== undefined ) ? PostID : wp.data.select("core/editor").getCurrentPostId();
-		setAttributes( { PostID: post_id } );
+		if ( FormID === null || FormID === undefined ) {
+			setAttributes( { FormID: vkfs_form_id } );
+		}
 
 		let allowedBlocks;
 		let hiddenPostTypes;
@@ -109,7 +120,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 
 		let hiddenResult;
 		if ( DisplayOnResult ) {
-			hiddenResult = <input type="hidden" name="vkfs_form_id" value={ PostID } />;
+			hiddenResult = <input type="hidden" name="vkfs_form_id" value={ FormID } />;
 		} else {
 			hiddenResult = '';
 		}
@@ -122,7 +133,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 						initialOpen={ true }
 					>
 						<BaseControl
-							id={ 'vsfs-post-type01' }
+							id={ 'vkfs-search-form-01' }
 						>
 							<SelectControl
 								label={ __( 'Target of Post Type', 'vk-filter-search' ) }
@@ -132,12 +143,23 @@ registerBlockType( 'vk-filter-search/filter-search', {
 							/>
 						</BaseControl>
 						<BaseControl
-							id={ 'vsfs-post-type02' }
+							id={ 'vkfs-search-form-02' }
 						>
 							<ToggleControl
 								label="Display this form on search result page"
 								checked={ DisplayOnResult }
 								onChange={ (checked) => setAttributes({ DisplayOnResult: checked }) }
+							/>
+						</BaseControl>
+						<BaseControl
+							id={ 'vkfs-search-form-03' }
+							label={ __( 'Display this form on post type archive page.', 'vk-filter-search' ) }
+						>
+							<AdvancedCheckboxControl
+								schema={ 'DisplayOnArchive' }
+								rawData={ vk_filter_search_post_type_checkbox }
+								checkedData={ JSON.parse( DisplayOnArchive ) }
+								{ ...props }
 							/>
 						</BaseControl>
 					</PanelBody>
@@ -178,7 +200,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		const {
 			TargetPostType,
 			DisplayOnResult,
-			PostID
+			FormID
 		} = attributes;
 
 		let hiddenPostTypes;
@@ -192,7 +214,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 
 		let hiddenResult;
 		if ( DisplayOnResult ) {
-			hiddenResult = <input type="hidden" name="vkfs_form_id" value={ PostID } />;
+			hiddenResult = <input type="hidden" name="vkfs_form_id" value={ FormID } />;
 		} else {
 			hiddenResult = '';
 		}

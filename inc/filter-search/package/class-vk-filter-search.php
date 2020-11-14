@@ -16,7 +16,6 @@ class VK_Filter_Search {
 	public function __construct() {
 		add_action( 'pre_get_posts', array( __CLASS__, 'pre_get_posts' ) );
 		add_action( 'wp', array( __CLASS__, 'get_header' ) );
-		// add_action( 'init', array( __CLASS__, 'register_post_types' ) );
 		add_action( 'dynamic_sidebar_before', array( __CLASS__, 'dynamic_sidebar_before' ) );
 		add_action( 'dynamic_sidebar_after', array( __CLASS__, 'dynamic_sidebar_after' ) );
 		add_action( 'loop_start', array( __CLASS__, 'display_form_on_loop' ) );
@@ -676,26 +675,6 @@ class VK_Filter_Search {
 	}
 
 	/**
-	 * Register Post Type
-	 */
-	public static function register_post_types() {
-		global $vkfs_prefix;
-		register_post_type(
-			'vk-filter-search',
-			array(
-				'label'        => $vkfs_prefix . __( 'Filter Search', 'vk-filter-search' ),
-				'public'       => false,
-				'show_ui'      => true,
-				'show_in_menu' => true,
-				'has_archive'  => false,
-				'menu_icon'    => 'dashicons-screenoptions',
-				'show_in_rest' => true,
-				'supports'     => array( 'title', 'editor' ),
-			)
-		);
-	}
-
-	/**
 	 * Dynamic Sidebar Before
 	 */
 	public static function dynamic_sidebar_before() {
@@ -720,20 +699,36 @@ class VK_Filter_Search {
 	}
 
 	/**
+	 * Get Option
+	 */
+	public static function get_options() {
+		$default = array(
+			'count' => 0,
+		);
+		$options = get_option( 'vk_filter_search', $default );
+		return $options;
+	}
+
+	/**
+	 * Create Form ID
+	 */
+	public static function form_id() {
+		$options = self::get_options();
+		$options['count']++;
+		update_option( 'vk_filter_search', $options );
+		return 'vkfs_form_id-' . $options['count'];
+	}
+
+	/**
 	 * Display Search Form on Loop
 	 */
 	public static function display_form_on_loop() {
-		if ( isset( $_GET['vkfs_form_id'] ) ) {
-			$form_id = intval( sanitize_text_field( wp_unslash( $_GET['vkfs_form_id'] ) ) );
+		if ( is_search() && ! self::is_widget_area() && isset( $_GET['vkfs_form_id'] ) ) {
+			$form_id = sanitize_text_field( wp_unslash( $_GET['vkfs_form_id'] ) );
+			$options = self::get_options();
+			$content = $options['display_on_result'][ $form_id ];
 
-			$block_content = get_post( $form_id )->post_content;
-			if ( has_block( 'vk-filter-search/filter-search', $block_content ) && ! has_block( 'vk-filter-search/keyword-search', $block_content ) ) {
-				$block_content = str_replace( '[no_keyword_hidden_input]', '<input type="hidden" name="s" value="" />', $block_content );
-			} else {
-				$block_content = str_replace( '[no_keyword_hidden_input]', '', $block_content );
-			}
-			$content_html = apply_filters( 'vkfs_form_content', $block_content );
-			$allowed_html = array(
+			$allowed = array(
 				'form'   => array(
 					'id'     => array(),
 					'class'  => array(),
@@ -770,9 +765,8 @@ class VK_Filter_Search {
 					'selected' => array(),
 				),
 			);
-			if ( is_search() && ! self::is_widget_area() ) {
-				echo wp_kses( $content_html, $allowed_html );
-			}
+			// echo wp_kses( $content, $allowed );
+			echo $content;
 		}
 	}
 }
