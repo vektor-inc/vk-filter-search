@@ -765,8 +765,7 @@ class VK_Filter_Search {
 					'selected' => array(),
 				),
 			);
-			// echo wp_kses( $content, $allowed );
-			echo $content;
+			echo wp_kses( $content, $allowed );
 		}
 	}
 }
