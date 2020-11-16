@@ -4,7 +4,7 @@ Donate link:
 Tags: Guternberg, Search
 Requires at least: 5.5
 Tested up to: 5.5.3
-Stable tag: 0.3.2
+Stable tag: 0.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,9 @@ This plugin can be installed directly from your site.
 1. Editor View
 
 == Changelog ==
+
+= 0.4.0 =
+[ Specification Change ] Change logic of display the search box to search result page.
 
 = 0.3.2 =
 [ Bug fix ] fix console error.
