@@ -48,14 +48,16 @@ registerBlockType( 'vk-filter-search/filter-search', {
 			type: 'boolean',
 			default: false,
 		},
-		PostID: {
-			type: 'number',
+		FormID: {
+			type: 'string',
 			default: null,
 		},
 	},
 	example: {
 		attributes: {
 			TargetPostType: 'post',
+			DisplayOnResult: false,
+			FormID: null
 		},
 		innerBlocks: [
 			{
@@ -77,16 +79,17 @@ registerBlockType( 'vk-filter-search/filter-search', {
 	},
 
 	edit: ( props ) => {
-		const { attributes, setAttributes } = props;
+		const { attributes, setAttributes, clientId } = props;
 
 		const {
 			TargetPostType,
 			DisplayOnResult,
-			PostID
+			FormID
 		} = attributes;
 
-		const post_id =( PostID !== null && PostID !== undefined ) ? PostID : wp.data.select("core/editor").getCurrentPostId();
-		setAttributes( { PostID: post_id } );
+		if ( FormID === null || FormID === undefined ) {
+			setAttributes( { FormID: clientId } );
+		}
 
 		let allowedBlocks;
 		let hiddenPostTypes;
@@ -109,7 +112,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 
 		let hiddenResult;
 		if ( DisplayOnResult ) {
-			hiddenResult = <input type="hidden" name="vkfs_form_id" value={ PostID } />;
+			hiddenResult = <input type="hidden" name="vkfs_form_id" value={ FormID } />;
 		} else {
 			hiddenResult = '';
 		}
@@ -122,7 +125,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 						initialOpen={ true }
 					>
 						<BaseControl
-							id={ 'vsfs-post-type01' }
+							id={ 'vkfs-search-form-01' }
 						>
 							<SelectControl
 								label={ __( 'Target of Post Type', 'vk-filter-search' ) }
@@ -132,7 +135,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 							/>
 						</BaseControl>
 						<BaseControl
-							id={ 'vsfs-post-type02' }
+							id={ 'vkfs-search-form-02' }
 						>
 							<ToggleControl
 								label="Display this form on search result page"
@@ -178,7 +181,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		const {
 			TargetPostType,
 			DisplayOnResult,
-			PostID
+			FormID
 		} = attributes;
 
 		let hiddenPostTypes;
@@ -192,7 +195,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 
 		let hiddenResult;
 		if ( DisplayOnResult ) {
-			hiddenResult = <input type="hidden" name="vkfs_form_id" value={ PostID } />;
+			hiddenResult = <input type="hidden" name="vkfs_form_id" value={ FormID } />;
 		} else {
 			hiddenResult = '';
 		}
