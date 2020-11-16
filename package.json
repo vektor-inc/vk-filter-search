@@ -2,12 +2,13 @@
   "name": "vk-filter-search",
   "version": "1.0.1",
   "description": "Support Filtering Search of keyword, post-type and taxonomy.",
-  "main": "inc/filter-search/package/build/index.js",
+  "main": "gulpfile.js",
   "scripts": {
     "start": "npm run build && wp-env start",
     "stop": "wp-env stop",
-    "build": "npm run build:free && npm run translate",
+    "build": "npm run build:free && npm run build:query && npm run translate",
     "build:free": "wp-scripts build inc/filter-search/package/src/index.js --output-path=inc/filter-search/package/build",
+    "build:query": "gulp query-js",
     "watch": "wp-scripts start inc/filter-search/package/src/index.js --output-path=inc/filter-search/package/build",
     "check-engines": "wp-scripts check-engines",
     "check-licenses": "wp-scripts check-licenses",
@@ -32,6 +33,9 @@
     "@wordpress/i18n": "^3.16.0",
     "@wordpress/scripts": "^12.5.0",
     "@wordpress/server-side-render": "^1.19.1",
+    "gulp": "^4.0.2",
+    "gulp-jsmin": "^0.1.5",
+    "gulp-rename": "^2.0.0",
     "npm-check-updates": "^9.2.4",
     "po2json": "^1.0.0-beta-3"
   }
