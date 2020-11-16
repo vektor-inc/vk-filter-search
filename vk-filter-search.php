@@ -17,6 +17,8 @@ defined( 'ABSPATH' ) || exit;
 
 define( 'VKFS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 
+
+
 global $vkfs_prefix;
 $vkfs_prefix = apply_filters( 'vkfs_prefix', 'VK ' );
 

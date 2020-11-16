@@ -27,7 +27,7 @@ const set_query_value = (i) =>{
 		if ( key === 's' ) {
 			const keyword_selector = form_html[i].querySelector('.vkfs__keyword input[name="s"]');
 			if ( keyword_selector !== null ) {
-				keyword_selector.value = url_queries[key];
+				keyword_selector.value = decodeURI(url_queries[key]);
 			}
 		}
 		else if ( key === 'post_type' ) {
@@ -39,16 +39,15 @@ const set_query_value = (i) =>{
 		else if ( key === 'category_name' ) {
 			const category_select_selector = form_html[i].querySelector('.vkfs__taxonomy select[name="vkfs_category[]"]');
 			if ( category_select_selector !== null ) {
-				category_select_selector.value = url_queries[key];
+				category_select_selector.value = decodeURI(url_queries[key]);
 			}
 		}
 		else if ( key === 'tag' ) {
 			const tag_select_selector = form_html[i].querySelector('.vkfs__taxonomy select[name="vkfs_post_tag[]"]');
 			if ( tag_select_selector !== null ) {
-				tag_select_selector.value = url_queries[key];
+				tag_select_selector.value =  decodeURI(url_queries[key]);
 			}
 		}
-		console.log('key:' + key + ' value:' + url_queries[key]);
 	});
 }
 
