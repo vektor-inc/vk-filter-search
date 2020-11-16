@@ -14,19 +14,21 @@ class VK_Filter_Search {
 	 * Constructor
 	 */
 	public function __construct() {
+
+		$theme_hook_array     = vkfs_theme_hook_array();
+		$current_parent_theme = get_template();
+
 		add_action( 'wp', array( __CLASS__, 'get_header' ) );
 		add_action( 'dynamic_sidebar_before', array( __CLASS__, 'dynamic_sidebar_before' ) );
 		add_action( 'dynamic_sidebar_after', array( __CLASS__, 'dynamic_sidebar_after' ) );
-		add_action( 'loop_start', array( __CLASS__, 'display_form_on_loop' ) );
+
+		if ( array_key_exists( $current_parent_theme, $theme_hook_array ) ) {
+			add_action( $theme_hook_array[ $current_parent_theme ], array( __CLASS__, 'display_form_on_loop' ) );
+		} else {
+			add_action( 'loop_start', array( __CLASS__, 'display_form_on_loop' ) );
+		}
+
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
-		add_filter( 'vkfs_form_content', 'do_blocks', 9 );
-		add_filter( 'vkfs_form_content', 'wptexturize' );
-		add_filter( 'vkfs_form_content', 'convert_smilies', 20 );
-		add_filter( 'vkfs_form_content', 'shortcode_unautop' );
-		add_filter( 'vkfs_form_content', 'prepend_attachment' );
-		add_filter( 'vkfs_form_content', 'wp_filter_content_tags' );
-		add_filter( 'vkfs_form_content', 'do_shortcode', 11 );
-		add_filter( 'vkfs_form_content', 'capital_P_dangit', 11 );
 	}
 
 	/**
