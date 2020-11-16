@@ -240,15 +240,15 @@ class VK_Filter_Search_Block {
 				'editor_style'    => 'vk-filter-search-editor',
 				'editor_script'   => 'vk-filter-search-js',
 				'attributes'      => array(
-					'TargetPostType'   => array(
+					'TargetPostType'  => array(
 						'type'    => 'string',
 						'default' => '',
 					),
-					'DisplayOnResult'  => array(
+					'DisplayOnResult' => array(
 						'type'    => 'boolean',
 						'default' => false,
 					),
-					'FormID'           => array(
+					'FormID'          => array(
 						'type'    => 'string',
 						'default' => null,
 					),
@@ -313,9 +313,9 @@ class VK_Filter_Search_Block {
 		$attributes = wp_parse_args(
 			$attributes,
 			array(
-				'TargetPostType'   => '',
-				'DisplayOnResult'  => false,
-				'FormID'           => null,
+				'TargetPostType'  => '',
+				'DisplayOnResult' => false,
+				'FormID'          => null,
 			)
 		);
 
