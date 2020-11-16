@@ -48,6 +48,12 @@ const set_query_value = (i) =>{
 				tag_select_selector.value =  decodeURI(url_queries[key]);
 			}
 		}
+		else if ( key !== 'vkfs_form_id' ) {
+			const taxonomy_select_selector = form_html[i].querySelector('.vkfs__taxonomy select[name="vkfs_' + key + '[]"]');
+			if ( taxonomy_select_selector !== null ) {
+				taxonomy_select_selector.value =  decodeURI(url_queries[key]);
+			}
+		}
 	});
 }
 
