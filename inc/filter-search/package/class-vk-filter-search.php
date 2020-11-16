@@ -702,21 +702,8 @@ class VK_Filter_Search {
 	 * Get Option
 	 */
 	public static function get_options() {
-		$default = array(
-			'count' => 0,
-		);
-		$options = get_option( 'vk_filter_search', $default );
+		$options = get_option( 'vk_filter_search' );
 		return $options;
-	}
-
-	/**
-	 * Create Form ID
-	 */
-	public static function form_id() {
-		$options = self::get_options();
-		$options['count']++;
-		update_option( 'vk_filter_search', $options );
-		return 'vkfs_form_id-' . $options['count'];
 	}
 
 	/**

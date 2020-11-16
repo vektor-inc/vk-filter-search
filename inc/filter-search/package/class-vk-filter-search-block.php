@@ -86,11 +86,6 @@ class VK_Filter_Search_Block {
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_url', site_url( '/' ) );
 
 		/**
-		 * 生成されたフォームのID を渡す
-		 */
-		wp_localize_script( 'vk-filter-search-js', 'vkfs_form_id', VK_Filter_Search::form_id() );
-
-		/**
 		 * 呼び出す投稿のリストを生成し渡す
 		 */
 		// 選択可能なフォームを生成.

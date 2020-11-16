@@ -79,7 +79,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 	},
 
 	edit: ( props ) => {
-		const { attributes, setAttributes } = props;
+		const { attributes, setAttributes, clientId } = props;
 
 		const {
 			TargetPostType,
@@ -88,7 +88,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		} = attributes;
 
 		if ( FormID === null || FormID === undefined ) {
-			setAttributes( { FormID: vkfs_form_id } );
+			setAttributes( { FormID: clientId } );
 		}
 
 		let allowedBlocks;
