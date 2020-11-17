@@ -646,11 +646,23 @@ class VK_Filter_Search {
 	 * Display Search Form on Loop
 	 */
 	public static function display_form_on_loop() {
-		if ( is_search() && ! self::is_widget_area() && isset( $_GET['vkfs_form_id'] ) ) {
-			$form_id = sanitize_text_field( wp_unslash( $_GET['vkfs_form_id'] ) );
-			$options = self::get_options();
-			$content = $options['display_on_result'][ $form_id ];
-
+		$content = '';
+		if ( ! self::is_widget_area() ) {
+			if ( is_search() && isset( $_GET['vkfs_form_id'] ) ) {
+				$form_id = sanitize_text_field( wp_unslash( $_GET['vkfs_form_id'] ) );
+				$options = self::get_options();
+				$content = $options['display_on_result'][ $form_id ];
+			} elseif ( is_post_type_archive() ) {
+				$options = self::get_options();
+				$forms   = $options['display_on_post_type_archive'];
+				foreach ( $forms as $form ) {
+					foreach ( $form['display_post_type'] as $post_type ) {
+						if ( is_post_type_archive( $post_type ) ) {
+							$content = $form['form_content'];
+						}
+					}
+				}
+			}
 			$allowed = array(
 				'form'   => array(
 					'id'     => array(),

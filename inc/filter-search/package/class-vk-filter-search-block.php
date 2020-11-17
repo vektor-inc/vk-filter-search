@@ -62,6 +62,7 @@ class VK_Filter_Search_Block {
 			'wp-element',
 			'wp-i18n',
 		);
+
 		$editor_css = 'build/index.css';
 		wp_register_style(
 			'vk-filter-search-editor',
@@ -256,15 +257,23 @@ class VK_Filter_Search_Block {
 				'editor_style'    => 'vk-filter-search-editor',
 				'editor_script'   => 'vk-filter-search-js',
 				'attributes'      => array(
-					'TargetPostType'  => array(
+					'TargetPostType'           => array(
 						'type'    => 'string',
 						'default' => '',
 					),
-					'DisplayOnResult' => array(
+					'DisplayOnResult'          => array(
 						'type'    => 'boolean',
 						'default' => false,
 					),
-					'FormID'          => array(
+					'DisplayOnPosttypeArchive' => array(
+						'type'    => 'string',
+						'default' => '[]',
+					),
+					'FormID'                   => array(
+						'type'    => 'string',
+						'default' => null,
+					),
+					'PostID'                   => array(
 						'type'    => 'string',
 						'default' => null,
 					),
@@ -329,9 +338,11 @@ class VK_Filter_Search_Block {
 		$attributes = wp_parse_args(
 			$attributes,
 			array(
-				'TargetPostType'  => '',
-				'DisplayOnResult' => false,
-				'FormID'          => null,
+				'TargetPostType'           => '',
+				'DisplayOnResult'          => false,
+				'DisplayOnPosttypeArchive' => '[]',
+				'FormID'                   => null,
+				'PostID'                   => null,
 			)
 		);
 
@@ -341,9 +352,22 @@ class VK_Filter_Search_Block {
 			$content = str_replace( '[no_keyword_hidden_input]', '', $content );
 		}
 
+		if ( ! empty( $attributes['DisplayOnPosttypeArchive'] ) ) {
+			$attributes['DisplayOnPosttypeArchive'] = str_replace( '[', '', $attributes['DisplayOnPosttypeArchive'] );
+			$attributes['DisplayOnPosttypeArchive'] = str_replace( ']', '', $attributes['DisplayOnPosttypeArchive'] );
+			$attributes['DisplayOnPosttypeArchive'] = str_replace( '"', '', $attributes['DisplayOnPosttypeArchive'] );
+		}
+
+		$post_types = ! empty( $attributes['DisplayOnPosttypeArchive'] ) ? explode( ',', $attributes['DisplayOnPosttypeArchive'] ) : array();
+
 		$options = VK_Filter_Search::get_options();
 
-		$options['display_on_result'][ $attributes['FormID'] ] = $content;
+		$options['display_on_result'][ $attributes['FormID'] ]            = $content;
+		$options['display_on_post_type_archive'][ $attributes['FormID'] ] = array(
+			'display_post_type' => $post_types,
+			'form_post_id'      => $attributes['PostID'],
+			'form_content'      => $content,
+		);
 
 		update_option( 'vk_filter_search', $options );
 

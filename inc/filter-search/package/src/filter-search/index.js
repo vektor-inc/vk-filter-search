@@ -48,7 +48,15 @@ registerBlockType( 'vk-filter-search/filter-search', {
 			type: 'boolean',
 			default: false,
 		},
+		DisplayOnPosttypeArchive: {
+			type: 'string',
+			default: '[]',
+		},
 		FormID: {
+			type: 'string',
+			default: null,
+		},
+		PostID: {
 			type: 'string',
 			default: null,
 		},
@@ -84,9 +92,9 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		const {
 			TargetPostType,
 			DisplayOnResult,
+			DisplayOnPosttypeArchive,
 			FormID,
 			PostID,
-			DisplayOnPosttypeArchive
 		} = attributes;
 
 		if ( FormID === null || FormID === undefined ) {
@@ -151,11 +159,11 @@ registerBlockType( 'vk-filter-search/filter-search', {
 						</BaseControl>
 						<BaseControl
 							id={ 'vkfs-search-form-03' }
-							label={ __( 'Post Types', 'vk-filter-search' ) }
+							label={ __( 'Display on post type archive.', 'vk-filter-search' ) }
 						>
 							<AdvancedCheckboxControl
-								schema={ 'isCheckedPostType' }
-								rawData={ vk_filter_search_post_type_checkbox }
+								schema={ 'DisplayOnPosttypeArchive' }
+								rawData={ vk_filter_search_post_type_archive_checkbox }
 								checkedData={ JSON.parse( isCheckedPostType ) }
 								{ ...props }
 							/>
