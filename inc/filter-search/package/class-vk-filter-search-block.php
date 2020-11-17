@@ -194,8 +194,18 @@ class VK_Filter_Search_Block {
 			}
 		}
 
+		$post_type_archive_checkbox = array_diff(
+			$post_type_checkbox,
+			array(
+				'label' => get_post_type_object( 'page' )->labels->singular_name,
+				'slug'  => get_post_type_object( 'page' )->name,
+			)
+		);
+
 		// 投稿タイプ用のブロックで使うチェックボックスリストを渡す.
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_post_type_checkbox', $post_type_checkbox );
+		// アーカイブに表示するチェックボックスリストを渡す.
+		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_post_type_archive_checkbox', $post_type_archive_checkbox );
 		// フォーム用のブロックで使うプルダウンリストを渡す.
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_post_type_select', $post_type_select );
 

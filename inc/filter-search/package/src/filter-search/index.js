@@ -84,11 +84,17 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		const {
 			TargetPostType,
 			DisplayOnResult,
-			FormID
+			FormID,
+			PostID,
+			DisplayOnPosttypeArchive
 		} = attributes;
 
 		if ( FormID === null || FormID === undefined ) {
 			setAttributes( { FormID: clientId } );
+		}
+
+		if ( PostID === null || PostID === undefined ) {
+			setAttributes( { PostID: wp.data.select("core/editor").getCurrentPostId() } );
 		}
 
 		let allowedBlocks;
@@ -141,6 +147,17 @@ registerBlockType( 'vk-filter-search/filter-search', {
 								label={ __( 'Display this form on search result page', 'vk-filter-search' ) }
 								checked={ DisplayOnResult }
 								onChange={ (checked) => setAttributes({ DisplayOnResult: checked }) }
+							/>
+						</BaseControl>
+						<BaseControl
+							id={ 'vkfs-search-form-03' }
+							label={ __( 'Post Types', 'vk-filter-search' ) }
+						>
+							<AdvancedCheckboxControl
+								schema={ 'isCheckedPostType' }
+								rawData={ vk_filter_search_post_type_checkbox }
+								checkedData={ JSON.parse( isCheckedPostType ) }
+								{ ...props }
 							/>
 						</BaseControl>
 					</PanelBody>
