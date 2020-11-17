@@ -1,0 +1,137 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Project-Id-Version: VK Filter Search\n"
+"POT-Creation-Date: 2020-11-17 10:36+0900\n"
+"PO-Revision-Date: 2020-11-17 11:00+0900\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: vk-filter-search.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Last-Translator: \n"
+"Language: ja\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+"X-Poedit-SearchPathExcluded-1: node_modules\n"
+
+#: inc/filter-search/package/build/index.js:1
+msgid "vk-filter-search/filter-search"
+msgstr "vk-filter-search/filter-search"
+
+#: inc/filter-search/package/class-vk-filter-search-block.php:41
+msgid "Blocks"
+msgstr "Blocks"
+
+#: inc/filter-search/package/class-vk-filter-search-block.php:94
+msgid "Unspecified"
+msgstr "指定なし"
+
+#: inc/filter-search/package/class-vk-filter-search-block.php:123
+msgid "Do not specify post type"
+msgstr "投稿タイプを指定しない"
+
+#: inc/filter-search/package/class-vk-filter-search-shortcode.php:51
+#: inc/filter-search/package/src/filter-search/deprecated/deprecated_from_0_3_1.js:51
+#: inc/filter-search/package/src/filter-search/deprecated/deprecated_from_0_3_2.js:53
+#: inc/filter-search/package/src/filter-search/index.js:173
+#: inc/filter-search/package/src/filter-search/index.js:212
+msgid "Search"
+msgstr "検索結果ページ"
+
+#: inc/filter-search/package/class-vk-filter-search.php:52
+msgid "Keyword"
+msgstr "キーワード"
+
+#: inc/filter-search/package/class-vk-filter-search.php:53
+msgid "Input Keyword"
+msgstr "キーワードを入力"
+
+#: inc/filter-search/package/class-vk-filter-search.php:79
+#: inc/filter-search/package/class-vk-filter-search.php:116
+#: inc/filter-search/package/src/post-type-search/index.js:66
+msgid "Post Type"
+msgstr "投稿タイプ"
+
+#. translators: Don't specify Post Type.
+#. translators: Don't specify Term.
+#: inc/filter-search/package/class-vk-filter-search.php:134
+#: inc/filter-search/package/class-vk-filter-search.php:261
+#: inc/filter-search/package/class-vk-filter-search.php:282
+#: inc/filter-search/package/class-vk-filter-search.php:303
+#, php-format
+msgid "Do not specify a %s"
+msgstr "%sを指定しない"
+
+#: inc/filter-search/package/src/filter-search/deprecated/deprecated_from_0_1_0.js:34
+#: inc/filter-search/package/src/filter-search/deprecated/deprecated_from_0_1_1.js:35
+#: inc/filter-search/package/src/filter-search/deprecated/deprecated_from_0_2_3.js:51
+msgid "Refine search"
+msgstr "絞り込み検索"
+
+#. Plugin Name of the plugin/theme
+#: inc/filter-search/package/src/filter-search/index.js:13
+msgid "VK Filter Search"
+msgstr "VK Filter Search"
+
+#: inc/filter-search/package/src/filter-search/index.js:124
+#: inc/filter-search/package/src/filter-search/index.js:131
+msgid "Target of Post Type"
+msgstr "対象の投稿タイプ"
+
+#: inc/filter-search/package/src/keyword-search/index.js:7
+msgid "VK Keyword Search"
+msgstr "VK Keyword Search"
+
+#: inc/filter-search/package/src/post-type-search/index.js:12
+msgid "VK Post Type Search"
+msgstr "VK Post Type Search"
+
+#: inc/filter-search/package/src/post-type-search/index.js:68
+msgid "Because no post type is selected, this block will not render."
+msgstr "投稿タイプが選択されていないためこのブロックは表示されません。"
+
+#: inc/filter-search/package/src/post-type-search/index.js:78
+msgid "Post Type Option"
+msgstr "投稿タイプの設定"
+
+#: inc/filter-search/package/src/post-type-search/index.js:83
+msgid "Post Types"
+msgstr "投稿タイプ"
+
+#: inc/filter-search/package/src/taxonomy-search/index.js:9
+msgid "VK Taxonomy Search"
+msgstr "VK Taxonomy Search"
+
+#: inc/filter-search/package/src/taxonomy-search/index.js:68
+msgid "Because the taxonomy has no term, this block will not render."
+msgstr "このタクソノミーにはタームが存在しないためこのブロックは表示されません。"
+
+#: inc/filter-search/package/src/taxonomy-search/index.js:78
+msgid "Taxonomy Option"
+msgstr "タクソノミーの設定"
+
+#: inc/filter-search/package/src/taxonomy-search/index.js:85
+msgid "Taxonomy"
+msgstr "タクソノミー"
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/vektor-inc/vk-filter-search/"
+msgstr "https://github.com/vektor-inc/vk-filter-search/"
+
+#. Description of the plugin/theme
+msgid "This plugin for filter search."
+msgstr "絞り込み検索が行えるプラグインです。"
+
+#. Author of the plugin/theme
+msgid "Vektor,Inc."
+msgstr "Vektor,Inc."
+
+#. Author URI of the plugin/theme
+msgid "https://vektor-inc.co.jp"
+msgstr "https://vektor-inc.co.jp"
