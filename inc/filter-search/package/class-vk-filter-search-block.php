@@ -81,7 +81,7 @@ class VK_Filter_Search_Block {
 		wp_register_script(
 			'vk-filter-search-js',
 			plugins_url( '/build/index.js', __FILE__ ),
-			$script_dependencies['dependencies'],
+			$script_dependencies,
 			$plugin_version,
 			true
 		);
