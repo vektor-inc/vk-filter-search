@@ -138,7 +138,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 							id={ 'vkfs-search-form-02' }
 						>
 							<ToggleControl
-								label="Display this form on search result page"
+								label={ __( 'Display this form on search result page', 'vk-filter-search' ) }
 								checked={ DisplayOnResult }
 								onChange={ (checked) => setAttributes({ DisplayOnResult: checked }) }
 							/>
