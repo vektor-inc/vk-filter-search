@@ -54,8 +54,14 @@ class VK_Filter_Search_Block {
 	public static function register_blocks() {
 		global $plugin_version;
 
-		$script_dependencies = include dirname( __FILE__ ) . '/build/index.asset.php';
-
+		$script_dependencies = array(
+			'wp-api-fetch',
+			'wp-components',
+			'wp-compose',
+			'wp-blocks',
+			'wp-element',
+			'wp-i18n',
+		);
 		$editor_css = 'build/index.css';
 		wp_register_style(
 			'vk-filter-search-editor',
