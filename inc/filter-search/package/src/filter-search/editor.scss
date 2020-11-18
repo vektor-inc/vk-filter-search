@@ -2,11 +2,6 @@
 .wp-core-ui {
 	@import "../common/common";
 	.vkfs {
-		&__call-filter-search {
-			.vkfs__labels {
-				display: flex;
-			}
-		}
 		&__labels {
 			display: block;
 			.block-editor-block-list__layout {
