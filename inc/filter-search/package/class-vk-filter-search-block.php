@@ -14,8 +14,16 @@ class VK_Filter_Search_Block {
 	 * Constructor
 	 */
 	public function __construct() {
+		add_action( 'plugins_loaded', array( __CLASS__,'load_text_domain') );
 		add_filter( 'block_categories', array( __CLASS__, 'register_block_category' ), 10, 2 );
 		add_action( 'init', array( __CLASS__, 'register_blocks' ) );
+	}
+
+	/**
+	 *  Load Text Domain
+	 */
+	public function load_text_domain() {
+		load_plugin_textdomain( 'vk-filter-search' );
 	}
 
 	/**
