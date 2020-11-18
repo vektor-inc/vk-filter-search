@@ -652,8 +652,18 @@ class VK_Filter_Search {
 		$block_id_array = array_keys( $options['display_on_post_type_archive'] );
 		$i              = 0;
 		foreach ( $options['display_on_post_type_archive'] as $the_post ) {
-			if ( empty( $the_post['form_post_id'] ) || empty( get_post( $the_post['form_post_id'] ) ) ) {
+			if ( empty( $the_post['form_post_id'] ) ) {
 				unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
+			} else {
+				$post_object = get_post( $the_post['form_post_id'] );
+				if ( empty( $post_object ) ) {
+					unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
+				} else {
+					$post_content = $post_object->post_content;
+					if ( false === strpos( $post_content, $block_id_array[ $i ] ) ) {
+						unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
+					}
+				}
 			}
 			$i++;
 		}
