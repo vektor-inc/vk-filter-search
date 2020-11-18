@@ -652,7 +652,9 @@ class VK_Filter_Search {
 		$block_id_array = array_keys( $options['display_on_result'] );
 		$i              = 0;
 		foreach ( $options['display_on_result'] as $the_post ) {
-			if ( empty( $the_post['form_post_id'] ) ) {
+			if ( ! is_array( $options['display_on_result'][ $block_id_array[ $i ] ] ) ) {
+				unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
+			} else if ( empty( $the_post['form_post_id'] ) ) {
 				unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
 			} else {
 				$post_object = get_post( $the_post['form_post_id'] );
@@ -691,7 +693,9 @@ class VK_Filter_Search {
 		if ( ! self::is_widget_area() ) {
 			if ( is_search() && isset( $_GET['vkfs_form_id'] ) ) {
 				$form_id = sanitize_text_field( wp_unslash( $_GET['vkfs_form_id'] ) );
-				$content = $options['display_on_result'][ $form_id ];
+				if ( array_key_exists( $form_id, $options['display_on_result'] ) ) {
+					$content = $options['display_on_result'][ $form_id ]['form_content'];
+				}
 			} elseif ( is_post_type_archive() || is_home() ) {
 				$forms = $options['display_on_post_type_archive'];
 				foreach ( $forms as $form ) {
