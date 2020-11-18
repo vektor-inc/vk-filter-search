@@ -647,18 +647,35 @@ class VK_Filter_Search {
 	 */
 	public static function display_form_on_loop() {
 		$content = '';
+		$options = self::get_options();
+
+		$block_id_array = array_keys( $options['display_on_post_type_archive'] );
+		$i              = 0;
+		foreach ( $options['display_on_post_type_archive'] as $the_post ) {
+			if ( empty( $the_post['form_post_id'] ) || empty( get_post( $the_post['form_post_id'] ) ) ) {
+				unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
+			}
+			$i++;
+		}
+		update_option( 'vk_filter_search', $options );
+
 		if ( ! self::is_widget_area() ) {
 			if ( is_search() && isset( $_GET['vkfs_form_id'] ) ) {
 				$form_id = sanitize_text_field( wp_unslash( $_GET['vkfs_form_id'] ) );
-				$options = self::get_options();
 				$content = $options['display_on_result'][ $form_id ];
-			} elseif ( is_post_type_archive() ) {
-				$options = self::get_options();
-				$forms   = $options['display_on_post_type_archive'];
+			} elseif ( is_post_type_archive() || is_home() ) {
+				$forms = $options['display_on_post_type_archive'];
 				foreach ( $forms as $form ) {
 					foreach ( $form['display_post_type'] as $post_type ) {
-						if ( is_post_type_archive( $post_type ) ) {
-							$content = $form['form_content'];
+						if ( in_array( get_post_type(), $form['display_post_type'], true ) ) {
+							if ( 'post' === $post_type && is_home() || is_post_type_archive( $post_type ) ) {
+								$content .= $form['form_content'];
+								if ( current_user_can( 'edit_pages' ) ) {
+									$content .= '<a class="btn btn-default btn-sm" href="' . get_edit_post_link( $form['form_post_id'] ) . '" target="_blank">';
+									$content .= __( 'Edit', 'vk-filter-search' );
+									$content .= '</a>';
+								}
+							}
 						}
 					}
 				}
@@ -698,6 +715,11 @@ class VK_Filter_Search {
 					'class'    => array(),
 					'value'    => array(),
 					'selected' => array(),
+				),
+				'a'      => array(
+					'id'    => array(),
+					'class' => array(),
+					'href'  => array(),
 				),
 			);
 			echo wp_kses( $content, $allowed );

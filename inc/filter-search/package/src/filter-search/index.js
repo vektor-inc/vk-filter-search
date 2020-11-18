@@ -1,6 +1,7 @@
 import './style.scss';
 import './editor.scss';
 import { deprecated } from "./deprecated/deprecated";
+import { AdvancedCheckboxControl, } from '../common/component';
 
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
@@ -57,7 +58,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 			default: null,
 		},
 		PostID: {
-			type: 'string',
+			type: 'number',
 			default: null,
 		},
 	},
@@ -104,6 +105,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		if ( PostID === null || PostID === undefined ) {
 			setAttributes( { PostID: wp.data.select("core/editor").getCurrentPostId() } );
 		}
+		console.log( PostID );
 
 		let allowedBlocks;
 		let hiddenPostTypes;
@@ -164,7 +166,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 							<AdvancedCheckboxControl
 								schema={ 'DisplayOnPosttypeArchive' }
 								rawData={ vk_filter_search_post_type_archive_checkbox }
-								checkedData={ JSON.parse( isCheckedPostType ) }
+								checkedData={ JSON.parse( DisplayOnPosttypeArchive ) }
 								{ ...props }
 							/>
 						</BaseControl>
@@ -206,7 +208,9 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		const {
 			TargetPostType,
 			DisplayOnResult,
-			FormID
+			DisplayOnPosttypeArchive,
+			FormID,
+			PostID,
 		} = attributes;
 
 		let hiddenPostTypes;

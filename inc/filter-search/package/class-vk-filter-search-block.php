@@ -124,6 +124,8 @@ class VK_Filter_Search_Block {
 		 */
 		// 投稿タイプ用のブロックで使うチェックボックスリスト.
 		$post_type_checkbox = array();
+		// アーカイブページで検索フォームを表示させる投稿タイプのチェックボックスリスト.
+		$post_type_archive_checkbox = array();
 		// フォーム用のブロックで使うプルダウンリスト.
 		$post_type_select = array(
 			array(
@@ -139,11 +141,15 @@ class VK_Filter_Search_Block {
 			)
 		);
 		if ( ! empty( $get_posts ) ) {
-			$post_type_checkbox[] = array(
+			$post_type_checkbox[]         = array(
 				'label' => get_post_type_object( 'post' )->labels->singular_name,
 				'slug'  => get_post_type_object( 'post' )->name,
 			);
-			$post_type_select[]   = array(
+			$post_type_archive_checkbox[] = array(
+				'label' => get_post_type_object( 'post' )->labels->singular_name,
+				'slug'  => get_post_type_object( 'post' )->name,
+			);
+			$post_type_select[]           = array(
 				'label' => get_post_type_object( 'post' )->labels->singular_name,
 				'value' => get_post_type_object( 'post' )->name,
 			);
@@ -184,24 +190,20 @@ class VK_Filter_Search_Block {
 				)
 			);
 			if ( ! empty( $get_posts ) ) {
-				$post_type_checkbox[] = array(
+				$post_type_checkbox[]         = array(
 					'label' => $the_post_type->labels->singular_name,
 					'slug'  => $the_post_type->name,
 				);
-				$post_type_select[]   = array(
+				$post_type_archive_checkbox[] = array(
+					'label' => $the_post_type->labels->singular_name,
+					'slug'  => $the_post_type->name,
+				);
+				$post_type_select[]           = array(
 					'label' => $the_post_type->labels->singular_name,
 					'value' => $the_post_type->name,
 				);
 			}
 		}
-
-		$post_type_archive_checkbox = array_diff(
-			$post_type_checkbox,
-			array(
-				'label' => get_post_type_object( 'page' )->labels->singular_name,
-				'slug'  => get_post_type_object( 'page' )->name,
-			)
-		);
 
 		// 投稿タイプ用のブロックで使うチェックボックスリストを渡す.
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_post_type_checkbox', $post_type_checkbox );
@@ -274,7 +276,7 @@ class VK_Filter_Search_Block {
 						'default' => null,
 					),
 					'PostID'                   => array(
-						'type'    => 'string',
+						'type'    => 'number',
 						'default' => null,
 					),
 				),
@@ -362,7 +364,11 @@ class VK_Filter_Search_Block {
 
 		$options = VK_Filter_Search::get_options();
 
-		$options['display_on_result'][ $attributes['FormID'] ]            = $content;
+		$options['display_on_result'][ $attributes['FormID'] ] = array(
+			'form_post_id' => $attributes['PostID'],
+			'form_content' => $content,
+		);
+
 		$options['display_on_post_type_archive'][ $attributes['FormID'] ] = array(
 			'display_post_type' => $post_types,
 			'form_post_id'      => $attributes['PostID'],
