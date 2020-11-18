@@ -364,16 +364,20 @@ class VK_Filter_Search_Block {
 
 		$options = VK_Filter_Search::get_options();
 
-		$options['display_on_result'][ $attributes['FormID'] ] = array(
-			'form_post_id' => $attributes['PostID'],
-			'form_content' => $content,
-		);
+		if ( true === $attributes['DisplayOnResult'] ) {
+			$options['display_on_result'][ $attributes['FormID'] ] = array(
+				'form_post_id' => $attributes['PostID'],
+				'form_content' => $content,
+			);
+		}
 
-		$options['display_on_post_type_archive'][ $attributes['FormID'] ] = array(
-			'display_post_type' => $post_types,
-			'form_post_id'      => $attributes['PostID'],
-			'form_content'      => $content,
-		);
+		if ( ! empty( $post_types ) ) {
+			$options['display_on_post_type_archive'][ $attributes['FormID'] ] = array(
+				'display_post_type' => $post_types,
+				'form_post_id'      => $attributes['PostID'],
+				'form_content'      => $content,
+			);
+		}
 
 		update_option( 'vk_filter_search', $options );
 
