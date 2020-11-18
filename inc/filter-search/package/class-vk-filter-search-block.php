@@ -22,7 +22,7 @@ class VK_Filter_Search_Block {
 	/**
 	 *  Load Text Domain
 	 */
-	public function load_text_domain() {
+	public static function load_text_domain() {
 		load_plugin_textdomain( 'vk-filter-search' );
 	}
 
