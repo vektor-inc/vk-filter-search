@@ -7,7 +7,6 @@
  * Author:  Vektor,Inc.
  * Author URI: https://vektor-inc.co.jp
  * Text Domain: vk-filter-search
- * Domain Path: /languages
  * License: GPL 2.0 or Later
  *
  * @package VK Filter Search
