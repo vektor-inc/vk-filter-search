@@ -654,7 +654,7 @@ class VK_Filter_Search {
 		foreach ( $options['display_on_result'] as $the_post ) {
 			if ( ! is_array( $options['display_on_result'][ $block_id_array[ $i ] ] ) ) {
 				unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
-			} else if ( empty( $the_post['form_post_id'] ) ) {
+			} elseif ( empty( $the_post['form_post_id'] ) ) {
 				unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
 			} else {
 				$post_object = get_post( $the_post['form_post_id'] );
