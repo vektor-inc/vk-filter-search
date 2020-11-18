@@ -15,6 +15,7 @@
 defined( 'ABSPATH' ) || exit;
 
 define( 'VKFS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
+define( "BUILD_DIR", VKFS_PATH . '/inc/filter-search/package/build' );
 
 global $vkfs_prefix;
 $vkfs_prefix = apply_filters( 'vkfs_prefix', 'VK ' );
