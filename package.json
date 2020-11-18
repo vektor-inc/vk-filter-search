@@ -30,13 +30,15 @@
   "homepage": "https://github.com/vektor-inc/vk-filter-search#readme",
   "devDependencies": {
     "@wordpress/env": "^2.1.0",
-    "@wordpress/i18n": "^3.16.0",
     "@wordpress/scripts": "^12.5.0",
     "@wordpress/server-side-render": "^1.19.1",
     "gulp": "^4.0.2",
     "gulp-jsmin": "^0.1.5",
     "gulp-rename": "^2.0.0",
-    "npm-check-updates": "^9.2.4",
+    "npm-check-updates": "^10.2.1",
     "po2json": "^1.0.0-beta-3"
+  },
+  "dependencies": {
+    "@wordpress/i18n": "^3.16.0"
   }
 }
