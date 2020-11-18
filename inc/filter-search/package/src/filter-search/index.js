@@ -171,7 +171,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 						</BaseControl>
 					</PanelBody>
 				</InspectorControls>
-				<form className={ `vk-filter-search vkfs`} id={ PostID }  method={ `get` } action={ vk_filter_search_url }>
+				<form className={ `vk-filter-search vkfs`} method={ `get` } action={ vk_filter_search_url }>
 					<div className={ `vkfs__labels` } >
 						<InnerBlocks
 							allowedBlocks={ allowedBlocks }

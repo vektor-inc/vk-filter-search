@@ -369,6 +369,8 @@ class VK_Filter_Search_Block {
 				'form_post_id' => $attributes['PostID'],
 				'form_content' => $content,
 			);
+		} else {
+			unset( $options['display_on_result'][ $attributes['FormID'] ] );
 		}
 
 		if ( ! empty( $post_types ) ) {
@@ -377,6 +379,8 @@ class VK_Filter_Search_Block {
 				'form_post_id'      => $attributes['PostID'],
 				'form_content'      => $content,
 			);
+		} else {
+			unset( $options['display_on_post_type_archive'][ $attributes['FormID'] ] );
 		}
 
 		update_option( 'vk_filter_search', $options );
