@@ -1,7 +1,7 @@
 import {
 	AdvancedCheckboxControl,
 } from '../common/component';
-const { __ } = wp.i18n;
+import { __ } from "@wordpress/i18n";
 const { registerBlockType } = wp.blocks;
 const { PanelBody, BaseControl } = wp.components;
 const { Fragment } = wp.element;

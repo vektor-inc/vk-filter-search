@@ -7,7 +7,6 @@
  * Author:  Vektor,Inc.
  * Author URI: https://vektor-inc.co.jp
  * Text Domain: vk-filter-search
- * Domain Path: /languages
  * License: GPL 2.0 or Later
  *
  * @package VK Filter Search
@@ -16,8 +15,6 @@
 defined( 'ABSPATH' ) || exit;
 
 define( 'VKFS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
-
-
 
 global $vkfs_prefix;
 $vkfs_prefix = apply_filters( 'vkfs_prefix', 'VK ' );
