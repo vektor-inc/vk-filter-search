@@ -52,22 +52,15 @@ class VK_Filter_Search_Block {
 	 * Register Blocks
 	 */
 	public static function register_blocks() {
-		global $plugin_version;
+		
+		$asset_file = include( BUILD_DIR . '/index.asset.php' );
 
-		$script_dependencies = array(
-			'wp-api-fetch',
-			'wp-components',
-			'wp-compose',
-			'wp-blocks',
-			'wp-element',
-			'wp-i18n',
-		);
 		$editor_css = 'build/index.css';
 		wp_register_style(
 			'vk-filter-search-editor',
 			plugins_url( $editor_css, __FILE__ ),
 			array(),
-			$plugin_version
+			$asset_file['version'],
 		);
 
 		$style_css = 'build/style-index.css';
@@ -75,14 +68,14 @@ class VK_Filter_Search_Block {
 			'vk-filter-search',
 			plugins_url( $style_css, __FILE__ ),
 			array(),
-			$plugin_version
+			$asset_file['version'],
 		);
 
 		wp_register_script(
 			'vk-filter-search-js',
 			plugins_url( '/build/index.js', __FILE__ ),
-			$script_dependencies,
-			$plugin_version,
+			$asset_file['dependencies'],
+			$asset_file['version'],
 			true
 		);
 
