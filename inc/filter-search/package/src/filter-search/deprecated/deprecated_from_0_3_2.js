@@ -1,5 +1,6 @@
+
 const { InnerBlocks } = wp.blockEditor;
-const { __ } = wp.i18n;
+import { __ } from "@wordpress/i18n";
 
 export const deprecated_from_0_3_2 = {
 	attributes: {

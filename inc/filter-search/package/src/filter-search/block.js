@@ -1,7 +1,9 @@
+
 import './style.scss';
 import './editor.scss';
 import { deprecated } from "./deprecated/deprecated";
 import { AdvancedCheckboxControl, } from '../common/component';
+
 
 import { __ } from "@wordpress/i18n";
 const { registerBlockType } = wp.blocks;
@@ -53,6 +55,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 			type: 'string',
 			default: '[]',
 		},
+
 		FormID: {
 			type: 'string',
 			default: null,
@@ -105,7 +108,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		if ( PostID === null || PostID === undefined ) {
 			setAttributes( { PostID: wp.data.select("core/editor").getCurrentPostId() } );
 		}
-
+    
 		let allowedBlocks;
 		let hiddenPostTypes;
 

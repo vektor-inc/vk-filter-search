@@ -4,7 +4,7 @@ Donate link:
 Tags: Guternberg, Search
 Requires at least: 5.5
 Tested up to: 5.5.3
-Stable tag: 0.4.6
+Stable tag: 0.4.21
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,51 @@ This plugin can be installed directly from your site.
 1. Editor View
 
 == Changelog ==
+
+= 0.4.21 =
+[ Other ] Change Sentence.
+
+= 0.4.20 =
+[ Bug fix ] Fix Error.
+
+= 0.4.19 =
+[ Other ] Change File Name.
+
+= 0.4.18 =
+[ Bug fix ] Try Taxonomy Search Translate
+
+= 0.4.17 =
+[ Bug fix ] fix Taxonomy Search Translate
+
+= 0.4.16 =
+[ Bug fix ] fix @wordpress/i18n import
+
+= 0.4.15 =
+[ Other ] fix fatal error
+
+= 0.4.14 =
+[ Other ] bug fix
+
+= 0.4.13 =
+[ Other ] build only
+
+= 0.4.12 =
+[ Bug fix ] fix translate function and deploy settings
+
+= 0.4.11 =
+[ Bug fix ] fix translate function
+
+= 0.4.10 =
+[ Other ] build only
+
+= 0.4.9 =
+[ Bug fix ] fix translate function
+
+= 0.4.8 =
+[ Bug fix ] fix translate function
+
+= 0.4.7 =
+[ Bug fix ] fix translate function
 
 = 0.4.6 =
 [ Bug fix ] fix translate function
