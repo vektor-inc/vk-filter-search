@@ -116,6 +116,8 @@ class VK_Filter_Search_Block {
 		 */
 		// 投稿タイプ用のブロックで使うチェックボックスリスト.
 		$post_type_checkbox = array();
+		// アーカイブページで検索フォームを表示させる投稿タイプのチェックボックスリスト.
+		$post_type_archive_checkbox = array();
 		// フォーム用のブロックで使うプルダウンリスト.
 		$post_type_select = array(
 			array(
@@ -131,11 +133,15 @@ class VK_Filter_Search_Block {
 			)
 		);
 		if ( ! empty( $get_posts ) ) {
-			$post_type_checkbox[] = array(
+			$post_type_checkbox[]         = array(
 				'label' => get_post_type_object( 'post' )->labels->singular_name,
 				'slug'  => get_post_type_object( 'post' )->name,
 			);
-			$post_type_select[]   = array(
+			$post_type_archive_checkbox[] = array(
+				'label' => get_post_type_object( 'post' )->labels->singular_name,
+				'slug'  => get_post_type_object( 'post' )->name,
+			);
+			$post_type_select[]           = array(
 				'label' => get_post_type_object( 'post' )->labels->singular_name,
 				'value' => get_post_type_object( 'post' )->name,
 			);
@@ -176,11 +182,15 @@ class VK_Filter_Search_Block {
 				)
 			);
 			if ( ! empty( $get_posts ) ) {
-				$post_type_checkbox[] = array(
+				$post_type_checkbox[]         = array(
 					'label' => $the_post_type->labels->singular_name,
 					'slug'  => $the_post_type->name,
 				);
-				$post_type_select[]   = array(
+				$post_type_archive_checkbox[] = array(
+					'label' => $the_post_type->labels->singular_name,
+					'slug'  => $the_post_type->name,
+				);
+				$post_type_select[]           = array(
 					'label' => $the_post_type->labels->singular_name,
 					'value' => $the_post_type->name,
 				);
@@ -189,6 +199,8 @@ class VK_Filter_Search_Block {
 
 		// 投稿タイプ用のブロックで使うチェックボックスリストを渡す.
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_post_type_checkbox', $post_type_checkbox );
+		// アーカイブに表示するチェックボックスリストを渡す.
+		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_post_type_archive_checkbox', $post_type_archive_checkbox );
 		// フォーム用のブロックで使うプルダウンリストを渡す.
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_post_type_select', $post_type_select );
 
@@ -239,16 +251,24 @@ class VK_Filter_Search_Block {
 				'editor_style'    => 'vk-filter-search-editor',
 				'editor_script'   => 'vk-filter-search-js',
 				'attributes'      => array(
-					'TargetPostType'  => array(
+					'TargetPostType'           => array(
 						'type'    => 'string',
 						'default' => '',
 					),
-					'DisplayOnResult' => array(
+					'DisplayOnResult'          => array(
 						'type'    => 'boolean',
 						'default' => false,
 					),
-					'FormID'          => array(
+					'DisplayOnPosttypeArchive' => array(
 						'type'    => 'string',
+						'default' => '[]',
+					),
+					'FormID'                   => array(
+						'type'    => 'string',
+						'default' => null,
+					),
+					'PostID'                   => array(
+						'type'    => 'number',
 						'default' => null,
 					),
 				),
@@ -312,9 +332,11 @@ class VK_Filter_Search_Block {
 		$attributes = wp_parse_args(
 			$attributes,
 			array(
-				'TargetPostType'  => '',
-				'DisplayOnResult' => false,
-				'FormID'          => null,
+				'TargetPostType'           => '',
+				'DisplayOnResult'          => false,
+				'DisplayOnPosttypeArchive' => '[]',
+				'FormID'                   => null,
+				'PostID'                   => null,
 			)
 		);
 
@@ -324,9 +346,34 @@ class VK_Filter_Search_Block {
 			$content = str_replace( '[no_keyword_hidden_input]', '', $content );
 		}
 
+		if ( ! empty( $attributes['DisplayOnPosttypeArchive'] ) ) {
+			$attributes['DisplayOnPosttypeArchive'] = str_replace( '[', '', $attributes['DisplayOnPosttypeArchive'] );
+			$attributes['DisplayOnPosttypeArchive'] = str_replace( ']', '', $attributes['DisplayOnPosttypeArchive'] );
+			$attributes['DisplayOnPosttypeArchive'] = str_replace( '"', '', $attributes['DisplayOnPosttypeArchive'] );
+		}
+
+		$post_types = ! empty( $attributes['DisplayOnPosttypeArchive'] ) ? explode( ',', $attributes['DisplayOnPosttypeArchive'] ) : array();
+
 		$options = VK_Filter_Search::get_options();
 
-		$options['display_on_result'][ $attributes['FormID'] ] = $content;
+		if ( true === $attributes['DisplayOnResult'] ) {
+			$options['display_on_result'][ $attributes['FormID'] ] = array(
+				'form_post_id' => $attributes['PostID'],
+				'form_content' => $content,
+			);
+		} else {
+			unset( $options['display_on_result'][ $attributes['FormID'] ] );
+		}
+
+		if ( ! empty( $post_types ) ) {
+			$options['display_on_post_type_archive'][ $attributes['FormID'] ] = array(
+				'display_post_type' => $post_types,
+				'form_post_id'      => $attributes['PostID'],
+				'form_content'      => $content,
+			);
+		} else {
+			unset( $options['display_on_post_type_archive'][ $attributes['FormID'] ] );
+		}
 
 		update_option( 'vk_filter_search', $options );
 

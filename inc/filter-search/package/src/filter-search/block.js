@@ -2,6 +2,8 @@
 import './style.scss';
 import './editor.scss';
 import { deprecated } from "./deprecated/deprecated";
+import { AdvancedCheckboxControl, } from '../common/component';
+
 
 import { __ } from "@wordpress/i18n";
 const { registerBlockType } = wp.blocks;
@@ -49,8 +51,17 @@ registerBlockType( 'vk-filter-search/filter-search', {
 			type: 'boolean',
 			default: false,
 		},
+		DisplayOnPosttypeArchive: {
+			type: 'string',
+			default: '[]',
+		},
+
 		FormID: {
 			type: 'string',
+			default: null,
+		},
+		PostID: {
+			type: 'number',
 			default: null,
 		},
 	},
@@ -85,13 +96,19 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		const {
 			TargetPostType,
 			DisplayOnResult,
-			FormID
+			DisplayOnPosttypeArchive,
+			FormID,
+			PostID,
 		} = attributes;
 
 		if ( FormID === null || FormID === undefined ) {
 			setAttributes( { FormID: clientId } );
 		}
 
+		if ( PostID === null || PostID === undefined ) {
+			setAttributes( { PostID: wp.data.select("core/editor").getCurrentPostId() } );
+		}
+    
 		let allowedBlocks;
 		let hiddenPostTypes;
 
@@ -144,6 +161,17 @@ registerBlockType( 'vk-filter-search/filter-search', {
 								onChange={ (checked) => setAttributes({ DisplayOnResult: checked }) }
 							/>
 						</BaseControl>
+						<BaseControl
+							id={ 'vkfs-search-form-03' }
+							label={ __( 'Display on post type archive.', 'vk-filter-search' ) }
+						>
+							<AdvancedCheckboxControl
+								schema={ 'DisplayOnPosttypeArchive' }
+								rawData={ vk_filter_search_post_type_archive_checkbox }
+								checkedData={ JSON.parse( DisplayOnPosttypeArchive ) }
+								{ ...props }
+							/>
+						</BaseControl>
 					</PanelBody>
 				</InspectorControls>
 				<form className={ `vk-filter-search vkfs`} method={ `get` } action={ vk_filter_search_url }>
@@ -182,7 +210,9 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		const {
 			TargetPostType,
 			DisplayOnResult,
-			FormID
+			DisplayOnPosttypeArchive,
+			FormID,
+			PostID,
 		} = attributes;
 
 		let hiddenPostTypes;
