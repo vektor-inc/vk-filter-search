@@ -3,7 +3,7 @@
  * Plugin Name: VK Filter Search
  * Plugin URI: https://github.com/vektor-inc/vk-filter-search/
  * Description: This plugin for filter search.
- * Version: 0.4.17
+ * Version: 0.4.18
  * Author:  Vektor,Inc.
  * Author URI: https://vektor-inc.co.jp
  * Text Domain: vk-filter-search
@@ -15,7 +15,7 @@
 defined( 'ABSPATH' ) || exit;
 
 define( 'VKFS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
-define( "VKFS_BUILD_DIR", VKFS_PATH . '/inc/filter-search/package/build' );
+define( 'VKFS_BUILD_DIR', VKFS_PATH . '/inc/filter-search/package/build' );
 
 global $vkfs_prefix;
 $vkfs_prefix = apply_filters( 'vkfs_prefix', 'VK ' );
