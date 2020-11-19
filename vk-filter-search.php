@@ -3,11 +3,10 @@
  * Plugin Name: VK Filter Search
  * Plugin URI: https://github.com/vektor-inc/vk-filter-search/
  * Description: This plugin for filter search.
- * Version: 0.4.6
+ * Version: 0.4.21
  * Author:  Vektor,Inc.
  * Author URI: https://vektor-inc.co.jp
  * Text Domain: vk-filter-search
- * Domain Path: /languages
  * License: GPL 2.0 or Later
  *
  * @package VK Filter Search

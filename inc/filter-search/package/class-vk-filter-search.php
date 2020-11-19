@@ -763,9 +763,10 @@ class VK_Filter_Search {
 	 * Enqueue Scripts
 	 */
 	public static function enqueue_scripts() {
-		global $plugin_version;
+		$asset_file = include plugin_dir_path( __FILE__ ) . '/build/block.asset.php';
+
 		if ( isset( $_GET['vkfs_form_id'] ) ) {
-			wp_enqueue_script( 'vkfs__query', plugin_dir_url( __FILE__ ) . '/build/query.js', array(), $plugin_version, true );
+			wp_enqueue_script( 'vkfs__query', plugin_dir_url( __FILE__ ) . '/build/query.js', array(), $asset_file['version'], true );
 		}
 		do_action( 'vkfs_enqueue_scripts' );
 	}

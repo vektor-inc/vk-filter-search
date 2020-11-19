@@ -52,38 +52,30 @@ class VK_Filter_Search_Block {
 	 * Register Blocks
 	 */
 	public static function register_blocks() {
-		global $plugin_version;
 
-		$script_dependencies = array(
-			'wp-api-fetch',
-			'wp-components',
-			'wp-compose',
-			'wp-blocks',
-			'wp-element',
-			'wp-i18n',
-		);
+		$asset_file = include plugin_dir_path( __FILE__ ) . '/build/block.asset.php';
 
-		$editor_css = 'build/index.css';
+		$editor_css = 'build/block.css';
 		wp_register_style(
 			'vk-filter-search-editor',
 			plugins_url( $editor_css, __FILE__ ),
 			array(),
-			$plugin_version
+			$asset_file['version']
 		);
 
-		$style_css = 'build/style-index.css';
+		$style_css = 'build/style-block.css';
 		wp_register_style(
 			'vk-filter-search',
 			plugins_url( $style_css, __FILE__ ),
 			array(),
-			$plugin_version
+			$asset_file['version']
 		);
 
 		wp_register_script(
 			'vk-filter-search-js',
-			plugins_url( '/build/index.js', __FILE__ ),
-			$script_dependencies,
-			$plugin_version,
+			plugins_url( '/build/block.js', __FILE__ ),
+			$asset_file['dependencies'],
+			$asset_file['version'],
 			true
 		);
 

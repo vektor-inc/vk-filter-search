@@ -3,7 +3,7 @@ import './editor.scss';
 import { deprecated } from "./deprecated/deprecated";
 import { AdvancedCheckboxControl, } from '../common/component';
 
-const { __ } = wp.i18n;
+import { __ } from "@wordpress/i18n";
 const { registerBlockType } = wp.blocks;
 const { Fragment } = wp.element;
 const { InnerBlocks } = wp.blockEditor;
