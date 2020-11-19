@@ -20,7 +20,6 @@
 - Post Type Search
 - Taxonomy Search
 - Keyword Search
-- Call Search Form
 
 #### Filter Search ブロックの説明
 検索フォームの大本となるブロックです。
@@ -60,8 +59,6 @@ Filter Search ブロックのインナーブロックとしてのみ使用可能
 
 キーワード用のテキストフォームが生成されます。  
 
-#### Call Search Form ブロックの説明
-投稿タイプ「VK Filter Search」に登録された投稿を呼び出します。
 
 ## 開発者向け
 
