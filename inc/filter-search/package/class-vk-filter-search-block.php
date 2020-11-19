@@ -53,7 +53,7 @@ class VK_Filter_Search_Block {
 	 */
 	public static function register_blocks() {
 		
-		$asset_file = include( BUILD_DIR . '/index.asset.php' );
+		$asset_file = include( VKFS_BUILD_DIR . '/index.asset.php' );
 
 		$editor_css = 'build/index.css';
 		wp_register_style(
