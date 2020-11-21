@@ -694,12 +694,12 @@ class VK_Filter_Search {
 		update_option( 'vk_filter_search', $options );
 
 		if ( ! self::is_widget_area() ) {
-			if ( is_search() && isset( $_GET['vkfs_form_id'] ) ) {
+			if ( is_search() && isset( $_GET['vkfs_form_id'] ) && ! empty( $options['display_on_result'] )  ) {
 				$form_id = sanitize_text_field( wp_unslash( $_GET['vkfs_form_id'] ) );
 				if ( array_key_exists( $form_id, $options['display_on_result'] ) ) {
 					$content = $options['display_on_result'][ $form_id ]['form_content'];
 				}
-			} elseif ( is_post_type_archive() || is_home() ) {
+			} elseif ( ( is_post_type_archive() || is_home() ) && ! empty( $options['display_on_post_type_archive'] ) ) {
 				$forms = $options['display_on_post_type_archive'];
 				foreach ( $forms as $form ) {
 					foreach ( $form['display_post_type'] as $post_type ) {
