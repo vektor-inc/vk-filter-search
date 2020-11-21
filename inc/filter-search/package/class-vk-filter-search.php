@@ -671,7 +671,7 @@ class VK_Filter_Search {
 			}
 		}
 
-		if ( ! empty( $options['display_on_result'] ) ) {
+		if ( ! empty( $options['display_on_post_type_archive'] ) ) {
 			$block_id_array = array_keys( $options['display_on_post_type_archive'] );
 			$i              = 0;
 			foreach ( $options['display_on_post_type_archive'] as $the_post ) {
