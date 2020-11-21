@@ -648,45 +648,48 @@ class VK_Filter_Search {
 	public static function display_form_on_loop() {
 		$content = '';
 		$options = self::get_options();
-
-		$block_id_array = array_keys( $options['display_on_result'] );
-		$i              = 0;
-		foreach ( $options['display_on_result'] as $the_post ) {
-			if ( ! is_array( $options['display_on_result'][ $block_id_array[ $i ] ] ) ) {
-				unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
-			} elseif ( empty( $the_post['form_post_id'] ) ) {
-				unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
-			} else {
-				$post_object = get_post( $the_post['form_post_id'] );
-				if ( empty( $post_object ) ) {
+		if ( ! empty( $options['display_on_result'] ) ) {
+			$block_id_array = array_keys( $options['display_on_result'] );
+			$i              = 0;
+			foreach ( $options['display_on_result'] as $the_post ) {
+				if ( ! is_array( $options['display_on_result'][ $block_id_array[ $i ] ] ) ) {
+					unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
+				} elseif ( empty( $the_post['form_post_id'] ) ) {
 					unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
 				} else {
-					$post_content = $post_object->post_content;
-					if ( false === strpos( $post_content, $block_id_array[ $i ] ) ) {
+					$post_object = get_post( $the_post['form_post_id'] );
+					if ( empty( $post_object ) ) {
 						unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
+					} else {
+						$post_content = $post_object->post_content;
+						if ( false === strpos( $post_content, $block_id_array[ $i ] ) ) {
+							unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
+						}
 					}
 				}
+				$i++;
 			}
-			$i++;
 		}
 
-		$block_id_array = array_keys( $options['display_on_post_type_archive'] );
-		$i              = 0;
-		foreach ( $options['display_on_post_type_archive'] as $the_post ) {
-			if ( empty( $the_post['form_post_id'] ) ) {
-				unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
-			} else {
-				$post_object = get_post( $the_post['form_post_id'] );
-				if ( empty( $post_object ) ) {
+		if ( ! empty( $options['display_on_result'] ) ) {
+			$block_id_array = array_keys( $options['display_on_post_type_archive'] );
+			$i              = 0;
+			foreach ( $options['display_on_post_type_archive'] as $the_post ) {
+				if ( empty( $the_post['form_post_id'] ) ) {
 					unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
 				} else {
-					$post_content = $post_object->post_content;
-					if ( false === strpos( $post_content, $block_id_array[ $i ] ) ) {
+					$post_object = get_post( $the_post['form_post_id'] );
+					if ( empty( $post_object ) ) {
 						unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
+					} else {
+						$post_content = $post_object->post_content;
+						if ( false === strpos( $post_content, $block_id_array[ $i ] ) ) {
+							unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
+						}
 					}
 				}
+				$i++;
 			}
-			$i++;
 		}
 		update_option( 'vk_filter_search', $options );
 
