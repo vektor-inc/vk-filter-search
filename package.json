@@ -16,7 +16,11 @@
     "lint:css": "wp-scripts lint-style --fix",
     "lint:js": "wp-scripts lint-js --fix",
     "make-pot": "wp i18n make-pot ./ --domain=vk-filter-search",
-    "translate": "po2json languages/vk-filter-search-ja.po languages/vk-filter-search-ja-vk-filter-search-js.json -f jed"
+	"translate": "po2json languages/vk-filter-search-ja.po languages/vk-filter-search-ja-vk-filter-search-js.json -f jed",
+	"composer:install:win": "wp-env run composer \"composer install\"",
+    "composer:install:mac": "wp-env run composer 'composer install'",
+    "phpunit:win": "wp-env run phpunit \"phpunit -c /var/www/html/wp-content/plugins/vk-filter-search/phpunit.xml.dist --verbose\"",
+    "phpunit:mac": "wp-env run phpunit 'phpunit -c /var/www/html/wp-content/plugins/vk-filter-search/phpunit.xml.dist --verbose'"
   },
   "repository": {
     "type": "git",

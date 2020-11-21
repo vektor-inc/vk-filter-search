@@ -110,7 +110,7 @@ dist
 !.vscode/launch.json
 !.vscode/extensions.json
 *.code-workspace
-
+vendor/
 .wp-env.override.json
 .DS_Store
 languages/*
