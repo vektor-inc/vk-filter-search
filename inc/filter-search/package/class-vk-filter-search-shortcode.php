@@ -36,14 +36,14 @@ class VK_Filter_Search_Shortcode {
 
 		$form_before_html  = '<form class="vk-filter-search vkfs" method="get" action="' . site_url( '/' ) . '">';
 		$form_before_html .= '<div class="vkfs__labels">';
-		if ( ! empty( $atts['post_type'] ) ) {
-			$form_before_html .= '<input type="hidden" name="vkfs_post_type[]" value="' . $atts['post_type'] . '" />';
-		}
 
 		$inner_content = shortcode_unautop( $content );
 		$content       = do_shortcode( $inner_content );
 
 		$form_after_html = '</div>';
+		if ( ! empty( $atts['post_type'] ) ) {
+			$form_after_html .= '<input type="hidden" name="vkfs_post_type[]" value="' . $atts['post_type'] . '" />';
+		}
 		if ( false === strpos( $inner_content, 'vk_filter_search_keyword' ) ) {
 			$form_after_html .= '<input type="hidden" name="s" value="" />';
 		}

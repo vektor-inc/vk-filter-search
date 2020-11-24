@@ -6,9 +6,12 @@
             "email": "info@vektor-inc.co.jp"
         }
     ],
-	"require": {},
+	"require": {
+        "phpcompatibility/phpcompatibility-wp": "^2.1"
+    },
 	"require-dev": {
 		"sirbrillig/phpcs-variable-analysis": "^2.8",
-		"wp-phpunit/wp-phpunit": "^5.4"
+		"wp-phpunit/wp-phpunit": "^5.4",
+		"phpcompatibility/phpcompatibility-wp": "^2.1"
 	}
 }

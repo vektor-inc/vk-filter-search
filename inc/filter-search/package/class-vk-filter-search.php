@@ -15,7 +15,7 @@ class VK_Filter_Search {
 	 */
 	public function __construct() {
 
-		$theme_hook_array     = vkfs_theme_hook_array();
+		$theme_hook_array     = self::theme_hook_array();
 		$current_parent_theme = get_template();
 
 		add_action( 'wp', array( __CLASS__, 'get_header' ) );
@@ -30,6 +30,13 @@ class VK_Filter_Search {
 		}
 
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
+	}
+
+	/**
+	 * Theme Hook Array.
+	 */
+	public static function theme_hook_array() {
+		return apply_filters( 'vkfs_theme_hook_array', array() );
 	}
 
 	/**
@@ -694,7 +701,7 @@ class VK_Filter_Search {
 		update_option( 'vk_filter_search', $options );
 
 		if ( ! self::is_widget_area() ) {
-			if ( is_search() && isset( $_GET['vkfs_form_id'] ) && ! empty( $options['display_on_result'] )  ) {
+			if ( is_search() && isset( $_GET['vkfs_form_id'] ) && ! empty( $options['display_on_result'] ) ) {
 				$form_id = sanitize_text_field( wp_unslash( $_GET['vkfs_form_id'] ) );
 				if ( array_key_exists( $form_id, $options['display_on_result'] ) ) {
 					$content = $options['display_on_result'][ $form_id ]['form_content'];
