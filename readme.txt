@@ -4,7 +4,7 @@ Donate link:
 Tags: Guternberg, Search
 Requires at least: 5.5
 Tested up to: 5.5.3
-Stable tag: 0.6.1
+Stable tag: 0.6.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,6 +30,8 @@ This plugin can be installed directly from your site.
 
 == Changelog ==
 
+= 0.6.2 =
+[ Specification Change ] Delete needless code
 = 0.6.1 =
 [ Specification Change ] Config file
 

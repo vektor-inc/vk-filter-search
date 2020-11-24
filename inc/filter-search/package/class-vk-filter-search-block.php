@@ -85,33 +85,6 @@ class VK_Filter_Search_Block {
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_url', site_url( '/' ) );
 
 		/**
-		 * 呼び出す投稿のリストを生成し渡す
-		 */
-		// 選択可能なフォームを生成.
-		$option_posts = array(
-			array(
-				'label' => __( 'Unspecified', 'vk-filter-search' ),
-				'value' => -1,
-			),
-		);
-
-		$the_posts = get_posts(
-			array(
-				'posts_per_page' => -1,
-				'post_type'      => 'vk-filter-search',
-			)
-		);
-
-		foreach ( $the_posts as $the_post ) {
-			$option_posts[] = array(
-				'label' => $the_post->post_title,
-				'value' => $the_post->ID,
-			);
-		}
-		// 投稿リストをブロック側に渡す.
-		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_posts', $option_posts );
-
-		/**
 		 * 選択させる投稿タイプのリストを生成し渡す
 		 */
 		// 投稿タイプ用のブロックで使うチェックボックスリスト.
