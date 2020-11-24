@@ -4,7 +4,7 @@ Donate link:
 Tags: Guternberg, Search
 Requires at least: 5.5
 Tested up to: 5.5.3
-Stable tag: 0.6.3
+Stable tag: 0.6.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,9 @@ This plugin can be installed directly from your site.
 1. Editor View
 
 == Changelog ==
+
+= 0.6.4 =
+[ Bugfix ] If Post type is not selected, result page is not for any post type.
 
 = 0.6.3 =
 [ Specification Change ] Change Config file

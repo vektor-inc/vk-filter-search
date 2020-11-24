@@ -563,10 +563,14 @@ class VK_Filter_Search {
 			// 投稿タイプ.
 			if ( isset( $_GET['post_type'] ) ) {
 				$post_types = sanitize_text_field( wp_unslash( $_GET['post_type'] ) );
-				if ( false !== strpos( $post_types, ',' ) ) {
-					$query->set( 'post_type', explode( ',', $post_types ) );
+				if ( ! empty( $post_types ) ) {
+					if ( false !== strpos( $post_types, ',' ) ) {
+						$query->set( 'post_type', explode( ',', $post_types ) );
+					} else {
+						$query->set( 'post_type', $post_types );
+					}
 				} else {
-					$query->set( 'post_type', $post_types );
+					$query->set( 'post_type', 'any' );
 				}
 			}
 
