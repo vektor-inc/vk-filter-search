@@ -38,35 +38,37 @@ const set_query_value = (i) =>{
 			}
 		}
 		else if ( key === 'post_type' ) {
-			const post_type_select_selector = form_html[i].querySelector('.vkfs__post-type select[name="vkfs_post_type[]"]');
-			if ( post_type_select_selector !== null ) {
-				Object.keys(value_array).forEach( key => {
-					post_type_select_selector.value = value_array[key];
-				});
-			}
-		}
-		else if ( key === 'category_name' ) {
-			const category_select_selector = form_html[i].querySelector('.vkfs__taxonomy select[name="vkfs_category[]"]');
-			if ( category_select_selector !== null ) {
-				Object.keys(value_array).forEach( key => {
-					category_select_selector.value = decodeURI(value_array[key]);
-				});
-			}
-		}
-		else if ( key === 'tag' ) {
-			const tag_select_selector = form_html[i].querySelector('.vkfs__taxonomy select[name="vkfs_post_tag[]"]');
-			if ( tag_select_selector !== null ) {
-				Object.keys(value_array).forEach( key => {
-					tag_select_selector.value =  decodeURI(value_array[key]);
-				});
+			const post_type_select_selector = form_html[i].querySelectorAll('.vkfs__post_type-select');
+			if ( post_type_select_selector !== null && post_type_select_selector !== undefined ) {
+				for ( let j = 0; j < post_type_select_selector.length; j++ ) {
+					const post_type_select_options  = post_type_select_selector[j].querySelectorAll('option');
+					if ( post_type_select_options !== null && post_type_select_options !== undefined ) {
+						for ( let k = 0; k < post_type_select_options.length; k++ ) {
+							Object.keys(value_array).forEach( key => {
+								if ( post_type_select_options[k].value === decodeURI(value_array[key]) ) {
+									post_type_select_options[k].selected = true;
+								}
+							});
+						}
+					}
+				}
 			}
 		}
 		else if ( key !== 'vkfs_form_id' ) {
-			const taxonomy_select_selector = form_html[i].querySelector('.vkfs__taxonomy select[name="vkfs_' + key + '[]"]');
-			if ( taxonomy_select_selector !== null ) {
-				Object.keys(value_array).forEach( key => {
-					taxonomy_select_selector.value =  decodeURI(value_array[key]);
-				});
+			const taxonomy_select_selector = form_html[i].querySelectorAll('.vkfs__taxonomy-select');
+			if ( taxonomy_select_selector !== null && taxonomy_select_selector !== undefined ) {
+				for ( let j = 0; j < taxonomy_select_selector.length; j++ ) {
+					const taxonomy_select_options  = taxonomy_select_selector[j].querySelectorAll('option');
+					if ( taxonomy_select_options !== null && taxonomy_select_options !== undefined ) {
+						for ( let k = 0; k < taxonomy_select_options.length; k++ ) {
+							Object.keys(value_array).forEach( key => {
+								if ( taxonomy_select_options[k].value === decodeURI(value_array[key]) ) {
+									taxonomy_select_options[k].selected = true;
+								}
+							});
+						}
+					}
+				}
 			}
 		}
 	});
