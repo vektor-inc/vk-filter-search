@@ -704,7 +704,7 @@ class VK_Filter_Search {
 		}
 		update_option( 'vk_filter_search', $options );
 
-		if ( ! self::is_widget_area() ) {
+		if ( is_main_query() && ! self::is_widget_area() ) {
 			if ( is_search() && isset( $_GET['vkfs_form_id'] ) && ! empty( $options['display_on_result'] ) ) {
 				$form_id = sanitize_text_field( wp_unslash( $_GET['vkfs_form_id'] ) );
 				if ( array_key_exists( $form_id, $options['display_on_result'] ) ) {
