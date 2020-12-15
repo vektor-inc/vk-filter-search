@@ -656,7 +656,7 @@ class VK_Filter_Search {
 	/**
 	 * Display Search Form on Loop
 	 */
-	public static function display_form_on_loop( $query ) {
+	public static function display_form_on_loop() {
 		$content = '';
 		$options = self::get_options();
 		if ( ! empty( $options['display_on_result'] ) ) {
@@ -704,7 +704,7 @@ class VK_Filter_Search {
 		}
 		update_option( 'vk_filter_search', $options );
 
-		if ( $query->is_main_query() && ! self::is_widget_area() ) {
+		if ( is_main_query() && ! self::is_widget_area() ) {
 			if ( is_search() && isset( $_GET['vkfs_form_id'] ) && ! empty( $options['display_on_result'] ) ) {
 				$form_id = sanitize_text_field( wp_unslash( $_GET['vkfs_form_id'] ) );
 				if ( array_key_exists( $form_id, $options['display_on_result'] ) ) {
