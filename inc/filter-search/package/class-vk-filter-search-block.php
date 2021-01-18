@@ -227,50 +227,6 @@ class VK_Filter_Search_Block {
 			require_once diname( __FILE__ ) . '/src/' . $block . '/index.php';
 		}
 
-		// filter-search.
-		register_block_type(
-			'vk-filter-search/filter-search',
-			array(
-				'style'           => 'vk-filter-search',
-				'editor_style'    => 'vk-filter-search-editor',
-				'editor_script'   => 'vk-filter-search-js',
-				'attributes'      => array(
-					'TargetPostType'           => array(
-						'type'    => 'string',
-						'default' => '',
-					),
-					'DisplayOnResult'          => array(
-						'type'    => 'boolean',
-						'default' => false,
-					),
-					'DisplayOnPosttypeArchive' => array(
-						'type'    => 'string',
-						'default' => '[]',
-					),
-					'FormID'                   => array(
-						'type'    => 'string',
-						'default' => null,
-					),
-					'PostID'                   => array(
-						'type'    => 'number',
-						'default' => null,
-					),
-				),
-				'render_callback' => array( __CLASS__, 'render_filter_search_callback' ),
-			)
-		);
-
-		// keyword-search.
-		register_block_type(
-			'vk-filter-search/keyword-search',
-			array(
-				'style'           => 'vk-filter-search',
-				'editor_style'    => 'vk-filter-search-editor',
-				'editor_script'   => 'vk-filter-search-js',
-				'render_callback' => array( __CLASS__, 'render_keyword_search_callback' ),
-			)
-		);
-
 		// post-type-search.
 		register_block_type(
 			'vk-filter-search/post-type-search',
@@ -304,17 +260,6 @@ class VK_Filter_Search_Block {
 				'render_callback' => array( __CLASS__, 'render_taxonomy_search_callback' ),
 			)
 		);
-	}
-
-
-	/**
-	 * Rendering Keyword Search Block
-	 *
-	 * @param array $attributes attributes.
-	 * @param html  $content content.
-	 */
-	public static function render_keyword_search_callback( $attributes, $content = '' ) {
-		return VK_Filter_Search::get_keyword_form_html();
 	}
 
 	/**
