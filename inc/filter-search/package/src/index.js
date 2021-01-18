@@ -8,7 +8,6 @@ import {
 	registerBlockType,
 	unstable__bootstrapServerSideBlockDefinitions,
 } from '@wordpress/blocks';
-import compareVersions from 'compare-versions';
 
 /**
  * Internal dependencies
@@ -41,20 +40,8 @@ const registerBlock = ( block ) => {
 
 	let { metadata, settings, name } = block;
 
-	//WP5.5未満の場合
-	if ( compareVersions( window.wpVersion, "5.5" ) < 0 ){
-		//nameを削除
-		delete metadata.name;
-		//カテゴリ等を追加
-		settings = {
-			...settings,
-			...metadata
-		}
-
-	} else {
-		if ( metadata ) {
-			unstable__bootstrapServerSideBlockDefinitions( { [ name ]: metadata } );
-		}
+	if ( metadata ) {
+		unstable__bootstrapServerSideBlockDefinitions( { [ name ]: metadata } );
 	}
 	registerBlockType( name, settings );
 };
