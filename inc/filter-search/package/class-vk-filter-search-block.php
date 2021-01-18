@@ -216,7 +216,7 @@ class VK_Filter_Search_Block {
 			wp_set_script_translations( 'vk-filter-search-js', 'vk-filter-search' );
 		}
 
-		$blocks_array = array(
+		$block_array = array(
 			'filter-search',
 			'keyword-search',
 			'post-type-search',
@@ -224,25 +224,8 @@ class VK_Filter_Search_Block {
 		);
 
 		foreach ( $block_array as $block ) {
-			require_once diname( __FILE__ ) . '/src/' . $block . '/index.php';
+			require_once plugin_dir_path(__FILE__) . '/src/' . $block . '/index.php';
 		}
-
-		// taxmony-search.
-		register_block_type(
-			'vk-filter-search/taxonomy-search',
-			array(
-				'style'           => 'vk-filter-search',
-				'editor_style'    => 'vk-filter-search-editor',
-				'editor_script'   => 'vk-filter-search-js',
-				'attributes'      => array(
-					'isSelectedTaxonomy' => array(
-						'type'    => 'string',
-						'default' => 'category',
-					),
-				),
-				'render_callback' => array( __CLASS__, 'render_taxonomy_search_callback' ),
-			)
-		);
 	}
 }
 new VK_Filter_Search_Block();
