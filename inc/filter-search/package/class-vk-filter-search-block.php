@@ -262,34 +262,7 @@ class VK_Filter_Search_Block {
 		);
 	}
 
-	/**
-	 * Rendering Post Type Search Block
-	 *
-	 * @param array $attributes attributes.
-	 * @param html  $content content.
-	 */
-	public static function render_post_type_search_callback( $attributes, $content = '' ) {
-		$attributes = wp_parse_args(
-			$attributes,
-			array(
-				'isCheckedPostType' => '["post","page"]',
-			)
-		);
 
-		if ( ! empty( $attributes['isCheckedPostType'] ) ) {
-			$attributes['isCheckedPostType'] = str_replace( '[', '', $attributes['isCheckedPostType'] );
-			$attributes['isCheckedPostType'] = str_replace( ']', '', $attributes['isCheckedPostType'] );
-			$attributes['isCheckedPostType'] = str_replace( '"', '', $attributes['isCheckedPostType'] );
-		}
-
-		$post_types = ! empty( $attributes['isCheckedPostType'] ) ? explode( ',', $attributes['isCheckedPostType'] ) : array();
-
-		$post_type_html = '';
-		if ( ! empty( $post_types ) ) {
-			$post_type_html = VK_Filter_Search::get_post_type_form_html( $post_types );
-		}
-		return $post_type_html;
-	}
 
 	/**
 	 * Rendering Taxonomy Search Block

@@ -1,4 +1,4 @@
-import ServerSideRender from '@wordpress/serverSideRender';
+import ServerSideRender from '@wordpress/server-side-render';
 
 export default function KeywordSearchEdit() {
 	return (
