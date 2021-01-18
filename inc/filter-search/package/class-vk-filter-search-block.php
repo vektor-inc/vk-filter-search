@@ -227,23 +227,6 @@ class VK_Filter_Search_Block {
 			require_once diname( __FILE__ ) . '/src/' . $block . '/index.php';
 		}
 
-		// post-type-search.
-		register_block_type(
-			'vk-filter-search/post-type-search',
-			array(
-				'style'           => 'vk-filter-search',
-				'editor_style'    => 'vk-filter-search-editor',
-				'editor_script'   => 'vk-filter-search-js',
-				'attributes'      => array(
-					'isCheckedPostType' => array(
-						'type'    => 'string',
-						'default' => '["post","page"]',
-					),
-				),
-				'render_callback' => array( __CLASS__, 'render_post_type_search_callback' ),
-			)
-		);
-
 		// taxmony-search.
 		register_block_type(
 			'vk-filter-search/taxonomy-search',
@@ -260,34 +243,6 @@ class VK_Filter_Search_Block {
 				'render_callback' => array( __CLASS__, 'render_taxonomy_search_callback' ),
 			)
 		);
-	}
-
-
-
-	/**
-	 * Rendering Taxonomy Search Block
-	 *
-	 * @param array $attributes attributes.
-	 * @param html  $content content.
-	 */
-	public static function render_taxonomy_search_callback( $attributes, $content = '' ) {
-		$attributes = wp_parse_args(
-			$attributes,
-			array(
-				'isSelectedTaxonomy' => 'category',
-			)
-		);
-
-		$taxonomy        = ! empty( $attributes['isSelectedTaxonomy'] ) ? $attributes['isSelectedTaxonomy'] : '';
-		$taxonomy_object = get_taxonomy( $taxonomy );
-		$taxonomy_terms  = get_terms( $taxonomy );
-
-		$taxonomy_html = '';
-
-		if ( ! empty( $taxonomy_object ) && ! empty( $taxonomy_terms ) ) {
-			$taxonomy_html = VK_Filter_Search::get_taxonomy_form_html( $taxonomy );
-		}
-		return $taxonomy_html;
 	}
 }
 new VK_Filter_Search_Block();

@@ -1,7 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { AdvancedCheckboxControl } from '../common/component';
 import { PanelBody, BaseControl } from '@wordpress/components';
-import { Fragment } from '@wordpress/element';
 import { InspectorControls } from '@wordpress/block-editor';
 import ServerSideRender from '@wordpress/server-side-render';
 
@@ -36,7 +35,7 @@ export default function PostTypeSearchEdit( props ) {
 	}
 
 	return (
-		<Fragment>
+		<>
 			<InspectorControls>
 				<PanelBody
 					title={ __( 'Post Type Option', 'vk-filter-search' ) }
@@ -57,6 +56,6 @@ export default function PostTypeSearchEdit( props ) {
 				</PanelBody>
 			</InspectorControls>
 			{ editContent }
-		</Fragment>
+		</>
 	);
 }

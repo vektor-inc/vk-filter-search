@@ -19,7 +19,7 @@
 	"lint:filter-search": "wp-scripts format-js inc/filter-search/package/src/filter-search && wp-scripts lint-js inc/filter-search/package/src/filter-search --fix",
 	"lint:keyword-search": "wp-scripts format-js inc/filter-search/package/src/keyword-search && wp-scripts lint-js inc/filter-search/package/src/keyword-search --fix",
 	"lint:post-type-search": "wp-scripts format-js inc/filter-search/package/src/post-type-search && wp-scripts lint-js inc/filter-search/package/src/post-type-search --fix",
-	"lint:taxonomy-search": "wp-scripts format-js inc/filter-search/package/src/taxonomy && wp-scripts lint-js inc/filter-search/package/src/taxonomy --fix",
+	"lint:taxonomy-search": "wp-scripts format-js inc/filter-search/package/src/taxonomy-search && wp-scripts lint-js inc/filter-search/package/src/taxonomy-search --fix",
     "make-pot": "wp i18n make-pot ./ --domain=vk-filter-search",
     "translate": "po2json languages/vk-filter-search-ja.po languages/vk-filter-search-ja-vk-filter-search-js.json -f jed",
     "composer:install:win": "wp-env run composer \"composer install\"",
