@@ -20,7 +20,7 @@ import * as taxonomySearch from './taxonomy-search';
 /**
  * Function to get all the VK Blocks in an array.
  */
-export const __getVKBlocks = () => [
+export const __getVKFilterSearchBlocks = () => [
 	filterSearch,
 	keywordSearch,
 	postTypeSearch,
@@ -49,8 +49,8 @@ const registerBlock = ( block ) => {
 /**
  * Function to register VK Blocks.
  */
-export const registerVKBlocks = (
-	blocks = __getVKBlocks()
+export const registerVKFilterSearchBlocks = (
+	blocks = __getVKFilterSearchBlocks()
 ) => {
 	blocks.forEach( registerBlock );
 };
