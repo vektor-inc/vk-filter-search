@@ -34,7 +34,7 @@ if( function_exists('register_block_type_from_metadata')) {
 						'default' => null,
 					),
 				),
-				'render_callback' => 'render_filter_search_callback',
+				'render_callback' => 'vkfs_filter_search_render_callback',
 			)
 		);
 	}
@@ -47,7 +47,7 @@ if( function_exists('register_block_type_from_metadata')) {
  * @param array $attributes attributes.
  * @param html  $content content.
  */
-function render_filter_search_callback( $attributes, $content = '' ) {
+function vkfs_filter_search_render_callback( $attributes, $content = '' ) {
 	$attributes = wp_parse_args(
 		$attributes,
 		array(

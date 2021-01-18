@@ -12,7 +12,7 @@ if( function_exists('register_block_type_from_metadata')) {
 				'style'           => 'vk-filter-search',
 				'editor_style'    => 'vk-filter-search-editor',
 				'editor_script'   => 'vk-filter-search-js',
-				'render_callback' => 'render_keyword_search_callback',
+				'render_callback' => 'vkfs_keyword_search_render_callback',
 			)
 		);
 	}
@@ -25,6 +25,6 @@ if( function_exists('register_block_type_from_metadata')) {
  * @param array $attributes attributes.
  * @param html  $content content.
  */
-function render_keyword_search_callback( $attributes, $content = '' ) {
+function vkfs_keyword_search_render_callback( $attributes, $content = '' ) {
 	return VK_Filter_Search::get_keyword_form_html();
 }
