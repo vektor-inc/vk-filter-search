@@ -23,11 +23,13 @@ jobs:
   release:
     name: release
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - run: npm install
+    - run: npm run build
     - run: bash bin/dist.sh
     - run: echo "DIST_VERSION=$(echo ${{ github.ref }} | sed -E 's/^refs\/tags\/v?(.*)$/\1/')" >> $GITHUB_ENV
     - run: test -e dist/${{ env.plugin_name }}_v${{ env.DIST_VERSION }}.zip
