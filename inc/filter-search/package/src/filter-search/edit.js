@@ -1,7 +1,6 @@
 import { AdvancedCheckboxControl } from '../common/component';
 
 import { __ } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
 import {
 	InnerBlocks,
 	InspectorControls,
@@ -69,7 +68,7 @@ export default function FilterSearchEdit( props ) {
 	} );
 
 	return (
-		<Fragment>
+		<>
 			<InspectorControls>
 				<PanelBody
 					title={ __( 'Target of Post Type', 'vk-filter-search' ) }
@@ -160,6 +159,6 @@ export default function FilterSearchEdit( props ) {
 					value={ __( 'Search', 'vk-filter-search' ) }
 				/>
 			</form>
-		</Fragment>
+		</>
 	);
 }
