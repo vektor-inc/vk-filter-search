@@ -1,19 +1,21 @@
-
 import './style.scss';
 import './editor.scss';
-import { deprecated } from "./deprecated/deprecated";
-import { AdvancedCheckboxControl, } from '../common/component';
+import { deprecated } from './deprecated/deprecated';
+import { AdvancedCheckboxControl } from '../common/component';
 
-
-import { __ } from "@wordpress/i18n";
-const { registerBlockType } = wp.blocks;
-const { Fragment } = wp.element;
-const { InnerBlocks } = wp.blockEditor;
-const { InspectorControls } = wp.blockEditor;
-const { PanelBody, BaseControl, SelectControl, ToggleControl } = wp.components;
+import { __ } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
+import { Fragment } from '@wordpress/element';
+import { InnerBlocks, InspectorControls } from '@wordpress/block-editor';
+import {
+	PanelBody,
+	BaseControl,
+	SelectControl,
+	ToggleControl,
+} from '@wordpress/components';
 
 registerBlockType( 'vk-filter-search/filter-search', {
-	title: __('VK Filter Search','vk-filter-search' ),
+	title: __( 'VK Filter Search', 'vk-filter-search' ),
 	icon: (
 		<svg
 			height="25"
@@ -55,7 +57,6 @@ registerBlockType( 'vk-filter-search/filter-search', {
 			type: 'string',
 			default: '[]',
 		},
-
 		FormID: {
 			type: 'string',
 			default: null,
@@ -69,7 +70,7 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		attributes: {
 			TargetPostType: 'post',
 			DisplayOnResult: false,
-			FormID: null
+			FormID: null,
 		},
 		innerBlocks: [
 			{
@@ -106,31 +107,40 @@ registerBlockType( 'vk-filter-search/filter-search', {
 		}
 
 		if ( PostID === null || PostID === undefined ) {
-			setAttributes( { PostID: wp.data.select("core/editor").getCurrentPostId() } );
+			setAttributes( {
+				PostID: wp.data.select( 'core/editor' ).getCurrentPostId(),
+			} );
 		}
-    
+
 		let allowedBlocks;
 		let hiddenPostTypes;
 
 		if ( TargetPostType === '' ) {
-			allowedBlocks=[
+			allowedBlocks = [
 				'vk-filter-search/keyword-search',
 				'vk-filter-search/post-type-search',
 				'vk-filter-search/taxonomy-search',
 			];
 			hiddenPostTypes = '';
-		}
-		else {
-			allowedBlocks=[
+		} else {
+			allowedBlocks = [
 				'vk-filter-search/keyword-search',
 				'vk-filter-search/taxonomy-search',
 			];
-			hiddenPostTypes = <input type="hidden" name="post_type" value={ TargetPostType } />;
+			hiddenPostTypes = (
+				<input
+					type="hidden"
+					name="post_type"
+					value={ TargetPostType }
+				/>
+			);
 		}
 
 		let hiddenResult;
 		if ( DisplayOnResult ) {
-			hiddenResult = <input type="hidden" name="vkfs_form_id" value={ FormID } />;
+			hiddenResult = (
+				<input type="hidden" name="vkfs_form_id" value={ FormID } />
+			);
 		} else {
 			hiddenResult = '';
 		}
@@ -139,58 +149,83 @@ registerBlockType( 'vk-filter-search/filter-search', {
 			<Fragment>
 				<InspectorControls>
 					<PanelBody
-						title={ __( 'Target of Post Type', 'vk-filter-search' ) }
+						title={ __(
+							'Target of Post Type',
+							'vk-filter-search'
+						) }
 						initialOpen={ true }
 					>
-						<BaseControl
-							id={ 'vkfs-search-form-01' }
-						>
+						<BaseControl id={ 'vkfs-search-form-01' }>
 							<SelectControl
-								label={ __( 'Target of Post Type', 'vk-filter-search' ) }
+								label={ __(
+									'Target of Post Type',
+									'vk-filter-search'
+								) }
 								value={ TargetPostType }
+								//eslint-disable-next-line camelcase,no-undef
 								options={ vk_filter_search_post_type_select }
-								onChange={ value => setAttributes({ TargetPostType: value }) }
+								onChange={ ( value ) =>
+									setAttributes( { TargetPostType: value } )
+								}
 							/>
 						</BaseControl>
-						<BaseControl
-							id={ 'vkfs-search-form-02' }
-						>
+						<BaseControl id={ 'vkfs-search-form-02' }>
 							<ToggleControl
-								label={ __( 'Display this form on search result page', 'vk-filter-search' ) }
+								label={ __(
+									'Display this form on search result page',
+									'vk-filter-search'
+								) }
 								checked={ DisplayOnResult }
-								onChange={ (checked) => setAttributes({ DisplayOnResult: checked }) }
+								onChange={ ( checked ) =>
+									setAttributes( {
+										DisplayOnResult: checked,
+									} )
+								}
 							/>
 						</BaseControl>
 						<BaseControl
 							id={ 'vkfs-search-form-03' }
-							label={ __( 'Display on post type archive.', 'vk-filter-search' ) }
+							label={ __(
+								'Display on post type archive.',
+								'vk-filter-search'
+							) }
 						>
 							<AdvancedCheckboxControl
 								schema={ 'DisplayOnPosttypeArchive' }
-								rawData={ vk_filter_search_post_type_archive_checkbox }
-								checkedData={ JSON.parse( DisplayOnPosttypeArchive ) }
+								rawData={
+									//eslint-disable-next-line camelcase,no-undef
+									vk_filter_search_post_type_archive_checkbox
+								}
+								checkedData={ JSON.parse(
+									DisplayOnPosttypeArchive
+								) }
 								{ ...props }
 							/>
 						</BaseControl>
 					</PanelBody>
 				</InspectorControls>
-				<form className={ `vk-filter-search vkfs`} method={ `get` } action={ vk_filter_search_url }>
-					<div className={ `vkfs__labels` } >
+				<form
+					className={ `vk-filter-search vkfs` }
+					method={ `get` }
+					//eslint-disable-next-line camelcase,no-undef
+					action={ vk_filter_search_url }
+				>
+					<div className={ `vkfs__labels` }>
 						<InnerBlocks
 							allowedBlocks={ allowedBlocks }
-							templateLock={false}
+							templateLock={ false }
 							template={ [
 								[
 									'vk-filter-search/taxonomy-search',
 									{
 										isSelectedTaxonomy: 'category',
-									}
+									},
 								],
 								[
 									'vk-filter-search/taxonomy-search',
 									{
 										isSelectedTaxonomy: 'post_tag',
-									}
+									},
 								],
 								[ 'vk-filter-search/keyword-search' ],
 							] }
@@ -199,7 +234,11 @@ registerBlockType( 'vk-filter-search/filter-search', {
 					{ hiddenPostTypes }
 					{ hiddenResult }
 					<input type="hidden" name="vkfs_submitted" value="true" />
-					<input className={`btn btn-primary`} type={`submit`} value={ __( 'Search', 'vk-filter-search' ) } />
+					<input
+						className={ `btn btn-primary` }
+						type={ `submit` }
+						value={ __( 'Search', 'vk-filter-search' ) }
+					/>
 				</form>
 			</Fragment>
 		);
@@ -207,42 +246,52 @@ registerBlockType( 'vk-filter-search/filter-search', {
 	save: ( props ) => {
 		const { attributes } = props;
 
-		const {
-			TargetPostType,
-			DisplayOnResult,
-			DisplayOnPosttypeArchive,
-			FormID,
-			PostID,
-		} = attributes;
+		const { TargetPostType, DisplayOnResult, FormID } = attributes;
 
 		let hiddenPostTypes;
 
 		if ( TargetPostType === '' ) {
 			hiddenPostTypes = '';
-		}
-		else {
-			hiddenPostTypes = <input type="hidden" name="vkfs_post_type[]" value={ TargetPostType } />;
+		} else {
+			hiddenPostTypes = (
+				<input
+					type="hidden"
+					name="vkfs_post_type[]"
+					value={ TargetPostType }
+				/>
+			);
 		}
 
 		let hiddenResult;
 		if ( DisplayOnResult ) {
-			hiddenResult = <input type="hidden" name="vkfs_form_id" value={ FormID } />;
+			hiddenResult = (
+				<input type="hidden" name="vkfs_form_id" value={ FormID } />
+			);
 		} else {
 			hiddenResult = '';
 		}
 
 		return (
-				<form className={ `vk-filter-search vkfs`} method={ `get` } action={ vk_filter_search_url }>
-					<div className={ `vkfs__labels` } >
-						<InnerBlocks.Content />
-					</div>
-					[no_keyword_hidden_input]
-					{ hiddenPostTypes }
-					{ hiddenResult }
-					<input type="hidden" name="vkfs_submitted" value="true" />
-					<input className={`btn btn-primary`} type={`submit`} value={ __( 'Search', 'vk-filter-search' ) } />
-				</form>
+			<form
+				className={ `vk-filter-search vkfs` }
+				method={ `get` }
+				//eslint-disable-next-line camelcase,no-undef
+				action={ vk_filter_search_url }
+			>
+				<div className={ `vkfs__labels` }>
+					<InnerBlocks.Content />
+				</div>
+				[no_keyword_hidden_input]
+				{ hiddenPostTypes }
+				{ hiddenResult }
+				<input type="hidden" name="vkfs_submitted" value="true" />
+				<input
+					className={ `btn btn-primary` }
+					type={ `submit` }
+					value={ __( 'Search', 'vk-filter-search' ) }
+				/>
+			</form>
 		);
 	},
-	deprecated
+	deprecated,
 } );
