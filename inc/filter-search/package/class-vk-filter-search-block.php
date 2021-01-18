@@ -224,7 +224,7 @@ class VK_Filter_Search_Block {
 		);
 
 		foreach ( $block_array as $block ) {
-			require_once plugin_dir_path(__FILE__) . '/src/' . $block . '/index.php';
+			require_once plugin_dir_path( __FILE__ ) . 'src/' . $block . '/index.php';
 		}
 	}
 }
