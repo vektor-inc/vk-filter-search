@@ -1,11 +1,10 @@
-
-import { __ } from "@wordpress/i18n";
+import { __ } from '@wordpress/i18n';
 const { registerBlockType } = wp.blocks;
 const { Fragment } = wp.element;
 const ServerSideRender = wp.serverSideRender;
 
 registerBlockType( 'vk-filter-search/keyword-search', {
-	title: __('VK Keyword Search','vk-filter-search' ),
+	title: __( 'VK Keyword Search', 'vk-filter-search' ),
 	icon: (
 		<svg
 			height="25"
@@ -34,14 +33,12 @@ registerBlockType( 'vk-filter-search/keyword-search', {
 		</svg>
 	),
 	category: 'vk-blocks-cat',
-	parent: ["vk-filter-search/filter-search"],
+	parent: [ 'vk-filter-search/filter-search' ],
 
 	edit: () => {
 		return (
 			<Fragment>
-				<ServerSideRender
-					block="vk-filter-search/keyword-search"
-				/>
+				<ServerSideRender block="vk-filter-search/keyword-search" />
 			</Fragment>
 		);
 	},

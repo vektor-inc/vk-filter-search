@@ -216,6 +216,17 @@ class VK_Filter_Search_Block {
 			wp_set_script_translations( 'vk-filter-search-js', 'vk-filter-search' );
 		}
 
+		$blocks_array = array(
+			'filter-search',
+			'keyword-search',
+			'post-type-search',
+			'taxonomy-search',
+		);
+
+		foreach ( $block_array as $block ) {
+			require_once diname( __FILE__ ) . '/src/' . $block . '/index.php';
+		}
+
 		// filter-search.
 		register_block_type(
 			'vk-filter-search/filter-search',
@@ -295,63 +306,6 @@ class VK_Filter_Search_Block {
 		);
 	}
 
-	/**
-	 * Rendering Filter Search Block
-	 *
-	 * @param array $attributes attributes.
-	 * @param html  $content content.
-	 */
-	public static function render_filter_search_callback( $attributes, $content = '' ) {
-		$attributes = wp_parse_args(
-			$attributes,
-			array(
-				'TargetPostType'           => '',
-				'DisplayOnResult'          => false,
-				'DisplayOnPosttypeArchive' => '[]',
-				'FormID'                   => null,
-				'PostID'                   => null,
-			)
-		);
-
-		if ( false === strpos( $content, 'vkfs__keyword' ) ) {
-			$content = str_replace( '[no_keyword_hidden_input]', '<input type="hidden" name="s" value="" />', $content );
-		} else {
-			$content = str_replace( '[no_keyword_hidden_input]', '', $content );
-		}
-
-		if ( ! empty( $attributes['DisplayOnPosttypeArchive'] ) ) {
-			$attributes['DisplayOnPosttypeArchive'] = str_replace( '[', '', $attributes['DisplayOnPosttypeArchive'] );
-			$attributes['DisplayOnPosttypeArchive'] = str_replace( ']', '', $attributes['DisplayOnPosttypeArchive'] );
-			$attributes['DisplayOnPosttypeArchive'] = str_replace( '"', '', $attributes['DisplayOnPosttypeArchive'] );
-		}
-
-		$post_types = ! empty( $attributes['DisplayOnPosttypeArchive'] ) ? explode( ',', $attributes['DisplayOnPosttypeArchive'] ) : array();
-
-		$options = VK_Filter_Search::get_options();
-
-		if ( true === $attributes['DisplayOnResult'] ) {
-			$options['display_on_result'][ $attributes['FormID'] ] = array(
-				'form_post_id' => $attributes['PostID'],
-				'form_content' => $content,
-			);
-		} else {
-			unset( $options['display_on_result'][ $attributes['FormID'] ] );
-		}
-
-		if ( ! empty( $post_types ) ) {
-			$options['display_on_post_type_archive'][ $attributes['FormID'] ] = array(
-				'display_post_type' => $post_types,
-				'form_post_id'      => $attributes['PostID'],
-				'form_content'      => $content,
-			);
-		} else {
-			unset( $options['display_on_post_type_archive'][ $attributes['FormID'] ] );
-		}
-
-		update_option( 'vk_filter_search', $options );
-
-		return $content;
-	}
 
 	/**
 	 * Rendering Keyword Search Block
