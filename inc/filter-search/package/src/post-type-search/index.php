@@ -47,9 +47,5 @@ function vkfs_post_type_search_render_callback( $attributes, $content = '' ) {
 
 	$post_types = ! empty( $attributes['isCheckedPostType'] ) ? explode( ',', $attributes['isCheckedPostType'] ) : array();
 
-	$post_type_html = '';
-	if ( ! empty( $post_types ) ) {
-		$post_type_html = VK_Filter_Search::get_post_type_form_html( $post_types );
-	}
-	return $post_type_html;
+	return VK_Filter_Search::get_post_type_form_html( $post_types );
 }
