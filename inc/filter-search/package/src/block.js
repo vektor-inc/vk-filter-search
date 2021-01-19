@@ -49,8 +49,4 @@ const registerBlock = ( block ) => {
 /**
  * Function to register VK Blocks.
  */
-export const registerVKFilterSearchBlocks = (
-	blocks = __getVKFilterSearchBlocks()
-) => {
-	blocks.forEach( registerBlock );
-};
+__getVKFilterSearchBlocks().forEach( registerBlock );
