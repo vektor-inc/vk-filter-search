@@ -3,7 +3,7 @@ const jsmin = require("gulp-jsmin");
 const rename = require("gulp-rename");
 
 gulp.task( 'query-js', function (done)  {
-	gulp.src('inc/filter-search/package/src/common/enque-front.js')
+	gulp.src('inc/filter-search/package/src/filter-search/enque-front.js')
 	.pipe(jsmin())
 	.pipe(rename('vk-filter-search.min.js'))
 	.pipe(gulp.dest('inc/filter-search/package/build/'));
