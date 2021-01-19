@@ -24,15 +24,17 @@ export default function TaxonomySearchEdit( props ) {
 		);
 	} else {
 		editContent = (
-			<div className="vkfs__warning">
-				<div className="vkfs__label-name">
-					{ selectedTaxonomy.label }
-				</div>
-				<div className="vkfs__warning-text">
-					{ __(
-						'Because this taxonomy has no term, this block will not render.',
-						'vk-filter-search'
-					) }
+			<div>
+				<div className="vkfs__warning">
+					<div className="vkfs__label-name">
+						{ selectedTaxonomy.label }
+					</div>
+					<div className="vkfs__warning-text">
+						{ __(
+							'Because this taxonomy has no term, this block will not render.',
+							'vk-filter-search'
+						) }
+					</div>
 				</div>
 			</div>
 		);

@@ -1,6 +1,10 @@
 // 一部CSSがコアの指定に負けてしまうため .wp-core-ui の中に変更
 .wp-core-ui {
-	@import "../common/common";
+	& .vkfs select {
+		width:100%;
+		max-width:100%;
+		margin:0;
+	}
 	.vkfs {
 		&__labels {
 			display: block;
@@ -8,7 +12,7 @@
 				display: flex;
 				flex-wrap: wrap;
 				gap: 1em 1.6em;
-				.wp-block {
+				& > div {
 					flex-basis: calc(50% - 0.8em);
 					margin: 0;
 					&__keyword,
@@ -16,7 +20,7 @@
 					&__taxonomy {
 						flex-basis: calc(50% - 0.8em);
 						margin-bottom: 0;
-						label {
+						& label{
 							width:100%;
 						}
 					}

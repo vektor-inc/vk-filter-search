@@ -20,15 +20,17 @@ export default function PostTypeSearchEdit( props ) {
 		);
 	} else {
 		editContent = (
-			<div className="vkfs_warning">
-				<div className="vkfs__label-name">
-					{ __( 'Post Type', 'vk-filter-search' ) }
-				</div>
-				<div className="vkfs__warning-text">
-					{ __(
-						'Because no post type is selected, this block will not render.',
-						'vk-filter-search'
-					) }
+			<div>
+				<div className="vkfs_warning">
+					<div className="vkfs__label-name">
+						{ __( 'Post Type', 'vk-filter-search' ) }
+					</div>
+					<div className="vkfs__warning-text">
+						{ __(
+							'Because no post type is selected, this block will not render.',
+							'vk-filter-search'
+						) }
+					</div>
 				</div>
 			</div>
 		);
