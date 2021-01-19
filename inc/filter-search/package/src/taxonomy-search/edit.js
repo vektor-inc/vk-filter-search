@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { PanelBody, BaseControl, SelectControl } from '@wordpress/components';
-import { InspectorControls } from '@wordpress/block-editor';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import ServerSideRender from '@wordpress/server-side-render';
 
 export default function TaxonomySearchEdit( props ) {
@@ -40,6 +40,10 @@ export default function TaxonomySearchEdit( props ) {
 		);
 	}
 
+	const blockProps = useBlockProps( {
+		className: `vkfs-taxonomy-search`,
+	} );
+
 	return (
 		<>
 			<InspectorControls>
@@ -60,7 +64,7 @@ export default function TaxonomySearchEdit( props ) {
 					</BaseControl>
 				</PanelBody>
 			</InspectorControls>
-			{ editContent }
+			<div { ...blockProps }>{ editContent }</div>
 		</>
 	);
 }

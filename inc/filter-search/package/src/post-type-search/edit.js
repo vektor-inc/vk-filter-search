@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { AdvancedCheckboxControl } from '../common/component';
 import { PanelBody, BaseControl } from '@wordpress/components';
-import { InspectorControls } from '@wordpress/block-editor';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import ServerSideRender from '@wordpress/server-side-render';
 
 export default function PostTypeSearchEdit( props ) {
@@ -20,21 +20,23 @@ export default function PostTypeSearchEdit( props ) {
 		);
 	} else {
 		editContent = (
-			<div>
-				<div className="vkfs_warning">
-					<div className="vkfs__label-name">
-						{ __( 'Post Type', 'vk-filter-search' ) }
-					</div>
-					<div className="vkfs__warning-text">
-						{ __(
-							'Because no post type is selected, this block will not render.',
-							'vk-filter-search'
-						) }
-					</div>
+			<div className="vkfs_warning">
+				<div className="vkfs__label-name">
+					{ __( 'Post Type', 'vk-filter-search' ) }
+				</div>
+				<div className="vkfs__warning-text">
+					{ __(
+						'Because no post type is selected, this block will not render.',
+						'vk-filter-search'
+					) }
 				</div>
 			</div>
 		);
 	}
+
+	const blockProps = useBlockProps( {
+		className: `vkfs-postType-search`,
+	} );
 
 	return (
 		<>
@@ -57,7 +59,7 @@ export default function PostTypeSearchEdit( props ) {
 					</BaseControl>
 				</PanelBody>
 			</InspectorControls>
-			{ editContent }
+			<div { ...blockProps }>{ editContent }</div>
 		</>
 	);
 }
