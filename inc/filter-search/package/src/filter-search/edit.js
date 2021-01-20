@@ -1,4 +1,4 @@
-import { AdvancedCheckboxControl } from '../common/component';
+import { AdvancedCheckboxControl } from '@vk-filter-search/common/component';
 
 import { __ } from '@wordpress/i18n';
 import {

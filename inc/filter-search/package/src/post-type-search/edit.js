@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { AdvancedCheckboxControl } from '../common/component';
+import { AdvancedCheckboxControl } from '@vk-filter-search/common/component';
 import { PanelBody, BaseControl } from '@wordpress/components';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import ServerSideRender from '@wordpress/server-side-render';
