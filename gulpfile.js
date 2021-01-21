@@ -8,8 +8,7 @@ var sass = require("gulp-sass");
 var autoprefixer = require("gulp-autoprefixer");
 var cleanCss = require("gulp-clean-css");
 
-gulp.task("build_free_css", function(done) {
-	// design skin の方は親テーマの方でコンパイルするのでこちらではしない
+gulp.task("build_css", function(done) {
 	gulp.src(["./inc/filter-search/package/src/style.scss"])
 		.pipe(
 			plumber({
@@ -53,7 +52,7 @@ gulp.task("build_free_css", function(done) {
 	done();
 });
 
-gulp.task( 'build_free_js', function (done)  {
+gulp.task( 'build_js', function (done)  {
 	gulp.src('inc/filter-search/package/src/filter-search/enque-front.js')
 	.pipe(jsmin())
 	.pipe(rename('vk-filter-search.min.js'))
