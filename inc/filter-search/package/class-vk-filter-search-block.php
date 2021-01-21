@@ -196,7 +196,7 @@ class VK_Filter_Search_Block {
 		$taxonomy_option = array(
 			array(
 				'label' => __( 'Do not specify taxonomy', 'vk-filter-search' ),
-				'value' => '',
+				'value' => 'no-select',
 			),
 		);
 		foreach ( $the_taxonomies as $the_taxonomy ) {
