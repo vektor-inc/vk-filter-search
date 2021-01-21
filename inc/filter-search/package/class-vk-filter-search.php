@@ -202,7 +202,7 @@ class VK_Filter_Search {
 	public static function get_taxonomy_form_html( $taxonomy = 'category', $label = '', $form_design = 'select', $operator = 'or' ) {
 
 		// タクソノミーの調整.
-		$taxonomy        = ! empty( $taxonomy ) ? $taxonomy : '';
+		$taxonomy        = ! empty( $taxonomy ) ? $taxonomy : 'category';
 		$taxonomy_object = get_taxonomy( $taxonomy );
 		$taxonomy_terms  = get_terms( $taxonomy );
 
@@ -243,7 +243,7 @@ class VK_Filter_Search {
 	public static function get_taxonomy_design_html( $taxonomy = 'category', $label = '', $form_design = 'select' ) {
 
 		// タクソノミーの調整.
-		$taxonomy        = ! empty( $taxonomy ) ? $taxonomy : '';
+		$taxonomy        = ! empty( $taxonomy ) ? $taxonomy : 'category';
 		$taxonomy_object = get_taxonomy( $taxonomy );
 		$taxonomy_terms  = get_terms( $taxonomy );
 

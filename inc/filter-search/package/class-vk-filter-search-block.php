@@ -193,7 +193,12 @@ class VK_Filter_Search_Block {
 		// タクソノミーブロックで警告を出す際に使うタクソノミーのリスト.
 		$taxonomy_list = array();
 		// タクソノミーブロックで使うタクソノミーの選択肢.
-		$taxonomy_option = array();
+		$taxonomy_option = array(
+			array(
+				'label' => __( 'Do not specify taxonomy', 'vk-filter-search' ),
+				'value' => '',
+			),
+		);
 		foreach ( $the_taxonomies as $the_taxonomy ) {
 			$taxonomy_list[] = array(
 				'label' => $the_taxonomy->labels->singular_name,
