@@ -55,7 +55,7 @@ class VK_Filter_Search_Block {
 
 		$asset_file = include plugin_dir_path( __FILE__ ) . '/build/block.asset.php';
 
-		$editor_css = 'build/block.css';
+		$editor_css = 'build/editor.css';
 		wp_register_style(
 			'vk-filter-search-editor',
 			plugins_url( $editor_css, __FILE__ ),
@@ -63,7 +63,7 @@ class VK_Filter_Search_Block {
 			$asset_file['version']
 		);
 
-		$style_css = 'build/style-block.css';
+		$style_css = 'build/style.css';
 		wp_register_style(
 			'vk-filter-search',
 			plugins_url( $style_css, __FILE__ ),
