@@ -15,14 +15,14 @@ export default function TaxonomySearchEdit( props ) {
 
 	const condition = ( taxonomy ) => taxonomy.value === isSelectedTaxonomy;
 	//eslint-disable-next-line camelcase,no-undef
-	if ( vk_filter_search_taxonomy_option.some( condition ) && isSelectedTaxonomy !== 'no-select') {
+	if ( vk_filter_search_taxonomy_option.some( condition ) && isSelectedTaxonomy !== '' && isSelectedTaxonomy !== null && isSelectedTaxonomy !== undefined ) {
 		editContent = (
 			<ServerSideRender
 				block="vk-filter-search/taxonomy-search"
 				attributes={ props.attributes }
 			/>
 		);
-	} else if ( isSelectedTaxonomy === 'no-select'){
+	} else if ( isSelectedTaxonomy === '' || isSelectedTaxonomy === null || isSelectedTaxonomy === undefined  ){
 		editContent = (
 			<div>
 				<div className="vkfs__warning">

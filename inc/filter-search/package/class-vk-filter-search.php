@@ -80,7 +80,7 @@ class VK_Filter_Search {
 	public static function get_post_type_form_html( $post_types = array( 'post', 'page' ), $label = '', $post_label = '', $page_label = '', $form_design = 'select' ) {
 
 		// 投稿タイプの調整.
-		$post_types = ! empty( $post_types ) ? $post_types : array();
+		$post_types = ! empty( $post_types ) ? $post_types : array( 'post', 'page' );
 
 		// ラベルの調整.
 		$label      = ! empty( $label ) ? $label : __( 'Post Type', 'vk-filter-search' );
@@ -117,7 +117,7 @@ class VK_Filter_Search {
 	 */
 	public static function get_post_type_design_html( $post_types = array( 'post', 'page' ), $label = '', $post_label = '', $page_label = '', $form_design = 'select' ) {
 		// 投稿タイプの調整.
-		$post_types = ! empty( $post_types ) ? $post_types : array();
+		$post_types = ! empty( $post_types ) ? $post_types : array( 'post', 'page' );
 
 		// ラベルの調整.
 		$label      = ! empty( $label ) ? $label : __( 'Post Type', 'vk-filter-search' );
@@ -207,18 +207,14 @@ class VK_Filter_Search {
 		$taxonomy_terms  = get_terms( $taxonomy );
 
 		// ラベルの調整.
-		if ( 'no-select' !== $taxonomy ) {
-			$label = ! empty( $label ) ? $label : $taxonomy_object->labels->singular_name;
-		} else {
-			$label = '';
-		}
+		$label = ! empty( $label ) ? $label : $taxonomy_object->labels->singular_name;
 
 		// デザインの調整.
 		$form_style_option = self::form_style_option();
 		$form_design       = ! empty( $form_design ) && in_array( $form_design, $form_style_option, true ) ? $form_design : 'select';
 
 		// 演算子の調整.
-		$operator = ! empty( $form_design ) ? $operator : 'or';
+		$operator = ! empty( $operator ) ? $operator : 'or';
 
 		// 変数を初期化.
 		$taxonomy_form_html   = '';
