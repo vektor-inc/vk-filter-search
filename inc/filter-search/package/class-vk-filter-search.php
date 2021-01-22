@@ -255,6 +255,7 @@ class VK_Filter_Search {
 		$taxonomy_design_html  = '';
 		$taxonomy_option_array = array();
 
+		// 共通の設定項目.
 		$common_args = array(
 			'show_option_none'  => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
 			'option_none_value' => '',
@@ -263,6 +264,7 @@ class VK_Filter_Search {
 			'value_field'       => 'slug',
 		);
 
+		// 共通かつカスタマイズの余地がある設定項目.
 		$custom_args = array(
 			'orderby'      => 'NAME',
 			'order'        => 'ASC',
