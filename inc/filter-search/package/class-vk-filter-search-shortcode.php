@@ -34,7 +34,7 @@ class VK_Filter_Search_Shortcode {
 			$atts
 		);
 
-		$form_before_html  = '<form class="vk-filter-search vkfs" method="get" action="' . site_url( '/' ) . '">';
+		$form_before_html  = '<form class="vk-filter-search vkfs" method="get" action="' . home_url( '/' ) . '">';
 		$form_before_html .= '<div class="vkfs__labels">';
 
 		$inner_content = shortcode_unautop( $content );
