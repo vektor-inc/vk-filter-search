@@ -82,7 +82,7 @@ class VK_Filter_Search_Block {
 		/**
 		 * 検索結果の URL をブロック側に渡す
 		 */
-		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_url', site_url( '/' ) );
+		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_url', home_url( '/' ) );
 
 		/**
 		 * 選択させる投稿タイプのリストを生成し渡す
