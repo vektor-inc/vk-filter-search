@@ -55,7 +55,7 @@ class VK_Filter_Search_Block {
 
 		$asset_file = include plugin_dir_path( __FILE__ ) . '/build/block.asset.php';
 
-		$editor_css = 'build/block.css';
+		$editor_css = 'build/editor.css';
 		wp_register_style(
 			'vk-filter-search-editor',
 			plugins_url( $editor_css, __FILE__ ),
@@ -63,7 +63,7 @@ class VK_Filter_Search_Block {
 			$asset_file['version']
 		);
 
-		$style_css = 'build/style-block.css';
+		$style_css = 'build/style.css';
 		wp_register_style(
 			'vk-filter-search',
 			plugins_url( $style_css, __FILE__ ),
@@ -82,7 +82,7 @@ class VK_Filter_Search_Block {
 		/**
 		 * 検索結果の URL をブロック側に渡す
 		 */
-		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_url', site_url( '/' ) );
+		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_url', home_url( '/' ) );
 
 		/**
 		 * 選択させる投稿タイプのリストを生成し渡す
@@ -193,7 +193,12 @@ class VK_Filter_Search_Block {
 		// タクソノミーブロックで警告を出す際に使うタクソノミーのリスト.
 		$taxonomy_list = array();
 		// タクソノミーブロックで使うタクソノミーの選択肢.
-		$taxonomy_option = array();
+		$taxonomy_option = array(
+			array(
+				'label' => __( 'Do not specify taxonomy', 'vk-filter-search' ),
+				'value' => '',
+			),
+		);
 		foreach ( $the_taxonomies as $the_taxonomy ) {
 			$taxonomy_list[] = array(
 				'label' => $the_taxonomy->labels->singular_name,

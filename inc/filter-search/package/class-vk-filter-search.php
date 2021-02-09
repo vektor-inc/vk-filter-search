@@ -202,7 +202,7 @@ class VK_Filter_Search {
 	public static function get_taxonomy_form_html( $taxonomy = 'category', $label = '', $form_design = 'select', $operator = 'or' ) {
 
 		// タクソノミーの調整.
-		$taxonomy        = ! empty( $taxonomy ) ? $taxonomy : '';
+		$taxonomy        = ! empty( $taxonomy ) ? $taxonomy : 'category';
 		$taxonomy_object = get_taxonomy( $taxonomy );
 		$taxonomy_terms  = get_terms( $taxonomy );
 
@@ -214,7 +214,7 @@ class VK_Filter_Search {
 		$form_design       = ! empty( $form_design ) && in_array( $form_design, $form_style_option, true ) ? $form_design : 'select';
 
 		// 演算子の調整.
-		$operator = ! empty( $form_design ) ? $operator : 'or';
+		$operator = ! empty( $operator ) ? $operator : 'or';
 
 		// 変数を初期化.
 		$taxonomy_form_html   = '';
@@ -243,7 +243,7 @@ class VK_Filter_Search {
 	public static function get_taxonomy_design_html( $taxonomy = 'category', $label = '', $form_design = 'select' ) {
 
 		// タクソノミーの調整.
-		$taxonomy        = ! empty( $taxonomy ) ? $taxonomy : '';
+		$taxonomy        = ! empty( $taxonomy ) ? $taxonomy : 'category';
 		$taxonomy_object = get_taxonomy( $taxonomy );
 		$taxonomy_terms  = get_terms( $taxonomy );
 
@@ -255,88 +255,70 @@ class VK_Filter_Search {
 		$taxonomy_design_html  = '';
 		$taxonomy_option_array = array();
 
-		// 共通オプションを定義.
-		if ( 'category' === $taxonomy ) {
+		// 共通の設定項目.
+		$common_args = array(
+			'show_option_none'  => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
+			'option_none_value' => '',
+			'echo'              => false,
+			'taxonomy'          => $taxonomy,
+			'value_field'       => 'slug',
+		);
 
-			// フォームの名前.
-			$taxonomy_name = 'vkfs_category[]';
-
-			// 追加の選択肢.
-			$default_option_array = array(
-				array(
-					// translators: Don't specify Term.
-					'label' => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
-					'value' => '',
-				),
-			);
-
-			// タームの選択肢.
-			foreach ( $taxonomy_terms as $taxonomy_term ) {
-				$taxonomy_option_array[] = array(
-					'label' => $taxonomy_term->name,
-					'value' => urldecode( $taxonomy_term->slug ),
-				);
-			}
-		} elseif ( 'post_tag' === $taxonomy ) {
-
-			// フォームの名前.
-			$taxonomy_name = 'vkfs_post_tag[]';
-
-			// 追加の選択肢.
-			$default_option_array = array(
-				array(
-					// translators: Don't specify Term.
-					'label' => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
-					'value' => '',
-				),
-			);
-
-			// タームの選択肢.
-			foreach ( $taxonomy_terms as $taxonomy_term ) {
-				$taxonomy_option_array[] = array(
-					'label' => $taxonomy_term->name,
-					'value' => urldecode( $taxonomy_term->slug ),
-				);
-			}
-		} else {
-
-			// フォームの名前.
-			$taxonomy_name = 'vkfs_' . $taxonomy_object->name . '[]';
-
-			// 追加の選択肢.
-			$default_option_array = array(
-				array(
-					// translators: Don't specify Term.
-					'label' => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
-					'value' => '',
-				),
-			);
-
-			// タームの選択肢.
-			foreach ( $taxonomy_terms as $taxonomy_term ) {
-				$taxonomy_option_array[] = array(
-					'label' => $taxonomy_term->name,
-					'value' => urldecode( $taxonomy_term->slug ),
-				);
-			}
-		}
+		// 共通かつカスタマイズの余地がある設定項目.
+		$custom_args = array(
+			'orderby'      => 'NAME',
+			'order'        => 'ASC',
+			'hierarchical' => true,
+			'show_count'   => 0,
+			'hide_empty'   => 1,
+		);
+		$custom_args = apply_filters( 'vkfs_taxonomy_custom_setting', $custom_args );
 
 		// デザインに応じて HTML を描画.
 		if ( 'select' === $form_design ) {
-
-			// 配列を統合.
-			$taxonomy_option_array = array_merge( $default_option_array, $taxonomy_option_array );
-
-			// 描画開始.
-			$taxonomy_design_html .= '<select class="vkfs__taxonomy-select" name="' . $taxonomy_name . '" id="' . $taxonomy_name . '">';
-
-			// 項目のループ.
-			foreach ( $taxonomy_option_array as $taxonomy_option ) {
-				$taxonomy_design_html .= '<option value="' . $taxonomy_option['value'] . '">' . $taxonomy_option['label'] . '</option>';
+			if ( 'category' === $taxonomy ) {
+				$taxonomy_design_html = urldecode(
+					wp_dropdown_categories(
+						array_merge(
+							$common_args,
+							$custom_args,
+							array(
+								'name'              => 'vkfs_category[]',
+								'id'                => 'vkfs_category',
+								'class'             => 'vkfs__taxonomy-select category_name',
+							)
+						)
+					)
+				);
+			} elseif ( 'post_tag' === $taxonomy ) {
+				$taxonomy_design_html = urldecode(
+					wp_dropdown_categories(
+						array_merge(
+							$common_args,
+							$custom_args,
+							array(
+								'name'              => 'vkfs_post_tag[]',
+								'id'                => 'vkfs_post_tag',
+								'class'             => 'vkfs__taxonomy-select tag',
+							)
+						)
+					)
+				);
+			} else {
+				$taxonomy_design_html = urldecode(
+					wp_dropdown_categories(
+						array_merge(
+							$common_args,
+							$custom_args,
+							array(
+								'name'              => 'vkfs_' . $taxonomy_object->name . '[]',
+								'id'                => 'vkfs_' . $taxonomy_object->name,
+								'class'             => 'vkfs__taxonomy-select' . $taxonomy_object->name,
+							)
+						)
+					)
+				);
 			}
-
-			$taxonomy_design_html .= '</select>';
-
 		}
 		return apply_filters( 'vk_search_filter_taxonomy_design_html', $taxonomy_design_html, $taxonomy, $label, $form_design );
 
@@ -780,7 +762,7 @@ class VK_Filter_Search {
 		$asset_file = include plugin_dir_path( __FILE__ ) . '/build/block.asset.php';
 
 		if ( isset( $_GET['vkfs_form_id'] ) ) {
-			wp_enqueue_script( 'vk-filter-search', plugin_dir_url( __FILE__ ) . '/build/vk-filter-search.min.js', array(), $asset_file['version'], true );
+			wp_enqueue_script( 'vk-filter-search', plugin_dir_url( __FILE__ ) . 'build/vk-filter-search.min.js', array(), $asset_file['version'], true );
 		}
 		do_action( 'vkfs_enqueue_scripts' );
 	}
