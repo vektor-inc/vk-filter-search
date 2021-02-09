@@ -12,6 +12,7 @@ import {
 	SelectControl,
 	ToggleControl,
 } from '@wordpress/components';
+import { useEffect } from '@wordpress/element';
 
 export default function FilterSearchEdit( props ) {
 	const { attributes, setAttributes, clientId } = props;
@@ -24,15 +25,19 @@ export default function FilterSearchEdit( props ) {
 		PostID,
 	} = attributes;
 
-	if ( FormID === null || FormID === undefined ) {
-		setAttributes( { FormID: clientId } );
-	}
+	useEffect( () => {
+		if ( clientId ) {
+			if ( FormID === null || FormID === undefined ) {
+				setAttributes( { FormID: clientId } );
+			}
 
-	if ( PostID === null || PostID === undefined ) {
-		setAttributes( {
-			PostID: wp.data.select( 'core/editor' ).getCurrentPostId(),
-		} );
-	}
+			if ( PostID === null || PostID === undefined ) {
+				setAttributes( {
+					PostID: wp.data.select( 'core/editor' ).getCurrentPostId(),
+				} );
+			}
+		}
+	}, [ clientId ] );
 
 	let allowedBlocks;
 	let hiddenPostTypes;
