@@ -76,7 +76,7 @@ const set_query_value = ( i ) => {
 			}
 		} else if ( key !== 'vkfs_form_id' ) {
 			const taxonomy_select_selector = form_html[ i ].querySelectorAll(
-				`.vkfs__taxonomy-select.${key}`
+				`.vkfs__taxonomy-select.${ key }`
 			);
 			if (
 				taxonomy_select_selector !== null &&
