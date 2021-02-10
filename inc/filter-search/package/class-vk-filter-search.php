@@ -313,7 +313,7 @@ class VK_Filter_Search {
 							array(
 								'name'              => 'vkfs_' . $taxonomy_object->name . '[]',
 								'id'                => 'vkfs_' . $taxonomy_object->name,
-								'class'             => 'vkfs__taxonomy-select' . $taxonomy_object->name,
+								'class'             => 'vkfs__taxonomy-select ' . $taxonomy_object->name,
 							)
 						)
 					)
