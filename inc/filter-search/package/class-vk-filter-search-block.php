@@ -65,7 +65,7 @@ class VK_Filter_Search_Block {
 
 		$style_css = 'build/style.css';
 		wp_register_style(
-			'vk-filter-search',
+			'vk-filter-search-style',
 			plugins_url( $style_css, __FILE__ ),
 			array(),
 			$asset_file['version']

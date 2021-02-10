@@ -7,6 +7,7 @@ var sass = require("gulp-sass");
 // add vender prifix
 var autoprefixer = require("gulp-autoprefixer");
 var cleanCss = require("gulp-clean-css");
+var replace = require("gulp-replace");
 
 gulp.task("build_css", function(done) {
 	gulp.src(["./inc/filter-search/package/src/style.scss"])
@@ -57,5 +58,12 @@ gulp.task( 'build_js', function (done)  {
 	.pipe(jsmin())
 	.pipe(rename('vk-filter-search.min.js'))
 	.pipe(gulp.dest('inc/filter-search/package/build/'));
+	done();
+});
+
+gulp.task("replace_text_domain", function(done) {
+	gulp.src(["./inc/filter-search/package/**"])
+		.pipe(replace("filter-search-textdomain","vk-filter-search"))
+		.pipe(gulp.dest("./inc/filter-search/package/"))
 	done();
 });

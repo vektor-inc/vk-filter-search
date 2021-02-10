@@ -69,7 +69,7 @@ export default function FilterSearchEdit( props ) {
 	}
 
 	const blockProps = useBlockProps( {
-		className: `vk-filter-search vkfs`,
+		className: `vk-filter-search-form vkfs`,
 	} );
 
 	return (
