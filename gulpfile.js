@@ -63,7 +63,14 @@ gulp.task( 'build_js', function (done)  {
 
 gulp.task("replace_text_domain", function(done) {
 	gulp.src(["./inc/filter-search/package/**"])
-		.pipe(replace("filter-search-textdomain","vk-filter-search"))
+		.pipe(replace("'filter-search-textdomain'","'vk-filter-search'"))
 		.pipe(gulp.dest("./inc/filter-search/package/"))
+	done();
+});
+
+gulp.task("copy_filter_search", function(done) {
+	gulp.src(["./inc/filter-search/package/**"])
+		.pipe(replace("'vk-filter-search'","'filter-search-textdomain'"))
+		.pipe(gulp.dest("../../vektor-wp-libraries/filter-search/package/"))
 	done();
 });
