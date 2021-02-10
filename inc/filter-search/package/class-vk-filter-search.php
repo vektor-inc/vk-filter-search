@@ -313,7 +313,7 @@ class VK_Filter_Search {
 							array(
 								'name'              => 'vkfs_' . $taxonomy_object->name . '[]',
 								'id'                => 'vkfs_' . $taxonomy_object->name,
-								'class'             => 'vkfs__taxonomy-select' . $taxonomy_object->name,
+								'class'             => 'vkfs__taxonomy-select ' . $taxonomy_object->name,
 							)
 						)
 					)
@@ -762,7 +762,7 @@ class VK_Filter_Search {
 		$asset_file = include plugin_dir_path( __FILE__ ) . '/build/block.asset.php';
 
 		if ( isset( $_GET['vkfs_form_id'] ) ) {
-			wp_enqueue_script( 'vk-filter-search', plugin_dir_url( __FILE__ ) . 'build/vk-filter-search.min.js', array(), $asset_file['version'], true );
+			wp_enqueue_script( 'vk-filter-search-result', plugin_dir_url( __FILE__ ) . 'build/vk-filter-search.min.js', array(), $asset_file['version'], true );
 		}
 		do_action( 'vkfs_enqueue_scripts' );
 	}

@@ -9,7 +9,7 @@ if( function_exists('register_block_type_from_metadata')) {
 		register_block_type_from_metadata(
 			__DIR__,
 			array(
-				'style'           => 'vk-filter-search',
+				'style'           => 'vk-filter-search-style',
 				'editor_style'    => 'vk-filter-search-editor',
 				'editor_script'   => 'vk-filter-search-js',
 				'attributes'      => array(

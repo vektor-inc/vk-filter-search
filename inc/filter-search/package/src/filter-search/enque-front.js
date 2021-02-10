@@ -21,7 +21,7 @@ function get_url_queries() {
 	return queries;
 }
 
-const form_html = document.getElementsByClassName( 'vk-filter-search' );
+const form_html = document.getElementsByClassName( `vk-filter-search` );
 const url_queries = get_url_queries();
 
 const set_query_value = ( i ) => {
