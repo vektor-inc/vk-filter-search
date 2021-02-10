@@ -1,3 +1,4 @@
+.git/
 .github/
 bin/
 dist/
@@ -12,7 +13,7 @@ tests
 .wp-env.json
 composer.json
 composer.lock
-gulpfile.json
+gulpfile.js
 package.json
 package-lock.json
 phpunit.xml.dist
