@@ -4,7 +4,7 @@ Donate link:
 Tags: Guternberg, Search
 Requires at least: 5.6
 Tested up to: 5.6
-Stable tag: 0.6.5
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,10 @@ This plugin can be installed directly from your site.
 1. Editor View
 
 == Changelog ==
+
+= 1.0.0 =
+[ Specification Change ] Requires at least: 5.6
+[ Specification Change ] Use wp_dropdown_categories
 
 = 0.6.5 =
 [ Specification Change ] Change script of query.
