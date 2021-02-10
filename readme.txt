@@ -4,7 +4,7 @@ Donate link:
 Tags: Guternberg, Search
 Requires at least: 5.6
 Tested up to: 5.6
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,7 +30,7 @@ This plugin can be installed directly from your site.
 
 == Changelog ==
 
-= 1.0.1 =
+= 1.0.2 =
 [ Bug fix ] Fix Layout bug on Safari (gap)
 
 = 1.0.0 =
