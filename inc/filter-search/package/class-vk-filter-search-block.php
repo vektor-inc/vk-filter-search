@@ -55,7 +55,7 @@ class VK_Filter_Search_Block {
 
 		$asset_file = include plugin_dir_path( __FILE__ ) . '/build/block.asset.php';
 
-		$editor_css = 'build/block.css';
+		$editor_css = 'build/editor.css';
 		wp_register_style(
 			'vk-filter-search-editor',
 			plugins_url( $editor_css, __FILE__ ),
@@ -63,7 +63,7 @@ class VK_Filter_Search_Block {
 			$asset_file['version']
 		);
 
-		$style_css = 'build/style-block.css';
+		$style_css = 'build/style.css';
 		wp_register_style(
 			'vk-filter-search',
 			plugins_url( $style_css, __FILE__ ),
@@ -82,7 +82,7 @@ class VK_Filter_Search_Block {
 		/**
 		 * 検索結果の URL をブロック側に渡す
 		 */
-		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_url', site_url( '/' ) );
+		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_url', home_url( '/' ) );
 
 		/**
 		 * 選択させる投稿タイプのリストを生成し渡す
@@ -193,7 +193,12 @@ class VK_Filter_Search_Block {
 		// タクソノミーブロックで警告を出す際に使うタクソノミーのリスト.
 		$taxonomy_list = array();
 		// タクソノミーブロックで使うタクソノミーの選択肢.
-		$taxonomy_option = array();
+		$taxonomy_option = array(
+			array(
+				'label' => __( 'Do not specify taxonomy', 'vk-filter-search' ),
+				'value' => '',
+			),
+		);
 		foreach ( $the_taxonomies as $the_taxonomy ) {
 			$taxonomy_list[] = array(
 				'label' => $the_taxonomy->labels->singular_name,
@@ -216,206 +221,16 @@ class VK_Filter_Search_Block {
 			wp_set_script_translations( 'vk-filter-search-js', 'vk-filter-search' );
 		}
 
-		// filter-search.
-		register_block_type(
-			'vk-filter-search/filter-search',
-			array(
-				'style'           => 'vk-filter-search',
-				'editor_style'    => 'vk-filter-search-editor',
-				'editor_script'   => 'vk-filter-search-js',
-				'attributes'      => array(
-					'TargetPostType'           => array(
-						'type'    => 'string',
-						'default' => '',
-					),
-					'DisplayOnResult'          => array(
-						'type'    => 'boolean',
-						'default' => false,
-					),
-					'DisplayOnPosttypeArchive' => array(
-						'type'    => 'string',
-						'default' => '[]',
-					),
-					'FormID'                   => array(
-						'type'    => 'string',
-						'default' => null,
-					),
-					'PostID'                   => array(
-						'type'    => 'number',
-						'default' => null,
-					),
-				),
-				'render_callback' => array( __CLASS__, 'render_filter_search_callback' ),
-			)
+		$block_array = array(
+			'filter-search',
+			'keyword-search',
+			'post-type-search',
+			'taxonomy-search',
 		);
 
-		// keyword-search.
-		register_block_type(
-			'vk-filter-search/keyword-search',
-			array(
-				'style'           => 'vk-filter-search',
-				'editor_style'    => 'vk-filter-search-editor',
-				'editor_script'   => 'vk-filter-search-js',
-				'render_callback' => array( __CLASS__, 'render_keyword_search_callback' ),
-			)
-		);
-
-		// post-type-search.
-		register_block_type(
-			'vk-filter-search/post-type-search',
-			array(
-				'style'           => 'vk-filter-search',
-				'editor_style'    => 'vk-filter-search-editor',
-				'editor_script'   => 'vk-filter-search-js',
-				'attributes'      => array(
-					'isCheckedPostType' => array(
-						'type'    => 'string',
-						'default' => '["post","page"]',
-					),
-				),
-				'render_callback' => array( __CLASS__, 'render_post_type_search_callback' ),
-			)
-		);
-
-		// taxmony-search.
-		register_block_type(
-			'vk-filter-search/taxonomy-search',
-			array(
-				'style'           => 'vk-filter-search',
-				'editor_style'    => 'vk-filter-search-editor',
-				'editor_script'   => 'vk-filter-search-js',
-				'attributes'      => array(
-					'isSelectedTaxonomy' => array(
-						'type'    => 'string',
-						'default' => 'category',
-					),
-				),
-				'render_callback' => array( __CLASS__, 'render_taxonomy_search_callback' ),
-			)
-		);
-	}
-
-	/**
-	 * Rendering Filter Search Block
-	 *
-	 * @param array $attributes attributes.
-	 * @param html  $content content.
-	 */
-	public static function render_filter_search_callback( $attributes, $content = '' ) {
-		$attributes = wp_parse_args(
-			$attributes,
-			array(
-				'TargetPostType'           => '',
-				'DisplayOnResult'          => false,
-				'DisplayOnPosttypeArchive' => '[]',
-				'FormID'                   => null,
-				'PostID'                   => null,
-			)
-		);
-
-		if ( false === strpos( $content, 'vkfs__keyword' ) ) {
-			$content = str_replace( '[no_keyword_hidden_input]', '<input type="hidden" name="s" value="" />', $content );
-		} else {
-			$content = str_replace( '[no_keyword_hidden_input]', '', $content );
+		foreach ( $block_array as $block ) {
+			require_once plugin_dir_path( __FILE__ ) . 'src/' . $block . '/index.php';
 		}
-
-		if ( ! empty( $attributes['DisplayOnPosttypeArchive'] ) ) {
-			$attributes['DisplayOnPosttypeArchive'] = str_replace( '[', '', $attributes['DisplayOnPosttypeArchive'] );
-			$attributes['DisplayOnPosttypeArchive'] = str_replace( ']', '', $attributes['DisplayOnPosttypeArchive'] );
-			$attributes['DisplayOnPosttypeArchive'] = str_replace( '"', '', $attributes['DisplayOnPosttypeArchive'] );
-		}
-
-		$post_types = ! empty( $attributes['DisplayOnPosttypeArchive'] ) ? explode( ',', $attributes['DisplayOnPosttypeArchive'] ) : array();
-
-		$options = VK_Filter_Search::get_options();
-
-		if ( true === $attributes['DisplayOnResult'] ) {
-			$options['display_on_result'][ $attributes['FormID'] ] = array(
-				'form_post_id' => $attributes['PostID'],
-				'form_content' => $content,
-			);
-		} else {
-			unset( $options['display_on_result'][ $attributes['FormID'] ] );
-		}
-
-		if ( ! empty( $post_types ) ) {
-			$options['display_on_post_type_archive'][ $attributes['FormID'] ] = array(
-				'display_post_type' => $post_types,
-				'form_post_id'      => $attributes['PostID'],
-				'form_content'      => $content,
-			);
-		} else {
-			unset( $options['display_on_post_type_archive'][ $attributes['FormID'] ] );
-		}
-
-		update_option( 'vk_filter_search', $options );
-
-		return $content;
-	}
-
-	/**
-	 * Rendering Keyword Search Block
-	 *
-	 * @param array $attributes attributes.
-	 * @param html  $content content.
-	 */
-	public static function render_keyword_search_callback( $attributes, $content = '' ) {
-		return VK_Filter_Search::get_keyword_form_html();
-	}
-
-	/**
-	 * Rendering Post Type Search Block
-	 *
-	 * @param array $attributes attributes.
-	 * @param html  $content content.
-	 */
-	public static function render_post_type_search_callback( $attributes, $content = '' ) {
-		$attributes = wp_parse_args(
-			$attributes,
-			array(
-				'isCheckedPostType' => '["post","page"]',
-			)
-		);
-
-		if ( ! empty( $attributes['isCheckedPostType'] ) ) {
-			$attributes['isCheckedPostType'] = str_replace( '[', '', $attributes['isCheckedPostType'] );
-			$attributes['isCheckedPostType'] = str_replace( ']', '', $attributes['isCheckedPostType'] );
-			$attributes['isCheckedPostType'] = str_replace( '"', '', $attributes['isCheckedPostType'] );
-		}
-
-		$post_types = ! empty( $attributes['isCheckedPostType'] ) ? explode( ',', $attributes['isCheckedPostType'] ) : array();
-
-		$post_type_html = '';
-		if ( ! empty( $post_types ) ) {
-			$post_type_html = VK_Filter_Search::get_post_type_form_html( $post_types );
-		}
-		return $post_type_html;
-	}
-
-	/**
-	 * Rendering Taxonomy Search Block
-	 *
-	 * @param array $attributes attributes.
-	 * @param html  $content content.
-	 */
-	public static function render_taxonomy_search_callback( $attributes, $content = '' ) {
-		$attributes = wp_parse_args(
-			$attributes,
-			array(
-				'isSelectedTaxonomy' => 'category',
-			)
-		);
-
-		$taxonomy        = ! empty( $attributes['isSelectedTaxonomy'] ) ? $attributes['isSelectedTaxonomy'] : '';
-		$taxonomy_object = get_taxonomy( $taxonomy );
-		$taxonomy_terms  = get_terms( $taxonomy );
-
-		$taxonomy_html = '';
-
-		if ( ! empty( $taxonomy_object ) && ! empty( $taxonomy_terms ) ) {
-			$taxonomy_html = VK_Filter_Search::get_taxonomy_form_html( $taxonomy );
-		}
-		return $taxonomy_html;
 	}
 }
 new VK_Filter_Search_Block();

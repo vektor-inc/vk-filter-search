@@ -1,48 +1,64 @@
 {
-  "name": "vk-filter-search",
-  "version": "1.0.1",
-  "description": "Support Filtering Search of keyword, post-type and taxonomy.",
-  "main": "gulpfile.js",
-  "scripts": {
-    "start": "npm run build && wp-env start",
-    "stop": "wp-env stop",
-    "build": "npm run build:free && npm run build:query",
-    "build:free": "wp-scripts build inc/filter-search/package/src/block.js --output-path=inc/filter-search/package/build",
-    "build:query": "gulp query-js",
-    "watch": "wp-scripts start inc/filter-search/package/src/block.js --output-path=inc/filter-search/package/build",
-    "check-engines": "wp-scripts check-engines",
-    "check-licenses": "wp-scripts check-licenses",
-    "format:js": "wp-scripts format-js",
-    "lint:css": "wp-scripts lint-style --fix",
-    "lint:js": "wp-scripts lint-js --fix",
-    "make-pot": "wp i18n make-pot ./ --domain=vk-filter-search",
-    "translate": "po2json languages/vk-filter-search-ja.po languages/vk-filter-search-ja-vk-filter-search-js.json -f jed",
-    "composer:install:win": "wp-env run composer \"composer install\"",
-    "composer:install:mac": "wp-env run composer 'composer install'",
-    "phpunit:win": "wp-env run phpunit \"phpunit -c /var/www/html/wp-content/plugins/vk-filter-search/phpunit.xml.dist --verbose\"",
-    "phpunit:mac": "wp-env run phpunit 'phpunit -c /var/www/html/wp-content/plugins/vk-filter-search/phpunit.xml.dist --verbose'"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vektor-inc/vk-filter-search.git"
-  },
-  "author": "Vektor, Inc.",
-  "license": "GPL-2.0-or-later",
-  "bugs": {
-    "url": "https://github.com/vektor-inc/vk-filter-search/issues"
-  },
-  "homepage": "https://github.com/vektor-inc/vk-filter-search#readme",
-  "devDependencies": {
-    "@wordpress/env": "^2.1.0",
-    "@wordpress/scripts": "^12.5.0",
-    "@wordpress/server-side-render": "^1.19.1",
-    "gulp": "^4.0.2",
-    "gulp-jsmin": "^0.1.5",
-    "gulp-rename": "^2.0.0",
-    "npm-check-updates": "^10.2.2",
-    "po2json": "^1.0.0-beta-3"
-  },
-  "dependencies": {
-    "@wordpress/i18n": "^3.16.0"
-  }
+	"name": "vk-filter-search",
+	"version": "1.0.1",
+	"description": "Support Filtering Search of keyword, post-type and taxonomy.",
+	"main": "gulpfile.js",
+	"scripts": {
+		"start": "npm run build && wp-env start",
+		"stop": "wp-env stop",
+		"build": "npm run build:block && npm run build:css && npm run build:js",
+		"build:block": "wp-scripts build --config webpack.config.js",
+		"build:css": "gulp build_css",
+		"build:js": "gulp build_js",
+		"watch": "wp-scripts start --config webpack.config.js",
+		"check-engines": "wp-scripts check-engines",
+		"check-licenses": "wp-scripts check-licenses",
+		"format:js": "wp-scripts format-js",
+		"lint:css": "wp-scripts lint-style --fix",
+		"lint:js": "run-s lint:js:*",
+		"lint:js:common": "wp-scripts format-js inc/filter-search/package/src/common && wp-scripts lint-js inc/filter-search/package/src/common --fix",
+		"lint:js:filter-search": "wp-scripts format-js inc/filter-search/package/src/filter-search && wp-scripts lint-js inc/filter-search/package/src/filter-search --fix",
+		"lint:js:keyword-search": "wp-scripts format-js inc/filter-search/package/src/keyword-search && wp-scripts lint-js inc/filter-search/package/src/keyword-search --fix",
+		"lint:js:post-type-search": "wp-scripts format-js inc/filter-search/package/src/post-type-search && wp-scripts lint-js inc/filter-search/package/src/post-type-search --fix",
+		"lint:js:taxonomy-search": "wp-scripts format-js inc/filter-search/package/src/taxonomy-search && wp-scripts lint-js inc/filter-search/package/src/taxonomy-search --fix",
+		"make-pot": "wp i18n make-pot ./ --domain=vk-filter-search",
+		"translate": "po2json languages/vk-filter-search-ja.po languages/vk-filter-search-ja-vk-filter-search-js.json -f jed",
+		"composer:install:win": "wp-env run composer \"composer install\"",
+		"composer:install:mac": "wp-env run composer 'composer install'",
+		"phpunit:win": "wp-env run phpunit \"phpunit -c /var/www/html/wp-content/plugins/vk-filter-search/phpunit.xml.dist --verbose\"",
+		"phpunit:mac": "wp-env run phpunit 'phpunit -c /var/www/html/wp-content/plugins/vk-filter-search/phpunit.xml.dist --verbose'"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/vektor-inc/vk-filter-search.git"
+	},
+	"author": "Vektor, Inc.",
+	"license": "GPL-2.0-or-later",
+	"bugs": {
+		"url": "https://github.com/vektor-inc/vk-filter-search/issues"
+	},
+	"homepage": "https://github.com/vektor-inc/vk-filter-search#readme",
+	"devDependencies": {
+		"@babel/plugin-transform-react-jsx": "^7.12.13",
+		"@babel/preset-env": "^7.12.13",
+		"@wordpress/block-editor": "^5.2.6",
+		"@wordpress/components": "^12.0.6",
+		"@wordpress/element": "^2.19.1",
+		"@wordpress/env": "^3.0.2",
+		"@wordpress/i18n": "^3.18.0",
+		"@wordpress/scripts": "12.6.1",
+		"@wordpress/server-side-render": "^1.20.6",
+		"babel-loader": "^8.2.2",
+		"babel-plugin-module-resolver": "^4.1.0",
+		"gulp": "^4.0.2",
+		"gulp-autoprefixer": "^7.0.1",
+		"gulp-clean-css": "^4.3.0",
+		"gulp-jsmin": "^0.1.5",
+		"gulp-plumber": "^1.2.1",
+		"gulp-rename": "^2.0.0",
+		"gulp-sass": "^4.1.0",
+		"npm-check-updates": "^11.1.1",
+		"npm-run-all": "^4.1.5",
+		"po2json": "^1.0.0-beta-3"
+	}
 }

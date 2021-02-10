@@ -1,0 +1,9 @@
+{
+	"apiVersion": 2,
+	"name": "vk-filter-search/keyword-search",
+	"category": "vk-blocks-cat",
+	"parent": ["vk-filter-search/filter-search"],
+	"supports": {
+		"className": true
+	}
+}

@@ -1,0 +1,30 @@
+{
+	"apiVersion": 2,
+	"name": "vk-filter-search/filter-search",
+	"category": "vk-blocks-cat",
+	"attributes": {
+		"TargetPostType": {
+			"type": "string",
+			"default": ""
+		},
+		"DisplayOnResult": {
+			"type": "boolean",
+			"default": false
+		},
+		"DisplayOnPosttypeArchive": {
+			"type": "string",
+			"default": "[]"
+		},
+		"FormID": {
+			"type": "string",
+			"default": null
+		},
+		"PostID": {
+			"type": "number",
+			"default": null
+		}
+	},
+	"supports": {
+		"className": true
+	}
+}
