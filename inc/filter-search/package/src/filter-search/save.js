@@ -30,7 +30,7 @@ export default function save( props ) {
 	}
 
 	const blockProps = useBlockProps.save( {
-		className: `vk-filter-search-form vkfs`,
+		className: `vk-filter-search vkfs`,
 	} );
 
 	return (
