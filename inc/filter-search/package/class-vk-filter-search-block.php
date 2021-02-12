@@ -217,13 +217,7 @@ class VK_Filter_Search_Block {
 		// タクソノミーブロックで使うタクソノミーの選択肢を渡す.
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_taxonomy_option', $taxonomy_option );
 
-		if ( function_exists( 'wp_set_script_translations' ) ) {
-			if ( defined( 'VKFS_PRO_PATH' ) ) {
-				wp_set_script_translations( 'vk-filter-search-js', 'vk-filter-search', VKFS_PRO_PATH . '/languages/' );
-			} else {
-				wp_set_script_translations( 'vk-filter-search-js', 'vk-filter-search' );
-			}
-		}
+		vkfs_set_script_translations();
 
 		$block_array = array(
 			'filter-search',
