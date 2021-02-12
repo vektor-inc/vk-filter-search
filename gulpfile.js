@@ -73,8 +73,7 @@ gulp.task("copy_filter_search", function(done) {
 		.pipe(replace("'vk-filter-search'","'filter-search-textdomain'"))
 		.pipe(gulp.dest("../../vektor-wp-libraries/filter-search/package/"))
 	gulp.src(["./inc/filter-search/package/**"])
-		.pipe(replace("'vk-filter-search'","'vk-filter-search-pro'"))
-		.pipe(replace("wp_set_script_translations( 'vk-filter-search-js', 'vk-filter-search' );","wp_set_script_translations( 'vk-filter-search-js', 'vk-filter-search-pro', VKFS_PRO_PATH . '/languages/');"))
+[]		.pipe(replace("'vk-filter-search'","'vk-filter-search-pro'"))
 		.pipe(gulp.dest("../vk-filter-search-pro/inc/filter-search/package/"))
 	done();
 });
