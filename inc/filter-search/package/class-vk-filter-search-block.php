@@ -218,7 +218,11 @@ class VK_Filter_Search_Block {
 		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_taxonomy_option', $taxonomy_option );
 
 		if ( function_exists( 'wp_set_script_translations' ) ) {
-			wp_set_script_translations( 'vk-filter-search-js', 'vk-filter-search' );
+			if ( defined( 'VKFS_PRO_PATH' ) ) {
+				wp_set_script_translations( 'vk-filter-search-js', 'vk-filter-search', VKFS_PRO_PATH . '/languages/' );
+			} else {
+				wp_set_script_translations( 'vk-filter-search-js', 'vk-filter-search' );
+			}
 		}
 
 		$block_array = array(
