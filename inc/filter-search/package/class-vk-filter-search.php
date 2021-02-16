@@ -137,7 +137,7 @@ class VK_Filter_Search {
 		// 共通オプション.
 		$default_option_array = array(
 			array(
-				// translators: Don't specify Post Type.
+				// translators: Do not specify a %s.
 				'label' => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
 				'value' => '',
 			),
