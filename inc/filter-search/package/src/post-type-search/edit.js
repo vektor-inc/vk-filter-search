@@ -52,7 +52,7 @@ export default function PostTypeSearchEdit( props ) {
 						<AdvancedCheckboxControl
 							schema={ 'isCheckedPostType' }
 							//eslint-disable-next-line camelcase,no-undef
-							rawData={ vk_filter_search_post_type_checkbox }
+							rawData={ vk_filter_search_params.post_type_checkbox }
 							checkedData={ JSON.parse( isCheckedPostType ) }
 							{ ...props }
 						/>
