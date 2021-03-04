@@ -80,11 +80,6 @@ class VK_Filter_Search_Block {
 		);
 
 		/**
-		 * 検索結果の URL をブロック側に渡す
-		 */
-		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_url', home_url( '/' ) );
-
-		/**
 		 * 選択させる投稿タイプのリストを生成し渡す
 		 */
 		// 投稿タイプ用のブロックで使うチェックボックスリスト.
@@ -170,13 +165,6 @@ class VK_Filter_Search_Block {
 			}
 		}
 
-		// 投稿タイプ用のブロックで使うチェックボックスリストを渡す.
-		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_post_type_checkbox', $post_type_checkbox );
-		// アーカイブに表示するチェックボックスリストを渡す.
-		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_post_type_archive_checkbox', $post_type_archive_checkbox );
-		// フォーム用のブロックで使うプルダウンリストを渡す.
-		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_post_type_select', $post_type_select );
-
 		/**
 		 * 選択させるタクソノミーのリストを生成し渡す
 		 */
@@ -212,10 +200,20 @@ class VK_Filter_Search_Block {
 				);
 			}
 		}
-		// タクソノミーブロックで警告を出す際に使うタクソノミーのリストを渡す.
-		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_taxonomy_list', $taxonomy_list );
-		// タクソノミーブロックで使うタクソノミーの選択肢を渡す.
-		wp_localize_script( 'vk-filter-search-js', 'vk_filter_search_taxonomy_option', $taxonomy_option );
+
+		// ブロックに値を渡す
+		wp_localize_script(
+			'vk-filter-search-js',
+			'vk_filter_search_params',
+			array(
+				'home_url'                   => home_url( '/' ),
+				'post_type_checkbox'         => $post_type_checkbox,
+				'post_type_select'           => $post_type_select,
+				'post_type_archive_checkbox' => $post_type_archive_checkbox,
+				'taxonomy_list'              => $taxonomy_list,
+				'taxonomy_option'            => $taxonomy_option,
+			)
+		);
 
 		vkfs_set_script_translations();
 

@@ -90,7 +90,7 @@ export default function FilterSearchEdit( props ) {
 							) }
 							value={ TargetPostType }
 							//eslint-disable-next-line camelcase,no-undef
-							options={ vk_filter_search_post_type_select }
+							options={ vk_filter_search_params.post_type_select }
 							onChange={ ( value ) =>
 								setAttributes( { TargetPostType: value } )
 							}
@@ -121,7 +121,7 @@ export default function FilterSearchEdit( props ) {
 							schema={ 'DisplayOnPosttypeArchive' }
 							rawData={
 								//eslint-disable-next-line camelcase,no-undef
-								vk_filter_search_post_type_archive_checkbox
+								vk_filter_search_params.post_type_archive_checkbox
 							}
 							checkedData={ JSON.parse(
 								DisplayOnPosttypeArchive
@@ -135,7 +135,7 @@ export default function FilterSearchEdit( props ) {
 				{ ...blockProps }
 				method={ `get` }
 				//eslint-disable-next-line camelcase,no-undef
-				action={ vk_filter_search_url }
+				action={ vk_filter_search_params.home_url }
 			>
 				<div className={ `vkfs__labels` }>
 					<InnerBlocks
