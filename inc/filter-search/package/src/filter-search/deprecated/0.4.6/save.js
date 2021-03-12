@@ -34,7 +34,7 @@ export default function save( props ) {
 			className={ `vk-filter-search vkfs` }
 			method={ `get` }
 			//eslint-disable-next-line camelcase,no-undef
-			action={ vk_filter_search_url }
+			action={ vk_filter_search_params.home_url }
 		>
 			<div className={ `vkfs__labels` }>
 				<InnerBlocks.Content />

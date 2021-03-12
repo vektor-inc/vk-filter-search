@@ -10,8 +10,10 @@ export default function TaxonomySearchEdit( props ) {
 
 	let editContent;
 	const selected = ( taxonomy ) => taxonomy.value === isSelectedTaxonomy;
-
-	const selectedTaxonomy = vk_filter_search_params.taxonomy_list.find( selected ); //eslint-disable-line camelcase,no-undef
+	//eslint-disable-next-line camelcase,no-undef
+	const selectedTaxonomy = vk_filter_search_params.taxonomy_list.find(
+		selected
+	);
 
 	const condition = ( taxonomy ) => taxonomy.value === isSelectedTaxonomy;
 
