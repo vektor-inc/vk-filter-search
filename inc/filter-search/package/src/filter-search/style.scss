@@ -4,6 +4,15 @@
 	--vk-margin-section-bottom: 2em;
 }
 
+@mixin child-after($content: "—") {
+	&::after{
+		position: absolute;
+		top: -20%;
+		left:  1.25rem;
+		content:$content;
+	}
+}
+
 .vkfs {
 	font-size: 0.88rem;
 	margin-bottom: var(--vk-margin-section-bottom, 2em);
@@ -23,6 +32,40 @@
 
 		label {
 			width: 100%;
+		}
+		&-radio{
+			label {
+				
+			}
+		}
+		&-checkbox,&-radio {
+			margin-bottom: .5rem;
+			label {
+				width: auto;
+				margin-top: .5rem;
+				margin-right: 1rem;
+				input[type="checkbox"],
+				input[type="radio"]{
+					position: relative;
+					margin-right: .5rem;
+					color: #495057;
+					border: 1px solid #ced4da;
+					background: #fff;
+					clear: none;
+					cursor: pointer;
+					display: inline-block;
+					height: 1rem;
+					outline: 0;
+					vertical-align: middle;
+					width: 1rem;
+				}
+				input.level-1 { /* 子カテゴリー */
+					@include child-after();
+				}
+				input.level-2 { /* 孫カテゴリー */
+					@include child-after("——");
+				}
+			}
 		}
 	}
 

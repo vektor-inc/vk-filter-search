@@ -62,7 +62,9 @@ class VK_Filter_Search {
 		$keyword_form_html  = '<div class="vkfs__keyword">';
 		$keyword_form_html .= '<label>';
 		$keyword_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
+		$keyword_form_html .= '<div class="vkfs__input-wrap vkfs__input-wrap--text vkfs__input-wrap--keyword">';
 		$keyword_form_html .= '<input type="text" name="s" id="s" placeholder="' . $placeholder . '" />';
+		$keyword_form_html .= '</div>';
 		$keyword_form_html .= '</label>';
 		$keyword_form_html .= '</div>';
 		return $keyword_form_html;
@@ -96,7 +98,7 @@ class VK_Filter_Search {
 
 		// 描画開始.
 		if ( ! empty( $post_types ) ) {
-			$post_type_form_html .= '<div class="vkfs__post-type">';
+			$post_type_form_html .= '<div class="vkfs__post_type">';
 			$post_type_form_html .= '<label>';
 			$post_type_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
 			$post_type_form_html .= self::get_post_type_design_html( $post_types, $label, $post_label, $page_label, $form_design );
@@ -171,7 +173,7 @@ class VK_Filter_Search {
 			$post_type_option_array = array_merge( $default_option_array, $post_type_option_array );
 
 			// 描画開始.
-			$post_type_design_html .= '<select class="vkfs__post_type-select" name="' . $post_type_name . '" id="post_type">';
+			$post_type_design_html .= '<select class="vkfs__input-wrap vkfs__input-wrap--select vkfs__input-wrap--post_type" name="' . $post_type_name . '" id="post_type">';
 
 			// 項目のループ.
 			foreach ( $post_type_option_array as $post_type_option ) {
@@ -285,7 +287,7 @@ class VK_Filter_Search {
 							array(
 								'name'              => 'vkfs_category[]',
 								'id'                => 'vkfs_category',
-								'class'             => 'vkfs__taxonomy-select category_name',
+								'class'             => 'vkfs__input-wrap vkfs__input-wrap--select vkfs__input-wrap--category_name',
 							)
 						)
 					)
@@ -299,7 +301,7 @@ class VK_Filter_Search {
 							array(
 								'name'              => 'vkfs_post_tag[]',
 								'id'                => 'vkfs_post_tag',
-								'class'             => 'vkfs__taxonomy-select tag',
+								'class'             => 'vkfs__input-wrap vkfs__input-wrap--select vkfs__input-wrap--tag',
 							)
 						)
 					)
@@ -313,7 +315,7 @@ class VK_Filter_Search {
 							array(
 								'name'              => 'vkfs_' . $taxonomy_object->name . '[]',
 								'id'                => 'vkfs_' . $taxonomy_object->name,
-								'class'             => 'vkfs__taxonomy-select ' . $taxonomy_object->name,
+								'class'             => 'vkfs__input-wrap vkfs__input-wrap--select vkfs__input-wrap--' . $taxonomy_object->name,
 							)
 						)
 					)
