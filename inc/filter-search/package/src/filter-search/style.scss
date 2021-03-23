@@ -1,4 +1,17 @@
 // editor and front styles
+
+$xs-max: 575.98px;
+$sm-max: 767.98px;
+$md-max: 991.98px;
+$lg-max: 1199.98px;
+$xl-max: 1399.98px;
+
+$sm-min: 576px;
+$md-min: 768px;
+$lg-min: 992px;
+$xl-min: 1200px;
+$xxl-min: 1400px;
+
 :root {
 	// テーマ側などで指定が実装させたらこちらからは削除
 	--vk-margin-section-bottom: 2em;
@@ -22,10 +35,13 @@
 		flex-wrap: wrap;
 		gap: 0 1.6em;
 		justify-content: space-between;
+		@media (max-width: $md-max){
+			display: block;
+		}
 	}
 
 	&__keyword,
-	&__post-type,
+	&__post_type,
 	&__taxonomy {
 		flex-basis: calc(50% - 0.8em);
 		margin-bottom: 0;
@@ -33,45 +49,20 @@
 		label {
 			width: 100%;
 		}
-		&-radio{
-			label {
-				
-			}
-		}
-		&-checkbox,&-radio {
-			margin-bottom: .5rem;
-			label {
-				width: auto;
-				margin-top: .5rem;
-				margin-right: 1rem;
-				input[type="checkbox"],
-				input[type="radio"]{
-					position: relative;
-					margin-right: .5rem;
-					color: #495057;
-					border: 1px solid #ced4da;
-					background: #fff;
-					clear: none;
-					cursor: pointer;
-					display: inline-block;
-					height: 1rem;
-					outline: 0;
-					vertical-align: middle;
-					width: 1rem;
-				}
-				input.level-1 { /* 子カテゴリー */
-					@include child-after();
-				}
-				input.level-2 { /* 孫カテゴリー */
-					@include child-after("——");
-				}
-			}
-		}
 	}
-
 	&__label-name {
 		font-weight: 700;
-		margin-bottom: 0.1rem;
+		margin-bottom: 0.5rem;
+	}
+	&__input-wrap {
+		margin-bottom: 0.625rem;
+		label {
+			@media (min-width: $md-min) {
+				width: auto;
+			}
+			margin-top: 0.5rem;
+			margin-right: 1rem;
+		}
 	}
 	// Bootstrap .form-control と基本同じだが、
 	// 記事編集画面やLightning以外のテーマでは .form-control が当然自動ではつかないので追加指定
@@ -90,6 +81,24 @@
 		background-clip: padding-box;
 		border: 1px solid #ced4da;
 		border-radius: 0.25rem;
+	}
+
+	input[type="checkbox"],
+	input[type="radio"]{
+		position: relative;
+		margin-right: .5rem;
+		cursor: pointer;
+		width: 1rem;
+		height: 1rem;
+		vertical-align: middle;
+		border: 1px solid #ced4da;
+		background-color: #fff;
+	}
+	input.level-1 { /* 子カテゴリー */
+		@include child-after();
+	}
+	input.level-2 { /* 孫カテゴリー */
+		@include child-after("——");
 	}
 
 	select {
