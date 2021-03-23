@@ -60,12 +60,10 @@ class VK_Filter_Search {
 		$placeholder = ! empty( $placeholder ) ? $placeholder : __( 'Input Keyword', 'vk-filter-search' );
 
 		$keyword_form_html  = '<div class="vkfs__keyword">';
-		$keyword_form_html .= '<label>';
 		$keyword_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
 		$keyword_form_html .= '<div class="vkfs__input-wrap vkfs__input-wrap--text vkfs__input-wrap--keyword">';
 		$keyword_form_html .= '<input type="text" name="s" id="s" placeholder="' . $placeholder . '" />';
 		$keyword_form_html .= '</div>';
-		$keyword_form_html .= '</label>';
 		$keyword_form_html .= '</div>';
 		return $keyword_form_html;
 	}
@@ -99,10 +97,8 @@ class VK_Filter_Search {
 		// 描画開始.
 		if ( ! empty( $post_types ) ) {
 			$post_type_form_html .= '<div class="vkfs__post_type">';
-			$post_type_form_html .= '<label>';
 			$post_type_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
 			$post_type_form_html .= self::get_post_type_design_html( $post_types, $label, $post_label, $page_label, $form_design );
-			$post_type_form_html .= '</label>';
 			$post_type_form_html .= '</div>';
 		}
 		return $post_type_form_html;
@@ -225,10 +221,8 @@ class VK_Filter_Search {
 		// 描画開始.
 		if ( ! empty( $taxonomy_object ) && ! empty( $taxonomy_terms ) ) {
 			$taxonomy_form_html .= '<div class="vkfs__taxonomy">';
-			$taxonomy_form_html .= '<label>';
 			$taxonomy_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
 			$taxonomy_form_html .= self::get_taxonomy_design_html( $taxonomy, $label, $form_design );
-			$taxonomy_form_html .= '</label>';
 			$taxonomy_form_html .= '<input type="hidden" name="vkfs_' . $taxonomy . '_operator" value="' . $operator . '" />';
 			$taxonomy_form_html .= '</div>';
 		}
