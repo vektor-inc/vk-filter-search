@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "npm run build && wp-env start",
 		"stop": "wp-env stop",
-		"build": "npm run textdomain && npm run build:block && npm run build:css && npm run build:js",
+		"build": "gulp replace_text_domain && npm run build:block && npm run build:css && npm run build:js",
 		"build:block": "wp-scripts build --config webpack.config.js",
 		"build:css": "gulp build_css",
 		"build:js": "gulp build_js",
