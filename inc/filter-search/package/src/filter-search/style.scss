@@ -62,55 +62,49 @@ $mark-color:#3582c4;
 		&--radio{
 			padding-inline-start: 0;
 		}
-		@media (min-width: $md-min) {
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: space-between;
+		&:before, &:after {
+			content:"";
+			display:table
+		}
+		&:after { 
+			clear:both
 		}
 		li{
 			list-style:none;
 			position: relative;	
 			margin-bottom: 0;
-			word-break: break-all;
-		}
-		li[class$="__level-0"] {		
-			margin-bottom: calc( var(--vk-size-text) * 0.5 );
-			display: inline-block;
+			word-break: break-all;				
+			padding-bottom: calc( var(--vk-size-text) * 0.3125 );
+			padding-top: calc( var(--vk-size-text) * 0.3125 );
 			padding-inline-start: calc( var(--vk-size-text) * 1.5 );
 			text-indent: calc( var(--vk-size-text) * -1.5 );
-
 			@media (min-width: $md-min) {
-				flex-basis: calc(50% - 0.8em);
+				padding-right: calc( var(--vk-size-text) * 1.25 );
+				display: inline-block;
+				float: left;
+				width: auto;
 			}
+			
+		}
+		li[class$="__level-0"] {			
+
 		}
 		label {
 			margin-bottom: 0;
 			display: block;
 		}
 		.vkfs__has-children {//子階層をもつ親は幅いっぱいにする
-			flex-basis:100%;
+			display: block;
+			width: 100%;
+			padding-bottom: 0;
 			& & {
-				flex-basis: calc(50% - 0.8em);
 				padding-inline-start: 0;
 				margin-bottom: 0;
 			}
 			.vkfs__children { //子階層
-				margin-top: calc(var(--vk-size-text) * .5);
+				margin-top: calc(var(--vk-size-text) * .25);
 				margin-bottom:0;
-				@media (min-width: $md-min) {
-					display: flex;
-					flex-wrap: wrap;
-					justify-content: space-between;
-				}
-				padding-inline-start: calc( var(--vk-size-text) * 1.5 );
-
-				li[class$="__level-1"],
-				li[class$="__level-2"]{ //子と孫カテゴリー					
-					margin-bottom: calc(var(--vk-size-text) * .5);
-					@media (min-width: $md-min) {
-						flex-basis: calc(50% - 0.8em);
-					}
-				}
+				padding-inline-start: calc( var(--vk-size-text) * .15 );
 			}
 		}
 
