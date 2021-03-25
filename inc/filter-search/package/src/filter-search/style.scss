@@ -12,18 +12,24 @@ $lg-min: 992px;
 $xl-min: 1200px;
 $xxl-min: 1400px;
 
+$mark-color:#3582c4;
+
 :root {
 	// テーマ側などで指定が実装させたらこちらからは削除
 	--vk-margin-section-bottom: 2em;
+	// 他テーマで極端に崩れないように追加
+	--vk-size-text: 16px;
 }
 
-@mixin child-after($content: "—") {
-	&::after{
-		position: absolute;
-		top: -20%;
-		left:  1.25rem;
-		content:$content;
-	}
+@mixin checkbox-radio-before-design( $border-radius: 0.25rem ) {
+	display: block;
+	position: absolute;
+	content: '';
+	width: calc( var(--vk-size-text) * 1 );
+	height: calc( var(--vk-size-text) * 1 );
+	background-color: #fff;
+	border: 1px solid #ced4da;
+	border-radius:$border-radius;
 }
 
 .vkfs {
@@ -40,30 +46,77 @@ $xxl-min: 1400px;
 		}
 	}
 
-	&__keyword,
-	&__post_type,
-	&__taxonomy {
+	&__outer-wrap {
 		flex-basis: calc(50% - 0.8em);
-		margin-bottom: 0;
-
-		label {
-			width: 100%;
-		}
+		margin-bottom:calc( var(--vk-size-text) * 1 );
 	}
 	&__label-name {
 		font-weight: 700;
-		margin-bottom: 0.5rem;
+		margin-bottom:calc( var(--vk-size-text) * 0.5 ); 
 	}
 	&__input-wrap {
-		margin-bottom: 0.625rem;
-		label {
-			@media (min-width: $md-min) {
-				width: auto;
-			}
-			margin-top: 0.5rem;
-			margin-right: 1rem;
+		margin: 0;
+		margin-top: 0;
+		margin-bottom: 0;
+		&--checkbox,
+		&--radio{
+			padding-inline-start: 0;
 		}
+		@media (min-width: $md-min) {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+		}
+		li{
+			list-style:none;
+			position: relative;	
+			margin-bottom: 0;
+			word-break: break-all;
+		}
+		li[class$="__level-0"] {		
+			margin-bottom: calc( var(--vk-size-text) * 0.5 );
+			display: inline-block;
+			padding-inline-start: calc( var(--vk-size-text) * 1.5 );
+			text-indent: calc( var(--vk-size-text) * -1.5 );
+
+			@media (min-width: $md-min) {
+				flex-basis: calc(50% - 0.8em);
+			}
+		}
+		label {
+			margin-bottom: 0;
+			display: block;
+		}
+		.vkfs__has-children {//子階層をもつ親は幅いっぱいにする
+			flex-basis:100%;
+			& & {
+				flex-basis: calc(50% - 0.8em);
+				padding-inline-start: 0;
+				margin-bottom: 0;
+			}
+			.vkfs__children { //子階層
+				margin-top: calc(var(--vk-size-text) * .5);
+				margin-bottom:0;
+				@media (min-width: $md-min) {
+					display: flex;
+					flex-wrap: wrap;
+					justify-content: space-between;
+				}
+				padding-inline-start: calc( var(--vk-size-text) * 1.5 );
+
+				li[class$="__level-1"],
+				li[class$="__level-2"]{ //子と孫カテゴリー					
+					margin-bottom: calc(var(--vk-size-text) * .5);
+					@media (min-width: $md-min) {
+						flex-basis: calc(50% - 0.8em);
+					}
+				}
+			}
+		}
+
 	}
+
+
 	// Bootstrap .form-control と基本同じだが、
 	// 記事編集画面やLightning以外のテーマでは .form-control が当然自動ではつかないので追加指定
 	input[type="text"],
@@ -83,24 +136,64 @@ $xxl-min: 1400px;
 		border-radius: 0.25rem;
 	}
 
+	//ここからは主にチェックボックスとラジオボタンのデザイン
 	input[type="checkbox"],
-	input[type="radio"]{
+	input[type="radio"] {
 		position: relative;
 		margin-right: .5rem;
 		cursor: pointer;
-		width: 1rem;
-		height: 1rem;
+		width: calc( var(--vk-size-text) * 1 );
+		height: calc( var(--vk-size-text) * 1 );
 		vertical-align: middle;
-		border: 1px solid #ced4da;
 		background-color: #fff;
+		appearance: none;
+		outline: none;		
+		text-align: center;	 
+		border: none;
+	}	  
+	// チェックボックスの線デザイン
+	input[type="checkbox"]::before{
+		@include checkbox-radio-before-design();
 	}
-	input.level-1 { /* 子カテゴリー */
-		@include child-after();
+	// ラジオボタンの線デザイン
+	input[type="radio"]::before {
+		@include checkbox-radio-before-design(50%);
 	}
-	input.level-2 { /* 孫カテゴリー */
-		@include child-after("——");
+	// ラジオマークのデザイン
+	input[type="radio"]::after {
+		display: block;	  
+		content: '';
+		position: absolute;
+		left: 25%;
+		top: 25%;	  
+		border-radius: 50%;
+		width: .5rem;
+		height: .5rem;
+		background-color: $mark-color;
+		// チェックしてないときは隠す
+		opacity: 0;
+	}	  
+	// チェックマークのデザイン
+	input[type="checkbox"]::after {
+		display: block;	  
+		content: '';
+		position: absolute;
+		left: 25%;
+		top: 0;	  
+		width: 7px;
+		height: 12px;
+		border-right: 3px solid $mark-color;
+		border-bottom: 3px solid $mark-color;
+		transform: rotate(45deg);	  
+		// チェックしてないときは隠す
+		opacity: 0;
+	} 
+	// チェックするとチェックマークの透明化を解除
+	input[type="checkbox"]:checked::after,
+	input[type="radio"]:checked::after {
+		opacity: 1;
 	}
-
+	  
 	select {
 		// デフォルトの下向き矢印は位置がコントロールできないので一旦削除
 		-webkit-appearance: none;/* ベンダープレフィックス(Google Chrome、Safari用) */
