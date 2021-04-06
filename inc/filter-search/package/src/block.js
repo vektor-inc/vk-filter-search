@@ -6,7 +6,7 @@ import '@wordpress/notices';
 // import '@wordpress/block-editor';
 import {
 	registerBlockType,
-	unstable__bootstrapServerSideBlockDefinitions,
+	unstable__bootstrapServerSideBlockDefinitions, // eslint-disable-line camelcase
 } from '@wordpress/blocks';
 
 /**
@@ -38,7 +38,7 @@ const registerBlock = ( block ) => {
 		return;
 	}
 
-	let { metadata, settings, name } = block;
+	const { metadata, settings, name } = block;
 
 	if ( metadata ) {
 		unstable__bootstrapServerSideBlockDefinitions( { [ name ]: metadata } );

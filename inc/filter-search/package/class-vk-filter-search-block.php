@@ -26,8 +26,6 @@ class VK_Filter_Search_Block {
 	 */
 	public static function register_block_category( $categories, $post ) {
 
-		global $vkfs_prefix;
-
 		foreach ( $categories as $key => $value ) {
 			$keys[] = $value['slug'];
 		}
@@ -38,7 +36,7 @@ class VK_Filter_Search_Block {
 				array(
 					array(
 						'slug'  => 'vk-blocks-cat',
-						'title' => $vkfs_prefix . __( 'Blocks', 'vk-filter-search' ),
+						'title' => __( 'VK Blocks', 'vk-filter-search' ),
 						'icon'  => '',
 					),
 				)

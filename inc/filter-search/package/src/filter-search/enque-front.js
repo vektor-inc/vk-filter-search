@@ -41,7 +41,7 @@ const set_query_value = ( i ) => {
 			}
 		} else if ( key === 'post_type' ) {
 			const post_type_select_selector = form_html[ i ].querySelectorAll(
-				'.vkfs__post_type-select'
+				'.vkfs__input-wrap--select.vkfs__input-wrap--post_type'
 			);
 			if (
 				post_type_select_selector !== null &&
@@ -76,7 +76,7 @@ const set_query_value = ( i ) => {
 			}
 		} else if ( key !== 'vkfs_form_id' ) {
 			const taxonomy_select_selector = form_html[ i ].querySelectorAll(
-				`.vkfs__taxonomy-select.${ key }`
+				`.vkfs__input-wrap--select.vkfs__input-wrap--${ key }`
 			);
 			if (
 				taxonomy_select_selector !== null &&

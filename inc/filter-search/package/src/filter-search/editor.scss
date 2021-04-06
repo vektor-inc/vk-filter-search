@@ -9,24 +9,30 @@
 	}
 
 	.vkfs {
-
+		&__input-wrap{
+			label{ //これがないとラベル内が崩れる
+				display: block;
+			}
+		}
 		&__labels {
-			display: block;
+			// これがないと中のカラムが横幅いっぱいにならない
+			& > .block-editor-inner-blocks {
+				width:100%;
+			}
 			.block-editor-block-list__layout {
 				display: flex;
 				flex-wrap: wrap;
 				justify-content: space-between;
 
-				.vkfs__keyword,
-				.vkfs__post-type,
-				.vkfs__taxonomy {
+				.vkfs__outer-wrap{
 					margin: .5rem 0;
 				}
 
 				& > div {
 					flex-basis: calc(50% - 0.8em);
-					margin: 0;
+					 margin: 0;
 				}
+
 			}
 		}
 	}
