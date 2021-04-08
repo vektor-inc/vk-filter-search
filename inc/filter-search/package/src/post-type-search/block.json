@@ -1,7 +1,11 @@
 {
 	"apiVersion": 2,
 	"name": "vk-filter-search/post-type-search",
+	"title": "VK Post Type Search",
 	"category": "vk-blocks-cat",
+	"editorScript": "file:../../build/block.js",
+	"editorStyle": "file:../../build/style.css",
+	"style": "file:../../build/editor.css",
 	"parent": ["vk-filter-search/filter-search"],
 	"attributes": {
 		"isCheckedPostType": {
