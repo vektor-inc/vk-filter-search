@@ -35,7 +35,7 @@ This plugin can be installed directly from your site.
 
 = 1.1.0 =
 [ Specification Change ] Change icons
-[ Bug fix ] Cope with WordPress 5.7 
+[ Bug fix ] Cope with WordPress 5.7
 
 = 1.0.3 =
 [ Bug fix ] Fix css class of dropdown on custom taxonopmy.
