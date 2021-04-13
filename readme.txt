@@ -4,7 +4,7 @@ Donate link:
 Tags: Guternberg, Search
 Requires at least: 5.6
 Tested up to: 5.6
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,9 +30,12 @@ This plugin can be installed directly from your site.
 
 == Changelog ==
 
+= 1.1.1 =
+[ Specification Change ] Fix all blocks of block.json for Block Directory.
+
 = 1.1.0 =
 [ Specification Change ] Change icons
-[ Bug fix ] Cope with WordPress 5.7 
+[ Bug fix ] Cope with WordPress 5.7
 
 = 1.0.3 =
 [ Bug fix ] Fix css class of dropdown on custom taxonopmy.
