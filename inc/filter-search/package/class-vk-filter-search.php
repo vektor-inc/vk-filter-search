@@ -55,7 +55,7 @@ class VK_Filter_Search {
 	 * @param string $label       label of form.
 	 * @param string $placeholder placeholder of text.
 	 */
-	public static function get_keyword_form_html( $label = '', $placeholder = '' ) {
+	public static function get_keyword_form_html( $label, $placeholder ) {
 		$label       = ! empty( $label ) ? $label : __( 'Keyword', 'vk-filter-search' );
 		$placeholder = ! empty( $placeholder ) ? $placeholder : __( 'Input Keyword', 'vk-filter-search' );
 
@@ -77,7 +77,7 @@ class VK_Filter_Search {
 	 * @param string $page_label  label for page.
 	 * @param string $form_design design of form.
 	 */
-	public static function get_post_type_form_html( $post_types = array( 'post', 'page' ), $label = '', $post_label = '', $page_label = '', $form_design = 'select' ) {
+	public static function get_post_type_form_html( $post_types, $label, $post_label, $page_label, $form_design ) {
 
 		// 投稿タイプの調整.
 		$post_types = ! empty( $post_types ) ? $post_types : array( 'post', 'page' );
@@ -113,7 +113,7 @@ class VK_Filter_Search {
 	 * @param string $page_label  label for page.
 	 * @param string $form_design design of form.
 	 */
-	public static function get_post_type_design_html( $post_types = array( 'post', 'page' ), $label = '', $post_label = '', $page_label = '', $form_design = 'select' ) {
+	public static function get_post_type_design_html( $post_types, $label, $post_label, $page_label, $form_design ) {
 		// 投稿タイプの調整.
 		$post_types = ! empty( $post_types ) ? $post_types : array( 'post', 'page' );
 
@@ -197,7 +197,7 @@ class VK_Filter_Search {
 	 * @param string $form_design design of form.
 	 * @param string $operator    filtering operator.
 	 */
-	public static function get_taxonomy_form_html( $taxonomy = 'category', $label = '', $form_design = 'select', $operator = 'or' ) {
+	public static function get_taxonomy_form_html( $taxonomy, $label, $form_design, $operator ) {
 
 		// タクソノミーの調整.
 		$taxonomy        = ! empty( $taxonomy ) ? $taxonomy : 'category';
@@ -236,7 +236,7 @@ class VK_Filter_Search {
 	 * @param string $label       label of form.
 	 * @param string $form_design design of form.
 	 */
-	public static function get_taxonomy_design_html( $taxonomy = 'category', $label = '', $form_design = 'select' ) {
+	public static function get_taxonomy_design_html( $taxonomy, $label, $form_design ) {
 
 		// タクソノミーの調整.
 		$taxonomy        = ! empty( $taxonomy ) ? $taxonomy : 'category';
