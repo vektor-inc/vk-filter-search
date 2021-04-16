@@ -1,11 +1,7 @@
 {
 	"apiVersion": 2,
 	"name": "vk-filter-search/taxonomy-search",
-	"title": "VK Taxonomy Search",
 	"category": "vk-blocks-cat",
-	"editorScript": "file:../../build/block.js",
-	"editorStyle": "file:../../build/style.css",
-	"style": "file:../../build/editor.css",
 	"parent": ["vk-filter-search/filter-search"],
 	"attributes": {
 		"isSelectedTaxonomy": {

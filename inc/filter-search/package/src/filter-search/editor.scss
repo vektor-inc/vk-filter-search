@@ -1,3 +1,21 @@
+// pro版アイコン
+.editor-block-list-item-vk-filter-search-pro-filter-search-pro:after,
+.editor-block-list-item-vk-filter-search-pro-keyword-search-pro:after,
+.editor-block-list-item-vk-filter-search-pro-post-type-search-pro:after,
+.editor-block-list-item-vk-filter-search-pro-taxonomy-search-pro:after{
+	position: absolute;
+	top: 0;
+	right: 0;
+	content: "Pro";
+	display: inline-block;
+	font-size: 10px;
+	line-height: 1;
+	color: #fff;
+	background-color: #cd3034;
+	border-radius: 2px;
+	padding: 3px 4px;
+}
+
 // 一部CSSがコアの指定に負けてしまうため .wp-core-ui の中に変更
 .wp-core-ui {
 
@@ -12,7 +30,11 @@
 		&__input-wrap{
 			label{ //これがないとラベル内が崩れる
 				display: block;
+				margin-bottom:0; // .editor-styles-wrapper label { .5rem 打ち消し
 			}
+			//ulタグの横に余白ができるので追加
+			padding-left: 0;
+			margin: 0;
 		}
 		&__labels {
 			// これがないと中のカラムが横幅いっぱいにならない

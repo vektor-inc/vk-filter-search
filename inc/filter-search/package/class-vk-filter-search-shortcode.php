@@ -26,7 +26,7 @@ class VK_Filter_Search_Shortcode {
 	 * @param array  $atts    Attributes.
 	 * @param string $content Inner Contents.
 	 */
-	public static function add_search_form_shortcode( $atts = array(), $content = null ) {
+	public static function add_search_form_shortcode( $atts, $content ) {
 		$atts = shortcode_atts(
 			array(
 				'post_type' => '',
@@ -62,7 +62,7 @@ class VK_Filter_Search_Shortcode {
 	 * @param array  $atts    Attributes.
 	 * @param string $content Inner Contents.
 	 */
-	public static function add_keyword_form_shortcode( $atts = array(), $content = null ) {
+	public static function add_keyword_form_shortcode( $atts, $content ) {
 		return VK_Filter_Search::get_keyword_form_html();
 	}
 
@@ -72,7 +72,7 @@ class VK_Filter_Search_Shortcode {
 	 * @param array  $atts    Attributes.
 	 * @param string $content Inner Contents.
 	 */
-	public static function add_post_type_form_shortcode( $atts = array(), $content = null ) {
+	public static function add_post_type_form_shortcode( $atts, $content ) {
 		$atts = shortcode_atts(
 			array(
 				'post_types' => 'post,page',
@@ -90,7 +90,7 @@ class VK_Filter_Search_Shortcode {
 	 * @param array  $atts    Attributes.
 	 * @param string $content Inner Contents.
 	 */
-	public static function add_taxonomy_form_shortcode( $atts = array(), $content = null ) {
+	public static function add_taxonomy_form_shortcode( $atts, $content ) {
 		$atts = shortcode_atts(
 			array(
 				'taxonomy' => 'category',
