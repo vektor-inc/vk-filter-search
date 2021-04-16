@@ -637,6 +637,7 @@ class VK_Filter_Search {
 	public static function display_form_on_loop() {
 		$content = '';
 		$options = self::get_options();
+		
 		if ( ! empty( $options['display_on_result'] ) ) {
 			$block_id_array = array_keys( $options['display_on_result'] );
 			$i              = 0;
@@ -713,6 +714,14 @@ class VK_Filter_Search {
 					'action' => array(),
 				),
 				'div'    => array(
+					'id'    => array(),
+					'class' => array(),
+				),
+				'ul' => array(
+					'id'    => array(),
+					'class' => array(),
+				),
+				'li' => array(
 					'id'    => array(),
 					'class' => array(),
 				),
