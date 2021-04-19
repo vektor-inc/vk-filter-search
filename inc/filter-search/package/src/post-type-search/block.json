@@ -10,7 +10,7 @@
 		},
 		"className": {
 			"type": "string",
-			"default": "category"
+			"default": ""
 		}
 	},
 	"supports": {
