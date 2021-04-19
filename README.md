@@ -98,8 +98,17 @@ editorとfront（style.css)共通のスタイルは `/src/scss/_common.scss` に
 
 ※ 暫定の命名規則です。
 
+* プリフィックス__対象element名--属性値
+* vkfs__element--attributeValue
+
 `vkfs` をprefixとします。
 
-`vkfs__element`
+ex) 
+.vkfs__labels
+.vkfs__outer-wrap--col-md-6
+.vkfs__input-wrap--checkbox
 
-ex) .vkfs__labels
+* VK Blocks と違って __ と -- 連結
+* VK Blocks と違って 属性名は省略する
+
+https://www.vektor-inc.co.jp/post/class-name-rule-for-general-purpose/
