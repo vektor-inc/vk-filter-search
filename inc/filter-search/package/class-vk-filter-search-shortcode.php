@@ -63,12 +63,12 @@ class VK_Filter_Search_Shortcode {
 	 * @param string $content Inner Contents.
 	 */
 	public static function add_keyword_form_shortcode( $atts, $content ) {
-		$label       = '';
-		$placeholder = '';
-		$columns     = array();
-		$class_name  = '';
+		$label         = '';
+		$placeholder   = '';
+		$outer_columns = array();
+		$class_name    = '';
 
-		return VK_Filter_Search::get_keyword_form_html( $label, $placeholder, $columns, $class_name );
+		return VK_Filter_Search::get_keyword_form_html( $label, $placeholder, $outer_columns, $class_name );
 	}
 
 	/**
@@ -86,14 +86,14 @@ class VK_Filter_Search_Shortcode {
 		);
 
 		$post_types = ! empty( $atts['post_types'] ) ? explode( ',', $atts['post_types'] ) : array();
-		$label       = '';
-		$post_label  = '';
-		$page_label  = '';
-		$form_design = '';
-		$columns     = array();
-		$class_name  = '';
+		$label         = '';
+		$post_label    = '';
+		$page_label    = '';
+		$form_design   = '';
+		$outer_columns = array();
+		$class_name    = '';
 
-		return VK_Filter_Search::get_post_type_form_html( $post_types, $label, $post_label, $page_label, $form_design, $columns, $class_name );
+		return VK_Filter_Search::get_post_type_form_html( $post_types, $label, $post_label, $page_label, $form_design, $outer_columns, $class_name );
 	}
 
 	/**
@@ -110,14 +110,14 @@ class VK_Filter_Search_Shortcode {
 			$atts
 		);
 
-		$taxonomy    = ! empty( $atts['taxonomy'] ) ? $atts['taxonomy'] : '';
-		$label       = '';
-		$form_design = '';
-		$operator    = '';
-		$columns     = array();
-		$class_name  = '';
+		$taxonomy      = ! empty( $atts['taxonomy'] ) ? $atts['taxonomy'] : '';
+		$label         = '';
+		$form_design   = '';
+		$operator      = '';
+		$outer_columns = array();
+		$class_name    = '';
 
-		return VK_Filter_Search::get_taxonomy_form_html( $taxonomy, $label, $form_design, $operator, $columns, $class_name );
+		return VK_Filter_Search::get_taxonomy_form_html( $taxonomy, $label, $form_design, $operator, $outer_columns, $class_name );
 	}
 }
 new VK_Filter_Search_Shortcode();
