@@ -40,6 +40,7 @@ function vkfs_keyword_search_render_callback( $attributes, $content ) {
 	);
 	$label       = '';
 	$placeholder = '';
+	$columns     = '';
 	$class_name  = ! empty( $attributes['className'] ) ? $attributes['className'] : '';
-	return VK_Filter_Search::get_keyword_form_html( $label, $placeholder, $class_name );
+	return VK_Filter_Search::get_keyword_form_html( $label, $placeholder, $columns, $class_name );
 }

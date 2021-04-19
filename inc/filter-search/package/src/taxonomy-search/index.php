@@ -17,7 +17,7 @@ if( function_exists('register_block_type_from_metadata')) {
 						'type'    => 'string',
 						'default' => 'category',
 					),
-					'className'   => array(
+					'className'          => array(
 						'type'    => 'string',
 						'default' => '',
 					),
@@ -40,7 +40,7 @@ function vkfs_taxonomy_search_render_callback( $attributes, $content ) {
 		$attributes,
 		array(
 			'isSelectedTaxonomy' => 'category',
-			'className' => '',
+			'className'          => '',
 		)
 	);
 
@@ -48,9 +48,13 @@ function vkfs_taxonomy_search_render_callback( $attributes, $content ) {
 	$label       = '';
 	$form_design = '';
 	$operator    = '';
+	$columns     = '';
 	$class_name  = ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 
-	$content = ! empty( $taxonomy ) ? VK_Filter_Search::get_taxonomy_form_html( $taxonomy, $label, $form_design, $operator, $class_name ) : '';
+	$content = '';
+	if ( ! empty( $taxonomy ) ) {
+		$content = VK_Filter_Search::get_taxonomy_form_html( $taxonomy, $label, $form_design, $operator, $columns, $class_name );
+	}
 
 	return $content;
 }

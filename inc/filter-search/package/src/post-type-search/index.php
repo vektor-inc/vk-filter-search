@@ -17,7 +17,7 @@ if( function_exists('register_block_type_from_metadata')) {
 						'type'    => 'string',
 						'default' => '["post","page"]',
 					),
-					'className'   => array(
+					'className'         => array(
 						'type'    => 'string',
 						'default' => '',
 					),
@@ -40,7 +40,7 @@ function vkfs_post_type_search_render_callback( $attributes, $content ) {
 		$attributes,
 		array(
 			'isCheckedPostType' => '["post","page"]',
-			'className' => '',
+			'className'         => '',
 		)
 	);
 
@@ -55,10 +55,14 @@ function vkfs_post_type_search_render_callback( $attributes, $content ) {
 	$post_label  = '';
 	$page_label  = '';
 	$form_design = '';
+	$columns     = '';
 	$class_name  = ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 
 	$post_label  = '';
-	$content = ! empty( $post_types ) ? VK_Filter_Search::get_post_type_form_html( $post_types, $label, $post_label, $page_label, $form_design, $class_name ) : '';
+	$content = '';
+	if ( ! empty( $post_types ) ) {
+		$content = VK_Filter_Search::get_post_type_form_html( $post_types, $label, $post_label, $page_label, $form_design, $columns, $class_name );
+	}
 
 	return $content;
 	
