@@ -40,8 +40,11 @@ function vkfs_taxonomy_search_render_callback( $attributes, $content ) {
 	);
 
 	$taxonomy = ! empty( $attributes['isSelectedTaxonomy'] ) ? $attributes['isSelectedTaxonomy'] : '';
+	$label = '';
+	$form_design = '';
+	$operator = '';
 
-	$content = ! empty( $taxonomy ) ? VK_Filter_Search::get_taxonomy_form_html( $taxonomy ) : '';
+	$content = ! empty( $taxonomy ) ? VK_Filter_Search::get_taxonomy_form_html( $taxonomy, $label, $form_design, $operator ) : '';
 
 	return $content;
 }
