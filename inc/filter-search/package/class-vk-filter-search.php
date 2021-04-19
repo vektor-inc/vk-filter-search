@@ -55,14 +55,14 @@ class VK_Filter_Search {
 	 * @param string $label       label of form.
 	 * @param string $placeholder placeholder of text.
 	 */
-	public static function get_keyword_form_html( $label, $placeholder, $columns, $class_name ) {
+	public static function get_keyword_form_html( $label, $placeholder, $outer_columns, $class_name ) {
 		$label       = ! empty( $label ) ? $label : __( 'Keyword', 'vk-filter-search' );
 		$placeholder = ! empty( $placeholder ) ? $placeholder : __( 'Input Keyword', 'vk-filter-search' );
 
 		$column_classes = '';
-		if ( ! empty( $columns ) ) {
-			foreach( $columns as $key => $value ) {
-				$column_classes .= ' vkfs__column-' . $key . '-' . $value;
+		if ( ! empty( $outer_columns ) ) {
+			foreach( $outer_columns as $key => $value ) {
+				$column_classes .= ' vkfs__outer-wrap--col-' . $key . '-' . $value;
 			}
 		}
 
@@ -86,7 +86,7 @@ class VK_Filter_Search {
 	 * @param string $page_label  label for page.
 	 * @param string $form_design design of form.
 	 */
-	public static function get_post_type_form_html( $post_types, $label, $post_label, $page_label, $form_design, $columns, $class_name ) {
+	public static function get_post_type_form_html( $post_types, $label, $post_label, $page_label, $form_design, $outer_columns, $class_name ) {
 
 		// 投稿タイプの調整.
 		$post_types = ! empty( $post_types ) ? $post_types : array( 'post', 'page' );
@@ -102,9 +102,9 @@ class VK_Filter_Search {
 
 		// カラムの調整
 		$column_classes = '';
-		if ( ! empty( $columns ) ) {
-			foreach( $columns as $key => $value ) {
-				$column_classes .= ' vkfs__column-' . $key . '-' . $value;
+		if ( ! empty( $outer_columns ) ) {
+			foreach( $outer_columns as $key => $value ) {
+				$column_classes .= ' vkfs__outer-wrap--col-' . $key . '-' . $value;
 			}
 		}
 
@@ -217,7 +217,7 @@ class VK_Filter_Search {
 	 * @param string $form_design design of form.
 	 * @param string $operator    filtering operator.
 	 */
-	public static function get_taxonomy_form_html( $taxonomy, $label, $form_design, $operator, $columns, $class_name ) {
+	public static function get_taxonomy_form_html( $taxonomy, $label, $form_design, $operator, $outer_columns, $class_name ) {
 
 		// タクソノミーの調整.
 		$taxonomy        = ! empty( $taxonomy ) ? $taxonomy : 'category';
@@ -236,9 +236,9 @@ class VK_Filter_Search {
 
 		// カラムの調整
 		$column_classes = '';
-		if ( ! empty( $columns ) ) {
-			foreach( $columns as $key => $value ) {
-				$column_classes .= ' vkfs__column-' . $key . '-' . $value;
+		if ( ! empty( $outer_columns ) ) {
+			foreach( $outer_columns as $key => $value ) {
+				$column_classes .= ' vkfs__outer-wrap--col-' . $key . '-' . $value;
 			}
 		}
 
