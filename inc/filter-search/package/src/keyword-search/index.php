@@ -38,9 +38,9 @@ function vkfs_keyword_search_render_callback( $attributes, $content ) {
 			'className' => '',
 		)
 	);
-	$label       = '';
-	$placeholder = '';
-	$columns     = array();
-	$class_name  = ! empty( $attributes['className'] ) ? $attributes['className'] : '';
-	return VK_Filter_Search::get_keyword_form_html( $label, $placeholder, $columns, $class_name );
+	$label         = '';
+	$placeholder   = '';
+	$outer_columns = array();
+	$class_name    = ! empty( $attributes['className'] ) ? $attributes['className'] : '';
+	return VK_Filter_Search::get_keyword_form_html( $label, $placeholder, $outer_columns, $class_name );
 }

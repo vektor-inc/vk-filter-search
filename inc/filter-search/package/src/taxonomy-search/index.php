@@ -44,16 +44,16 @@ function vkfs_taxonomy_search_render_callback( $attributes, $content ) {
 		)
 	);
 
-	$taxonomy    = ! empty( $attributes['isSelectedTaxonomy'] ) ? $attributes['isSelectedTaxonomy'] : '';
-	$label       = '';
-	$form_design = '';
-	$operator    = '';
-	$columns     = array();
-	$class_name  = ! empty( $attributes['className'] ) ? $attributes['className'] : '';
+	$taxonomy      = ! empty( $attributes['isSelectedTaxonomy'] ) ? $attributes['isSelectedTaxonomy'] : '';
+	$label         = '';
+	$form_design   = '';
+	$operator      = '';
+	$outer_columns = array();
+	$class_name    = ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 
 	$content = '';
 	if ( ! empty( $taxonomy ) ) {
-		$content = VK_Filter_Search::get_taxonomy_form_html( $taxonomy, $label, $form_design, $operator, $columns, $class_name );
+		$content = VK_Filter_Search::get_taxonomy_form_html( $taxonomy, $label, $form_design, $operator, $outer_columns, $class_name );
 	}
 
 	return $content;
