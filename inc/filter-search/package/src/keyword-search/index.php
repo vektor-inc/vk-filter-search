@@ -26,5 +26,7 @@ if( function_exists('register_block_type_from_metadata')) {
  * @param html  $content content.
  */
 function vkfs_keyword_search_render_callback( $attributes, $content ) {
-	return VK_Filter_Search::get_keyword_form_html();
+	$label       = '';
+	$placeholder = '';
+	return VK_Filter_Search::get_keyword_form_html( $label, $placeholder );
 }
