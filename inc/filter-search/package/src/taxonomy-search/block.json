@@ -7,6 +7,10 @@
 		"isSelectedTaxonomy": {
 			"type": "string",
 			"default": "category"
+		},
+		"className": {
+			"type": "string",
+			"default": "category"
 		}
 	},
 	"supports": {
