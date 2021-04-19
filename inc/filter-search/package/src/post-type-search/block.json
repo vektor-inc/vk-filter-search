@@ -7,6 +7,10 @@
 		"isCheckedPostType": {
 			"type": "string",
 			"default": "[\"post\",\"page\"]"
+		},
+		"className": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"supports": {

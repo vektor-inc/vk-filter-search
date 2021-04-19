@@ -17,6 +17,10 @@ if( function_exists('register_block_type_from_metadata')) {
 						'type'    => 'string',
 						'default' => '["post","page"]',
 					),
+					'className'         => array(
+						'type'    => 'string',
+						'default' => '',
+					),
 				),
 				'render_callback' => 'vkfs_post_type_search_render_callback',
 			)
@@ -36,6 +40,7 @@ function vkfs_post_type_search_render_callback( $attributes, $content ) {
 		$attributes,
 		array(
 			'isCheckedPostType' => '["post","page"]',
+			'className'         => '',
 		)
 	);
 
@@ -45,14 +50,19 @@ function vkfs_post_type_search_render_callback( $attributes, $content ) {
 		$attributes['isCheckedPostType'] = str_replace( '"', '', $attributes['isCheckedPostType'] );
 	}
 
-	$post_types = ! empty( $attributes['isCheckedPostType'] ) ? explode( ',', $attributes['isCheckedPostType'] ) : array();
-	$label = '';
+	$post_types  = ! empty( $attributes['isCheckedPostType'] ) ? explode( ',', $attributes['isCheckedPostType'] ) : array();
+	$label       = '';
 	$post_label  = '';
 	$page_label  = '';
 	$form_design = '';
+	$columns     = array();
+	$class_name  = ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 
 	$post_label  = '';
-	$content = ! empty( $post_types ) ? VK_Filter_Search::get_post_type_form_html( $post_types, $label, $post_label, $page_label, $form_design ) : '';
+	$content = '';
+	if ( ! empty( $post_types ) ) {
+		$content = VK_Filter_Search::get_post_type_form_html( $post_types, $label, $post_label, $page_label, $form_design, $columns, $class_name );
+	}
 
 	return $content;
 	

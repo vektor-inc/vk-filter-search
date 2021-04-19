@@ -3,6 +3,12 @@
 	"name": "vk-filter-search/keyword-search",
 	"category": "vk-blocks-cat",
 	"parent": ["vk-filter-search/filter-search"],
+	"attributes": {
+		"className": {
+			"type": "string",
+			"default": ""
+		}
+	},
 	"supports": {
 		"className": true
 	}
