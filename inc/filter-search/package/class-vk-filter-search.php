@@ -62,7 +62,7 @@ class VK_Filter_Search {
 		$column_classes = '';
 		if ( ! empty( $columns ) ) {
 			foreach( $columns as $key => $value ) {
-				$column_classes .= ' vkfs__column' . $key . '-' . $value;
+				$column_classes .= ' vkfs__column-' . $key . '-' . $value;
 			}
 		}
 
@@ -104,7 +104,7 @@ class VK_Filter_Search {
 		$column_classes = '';
 		if ( ! empty( $columns ) ) {
 			foreach( $columns as $key => $value ) {
-				$column_classes .= ' vkfs__column' . $key . '-' . $value;
+				$column_classes .= ' vkfs__column-' . $key . '-' . $value;
 			}
 		}
 
@@ -238,7 +238,7 @@ class VK_Filter_Search {
 		$column_classes = '';
 		if ( ! empty( $columns ) ) {
 			foreach( $columns as $key => $value ) {
-				$column_classes .= ' vkfs__column' . $key . '-' . $value;
+				$column_classes .= ' vkfs__column-' . $key . '-' . $value;
 			}
 		}
 
