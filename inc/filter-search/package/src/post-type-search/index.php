@@ -55,7 +55,7 @@ function vkfs_post_type_search_render_callback( $attributes, $content ) {
 	$post_label  = '';
 	$page_label  = '';
 	$form_design = '';
-	$columns     = '';
+	$columns     = array();
 	$class_name  = ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 
 	$post_label  = '';

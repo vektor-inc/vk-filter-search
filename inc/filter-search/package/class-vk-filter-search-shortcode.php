@@ -65,7 +65,7 @@ class VK_Filter_Search_Shortcode {
 	public static function add_keyword_form_shortcode( $atts, $content ) {
 		$label       = '';
 		$placeholder = '';
-		$columns     = '';
+		$columns     = array();
 		$class_name  = '';
 
 		return VK_Filter_Search::get_keyword_form_html( $label, $placeholder, $columns, $class_name );
@@ -90,7 +90,7 @@ class VK_Filter_Search_Shortcode {
 		$post_label  = '';
 		$page_label  = '';
 		$form_design = '';
-		$columns     = '';
+		$columns     = array();
 		$class_name  = '';
 
 		return VK_Filter_Search::get_post_type_form_html( $post_types, $label, $post_label, $page_label, $form_design, $columns, $class_name );
@@ -114,7 +114,7 @@ class VK_Filter_Search_Shortcode {
 		$label       = '';
 		$form_design = '';
 		$operator    = '';
-		$columns     = '';
+		$columns     = array();
 		$class_name  = '';
 
 		return VK_Filter_Search::get_taxonomy_form_html( $taxonomy, $label, $form_design, $operator, $columns, $class_name );

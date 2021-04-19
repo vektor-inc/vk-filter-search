@@ -48,7 +48,7 @@ function vkfs_taxonomy_search_render_callback( $attributes, $content ) {
 	$label       = '';
 	$form_design = '';
 	$operator    = '';
-	$columns     = '';
+	$columns     = array();
 	$class_name  = ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 
 	$content = '';
