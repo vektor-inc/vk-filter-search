@@ -556,7 +556,7 @@ class VK_Filter_Search {
 				$url .= 'vkfs_form_id=' . $vkfs_form_id;
 			}
 
-			wp_safe_redirect( home_url() . $url );
+			wp_redirect( home_url() . $url );
 			exit;
 		}
 	}
