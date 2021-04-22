@@ -1,0 +1,45 @@
+$xs-max: 575.98px;
+$sm-max: 767.98px;
+$md-max: 991.98px;
+$lg-max: 1199.98px;
+$xl-max: 1399.98px;
+
+$sm-min: 576px;
+$md-min: 768px;
+$lg-min: 992px;
+$xl-min: 1200px;
+$xxl-min: 1400px;
+
+$mark-color:#3582c4;
+
+
+:root {
+    --col-2: 16.66%;
+    --col-3: 25%;
+    --col-4: 33.3%;
+    --col-6: 50%;
+    --col-8: 66.6%;
+    --col-9: 75%;
+    --col-12: 100%;
+    --vkfs-outer-margin: 0.8rem;
+    --vkfs-outer-margin-left-right: 0.4rem;
+
+    // テーマ側などで指定が実装させたらこちらからは削除
+	--vk-margin-section-bottom: 2em;
+	// 他テーマで極端に崩れないように追加
+	--vk-size-text: 16px;
+}
+
+//インサーターの共通デザイン
+@mixin editor-inserter-design( ) {
+    border: 1px dashed #ccc;
+    height: 80px;
+}
+@mixin editor-button-block-appender( ) {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    left: 0;
+    margin: auto;
+    height: 80px;
+}
