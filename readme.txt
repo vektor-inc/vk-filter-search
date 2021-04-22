@@ -4,7 +4,7 @@ Donate link:
 Tags: Guternberg, Search
 Requires at least: 5.7
 Tested up to: 5.7
-Stable tag: 1.1.5
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,10 @@ This plugin can be installed directly from your site.
 1. Editor View
 
 == Changelog ==
+
+= 1.2.0 =
+[ Specification Change ] Fix for VK Filter Search Pro.
+[ Bug Fix ] Remove unnecessary CSS
 
 = 1.1.5 =
 [ Bug Fix ] Fix arguments of functions on block.

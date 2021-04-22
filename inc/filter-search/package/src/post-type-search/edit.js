@@ -26,7 +26,7 @@ export default function PostTypeSearchEdit( props ) {
 				</div>
 				<div className="vkfs__warning-text">
 					{ __(
-						'Because no post type is selected, this block will not render.',
+						'This block will not be displayed because the post type is not selected.',
 						'vk-filter-search'
 					) }
 				</div>

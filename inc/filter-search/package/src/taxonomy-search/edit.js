@@ -42,7 +42,7 @@ export default function TaxonomySearchEdit( props ) {
 					</div>
 					<div className="vkfs__warning-text">
 						{ __(
-							'Because no taxonomy is selected, this block will not render.',
+							'This block will not be displayed because no taxonomy is selected.',
 							'vk-filter-search'
 						) }
 					</div>
@@ -58,7 +58,7 @@ export default function TaxonomySearchEdit( props ) {
 					</div>
 					<div className="vkfs__warning-text">
 						{ __(
-							'Because this taxonomy has no term, this block will not render.',
+							'This block will not be displayed because this taxonomy has no term.',
 							'vk-filter-search'
 						) }
 					</div>
