@@ -213,8 +213,6 @@ class VK_Filter_Search_Block {
 			)
 		);
 
-		vkfs_set_script_translations();
-
 		$block_array = array(
 			'filter-search',
 			'keyword-search',
