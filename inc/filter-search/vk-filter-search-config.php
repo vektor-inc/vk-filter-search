@@ -31,11 +31,14 @@ if ( ! class_exists( 'VK_Filter_Search' ) && ! class_exists( 'VK_Filter_Search_B
 	require_once dirname( __FILE__ ) . '/package/class-vk-filter-search-shortcode.php';
 }
 
-
-/**
- * テキストドメインの設定
- */
-function vkfs_set_script_translations() {
-	wp_set_script_translations( 'vk-filter-search-js', 'vk-filter-search' );
+if ( ! function_exists( 'vkfs_set_script_translations' ) ) {
+	/**
+	 * テキストドメインの設定
+	 */
+	function vkfs_set_script_translations() {
+		if ( function_exists( 'wp_set_script_translations' ) ) {
+			wp_set_script_translations( 'vk-filter-search-js', 'vk-filter-search-pro', VKFS_PRO_PATH . '/languages/' );
+		}
+	}
+	add_action( 'init', 'vkfs_set_script_translations' );
 }
-add_action( 'init', 'vkfs_set_script_translations' );
