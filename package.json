@@ -9,7 +9,7 @@
 		"build": "gulp replace_text_domain && npm run build:block && npm run build:css && npm run build:js",
 		"build:block": "wp-scripts build --config webpack.config.js",
 		"build:css": "gulp build_css",
-		"build:js": "gulp build_js",
+		"build:js": "webpack --config webpack2.config.js",
 		"textdomain": "gulp replace_text_domain",
 		"watch": "wp-scripts start --config webpack.config.js",
 		"check-engines": "wp-scripts check-engines",

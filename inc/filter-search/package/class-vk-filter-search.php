@@ -18,7 +18,6 @@ class VK_Filter_Search {
 		$theme_hook_array     = self::theme_hook_array();
 		$current_parent_theme = get_template();
 
-		add_action( 'wp', array( __CLASS__, 'get_header' ) );
 		add_action( 'pre_get_posts', array( __CLASS__, 'pre_get_posts' ) );
 		add_action( 'dynamic_sidebar_before', array( __CLASS__, 'dynamic_sidebar_before' ) );
 		add_action( 'dynamic_sidebar_after', array( __CLASS__, 'dynamic_sidebar_after' ) );
@@ -352,216 +351,6 @@ class VK_Filter_Search {
 	}
 
 	/**
-	 * Get Header
-	 */
-	public static function get_header() {
-		$url          = '/';
-		$has_question = false;
-		if ( isset( $_GET['vkfs_submitted'] ) ) {
-			// 投稿タイプの処理.
-			if ( isset( $_GET['vkfs_post_type'] ) ) {
-
-				// 配列を取得.
-				$the_post_types = wp_unslash( $_GET['vkfs_post_type'] );
-
-				// 配列を操作.
-				$post_type_array = array();
-				if ( is_array( $the_post_types ) ) {
-					foreach ( $the_post_types as $the_post_type ) {
-						$post_type_array[] = sanitize_text_field( urldecode( $the_post_type ) );
-					}
-				} elseif ( empty( $the_post_types ) ) {
-					$post_type_array[] = 'any';
-				} else {
-					$post_type_array[] = sanitize_text_field( urldecode( $the_post_types ) );
-				}
-
-				// 配列を文字列に変換.
-				if ( 0 < count( $post_type_array ) ) {
-					$post_type = implode( ',', $post_type_array );
-				}
-
-				// ? か & を追加.
-				if ( false === $has_question ) {
-					$url         .= '?';
-					$has_question = true;
-				} else {
-					$url .= '&';
-				}
-
-				// 値を追加.
-				$url .= 'post_type=' . $post_type;
-			}
-
-			// カテゴリーの処理.
-			if ( isset( $_GET['vkfs_category'] ) ) {
-
-				// 要素を取得.
-				$the_categories    = wp_unslash( $_GET['vkfs_category'] );
-				$category_operator = isset( $_GET['vkfs_category_operator'] ) ? wp_unslash( $_GET['vkfs_category_operator'] ) : 'or';
-
-				// 配列を操作.
-				$category_array = array();
-				if ( is_array( $the_categories ) ) {
-					foreach ( $the_categories as $the_category ) {
-						$category_array[] = sanitize_text_field( urldecode( $the_category ) );
-					}
-				} elseif ( empty( $the_categories ) ) {
-					$category_array[] = '';
-				} else {
-					$category_array[] = sanitize_text_field( urldecode( $the_categories ) );
-				}
-
-				// 配列を文字列に変換.
-				if ( 0 < count( $category_array ) ) {
-					if ( 'and' === $category_operator ) {
-						$category = implode( '+', $category_array );
-					} else {
-						$category = implode( ',', $category_array );
-					}
-				}
-
-				// ? か & を追加.
-				if ( false === $has_question ) {
-					$url         .= '?';
-					$has_question = true;
-				} else {
-					$url .= '&';
-				}
-
-				// 値を追加.
-				$url .= 'category_name=' . $category;
-			}
-
-			// タグの処理.
-			if ( isset( $_GET['vkfs_post_tag'] ) ) {
-
-				// 配列を取得.
-				$the_tags     = wp_unslash( $_GET['vkfs_post_tag'] );
-				$tag_operator = isset( $_GET['vkfs_post_tag_operator'] ) ? wp_unslash( $_GET['vkfs_post_tag_operator'] ) : 'or';
-
-				// 配列を操作.
-				$tag_array = array();
-				if ( is_array( $the_tags ) ) {
-					foreach ( $the_tags as $the_tag ) {
-						$tag_array[] = sanitize_text_field( urldecode( $the_tag ) );
-					}
-				} elseif ( empty( $the_tags ) ) {
-					$tag_array[] = '';
-				} else {
-					$tag_array[] = sanitize_text_field( urldecode( $the_tags ) );
-				}
-
-				// 配列を文字列に変換.
-				if ( 0 < count( $tag_array ) ) {
-					if ( 'and' === $tag_operator ) {
-						$tag = implode( '+', $tag_array );
-					} else {
-						$tag = implode( ',', $tag_array );
-					}
-				}
-
-				// ? か & を追加.
-				if ( false === $has_question ) {
-					$url         .= '?';
-					$has_question = true;
-				} else {
-					$url .= '&';
-				}
-
-				// 値を追加.
-				$url .= 'tag=' . $tag;
-			}
-
-			// カスタム分類の取得.
-			$get_taxonomies = get_taxonomies(
-				array(
-					'public'   => true,
-					'_builtin' => false,
-				),
-				'names',
-				'and'
-			);
-
-			foreach ( $get_taxonomies as $get_taxonomy ) {
-				if ( isset( $_GET[ 'vkfs_' . $get_taxonomy ] ) ) {
-
-					// 配列を取得.
-					$the_taxonomies    = wp_unslash( $_GET[ 'vkfs_' . $get_taxonomy ] );
-					$taxonomy_operator = isset( $_GET[ 'vkfs_' . $get_taxonomy . '_operator' ] ) ? wp_unslash( $_GET[ 'vkfs_' . $get_taxonomy . '_operator' ] ) : 'or';
-
-					// 配列を操作.
-					$taxonomy_array = array();
-					if ( is_array( $the_taxonomies ) ) {
-						foreach ( $the_taxonomies as $the_taxonomy ) {
-							$taxonomy_array[] = sanitize_text_field( urldecode( $the_taxonomy ) );
-						}
-					} elseif ( empty( $the_taxonomies ) ) {
-						$taxonomy_array[] = '';
-					} else {
-						$taxonomy_array[] = sanitize_text_field( urldecode( $the_taxonomies ) );
-					}
-
-					// 配列を文字列に変換.
-					if ( 0 < count( $taxonomy_array ) ) {
-						if ( 'and' === $taxonomy_operator ) {
-							$taxonomy = implode( '+', $taxonomy_array );
-						} else {
-							$taxonomy = implode( ',', $taxonomy_array );
-						}
-					}
-
-					// ? か & を追加.
-					if ( false === $has_question ) {
-						$url         .= '?';
-						$has_question = true;
-					} else {
-						$url .= '&';
-					}
-
-					// 値を追加.
-					$url .= $get_taxonomy . '=' . $taxonomy;
-				}
-			}
-
-			// キーワードの処理.
-			if ( isset( $_GET['s'] ) ) {
-				$keyword = sanitize_text_field( wp_unslash( $_GET['s'] ) );
-
-				// ? か & を追加.
-				if ( false === $has_question ) {
-					$url         .= '?';
-					$has_question = true;
-				} else {
-					$url .= '&';
-				}
-
-				// 値を追加.
-				$url .= 's=' . $keyword;
-			}
-
-			// 呼び出し元パラメーターの処理.
-			if ( isset( $_GET['vkfs_form_id'] ) ) {
-				$vkfs_form_id = sanitize_text_field( wp_unslash( $_GET['vkfs_form_id'] ) );
-
-				// ? か & を追加.
-				if ( false === $has_question ) {
-					$url         .= '?';
-					$has_question = true;
-				} else {
-					$url .= '&';
-				}
-
-				// 値を追加.
-				$url .= 'vkfs_form_id=' . $vkfs_form_id;
-			}
-
-			wp_redirect( home_url() . $url );
-			exit;
-		}
-	}
-
-	/**
 	 * Pre Get Posts
 	 *
 	 * @param WP_Query $query WP_Query.
@@ -668,7 +457,7 @@ class VK_Filter_Search {
 	public static function display_form_on_loop() {
 		$content = '';
 		$options = self::get_options();
-		
+
 		if ( ! empty( $options['display_on_result'] ) ) {
 			$block_id_array = array_keys( $options['display_on_result'] );
 			$i              = 0;
@@ -796,9 +585,19 @@ class VK_Filter_Search {
 	 */
 	public static function enqueue_scripts() {
 		$asset_file = include plugin_dir_path( __FILE__ ) . '/build/block.asset.php';
-
-		if ( isset( $_GET['vkfs_form_id'] ) ) {
-			wp_enqueue_script( 'vk-filter-search-result', plugin_dir_url( __FILE__ ) . 'build/vk-filter-search.min.js', array(), $asset_file['version'], true );
+		if ( isset( $_GET['vkfs_submitted'] ) ) {
+			wp_enqueue_script( 'vk-filter-search-redirct', plugin_dir_url( __FILE__ ) . 'build/vk-filter-search-redirect.min.js', array(), $asset_file['version'], false );
+		}
+		// ブロックに値を渡す
+		wp_localize_script(
+			'vk-filter-search-redirct',
+			'vk_filter_search_params',
+			array(
+				'home_url'                   => home_url( '/' ),
+			)
+		);
+		if ( isset( $_GET['vkfs_form_id'] ) && ! isset( $_GET['vkfs_submitted'] ) ) {
+			wp_enqueue_script( 'vk-filter-search-result', plugin_dir_url( __FILE__ ) . 'build/vk-filter-search-result.min.js', array(), $asset_file['version'], true );
 		}
 		do_action( 'vkfs_enqueue_scripts' );
 	}
