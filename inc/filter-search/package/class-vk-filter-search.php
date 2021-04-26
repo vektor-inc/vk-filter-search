@@ -586,18 +586,30 @@ class VK_Filter_Search {
 	public static function enqueue_scripts() {
 		$asset_file = include plugin_dir_path( __FILE__ ) . '/build/block.asset.php';
 		if ( isset( $_GET['vkfs_submitted'] ) ) {
-			wp_enqueue_script( 'vk-filter-search-redirct', plugin_dir_url( __FILE__ ) . 'build/vk-filter-search-redirect.min.js', array(), $asset_file['version'], false );
+			wp_enqueue_script(
+				'vk-filter-search-redirct',
+				plugin_dir_url( __FILE__ ) . 'build/vk-filter-search-redirect.min.js',
+				array(),
+				$asset_file['version'],
+				false
+			);
+			// ブロックに値を渡す
+			wp_localize_script(
+				'vk-filter-search-redirct',
+				'vk_filter_search_params',
+				array(
+					'home_url'                   => home_url( '/' ),
+				)
+			);
 		}
-		// ブロックに値を渡す
-		wp_localize_script(
-			'vk-filter-search-redirct',
-			'vk_filter_search_params',
-			array(
-				'home_url'                   => home_url( '/' ),
-			)
-		);
+
 		if ( isset( $_GET['vkfs_form_id'] ) && ! isset( $_GET['vkfs_submitted'] ) ) {
-			wp_enqueue_script( 'vk-filter-search-result', plugin_dir_url( __FILE__ ) . 'build/vk-filter-search-result.min.js', array(), $asset_file['version'], true );
+			wp_enqueue_script(
+				'vk-filter-search-result',
+				plugin_dir_url( __FILE__ ) . 'build/vk-filter-search-result.min.js',
+				array(), $asset_file['version'],
+				true
+			);
 		}
 		do_action( 'vkfs_enqueue_scripts' );
 	}
