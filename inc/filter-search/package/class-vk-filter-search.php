@@ -598,7 +598,7 @@ class VK_Filter_Search {
 				'vk-filter-search-redirct',
 				'vk_filter_search_params',
 				array(
-					'home_url'                   => home_url( '/' ),
+					'home_url' => home_url( '/' ),
 				)
 			);
 		}
