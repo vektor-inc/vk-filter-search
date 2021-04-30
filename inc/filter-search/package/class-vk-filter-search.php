@@ -607,7 +607,8 @@ class VK_Filter_Search {
 			wp_enqueue_script(
 				'vk-filter-search-result',
 				plugin_dir_url( __FILE__ ) . 'build/vk-filter-search-result.min.js',
-				array(), $asset_file['version'],
+				array(),
+				$asset_file['version'],
 				true
 			);
 		}
