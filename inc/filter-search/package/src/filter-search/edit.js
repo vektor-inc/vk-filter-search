@@ -72,14 +72,13 @@ export default function FilterSearchEdit( props ) {
 		className: `vk-filter-search vkfs`,
 	} );
 
+	const formName = `vkfs_form_${ clientId }`.replace( /-/g, '_' );
+
 	return (
 		<>
 			<InspectorControls>
 				<PanelBody
-					title={ __(
-						'Target of Post Type',
-						'vk-filter-search'
-					) }
+					title={ __( 'Target of Post Type', 'vk-filter-search' ) }
 					initialOpen={ true }
 				>
 					<BaseControl id={ 'vkfs-search-form-01' }>
@@ -136,6 +135,7 @@ export default function FilterSearchEdit( props ) {
 				method={ `get` }
 				//eslint-disable-next-line camelcase,no-undef
 				action={ vk_filter_search_params.home_url }
+				name={ formName }
 			>
 				<div className={ `vkfs__labels` }>
 					<InnerBlocks
@@ -161,11 +161,14 @@ export default function FilterSearchEdit( props ) {
 				{ hiddenPostTypes }
 				{ hiddenResult }
 				<input type="hidden" name="vkfs_submitted" value="true" />
-				<input
-					className={ `btn btn-primary` }
-					type={ `submit` }
-					value={ __( 'Search', 'vk-filter-search' ) }
-				/>
+				{ /* eslint-disable-next-line jsx-a11y/anchor-is-valid */ }
+				<a
+					className={ `btn btn-primary vkfs_submit` }
+					href={ `javascript:document.${ formName }.submit()` }
+					rel="noopener"
+				>
+					{ __( 'Search', 'vk-filter-search' ) }
+				</a>
 			</form>
 		</>
 	);
