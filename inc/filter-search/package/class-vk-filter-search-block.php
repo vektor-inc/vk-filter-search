@@ -95,7 +95,8 @@ class VK_Filter_Search_Block {
 		// 投稿が空でない場合にリスト・選択肢に追加.
 		$get_posts = get_posts(
 			array(
-				'post_type' => 'post',
+				'post_type'        => 'post',
+				'suppress_filters' => false,
 			)
 		);
 		if ( ! empty( $get_posts ) ) {
@@ -118,6 +119,7 @@ class VK_Filter_Search_Block {
 		$get_posts = get_posts(
 			array(
 				'post_type' => 'page',
+				'suppress_filters' => false,
 			)
 		);
 		if ( ! empty( $get_posts ) ) {
@@ -145,6 +147,7 @@ class VK_Filter_Search_Block {
 			$get_posts = get_posts(
 				array(
 					'post_type' => $the_post_type->name,
+					'suppress_filters' => false,
 				)
 			);
 			if ( ! empty( $get_posts ) ) {
