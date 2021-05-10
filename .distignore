@@ -19,4 +19,4 @@ package-lock.json
 package.json
 phpunit.xml.dist
 README.md
-webpack.congig.js
+webpack.config.js
