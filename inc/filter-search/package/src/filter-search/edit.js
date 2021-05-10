@@ -163,7 +163,7 @@ export default function FilterSearchEdit( props ) {
 				<input type="hidden" name="vkfs_submitted" value="true" />
 				{ /* eslint-disable-next-line jsx-a11y/anchor-is-valid */ }
 				<a
-					className={ `btn btn-primary vkfs_submit` }
+					className={ `btn btn-primary vkfs_submitButton` }
 					href={ `javascript:document.${ formName }.submit()` }
 					rel="noopener"
 				>
