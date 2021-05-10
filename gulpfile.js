@@ -64,25 +64,6 @@ gulp.task( 'replace_text_domain', function ( done ) {
 	done();
 } );
 
-gulp.task( 'dist', function () {
-	return gulp
-		.src(
-			[
-				'./**/*.php',
-				'./**/*.txt',
-				'./inc/**',
-				'./languages/**',
-				'!./tests/**',
-				'!./dist/**',
-				'!./node_modules/**/*.*',
-			],
-			{
-				base: './',
-			}
-		)
-		.pipe( gulp.dest( 'dist/vk-filter-search' ) ); // dist/lightning-proディレクトリに出力
-} );
-
 gulp.task( 'copy_filter_search', function ( done ) {
 	gulp.src( [ './inc/filter-search/package/**' ] )
 		.pipe( replace( "'vk-filter-search'", "'filter-search-textdomain'" ) )
