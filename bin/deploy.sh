@@ -15,8 +15,6 @@ ZIPBALL="${dist_dir}/${PLUGIN_NAME}_v${CURRENT_VERSION}.zip"
 
 rsync -av "${PLUGIN_DIR}/" "${src_dir}/" --exclude="dist/" --exclude-from='.distignore'
 
-cd "${dist_dir}"
-
-zip -r "${ZIPBALL}" "${PLUGIN_NAME}/"
+cd "${dist_dir}/${PLUGIN_NAME}"
 
 exit 0
