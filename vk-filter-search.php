@@ -15,10 +15,12 @@
 
 defined( 'ABSPATH' ) || exit;
 
+// Define Plugin Path
 define( 'VKFS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 
+// Plugin Version
 global $vkfs_prefix;
 $vkfs_prefix = apply_filters( 'vkfs_prefix', 'VK ' );
 
-do_action( 'vkfs_load_modules_before' );
+// Load Modules
 require_once plugin_dir_path( __FILE__ ) . 'inc/filter-search/vk-filter-search-config.php';

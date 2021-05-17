@@ -14,7 +14,7 @@ gulp.task( 'build_css', function ( done ) {
 		.pipe(
 			plumber( {
 				handleError: ( err ) => {
-					console.log( err );
+					console.log( err ); //eslint-disable-line no-console
 					this.emit( 'end' );
 				},
 			} )
@@ -32,7 +32,7 @@ gulp.task( 'build_css', function ( done ) {
 		.pipe(
 			plumber( {
 				handleError: ( err ) => {
-					console.log( err );
+					console.log( err ); //eslint-disable-line no-console
 					this.emit( 'end' );
 				},
 			} )
@@ -46,14 +46,6 @@ gulp.task( 'build_css', function ( done ) {
 		.pipe( autoprefixer() )
 		.pipe( cleanCss() )
 		.pipe( gulp.dest( './inc/filter-search/package/build/' ) );
-	done();
-} );
-
-gulp.task( 'build_js', function ( done ) {
-	gulp.src( 'inc/filter-search/package/src/filter-search/enque-front.js' )
-		.pipe( jsmin() )
-		.pipe( rename( 'vk-filter-search.min.js' ) )
-		.pipe( gulp.dest( 'inc/filter-search/package/build/' ) );
 	done();
 } );
 

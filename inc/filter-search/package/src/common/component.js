@@ -1,3 +1,10 @@
+/**
+ * Common Component
+ */
+
+/* eslint camelcase: 0 */
+/* eslint no-shadow: 0 */
+
 import { CheckboxControl } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 

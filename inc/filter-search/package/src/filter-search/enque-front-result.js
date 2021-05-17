@@ -3,23 +3,10 @@
  */
 /* eslint camelcase: 0 */
 /* eslint no-shadow: 0 */
-function get_url_queries() {
-	const query_string = window.location.search.slice( 1 ); // 文頭?を除外
-	const queries = {};
-
-	// クエリがない場合は空のオブジェクトを返す
-	if ( ! query_string ) {
-		return queries;
-	}
-
-	// クエリ文字列を & で分割して処理
-	query_string.split( '&' ).forEach( function ( query_string ) {
-		// = で分割してkey,valueをオブジェクトに格納
-		const query_array = query_string.split( '=' );
-		queries[ query_array[ 0 ] ] = query_array[ 1 ];
-	} );
-	return queries;
-}
+import {
+	query_string,
+	get_url_queries,
+} from '@vk-filter-search/common/enque-front-component';
 
 const form_html = document.getElementsByClassName( `vk-filter-search` );
 const url_queries = get_url_queries();
@@ -113,6 +100,8 @@ const set_query_value = ( i ) => {
 	} );
 };
 
-for ( let i = 0; i < form_html.length; i++ ) {
-	set_query_value( i );
+if ( query_string.indexOf( 'vkfs_submitted=true' ) === -1 ) {
+	for ( let i = 0; i < form_html.length; i++ ) {
+		set_query_value( i );
+	}
 }
