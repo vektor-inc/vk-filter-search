@@ -62,19 +62,19 @@ Filter Search ブロックのインナーブロックとしてのみ使用可能
 
 ## 開発者向け
 
-## 環境構築（Windows編）
+### 環境構築（Windows編）
 - XAMPP 7.4 系をインストール：https://www.apachefriends.org/download.html
 - Composer をインストール：https://www.apachefriends.org/download.html
 - VS Code で Git Bash を使えるようにしておく：https://qiita.com/daikiozawa/items/48a9fe0e2898c7dd78ae
 
-## 前提
+### 前提
 - Composer
 - Docker
 - NodeJS、NPM
 - @wordpress/env をグローバルインストール(例： ```npm install -g @wordpress/env``` )
 - wp-cli をグローバルインストール (例：```composer global require wp-cli/wp-cli-bundle```)
 
-## 依存関係のインストール
+### 依存関係のインストール
 
 ```
 npm install
