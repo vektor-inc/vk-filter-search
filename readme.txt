@@ -1,7 +1,7 @@
 === VK Filter Search ===
 Contributors: vektor-inc,kurudrive,rickaddison7634,naoki0h,mimitips
 Donate link: 
-Tags: Guternberg, Search, block
+Tags: Gutenberg, Search, block
 Requires at least: 5.7
 Tested up to: 5.7
 Stable tag: 1.2.0
@@ -12,8 +12,8 @@ This plugin allows you to add a search function as a block to narrow down your s
 
 == Description ==
 
-This plugin can create the Filter Serach Block on your edit screen.
-If you have custom post type, you can also narrow down the search by custom post types.
+This plugin can create the Filter Search Block on your edit screen.
+If you have custom post types, you can also narrow down the search by custom post types.
 
 == Installation ==
 
