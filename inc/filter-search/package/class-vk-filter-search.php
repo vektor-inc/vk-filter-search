@@ -85,7 +85,7 @@ class VK_Filter_Search {
 	 * @param string $page_label  label for page.
 	 * @param string $form_design design of form.
 	 */
-	public static function get_post_type_form_html( $post_types, $label, $post_label, $page_label, $form_design, $outer_columns, $class_name ) {
+	public static function get_post_type_form_html( $post_types, $label, $post_label, $page_label, $form_design, $outer_columns, $inner_columns, $class_name ) {
 
 		// 投稿タイプの調整.
 		$post_types = ! empty( $post_types ) ? $post_types : array( 'post', 'page' );
@@ -117,7 +117,7 @@ class VK_Filter_Search {
 		if ( ! empty( $post_types ) ) {
 			$post_type_form_html .= '<div class="vkfs__outer-wrap vkfs__post_type' . $column_classes . $class_name . '">';
 			$post_type_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
-			$post_type_form_html .= self::get_post_type_design_html( $post_types, $label, $post_label, $page_label, $form_design );
+			$post_type_form_html .= self::get_post_type_design_html( $post_types, $label, $post_label, $page_label, $form_design, $inner_columns );
 			$post_type_form_html .= '</div>';
 		}
 		return $post_type_form_html;
@@ -132,7 +132,7 @@ class VK_Filter_Search {
 	 * @param string $page_label  label for page.
 	 * @param string $form_design design of form.
 	 */
-	public static function get_post_type_design_html( $post_types, $label, $post_label, $page_label, $form_design ) {
+	public static function get_post_type_design_html( $post_types, $label, $post_label, $page_label, $form_design, $inner_columns ) {
 		// 投稿タイプの調整.
 		$post_types = ! empty( $post_types ) ? $post_types : array( 'post', 'page' );
 
@@ -205,7 +205,7 @@ class VK_Filter_Search {
 			$post_type_design_html .= '</select>';
 
 		}
-		return apply_filters( 'vk_search_filter_post_type_design_html', $post_type_design_html, $post_types, $label, $post_label, $page_label, $form_design );
+		return apply_filters( 'vk_search_filter_post_type_design_html', $post_type_design_html, $post_types, $label, $post_label, $page_label, $form_design, $inner_columns );
 	}
 
 	/**
@@ -216,7 +216,7 @@ class VK_Filter_Search {
 	 * @param string $form_design design of form.
 	 * @param string $operator    filtering operator.
 	 */
-	public static function get_taxonomy_form_html( $taxonomy, $label, $form_design, $operator, $outer_columns, $class_name ) {
+	public static function get_taxonomy_form_html( $taxonomy, $label, $form_design, $operator, $outer_columns, $inner_columns, $class_name ) {
 
 		// タクソノミーの調整.
 		$taxonomy        = ! empty( $taxonomy ) ? $taxonomy : 'category';
@@ -252,7 +252,7 @@ class VK_Filter_Search {
 		if ( ! empty( $taxonomy_object ) && ! empty( $taxonomy_terms ) ) {
 			$taxonomy_form_html .= '<div class="vkfs__outer-wrap vkfs__taxonomy' . $column_classes . $class_name . '">';
 			$taxonomy_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
-			$taxonomy_form_html .= self::get_taxonomy_design_html( $taxonomy, $label, $form_design );
+			$taxonomy_form_html .= self::get_taxonomy_design_html( $taxonomy, $label, $form_design, $inner_columns );
 			$taxonomy_form_html .= '<input type="hidden" name="vkfs_' . $taxonomy . '_operator" value="' . $operator . '" />';
 			$taxonomy_form_html .= '</div>';
 		}
@@ -266,7 +266,7 @@ class VK_Filter_Search {
 	 * @param string $label       label of form.
 	 * @param string $form_design design of form.
 	 */
-	public static function get_taxonomy_design_html( $taxonomy, $label, $form_design ) {
+	public static function get_taxonomy_design_html( $taxonomy, $label, $form_design, $inner_columns ) {
 
 		// タクソノミーの調整.
 		$taxonomy        = ! empty( $taxonomy ) ? $taxonomy : 'category';
@@ -346,7 +346,7 @@ class VK_Filter_Search {
 				);
 			}
 		}
-		return apply_filters( 'vk_search_filter_taxonomy_design_html', $taxonomy_design_html, $taxonomy, $label, $form_design );
+		return apply_filters( 'vk_search_filter_taxonomy_design_html', $taxonomy_design_html, $taxonomy, $label, $form_design, $inner_columns );
 
 	}
 
