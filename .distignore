@@ -20,3 +20,4 @@ package.json
 phpunit.xml.dist
 README.md
 webpack.config.js
+webpack2.config.js
