@@ -49,11 +49,12 @@ function vkfs_taxonomy_search_render_callback( $attributes, $content ) {
 	$form_design   = '';
 	$operator      = '';
 	$outer_columns = array();
+	$inner_columns = array();
 	$class_name    = ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 
 	$content = '';
 	if ( ! empty( $taxonomy ) ) {
-		$content = VK_Filter_Search::get_taxonomy_form_html( $taxonomy, $label, $form_design, $operator, $outer_columns, $class_name );
+		$content = VK_Filter_Search::get_taxonomy_form_html( $taxonomy, $label, $form_design, $operator, $outer_columns, $inner_columns, $class_name );
 	}
 
 	return $content;

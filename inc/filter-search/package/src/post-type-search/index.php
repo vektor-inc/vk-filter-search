@@ -56,12 +56,13 @@ function vkfs_post_type_search_render_callback( $attributes, $content ) {
 	$page_label    = '';
 	$form_design   = '';
 	$outer_columns = array();
+	$inner_columns = array();
 	$class_name    = ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 
 	$post_label  = '';
 	$content = '';
 	if ( ! empty( $post_types ) ) {
-		$content = VK_Filter_Search::get_post_type_form_html( $post_types, $label, $post_label, $page_label, $form_design, $outer_columns, $class_name );
+		$content = VK_Filter_Search::get_post_type_form_html( $post_types, $label, $post_label, $page_label, $form_design, $outer_columns, $inner_columns,  $class_name );
 	}
 
 	return $content;

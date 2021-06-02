@@ -91,9 +91,10 @@ class VK_Filter_Search_Shortcode {
 		$page_label    = '';
 		$form_design   = '';
 		$outer_columns = array();
+		$inner_columns = array();
 		$class_name    = '';
 
-		return VK_Filter_Search::get_post_type_form_html( $post_types, $label, $post_label, $page_label, $form_design, $outer_columns, $class_name );
+		return VK_Filter_Search::get_post_type_form_html( $post_types, $label, $post_label, $page_label, $form_design, $outer_columns, $inner_columns, $class_name );
 	}
 
 	/**
@@ -115,9 +116,10 @@ class VK_Filter_Search_Shortcode {
 		$form_design   = '';
 		$operator      = '';
 		$outer_columns = array();
+		$inner_columns = array();
 		$class_name    = '';
 
-		return VK_Filter_Search::get_taxonomy_form_html( $taxonomy, $label, $form_design, $operator, $outer_columns, $class_name );
+		return VK_Filter_Search::get_taxonomy_form_html( $taxonomy, $label, $form_design, $operator, $outer_columns, $inner_columns, $class_name );
 	}
 }
 new VK_Filter_Search_Shortcode();
