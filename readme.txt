@@ -4,7 +4,7 @@ Donate link:
 Tags: Gutenberg, Search, block
 Requires at least: 5.7
 Tested up to: 5.7
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ This plugin can be installed directly from your site.
 1. Editor View
 
 == Changelog ==
+
+= 1.3.1 =
+[ Other ] Add how to use instruction to readme.txt
 
 = 1.3.0 =
 [ Specification Change ] Change redirect method php to javascript.
