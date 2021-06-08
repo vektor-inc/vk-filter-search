@@ -15,6 +15,13 @@ This plugin allows you to add a search function as a block to narrow down your s
 This plugin can create the Filter Search Block on your edit screen.
 If you have custom post types, you can also narrow down the search by custom post types.
 
+### How To Use
+
+1. If you input ‘/filter’ on edit screen that turn up the VK Filter Search Block in suggested list.
+2. If you select to “VK Filter Search” from the suggested list that, some preseted filter search block is inserted to edit area.
+Inserted VK Filter Search Block is composed from Taxonomy Search Block (Set to Category) / Taxonomy Search Block (Set to Tag) / Keyword Search Block / Search Button Block.
+3. You can change search target taxonomy, block order, and so on.
+
 == Installation ==
 
 This plugin can be installed directly from your site.
