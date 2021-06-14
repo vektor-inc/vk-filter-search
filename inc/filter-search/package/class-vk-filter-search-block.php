@@ -14,7 +14,7 @@ class VK_Filter_Search_Block {
 	 * Constructor
 	 */
 	public function __construct() {
-		add_filter( 'block_categories', array( __CLASS__, 'register_block_category' ), 10, 2 );
+		add_filter( 'block_categories_all', array( __CLASS__, 'register_block_category' ), 10, 2 );
 		add_action( 'init', array( __CLASS__, 'register_blocks' ) );
 	}
 
