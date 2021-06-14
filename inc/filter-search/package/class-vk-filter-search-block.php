@@ -14,7 +14,12 @@ class VK_Filter_Search_Block {
 	 * Constructor
 	 */
 	public function __construct() {
-		add_filter( 'block_categories_all', array( __CLASS__, 'register_block_category' ), 10, 2 );
+		// ver5.8.0 block_categories_all
+		if ( function_exists( 'get_default_block_categories' ) && function_exists( 'get_block_editor_settings' ) ) {
+			add_filter( 'block_categories_all', array( __CLASS__, 'register_block_category' ), 10, 2 );
+		} else {
+			add_filter( 'block_categories', array( __CLASS__, 'register_block_category' ), 10, 2 );
+		}
 		add_action( 'init', array( __CLASS__, 'register_blocks' ) );
 	}
 
