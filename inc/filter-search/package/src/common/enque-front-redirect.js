@@ -42,7 +42,9 @@ const set_redirect_url = () => {
 				if (
 					url_queries[ `vkfs_${ taxonomy_key }_operator` ] === 'and'
 				) {
-					search_query[ taxonomy_key ].replace( ',', '+' );
+					search_query[ taxonomy_key ] = search_query[
+						taxonomy_key
+					].replace( ',', '+' );
 				}
 			}
 		}
@@ -50,6 +52,7 @@ const set_redirect_url = () => {
 			search_query.vkfs_form_id = `vkfs_form_id=${ url_queries[ key ] }`;
 		}
 	} );
+
 	let search_url = vk_filter_search_params.home_url; // eslint-disable-line no-undef
 	let url_question = false;
 	if ( search_query.post_type !== undefined ) {
