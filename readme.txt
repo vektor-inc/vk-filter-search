@@ -4,7 +4,7 @@ Donate link:
 Tags: Gutenberg, Search, block
 Requires at least: 5.7
 Tested up to: 5.8
-Stable tag: 1.3.3
+Stable tag: 1.3.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ This plugin can be installed directly from your site.
 1. Editor View
 
 == Changelog ==
+
+= 1.3.4 =
+[ Bugfix ] Fix script for redirect after search
 
 = 1.3.3 =
 [ Bugfix ] Fix script for redirect after search

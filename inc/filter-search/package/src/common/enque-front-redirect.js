@@ -21,7 +21,7 @@ const set_redirect_url = () => {
 			search_query.category_name = `category_name=${ url_queries[ key ] }`;
 			if ( url_queries.vkfs_category_operator === 'and' ) {
 				search_query.category_name = search_query.category_name.replace(
-					',',
+					/,/g,
 					'+'
 				);
 			}
@@ -29,7 +29,7 @@ const set_redirect_url = () => {
 			search_query.post_tag = `tag=${ url_queries[ key ] }`;
 			if ( url_queries.vkfs_post_tag_operator === 'and' ) {
 				search_query.post_tag = search_query.post_tag.replace(
-					',',
+					/,/g,
 					'+'
 				);
 			}
@@ -44,7 +44,7 @@ const set_redirect_url = () => {
 				) {
 					search_query[ taxonomy_key ] = search_query[
 						taxonomy_key
-					].replace( ',', '+' );
+					].replace( /,/g, '+' );
 				}
 			}
 		}
