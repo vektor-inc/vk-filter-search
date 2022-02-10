@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: VK Filter Search
- * Plugin URI: https://github.com/vektor-inc/vk-filter-search/
+ * Plugin URI: https://vk-filter-search.com/
  * Description: This plugin for filter search.
  * Version: 1.3.4
  * Requires at least: 5.7
