@@ -34,12 +34,15 @@ $mark-color:#3582c4;
 @mixin editor-inserter-design( ) {
     border: 1px dashed #ccc;
     height: 80px;
+    position: relative;
 }
 @mixin editor-button-block-appender( ) {
     position: absolute;
     top: 50%;
     right: 0;
     left: 0;
+    transform: translateY(-50%) ;
     margin: auto;
-    height: 80px;
+    //wo5.9-betaの編集画面で表示されないので追加
+    display: flex;
 }
