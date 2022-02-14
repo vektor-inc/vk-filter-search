@@ -18,11 +18,15 @@ module.exports = {
 					options: {
 						presets: [ '@babel/preset-env' ],
 						plugins: [
-							["module-resolver", {
-								"alias": {
-								  "@vk-filter-search": "./inc/filter-search/package/src/"
-								}
-							}],
+							[
+								'module-resolver',
+								{
+									alias: {
+										'@vk-filter-search':
+											'./inc/filter-search/package/src/',
+									},
+								},
+							],
 							'@babel/plugin-transform-react-jsx',
 						],
 					},
