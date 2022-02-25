@@ -42,15 +42,7 @@
 					margin-right: var(--vkfs-outer-margin-left-right);
 					margin-left: var(--vkfs-outer-margin-left-right);
 				}
-				& > div{
-					margin:0 var(--vkfs-outer-margin-left-right);
-				}
-			}
-			//インサーターのデザイン
-			.block-list-appender{
-				&>.block-editor-inserter{
-					height: 80px;
-				}
+
 			}
 		}
 	}

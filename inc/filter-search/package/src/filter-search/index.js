@@ -12,7 +12,7 @@ const { name } = metadata;
 export { metadata, name };
 
 export const settings = {
-	title: __( 'VK Filter Search', 'vk-filter-search-pro' ),
+	title: __('VK Filter Search', 'vk-filter-search-pro'),
 	icon: <Icon />,
 	example: {
 		attributes: {
