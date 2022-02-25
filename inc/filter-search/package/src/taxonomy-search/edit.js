@@ -10,7 +10,7 @@ export default function TaxonomySearchEdit( props ) {
 
 	let editContent;
 	const selected = ( taxonomy ) => taxonomy.value === isSelectedTaxonomy;
-	//eslint-disable-next-line camelcase,no-undef
+	// eslint-disable-next-line camelcase,no-undef
 	const selectedTaxonomy = vk_filter_search_params.taxonomy_list.find(
 		selected
 	);
@@ -38,12 +38,12 @@ export default function TaxonomySearchEdit( props ) {
 			<div>
 				<div className="vkfs__warning">
 					<div className="vkfs__label-name">
-						{ __( 'Taxonomy', 'vk-filter-search' ) }
+						{ __( 'Taxonomy', 'vk-filter-search-pro' ) }
 					</div>
 					<div className="vkfs__warning-text">
 						{ __(
 							'This block will not be displayed because no taxonomy is selected.',
-							'vk-filter-search'
+							'vk-filter-search-pro'
 						) }
 					</div>
 				</div>
@@ -59,7 +59,7 @@ export default function TaxonomySearchEdit( props ) {
 					<div className="vkfs__warning-text">
 						{ __(
 							'This block will not be displayed because this taxonomy has no term.',
-							'vk-filter-search'
+							'vk-filter-search-pro'
 						) }
 					</div>
 				</div>
@@ -75,12 +75,12 @@ export default function TaxonomySearchEdit( props ) {
 		<>
 			<InspectorControls>
 				<PanelBody
-					title={ __( 'Taxonomy Option', 'vk-filter-search' ) }
+					title={ __( 'Taxonomy Option', 'vk-filter-search-pro' ) }
 					initialOpen={ true }
 				>
 					<BaseControl id={ 'vsfs03' }>
 						<SelectControl
-							label={ __( 'Taxonomy', 'vk-filter-search' ) }
+							label={ __( 'Taxonomy', 'vk-filter-search-pro' ) }
 							value={ isSelectedTaxonomy }
 							//eslint-disable-next-line camelcase,no-undef
 							options={ vk_filter_search_params.taxonomy_option }

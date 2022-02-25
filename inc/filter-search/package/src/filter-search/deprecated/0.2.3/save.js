@@ -48,7 +48,7 @@ export default function save( props ) {
 			<input
 				className={ `btn btn-primary` }
 				type={ `submit` }
-				value={ __( 'Refine search', 'vk-filter-search' ) }
+				value={ __( 'Refine search', 'vk-filter-search-pro' ) }
 			/>
 		</form>
 	);

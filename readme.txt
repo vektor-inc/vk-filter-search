@@ -1,10 +1,10 @@
-=== VK Filter Search ===
-Contributors: vektor-inc,kurudrive,rickaddison7634,naoki0h,mimitips,una9,kaorock72,chiakikouno
-Donate link: 
-Tags: Gutenberg, Search, block
+=== VK Filter Search Pro ===
+Contributors: vektor-inc,kurudrive,rickaddison7634,naoki0h,mimitips
+Donate link:
+Tags: Guternberg, Search
 Requires at least: 5.7
-Tested up to: 5.9
-Stable tag: 1.3.5
+Tested up to: 5.8
+Stable tag: 1.5.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,15 +12,8 @@ This plugin allows you to add a search function as a block to narrow down your s
 
 == Description ==
 
-This plugin can create the Filter Search Block on your edit screen.
-If you have custom post types, you can also narrow down the search by custom post types.
-
-### How To Use
-
-1. If you input ‘/filter’ on edit screen that turn up the VK Filter Search Block in suggested list.
-2. If you select to “VK Filter Search” from the suggested list that, some preseted filter search block is inserted to edit area.
-Inserted VK Filter Search Block is composed from Taxonomy Search Block (Set to Category) / Taxonomy Search Block (Set to Tag) / Keyword Search Block / Search Button Block.
-3. You can change search target taxonomy, block order, and so on.
+This plugin can create the Filter Serach Block on your edit screen.
+If you have custom post type, you can also narrow down the search by custom post types.
 
 == Installation ==
 
@@ -37,26 +30,41 @@ This plugin can be installed directly from your site.
 
 == Changelog ==
 
-= 1.3.5 =
-[ Other ] Change site url
+= 1.5.3 =
+[ Specification Change ] change can use fontawesome html tags in label
+
+= 1.5.2 =
+[ Deploy ] fix Deployment
+
+= 1.5.1 =
+[ Deploy ] fix Deployment
+
+= 1.5.0 =
+[ Add Function ] Add Date Filter
+
+= 1.4.0 =
+[ Add Function ] Add Radio button and check box column control
+[ Spechification Change ] Change css selector strongth for cope with other theme
 
 = 1.3.4 =
-[ Bugfix ] Fix script for redirect after search
+[ bugfix ] Fix script for redirect after search
 
 = 1.3.3 =
-[ Bugfix ] Fix script for redirect after search
+[ bugfix ] Fix script for redirect after search
 
 = 1.3.2 =
-[ Other ] Cope with WordPress 5.8
+[ Other ] change version
 
 = 1.3.1 =
-[ Other ] Add how to use instruction to readme.txt
+[ Other ] Cope with WordPress 5.8
 
 = 1.3.0 =
 [ Specification Change ] Change redirect method php to javascript.
+[ Specification Change ] Change checkbox / radio layout for mobile
+[ Specification Change ] No need for free version.
 
 = 1.2.0 =
-[ Specification Change ] Fix for VK Filter Search Pro.
+[ Add Function ] Add setting of inner block width.
 [ Bug Fix ] Remove unnecessary CSS
 
 = 1.1.5 =
@@ -67,6 +75,7 @@ This plugin can be installed directly from your site.
 
 = 1.1.3 =
 [ Specification Change ] Fix PHP 8.0 Notice of functions.
+[ Bug fix ] Fix search results display ul li.
 
 = 1.1.2 =
 [ Specification Change ] Change Version Only.

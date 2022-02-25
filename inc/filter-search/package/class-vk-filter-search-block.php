@@ -41,7 +41,7 @@ class VK_Filter_Search_Block {
 				array(
 					array(
 						'slug'  => 'vk-blocks-cat',
-						'title' => __( 'VK Blocks', 'vk-filter-search' ),
+						'title' => __( 'VK Blocks', 'vk-filter-search-pro' ),
 						'icon'  => '',
 					),
 				)
@@ -92,7 +92,7 @@ class VK_Filter_Search_Block {
 		// フォーム用のブロックで使うプルダウンリスト.
 		$post_type_select = array(
 			array(
-				'label' => __( 'Do not specify post type', 'vk-filter-search' ),
+				'label' => __( 'Do not specify post type', 'vk-filter-search-pro' ),
 				'value' => '',
 			),
 		);
@@ -189,7 +189,7 @@ class VK_Filter_Search_Block {
 		// タクソノミーブロックで使うタクソノミーの選択肢.
 		$taxonomy_option = array(
 			array(
-				'label' => __( 'Do not specify taxonomy', 'vk-filter-search' ),
+				'label' => __( 'Do not specify taxonomy', 'vk-filter-search-pro' ),
 				'value' => '',
 			),
 		);
