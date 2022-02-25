@@ -40,10 +40,10 @@ This plugin can be installed directly from your site.
 [ Deploy ] fix Deployment
 
 = 1.5.0 =
-[ Add Function ] Add Date Filter
+[ Add Function ] Add Date Filter ( Pro Only )
 
 = 1.4.0 =
-[ Add Function ] Add Radio button and check box column control
+[ Add Function ] Add Radio button and check box column control ( Pro Only )
 [ Spechification Change ] Change css selector strongth for cope with other theme
 
 = 1.3.4 =
@@ -60,7 +60,7 @@ This plugin can be installed directly from your site.
 
 = 1.3.0 =
 [ Specification Change ] Change redirect method php to javascript.
-[ Specification Change ] Change checkbox / radio layout for mobile
+[ Specification Change ] Change checkbox / radio layout for mobile ( Pro Only )
 [ Specification Change ] No need for free version.
 
 = 1.2.0 =
