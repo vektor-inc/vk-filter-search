@@ -4,7 +4,7 @@ Donate link:
 Tags: Guternberg, Search
 Requires at least: 5.7
 Tested up to: 5.8
-Stable tag: 1.5.3
+Stable tag: 1.5.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,15 @@ This plugin can be installed directly from your site.
 1. Editor View
 
 == Changelog ==
+
+= 1.5.6 =
+[ Specification Change ] change version only
+
+= 1.5.5 =
+[ Specification Change ] change version only
+
+= 1.5.4 =
+[ Specification Change ] change version only
 
 = 1.5.3 =
 [ Specification Change ] change can use fontawesome html tags in label
