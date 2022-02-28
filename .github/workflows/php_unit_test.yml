@@ -46,7 +46,9 @@ jobs:
               run: npm install
             - name: Install composer packages
               run: composer install
+            - name: Build
+              run: npm run build
             - name: Start Environment
               run: npx wp-env start
             - name: Run PHP Unit Test
-            - run: npx wp-env run phpunit 'phpunit -c /var/www/html/wp-content/plugins/vk-filter-search/phpunit.xml.dist --verbose'
+              run: npm run phpunit
