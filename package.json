@@ -1,6 +1,6 @@
 {
 	"name": "vk-filter-search",
-	"version": "1.0.1",
+	"version": "1.6.0",
 	"description": "Support Filtering Search of keyword, post-type and taxonomy.",
 	"main": "gulpfile.js",
 	"scripts": {
