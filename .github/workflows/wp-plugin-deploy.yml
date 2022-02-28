@@ -9,12 +9,19 @@ jobs:
     tag:
         name: deploy to plugin directory
         runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                node-version: [12.x]
         steps:
-            - uses: actions/checkout@master
-            - uses: actions/setup-node@v1
+            - uses:
+                  actions/checkout@master
+                  # get the node version from the .node-version file
+            - name: Read .node-version
+              run: echo "##[set-output name=NODEVERSION;]$(cat .node-version)"
+              id: nodenv
+
+            # setup node based on the version from the .node-version file, fetched in the previous step
+            - name: Setup Node.js (.node-version)
+              uses: actions/setup-node@v1
+              with:
+                  node-version: '${{ steps.nodenv.outputs.NODEVERSION }}'
             - run: npm install
             - run: npm run build
             - run: bash bin/deploy.sh
@@ -29,9 +36,16 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-            - uses: actions/setup-node@v1
+            # get the node version from the .node-version file
+            - name: Read .node-version
+              run: echo "##[set-output name=NODEVERSION;]$(cat .node-version)"
+              id: nodenv
+
+            # setup node based on the version from the .node-version file, fetched in the previous step
+            - name: Setup Node.js (.node-version)
+              uses: actions/setup-node@v1
               with:
-                  node-version: 12.x
+                  node-version: '${{ steps.nodenv.outputs.NODEVERSION }}'
             - run: npm install
             - run: npm run build
             - run: bash bin/dist.sh
