@@ -14,17 +14,17 @@ $mark-color:#3582c4;
 
 
 :root {
-	--col-2: 16.66%;
-	--col-3: 25%;
-	--col-4: 33.3%;
-	--col-6: 50%;
-	--col-8: 66.6%;
-	--col-9: 75%;
-	--col-12: 100%;
-	--vkfs-outer-margin: 0.8rem;
-	--vkfs-outer-margin-left-right: 0.4rem;
+    --col-2: 16.66%;
+    --col-3: 25%;
+    --col-4: 33.3%;
+    --col-6: 50%;
+    --col-8: 66.6%;
+    --col-9: 75%;
+    --col-12: 100%;
+    --vkfs-outer-margin: 0.8rem;
+    --vkfs-outer-margin-left-right: 0.4rem;
 
-	// テーマ側などで指定が実装させたらこちらからは削除
+    // テーマ側などで指定が実装させたらこちらからは削除
 	--vk-margin-section-bottom: 2em;
 	// 他テーマで極端に崩れないように追加
 	--vk-size-text: 16px;
@@ -32,18 +32,17 @@ $mark-color:#3582c4;
 
 //インサーターの共通デザイン
 @mixin editor-inserter-design( ) {
-	border: 1px dashed #ccc;
-	height: 80px;
-	position: relative;
+    border: 1px dashed #ccc;
+    height: 80px;
+    position: relative;
 }
-
 @mixin editor-button-block-appender( ) {
-	position: absolute;
-	top: 50%;
-	right: 0;
-	left: 0;
-	transform: translateY(-50%);
-	margin: auto;
-	//wo5.9-betaの編集画面で表示されないので追加
-	display: flex;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    left: 0;
+    transform: translateY(-50%) ;
+    margin: auto;
+    //wo5.9-betaの編集画面で表示されないので追加
+    display: flex;
 }
