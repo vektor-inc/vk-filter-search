@@ -1,7 +1,7 @@
 const gulp = require( 'gulp' );
 // エラーでも監視を続行させる
 const plumber = require( 'gulp-plumber' );
-const sass = require( 'gulp-sass' );
+const sass = require( 'gulp-sass' )( require( 'sass' ) );
 // add vender prifix
 const autoprefixer = require( 'gulp-autoprefixer' );
 const cleanCss = require( 'gulp-clean-css' );
