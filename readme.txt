@@ -30,6 +30,9 @@ This plugin can be installed directly from your site.
 
 == Changelog ==
 
+= 1.6.1 =
+[ bugFix ] Fix Translate ( Free Only )
+
 = 1.6.0 =
 [ Add block ] Add custom field search block ( Beta ) ( Pro Only )
 
