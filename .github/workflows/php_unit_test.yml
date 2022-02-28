@@ -49,4 +49,4 @@ jobs:
             - name: Start Environment
               run: npx wp-env start
             - name: Run PHP Unit Test
-            - run: ./node_modules/@wordpress/env/bin/wp-env run phpunit 'phpunit -c /var/www/html/wp-content/plugins/vk-filter-search/phpunit.xml.dist --verbose'
+            - run: npx wp-env run phpunit 'phpunit -c /var/www/html/wp-content/plugins/vk-filter-search/phpunit.xml.dist --verbose'
