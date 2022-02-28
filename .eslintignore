@@ -1,0 +1,4 @@
+**/build/**
+library/
+node_modules/
+vendor/

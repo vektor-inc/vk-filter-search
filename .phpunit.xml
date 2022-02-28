@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<phpunit
+	bootstrap="tests/bootstrap.php"
+	backupGlobals="false"
+	colors="true"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	>
+	<testsuites>
+		<testsuite name="default">
+			<directory prefix="test-" suffix=".php">./tests/</directory>
+			<exclude>./tests/test-sample.php</exclude>
+			<exclude>./tests/test-filter-search-endurance.php</exclude>
+		</testsuite>
+		<testsuite name="endurance">
+			<directory prefix="test-" suffix=".php">./tests/</directory>
+			<exclude>./tests/test-sample.php</exclude>
+			<exclude>./tests/test-filter-search.php</exclude>
+			<exclude>./tests/test-deactive-plugin.php</exclude>
+		</testsuite>
+	</testsuites>
+</phpunit>

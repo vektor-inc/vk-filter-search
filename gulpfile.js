@@ -1,6 +1,4 @@
 const gulp = require( 'gulp' );
-const jsmin = require( 'gulp-jsmin' );
-const rename = require( 'gulp-rename' );
 // エラーでも監視を続行させる
 const plumber = require( 'gulp-plumber' );
 const sass = require( 'gulp-sass' );
@@ -51,21 +49,7 @@ gulp.task( 'build_css', function ( done ) {
 
 gulp.task( 'replace_text_domain', function ( done ) {
 	gulp.src( [ './inc/filter-search/package/**' ] )
-		.pipe( replace( "'filter-search-textdomain'", "'vk-filter-search'" ) )
+		.pipe( replace( "'vk-filter-search-pro'", "'vk-filter-search'" ) )
 		.pipe( gulp.dest( './inc/filter-search/package/' ) );
-	done();
-} );
-
-gulp.task( 'copy_filter_search', function ( done ) {
-	gulp.src( [ './inc/filter-search/package/**' ] )
-		.pipe( replace( "'vk-filter-search'", "'filter-search-textdomain'" ) )
-		.pipe(
-			gulp.dest( '../../vektor-wp-libraries/filter-search/package/' )
-		);
-	gulp.src( [ './inc/filter-search/package/**' ] )
-		.pipe( replace( "'vk-filter-search'", "'vk-filter-search-pro'" ) )
-		.pipe(
-			gulp.dest( '../vk-filter-search-pro/inc/filter-search/package/' )
-		);
 	done();
 } );
