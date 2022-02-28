@@ -78,7 +78,7 @@ export default function FilterSearchEdit( props ) {
 				<PanelBody
 					title={ __(
 						'Target of Post Type',
-						'vk-filter-search-pro'
+						'vk-filter-search'
 					) }
 					initialOpen={ true }
 				>
@@ -86,7 +86,7 @@ export default function FilterSearchEdit( props ) {
 						<SelectControl
 							label={ __(
 								'Target of Post Type',
-								'vk-filter-search-pro'
+								'vk-filter-search'
 							) }
 							value={ TargetPostType }
 							//eslint-disable-next-line camelcase,no-undef
@@ -100,7 +100,7 @@ export default function FilterSearchEdit( props ) {
 						<ToggleControl
 							label={ __(
 								'Display this form on search result page',
-								'vk-filter-search-pro'
+								'vk-filter-search'
 							) }
 							checked={ DisplayOnResult }
 							onChange={ ( checked ) =>
@@ -114,7 +114,7 @@ export default function FilterSearchEdit( props ) {
 						id={ 'vkfs-search-form-03' }
 						label={ __(
 							'Display on post type archive.',
-							'vk-filter-search-pro'
+							'vk-filter-search'
 						) }
 					>
 						<AdvancedCheckboxControl
@@ -164,7 +164,7 @@ export default function FilterSearchEdit( props ) {
 				<input
 					className={ `btn btn-primary` }
 					type={ `submit` }
-					value={ __( 'Search', 'vk-filter-search-pro' ) }
+					value={ __( 'Search', 'vk-filter-search' ) }
 				/>
 			</form>
 		</>

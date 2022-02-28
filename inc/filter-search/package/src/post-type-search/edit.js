@@ -22,12 +22,12 @@ export default function PostTypeSearchEdit( props ) {
 		editContent = (
 			<div className="vkfs_warning">
 				<div className="vkfs__label-name">
-					{ __( 'Post Type', 'vk-filter-search-pro' ) }
+					{ __( 'Post Type', 'vk-filter-search' ) }
 				</div>
 				<div className="vkfs__warning-text">
 					{ __(
 						'This block will not be displayed because the post type is not selected.',
-						'vk-filter-search-pro'
+						'vk-filter-search'
 					) }
 				</div>
 			</div>
@@ -42,12 +42,12 @@ export default function PostTypeSearchEdit( props ) {
 		<>
 			<InspectorControls>
 				<PanelBody
-					title={ __( 'Post Type Option', 'vk-filter-search-pro' ) }
+					title={ __( 'Post Type Option', 'vk-filter-search' ) }
 					initialOpen={ true }
 				>
 					<BaseControl
 						id={ 'vsfs02' }
-						label={ __( 'Post Types', 'vk-filter-search-pro' ) }
+						label={ __( 'Post Types', 'vk-filter-search' ) }
 					>
 						<AdvancedCheckboxControl
 							schema={ 'isCheckedPostType' }

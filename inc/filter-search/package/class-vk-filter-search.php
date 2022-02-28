@@ -55,8 +55,8 @@ class VK_Filter_Search {
 	 * @param string $placeholder placeholder of text.
 	 */
 	public static function get_keyword_form_html( $label, $placeholder, $outer_columns, $class_name ) {
-		$label       = ! empty( $label ) ? $label : __( 'Keyword', 'vk-filter-search-pro' );
-		$placeholder = ! empty( $placeholder ) ? $placeholder : __( 'Input Keyword', 'vk-filter-search-pro' );
+		$label       = ! empty( $label ) ? $label : __( 'Keyword', 'vk-filter-search' );
+		$placeholder = ! empty( $placeholder ) ? $placeholder : __( 'Input Keyword', 'vk-filter-search' );
 
 		$column_classes = '';
 		if ( ! empty( $outer_columns ) ) {
@@ -91,7 +91,7 @@ class VK_Filter_Search {
 		$post_types = ! empty( $post_types ) ? $post_types : array( 'post', 'page' );
 
 		// ラベルの調整.
-		$label      = ! empty( $label ) ? $label : __( 'Post Type', 'vk-filter-search-pro' );
+		$label      = ! empty( $label ) ? $label : __( 'Post Type', 'vk-filter-search' );
 		$post_label = ! empty( $post_label ) ? $post_label : get_post_type_object( 'post' )->labels->singular_name;
 		$page_label = ! empty( $page_label ) ? $page_label : get_post_type_object( 'page' )->labels->singular_name;
 
@@ -137,7 +137,7 @@ class VK_Filter_Search {
 		$post_types = ! empty( $post_types ) ? $post_types : array( 'post', 'page' );
 
 		// ラベルの調整.
-		$label      = ! empty( $label ) ? $label : __( 'Post Type', 'vk-filter-search-pro' );
+		$label      = ! empty( $label ) ? $label : __( 'Post Type', 'vk-filter-search' );
 		$post_label = ! empty( $post_label ) ? $post_label : get_post_type_object( 'post' )->labels->singular_name;
 		$page_label = ! empty( $page_label ) ? $page_label : get_post_type_object( 'page' )->labels->singular_name;
 
@@ -155,7 +155,7 @@ class VK_Filter_Search {
 		$default_option_array = array(
 			array(
 				// translators: Do not specify a %s.
-				'label' => sprintf( __( 'Do not specify a %s', 'vk-filter-search-pro' ), $label ),
+				'label' => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
 				'value' => '',
 			),
 		);
@@ -283,7 +283,7 @@ class VK_Filter_Search {
 
 		// 共通の設定項目.
 		$common_args = array(
-			'show_option_none'  => sprintf( __( 'Do not specify a %s', 'vk-filter-search-pro' ), $label ),
+			'show_option_none'  => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
 			'option_none_value' => '',
 			'echo'              => false,
 			'taxonomy'          => $taxonomy,
@@ -518,7 +518,7 @@ class VK_Filter_Search {
 								$content .= $form['form_content'];
 								if ( current_user_can( 'edit_pages' ) ) {
 									$content .= '<a class="btn btn-default btn-sm" href="' . get_edit_post_link( $form['form_post_id'] ) . '" target="_blank">';
-									$content .= __( 'Edit', 'vk-filter-search-pro' );
+									$content .= __( 'Edit', 'vk-filter-search' );
 									$content .= '</a>';
 								}
 							}
