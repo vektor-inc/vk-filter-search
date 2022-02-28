@@ -4,7 +4,7 @@ Donate link:
 Tags: Guternberg, Search
 Requires at least: 5.7
 Tested up to: 5.9.1
-Stable tag: 1.6.1
+Stable tag: 1.6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,11 +30,9 @@ This plugin can be installed directly from your site.
 
 == Changelog ==
 
-= 1.6.1 =
-[ bugFix ] Fix Translate ( Free Only )
-
 = 1.6.0 =
 [ Add block ] Add custom field search block ( Beta ) ( Pro Only )
+[ bugFix ] Fix Translate ( Free Only )
 
 = 1.5.6 =
 [ Specification Change ] change version only
