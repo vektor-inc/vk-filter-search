@@ -114,3 +114,4 @@ vendor/
 .wp-env.override.json
 .DS_Store
 languages/*
+inc/filter-search/package/build/
