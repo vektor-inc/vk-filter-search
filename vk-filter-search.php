@@ -15,12 +15,17 @@
 
 defined( 'ABSPATH' ) || exit;
 
-// Define Plugin Path
-define( 'VKFS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
+// Define Plugin  Root Path
+define( 'VKFS_PLUGIN_ROOT_PATH', plugin_dir_path( __FILE__ ) );
+// Define Plugin Root URL
+define( 'VKFS_PLUGIN_ROOT_URL', plugin_dir_url( __FILE__ ) );
+// Define Plugin Version
+$plugin_data    = get_file_data( __FILE__, array( 'version' => 'Version' ) );
+define( 'VKFS_PLUGIN_VERSION', $plugin_data['version'] );
 
 // Plugin Version
 global $vkfs_prefix;
 $vkfs_prefix = apply_filters( 'vkfs_prefix', 'VK ' );
 
 // Load Modules
-require_once plugin_dir_path( __FILE__ ) . 'inc/filter-search/vk-filter-search-config.php';
+require_once plugin_dir_path( __FILE__ ) . 'inc/filter-search/config.php';

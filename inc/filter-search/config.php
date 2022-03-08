@@ -24,7 +24,12 @@ if ( ! function_exists( 'vkfs_themes_hook' ) ) {
 }
 
 if ( ! class_exists( 'VK_Filter_Search' ) && ! class_exists( 'VK_Filter_Search_Block' ) && ! class_exists( 'VK_Filter_Search_Shortcode' ) ) {
-
+	// Define Free Module Root Path
+	define( 'VKFS_FREE_MODULE_ROOT_PATH', plugin_dir_path( __FILE__ ) . 'package/' );
+	// Define Free Module Root URL
+	define( 'VKFS_FREE_MODULE_ROOT_URL', plugin_dir_url( __FILE__ ) . 'package/' );
+	// Define Plugin Version
+	define( 'VKFS_FREE_MODULE_VERSION', VKFS_PLUGIN_VERSION );
 	// 読み込むファイルを調整.
 	require_once dirname( __FILE__ ) . '/package/class-vk-filter-search.php';
 	require_once dirname( __FILE__ ) . '/package/class-vk-filter-search-block.php';
