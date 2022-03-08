@@ -588,13 +588,12 @@ class VK_Filter_Search {
 	 * Enqueue Scripts
 	 */
 	public static function enqueue_scripts() {
-		$asset_file = include plugin_dir_path( __FILE__ ) . '/build/block.asset.php';
 		if ( isset( $_GET['vkfs_submitted'] ) ) {
 			wp_enqueue_script(
 				'vk-filter-search-redirct',
-				plugin_dir_url( __FILE__ ) . 'build/vk-filter-search-redirect.min.js',
+				VKFS_FREE_MODULE_ROOT_URL . 'build/vk-filter-search-redirect.min.js',
 				array(),
-				$asset_file['version'],
+				VKFS_FREE_MODULE_VERSION,
 				false
 			);
 			// ブロックに値を渡す
@@ -610,9 +609,9 @@ class VK_Filter_Search {
 		if ( isset( $_GET['vkfs_form_id'] ) && ! isset( $_GET['vkfs_submitted'] ) ) {
 			wp_enqueue_script(
 				'vk-filter-search-result',
-				plugin_dir_url( __FILE__ ) . 'build/vk-filter-search-result.min.js',
+				VKFS_FREE_MODULE_ROOT_URL . 'build/vk-filter-search-result.min.js',
 				array(),
-				$asset_file['version'],
+				VKFS_FREE_MODULE_VERSION,
 				true
 			);
 		}

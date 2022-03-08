@@ -58,27 +58,25 @@ class VK_Filter_Search_Block {
 
 		$asset_file = include plugin_dir_path( __FILE__ ) . '/build/block.asset.php';
 
-		$editor_css = 'build/editor.css';
 		wp_register_style(
 			'vk-filter-search-editor',
-			plugins_url( $editor_css, __FILE__ ),
+			VKFS_FREE_MODULE_ROOT_URL . 'build/editor.css',
 			array(),
-			$asset_file['version']
+			VKFS_FREE_MODULE_VERSION
 		);
 
-		$style_css = 'build/style.css';
 		wp_register_style(
 			'vk-filter-search-style',
-			plugins_url( $style_css, __FILE__ ),
+			VKFS_FREE_MODULE_ROOT_URL . 'build/style.css',
 			array(),
-			$asset_file['version']
+			VKFS_FREE_MODULE_VERSION
 		);
 
 		wp_register_script(
-			'vk-filter-search-js',
+			'vk-filter-search-block',
 			plugins_url( '/build/block.js', __FILE__ ),
 			$asset_file['dependencies'],
-			$asset_file['version'],
+			VKFS_FREE_MODULE_VERSION,
 			true
 		);
 
@@ -209,7 +207,7 @@ class VK_Filter_Search_Block {
 
 		// ブロックに値を渡す
 		wp_localize_script(
-			'vk-filter-search-js',
+			'vk-filter-search-block',
 			'vk_filter_search_params',
 			array(
 				'home_url'                   => home_url( '/' ),

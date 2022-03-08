@@ -11,7 +11,7 @@ if( function_exists('register_block_type_from_metadata')) {
 			array(
 				'style'           => 'vk-filter-search-style',
 				'editor_style'    => 'vk-filter-search-editor',
-				'editor_script'   => 'vk-filter-search-js',
+				'editor_script'   => 'vk-filter-search-block',
 				'attributes'      => array(
 					'className'   => array(
 						'type'    => 'string',
