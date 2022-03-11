@@ -158,11 +158,9 @@ export default function FilterSearchEdit( props ) {
 				{ hiddenPostTypes }
 				{ hiddenResult }
 				<input type="hidden" name="vkfs_submitted" value="true" />
-				<input
-					className={ `btn btn-primary` }
-					type={ `submit` }
-					value={ __( 'Search', 'vk-filter-search' ) }
-				/>
+				<button className={ `btn btn-primary` } type={ `submit` }>
+					{ __( 'Search', 'vk-filter-search' ) }
+				</button>
 			</form>
 		</>
 	);

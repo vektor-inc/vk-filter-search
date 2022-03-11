@@ -1,4 +1,5 @@
 /* eslint camelcase: 0 */
+import save1_6_1 from './1.6.1/save';
 import save0_6_5 from './0.6.5/save';
 import save0_4_6 from './0.4.6/save';
 import save0_3_2 from './0.3.2/save';
@@ -14,75 +15,57 @@ const blockAttributes = {
 	},
 };
 
+const blockAttributes2 = {
+	...blockAttributes,
+	DisplayOnResult: {
+		type: 'boolean',
+		default: false,
+	},
+};
+
+const blockAttributes3 = {
+	...blockAttributes2,
+	PostID: {
+		type: 'number',
+		default: null,
+	},
+};
+
+const blockAttributes4 = {
+	...blockAttributes3,
+	DisplayOnPosttypeArchive: {
+		type: 'string',
+		default: '[]',
+	},
+	FormID: {
+		type: 'string',
+		default: null,
+	},
+};
+
 const deprecated = [
 	{
-		attributes: {
-			...blockAttributes,
-			DisplayOnResult: {
-				type: 'boolean',
-				default: false,
-			},
-			DisplayOnPosttypeArchive: {
-				type: 'string',
-				default: '[]',
-			},
-			FormID: {
-				type: 'string',
-				default: null,
-			},
-			PostID: {
-				type: 'number',
-				default: null,
-			},
-		},
+		attributes: blockAttributes4,
+		save: save1_6_1,
+	},
+	{
+		attributes: blockAttributes4,
 		save: save0_6_5,
 	},
 	{
-		attributes: {
-			...blockAttributes,
-			DisplayOnResult: {
-				type: 'boolean',
-				default: false,
-			},
-			FormID: {
-				type: 'string',
-				default: null,
-			},
-		},
+		attributes: blockAttributes3,
 		save: save0_4_6,
 	},
 	{
-		attributes: {
-			...blockAttributes,
-			DisplayOnResult: {
-				type: 'boolean',
-				default: false,
-			},
-			PostID: {
-				type: 'number',
-				default: null,
-			},
-		},
+		attributes: blockAttributes3,
 		save: save0_3_2,
 	},
 	{
-		attributes: {
-			...blockAttributes,
-			DisplayOnResult: {
-				type: 'boolean',
-				default: false,
-			},
-		},
+		attributes: blockAttributes2,
 		save: save0_3_1,
 	},
 	{
-		attributes: {
-			...blockAttributes,
-			DisplayOnResult: {
-				type: 'boolean',
-				default: false,
-			},
-		},
+		attributes: blockAttributes2,
 		save: save0_2_3,
 	},
 	{
