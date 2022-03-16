@@ -559,6 +559,11 @@ class VK_Filter_Search {
 					'placeholder' => array(),
 					'checked'     => array(),
 				),
+				'button'  => array(
+					'id'          => array(),
+					'class'       => array(),
+					'type'        => array(),
+				),
 				'select' => array(
 					'id'    => array(),
 					'class' => array(),
