@@ -564,6 +564,10 @@ class VK_Filter_Search {
 					'class'       => array(),
 					'type'        => array(),
 				),
+				'i'  => array(
+					'id'          => array(),
+					'class'       => array(),
+				),
 				'select' => array(
 					'id'    => array(),
 					'class' => array(),

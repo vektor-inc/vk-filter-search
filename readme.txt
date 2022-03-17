@@ -3,8 +3,8 @@ Contributors: vektor-inc,kurudrive,rickaddison7634,naoki0h,mimitips
 Donate link:
 Tags: Guternberg, Search
 Requires at least: 5.7
-Tested up to: 5.9.1
-Stable tag: 1.7.1
+Tested up to: 5.9.2
+Stable tag: 1.7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,9 @@ This plugin can be installed directly from your site.
 1. Editor View
 
 == Changelog ==
+
+= 1.7.2 =
+[ bugFix ] Fix Archive page icon
 
 = 1.7.1 =
 [ bugFix ] Fix Archive page button
