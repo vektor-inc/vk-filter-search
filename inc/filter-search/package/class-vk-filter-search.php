@@ -154,8 +154,7 @@ class VK_Filter_Search {
 		// 共通オプション.
 		$default_option_array = array(
 			array(
-				// translators: Do not specify a %s.
-				'label' => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
+				'label' => __( 'Any', 'vk-filter-search' ),
 				'value' => '',
 			),
 		);
@@ -283,11 +282,11 @@ class VK_Filter_Search {
 
 		// 共通の設定項目.
 		$common_args = array(
-			'show_option_none'  => sprintf( __( 'Do not specify a %s', 'vk-filter-search' ), $label ),
+			'show_option_none'  => __( 'Any', 'vk-filter-search' ),
 			'option_none_value' => '',
 			'echo'              => false,
 			'taxonomy'          => $taxonomy,
-			'value_field'       => 'slug',
+			'value_field'       => 'slug',     
 		);
 
 		// 共通かつカスタマイズの余地がある設定項目.
@@ -303,44 +302,41 @@ class VK_Filter_Search {
 		// デザインに応じて HTML を描画.
 		if ( 'select' === $form_design ) {
 			if ( 'category' === $taxonomy ) {
-				$taxonomy_design_html = urldecode(
-					wp_dropdown_categories(
-						array_merge(
-							$common_args,
-							$custom_args,
-							array(
-								'name'              => 'vkfs_category[]',
-								'id'                => 'vkfs_category',
-								'class'             => 'vkfs__input-wrap vkfs__input-wrap--select vkfs__input-wrap--category_name',
-							)
+				$taxonomy_design_html = wp_dropdown_categories(
+					array_merge(
+						$common_args,
+						$custom_args,
+						array(
+							'name'   => 'vkfs_category[]',
+							'id'     => 'vkfs_category',
+							'class'  => 'vkfs__input-wrap vkfs__input-wrap--select vkfs__input-wrap--category_name',
+							'walker' =>  new VK_Walker_Category_Dropdown(),
 						)
 					)
 				);
 			} elseif ( 'post_tag' === $taxonomy ) {
-				$taxonomy_design_html = urldecode(
-					wp_dropdown_categories(
-						array_merge(
-							$common_args,
-							$custom_args,
-							array(
-								'name'              => 'vkfs_post_tag[]',
-								'id'                => 'vkfs_post_tag',
-								'class'             => 'vkfs__input-wrap vkfs__input-wrap--select vkfs__input-wrap--tag',
-							)
+				$taxonomy_design_html = wp_dropdown_categories(
+					array_merge(
+						$common_args,
+						$custom_args,
+						array(
+							'name'   => 'vkfs_post_tag[]',
+							'id'     => 'vkfs_post_tag',
+							'class'  => 'vkfs__input-wrap vkfs__input-wrap--select vkfs__input-wrap--tag',
+							'walker' =>  new VK_Walker_Category_Dropdown(),
 						)
 					)
 				);
 			} else {
-				$taxonomy_design_html = urldecode(
-					wp_dropdown_categories(
-						array_merge(
-							$common_args,
-							$custom_args,
-							array(
-								'name'              => 'vkfs_' . $taxonomy_object->name . '[]',
-								'id'                => 'vkfs_' . $taxonomy_object->name,
-								'class'             => 'vkfs__input-wrap vkfs__input-wrap--select vkfs__input-wrap--' . $taxonomy_object->name,
-							)
+				$taxonomy_design_html = wp_dropdown_categories(
+					array_merge(
+						$common_args,
+						$custom_args,
+						array(
+							'name'   => 'vkfs_' . $taxonomy_object->name . '[]',
+							'id'     => 'vkfs_' . $taxonomy_object->name,
+							'class'  => 'vkfs__input-wrap vkfs__input-wrap--select vkfs__input-wrap--' . $taxonomy_object->name,
+							'walker' =>  new VK_Walker_Category_Dropdown(),
 						)
 					)
 				);

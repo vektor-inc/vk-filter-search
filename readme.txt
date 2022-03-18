@@ -4,7 +4,7 @@ Donate link:
 Tags: Guternberg, Search
 Requires at least: 5.7
 Tested up to: 5.9.2
-Stable tag: 1.7.2
+Stable tag: 1.8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,12 @@ This plugin can be installed directly from your site.
 1. Editor View
 
 == Changelog ==
+
+= 1.8.0 =
+[ Specification Change ] Add second field around text setting
+[ Specification Change ] Change 'Do not specify xx' to 'Any'
+[ bugFix ] Fix input / option label on search form
+[ bugFix ] Fix Custom Field Block Label ( Pro Only )
 
 = 1.7.2 =
 [ bugFix ] Fix Archive page icon
