@@ -39,7 +39,7 @@ define( 'GUTENBERG_LOAD_VENDOR_SCRIPTS', false );
  * Manually load the plugin being tested.
  */
 function _manually_load_plugin() {
-	register_theme_directory( dirname( __FILE__ ) . '/../../' ); switch_theme('lightning-pro'); search_theme_directories();
+	require dirname( dirname( __FILE__ ) ) . '/vk-filter-search.php';
 }
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 
