@@ -49,6 +49,7 @@ This plugin can be installed directly from “Plugins” in your WordPress dashb
 3. If you select “VK Filter Search” from the suggested list, some preset blocks are inserted to edit the area. Taxonomy Search Block (Set to Category) / Taxonomy Search Block (Set to Tag) / Keyword Search Block / Search Button Block are inserted as preset blocks.
 4. You can change the setting of the block. (e.g. the taxonomy to target, the order of the blocks)
 
+
 == Frequently Asked Questions ==
 
 = Is it compatible with various themes? =
