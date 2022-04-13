@@ -12,21 +12,69 @@ This plugin allows you to add a search function as a block to narrow down your s
 
 == Description ==
 
-This plugin can create the Filter Serach Block on your edit screen.
+This is the Filter & Search plugin for WordPress compatible with Gutenberg Block Editor.
+This plugin makes it easy to put search box anywhere on your WordPress website.
 If you have custom post type, you can also narrow down the search by custom post types.
+
+[youtube https://youtu.be/IiKlvka8rpo]
+
+<h4>Add Filter Function</h4>
+Site visitors can search your posts by filtered category, tag, custom post type, keyword, etc.
+
+<h4>3,000+ Active installations</h4>
+Since its release in November 2020, it has been installed on many websites.
+
+<h4>Block Editor Support</h4>
+You can easily place the search box as a block. No coding in PHP etc is required.
+
+<h4>Easy to Use</h4>
+With this plugin, you can create the Filter Search Block on your edit screen.
+If you have custom post types, you can also narrow down the search by custom post types.
+
+<h3>Features</h3>
+* Block editor support
+* Taxonomy search (category, tag, custom taxonomy)
+* Keyword search
+* Specify the target post type (post, page, custom post type)
+* Insert form in search result page
+* Display on post archive page
+
 
 == Installation ==
 
-This plugin can be installed directly from your site.
+This plugin can be installed directly from “Plugins” in your WordPress dashboard.
 
-1. Log in and navigate to Plugins → Add New.
-2. Type “VK Filter Search” into the Search and hit Enter.
-3. Locate the VK Filter Search plugin in the list of search results and click Install Now.
-4. Once installed, click the Activate link.
+1. Upload the entire "vk-filter-search" folder to the /wp-content/plugins/ directory, or install the plugin through your WordPress ‘Plugins’ screen directly. Then activate the plugin through the ‘Plugins’ menu on your WordPress dashboard.
+2. Type '/filter' on the edit screen and the VK Filter Search Block will appear in the suggested list.
+3. If you select “VK Filter Search” from the suggested list, some preset blocks are inserted to edit the area. Taxonomy Search Block (Set to Category) / Taxonomy Search Block (Set to Tag) / Keyword Search Block / Search Button Block are inserted as preset blocks.
+4. You can change the setting of the block. (e.g. the taxonomy to target, the order of the blocks)
+
+
+== Frequently Asked Questions ==
+
+= Is it compatible with various themes? =
+Basically, it's supposed to work fine with any themes. However, there may be some visual design issues mainly related to CSS. It may cause display problems.
+
+= Does the layout of the search results page change on the different themes? =
+Yes, the layout of the search results depends on the theme. The search results page and the ability to control the layout of the search results page provided by each theme make such a difference.
+
+= How many labels (item names) can I set? =
+Items are placed in blocks, so there are no limitations on the numbers. However, you can set only one label per search item (e.g. category).
+
+= Can it search the post content? =
+Yes, users can search the content field of the posts with the Keyword Search Block.
+
+= Which languages are available? =
+It is currently available in English and Japanese.
+More languages will be added in the future. If you would like to help with translation, please click on the link below to join the contribution.
+<a href="https://translate.wordpress.org/projects/wp-plugins/vk-filter-search/" target="_blank">Translating WordPress</a>
 
 == Screenshots ==
 
 1. Editor View
+2. List View
+3. Display this form on your search result page
+4. Search Results page
 
 == Changelog ==
 
