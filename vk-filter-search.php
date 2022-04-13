@@ -3,7 +3,7 @@
  * Plugin Name: VK Filter Search
  * Plugin URI: https://vk-filter-search.com/
  * Description: This plugin for filter search.
- * Version: 1.8.1
+ * Version: 1.8.2
  * Requires at least: 5.7
  * Author:  Vektor,Inc.
  * Author URI: https://vektor-inc.co.jp
@@ -20,7 +20,7 @@ define( 'VKFS_PLUGIN_ROOT_PATH', plugin_dir_path( __FILE__ ) );
 // Define Plugin Root URL
 define( 'VKFS_PLUGIN_ROOT_URL', plugin_dir_url( __FILE__ ) );
 // Define Plugin Version
-$plugin_data    = get_file_data( __FILE__, array( 'version' => 'Version' ) );
+$plugin_data = get_file_data( __FILE__, array( 'version' => 'Version' ) );
 define( 'VKFS_PLUGIN_VERSION', $plugin_data['version'] );
 
 // Plugin Version
