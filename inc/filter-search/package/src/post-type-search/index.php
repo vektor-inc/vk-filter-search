@@ -26,7 +26,7 @@ if( function_exists('register_block_type_from_metadata')) {
 			)
 		);
 	}
-	add_action( 'init', 'register_block_vkfs_post_type_search', 99 );
+	add_action( 'init', 'register_block_vkfs_post_type_search', 9999 );
 }
 
 /**

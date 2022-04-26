@@ -3,8 +3,8 @@ Contributors: vektor-inc,kurudrive,rickaddison7634,naoki0h,mimitips
 Donate link:
 Tags: Guternberg, Search
 Requires at least: 5.7
-Tested up to: 5.9.2
-Stable tag: 1.8.2
+Tested up to: 5.9.3
+Stable tag: 1.8.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -77,6 +77,11 @@ More languages will be added in the future. If you would like to help with trans
 4. Search Results page
 
 == Changelog ==
+
+= 1.9.0 =
+[ Specification Change ] fix Custom Field Block Choice System. ( Pro Only )
+[ Specification Change ] Corresponds to block themes.
+[ Design BugFix ] Fix front style when enable block separate loading
 
 = 1.8.1 =
 [ bugFix ] Fix submit button style for Free.

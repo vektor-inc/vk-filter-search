@@ -5,7 +5,7 @@
 	"category": "vk-blocks-cat",
 	"editorScript": "file:../../build/block.js",
 	"editorStyle": "file:../../build/editor.css",
-	"style": "file:../../build/editor.css",
+	"style": "file:../../build/style.css",
 	"parent": ["vk-filter-search/filter-search"],
 	"attributes": {
 		"isSelectedTaxonomy": {

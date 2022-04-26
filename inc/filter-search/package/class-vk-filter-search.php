@@ -23,12 +23,35 @@ class VK_Filter_Search {
 		add_action( 'dynamic_sidebar_after', array( __CLASS__, 'dynamic_sidebar_after' ) );
 
 		if ( array_key_exists( $current_parent_theme, $theme_hook_array ) ) {
-			add_action( $theme_hook_array[ $current_parent_theme ], array( __CLASS__, 'display_form_on_loop' ) );
-		} else {
-			add_action( 'loop_start', array( __CLASS__, 'display_form_on_loop' ) );
+			add_action( $theme_hook_array[ $current_parent_theme ], array( __CLASS__, 'display_search_result_form_content' ) );
+		} elseif ( ! wp_is_block_theme() ) {
+			add_action( 'loop_start', array( __CLASS__, 'display_search_result_form_content' ) );
 		}
 
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
+
+		// Fallback for theme editor
+		add_action( 'admin_init', array( __CLASS__, 'enqueue_style_on_theme_editor' ) );
+	}
+
+	/**
+	 * Fallback for theme editor
+	 *
+	 * @return void
+	 */
+	public static function enqueue_style_on_theme_editor() {
+		wp_enqueue_style(
+			'vk-filter-search-theme-editor-style',
+			VKFS_FREE_MODULE_ROOT_URL . 'build/style.css',
+			array(),
+			VKFS_FREE_MODULE_VERSION
+		);
+		wp_enqueue_style(
+			'vk-filter-search-theme-editor-editor-style',
+			VKFS_FREE_MODULE_ROOT_URL . 'build/editor.css',
+			array(),
+			VKFS_FREE_MODULE_VERSION
+		);
 	}
 
 	/**
@@ -60,12 +83,12 @@ class VK_Filter_Search {
 
 		$column_classes = '';
 		if ( ! empty( $outer_columns ) ) {
-			foreach( $outer_columns as $key => $value ) {
+			foreach ( $outer_columns as $key => $value ) {
 				$column_classes .= ' vkfs__outer-wrap--col-' . $key . '-' . $value;
 			}
 		}
 
-		$class_name  = ! empty( $class_name ) ? ' ' . $class_name : '';
+		$class_name = ! empty( $class_name ) ? ' ' . $class_name : '';
 
 		$keyword_form_html  = '<div class="vkfs__outer-wrap vkfs__keyword' . $column_classes . $class_name . '">';
 		$keyword_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
@@ -102,7 +125,7 @@ class VK_Filter_Search {
 		// カラムの調整
 		$column_classes = '';
 		if ( ! empty( $outer_columns ) ) {
-			foreach( $outer_columns as $key => $value ) {
+			foreach ( $outer_columns as $key => $value ) {
 				$column_classes .= ' vkfs__outer-wrap--col-' . $key . '-' . $value;
 			}
 		}
@@ -235,7 +258,7 @@ class VK_Filter_Search {
 		// カラムの調整
 		$column_classes = '';
 		if ( ! empty( $outer_columns ) ) {
-			foreach( $outer_columns as $key => $value ) {
+			foreach ( $outer_columns as $key => $value ) {
 				$column_classes .= ' vkfs__outer-wrap--col-' . $key . '-' . $value;
 			}
 		}
@@ -448,9 +471,9 @@ class VK_Filter_Search {
 	}
 
 	/**
-	 * Display Search Form on Loop
+	 * Search Form on Loop
 	 */
-	public static function display_form_on_loop() {
+	public static function search_result_form_content() {
 		$content = '';
 		$options = self::get_options();
 
@@ -460,16 +483,16 @@ class VK_Filter_Search {
 			foreach ( $options['display_on_result'] as $the_post ) {
 				if ( ! is_array( $options['display_on_result'][ $block_id_array[ $i ] ] ) ) {
 					unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
-				} elseif ( empty( $the_post['form_post_id'] ) ) {
-					unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
 				} else {
-					$post_object = get_post( $the_post['form_post_id'] );
-					if ( empty( $post_object ) ) {
-						unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
-					} else {
-						$post_content = $post_object->post_content;
-						if ( false === strpos( $post_content, $block_id_array[ $i ] ) ) {
+					if ( ! empty( $the_post['form_post_id'] ) && is_numeric( $the_post['form_post_id'] ) ) {
+						$post_object = get_post( $the_post['form_post_id'] );
+						if ( empty( $post_object ) ) {
 							unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
+						} else {
+							$post_content = $post_object->post_content;
+							if ( false === strpos( $post_content, $block_id_array[ $i ] ) ) {
+								unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
+							}
 						}
 					}
 				}
@@ -481,16 +504,18 @@ class VK_Filter_Search {
 			$block_id_array = array_keys( $options['display_on_post_type_archive'] );
 			$i              = 0;
 			foreach ( $options['display_on_post_type_archive'] as $the_post ) {
-				if ( empty( $the_post['form_post_id'] ) ) {
+				if ( ! is_array( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] ) ) {
 					unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
 				} else {
-					$post_object = get_post( $the_post['form_post_id'] );
-					if ( empty( $post_object ) ) {
-						unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
-					} else {
-						$post_content = $post_object->post_content;
-						if ( false === strpos( $post_content, $block_id_array[ $i ] ) ) {
+					if ( ! empty( $the_post['form_post_id'] ) && is_numeric( $the_post['form_post_id'] ) ) {
+						$post_object = get_post( $the_post['form_post_id'] );
+						if ( empty( $post_object ) ) {
 							unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
+						} else {
+							$post_content = $post_object->post_content;
+							if ( false === strpos( $post_content, $block_id_array[ $i ] ) ) {
+								unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
+							}
 						}
 					}
 				}
@@ -522,77 +547,78 @@ class VK_Filter_Search {
 					}
 				}
 			}
-			$allowed = array(
-				'form'   => array(
-					'id'     => array(),
-					'class'  => array(),
-					'method' => array(),
-					'action' => array(),
-				),
-				'div'    => array(
-					'id'    => array(),
-					'class' => array(),
-				),
-				'ul' => array(
-					'id'    => array(),
-					'class' => array(),
-				),
-				'li' => array(
-					'id'    => array(),
-					'class' => array(),
-				),
-				'label'  => array(
-					'id'    => array(),
-					'class' => array(),
-					'for'   => array(),
-				),
-				'input'  => array(
-					'id'          => array(),
-					'class'       => array(),
-					'type'        => array(),
-					'name'        => array(),
-					'value'       => array(),
-					'placeholder' => array(),
-					'checked'     => array(),
-				),
-				'button'  => array(
-					'id'          => array(),
-					'class'       => array(),
-					'type'        => array(),
-				),
-				'i'  => array(
-					'id'          => array(),
-					'class'       => array(),
-				),
-				'select' => array(
-					'id'    => array(),
-					'class' => array(),
-					'name'  => array(),
-				),
-				'option' => array(
-					'id'       => array(),
-					'class'    => array(),
-					'value'    => array(),
-					'selected' => array(),
-				),
-				'a'      => array(
-					'id'    => array(),
-					'class' => array(),
-					'href'  => array(),
-				),
-				'span'      => array(
-					'id'    => array(),
-					'class' => array(),
-				),
-			);
-			echo wp_kses( $content, $allowed );
 		}
+		return $content;
+	}
+
+	/**
+	 * Search Form on Loop
+	 */
+	public static function display_search_result_form_content() {
+		$content = self::search_result_form_content();
+		$allowed = array(
+			'form'   => array(
+				'id'     => array(),
+				'class'  => array(),
+				'method' => array(),
+				'action' => array(),
+			),
+			'div'    => array(
+				'id'    => array(),
+				'class' => array(),
+			),
+			'ul'     => array(
+				'id'    => array(),
+				'class' => array(),
+			),
+			'li'     => array(
+				'id'    => array(),
+				'class' => array(),
+			),
+			'label'  => array(
+				'id'    => array(),
+				'class' => array(),
+				'for'   => array(),
+			),
+			'input'  => array(
+				'id'          => array(),
+				'class'       => array(),
+				'type'        => array(),
+				'name'        => array(),
+				'value'       => array(),
+				'placeholder' => array(),
+				'checked'     => array(),
+			),
+			'select' => array(
+				'id'    => array(),
+				'class' => array(),
+				'name'  => array(),
+			),
+			'option' => array(
+				'id'       => array(),
+				'class'    => array(),
+				'value'    => array(),
+				'selected' => array(),
+			),
+			'a'      => array(
+				'id'    => array(),
+				'class' => array(),
+				'href'  => array(),
+			),
+		);
+		echo wp_kses( $content, $allowed );
 	}
 
 	/**
 	 * Enqueue Scripts
 	 */
 	public static function enqueue_scripts() {
+		wp_enqueue_style(
+			'vk-filter-search-style',
+			VKFS_FREE_MODULE_ROOT_URL . 'build/style.css',
+			array(),
+			VKFS_FREE_MODULE_VERSION
+		);
 		if ( isset( $_GET['vkfs_submitted'] ) ) {
 			wp_enqueue_script(
 				'vk-filter-search-redirct',

@@ -1,70 +1,76 @@
 @import "variable";
 
+// Fall back for theme editor
+html :where(.editor-styles-wrapper) {
+  display: block;
+}
+
 // 一部CSSがコアの指定に負けてしまうため .wp-core-ui の中に変更
-.wp-core-ui {
+.wp-core-ui,
+.editor-styles-wrapper {
+  & .vkfs select {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0.3em 1em;
+  }
 
-	& .vkfs select {
-		width: 100%;
-		max-width: 100%;
-		margin: 0;
-		padding: 0.3em 1em;
-	}
+  .vkfs {
+    &__input-wrap {
+      label {
+        //これがないとラベル内が崩れる
+        display: block;
+        margin-bottom: 0; // .editor-styles-wrapper label { .5rem 打ち消し
+      }
+      //ulタグの横に余白ができるので追加
+      padding-left: 0;
+      margin: 0;
+    }
+    &__labels {
+      // これがないと中のカラムが横幅いっぱいにならない
+      & > .block-editor-inner-blocks {
+        width: 100%;
+      }
+      .block-editor-block-list__layout {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: stretch;
 
-	.vkfs {
-		&__input-wrap{
-			label{ //これがないとラベル内が崩れる
-				display: block;
-				margin-bottom:0; // .editor-styles-wrapper label { .5rem 打ち消し
-			}
-			//ulタグの横に余白ができるので追加
-			padding-left: 0;
-			margin: 0;
-		}
-		&__labels {
-			// これがないと中のカラムが横幅いっぱいにならない
-			& > .block-editor-inner-blocks {
-				width:100%;
-			}
-			.block-editor-block-list__layout {
-				display: flex;
-				flex-wrap: wrap;
-				justify-content: stretch;
+        .vkfs__outer-wrap {
+          margin: 0.5rem 0;
+        }
 
-				.vkfs__outer-wrap{
-					margin: .5rem 0;
-				}
-
-				.wp-block-vk-filter-search-taxonomy-search,
-				.wp-block-vk-filter-search-keyword-search,
-				.wp-block-vk-filter-search-post-type-search {
-					flex-basis: calc(50% - 0.8rem);
-					margin: 0 ;
-					margin-right: var(--vkfs-outer-margin-left-right);
-					margin-left: var(--vkfs-outer-margin-left-right);
-				}
-				& > div{
-					margin:0 var(--vkfs-outer-margin-left-right);
-				}
-			}
-			//インサーターのデザイン
-			.block-list-appender{
-				&>.block-editor-inserter{
-					height: 80px;
-				}
-			}
-		}
-	}
-	//無料版のインサーターのデザイン
-	//無料版はインサーターの幅が固定
-	.vk-filter-search{
-		.block-list-appender{
-			@include editor-inserter-design;
-			flex-basis: calc(50% - 0.8rem);
-		}
-		.block-editor-button-block-appender {
-			@include editor-button-block-appender;
-		}
-	}
+        .wp-block-vk-filter-search-taxonomy-search,
+        .wp-block-vk-filter-search-keyword-search,
+        .wp-block-vk-filter-search-post-type-search {
+          flex-basis: calc(50% - 0.8rem);
+          margin: 0;
+          margin-right: var(--vkfs-outer-margin-left-right);
+          margin-left: var(--vkfs-outer-margin-left-right);
+        }
+        & > div {
+          margin: 0 var(--vkfs-outer-margin-left-right);
+        }
+      }
+      //インサーターのデザイン
+      .block-list-appender {
+        & > .block-editor-inserter {
+          height: 80px;
+        }
+      }
+    }
+  }
+  //無料版のインサーターのデザイン
+  //無料版はインサーターの幅が固定
+  .vk-filter-search {
+    .block-list-appender {
+      @include editor-inserter-design;
+      flex-basis: calc(50% - 0.8rem);
+    }
+    .block-editor-button-block-appender {
+      @include editor-button-block-appender;
+    }
+  }
 }
 
 // only editor

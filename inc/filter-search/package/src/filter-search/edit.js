@@ -25,6 +25,9 @@ export default function FilterSearchEdit( props ) {
 		PostID,
 	} = attributes;
 
+	//eslint-disable-next-line camelcase,no-undef
+	const isBlockTheme = vk_filter_search_params.isBlockTheme;
+
 	useEffect( () => {
 		if ( clientId ) {
 			if ( FormID === null || FormID === undefined ) {
@@ -72,11 +75,44 @@ export default function FilterSearchEdit( props ) {
 		className: `vk-filter-search vkfs`,
 	} );
 
+	let blockThemeAlert = '';
+	if ( isBlockTheme && DisplayOnResult ) {
+		blockThemeAlert = (
+			<p
+				className={ `vkfs__alert vkfs__alert--danger vkfs__alert--blockTheme` }
+			>
+				{ __(
+					'If you want to display the Search Form on the results screen, you need to put a "Search Result Form" block in the Search template on theme editor.',
+					'vk-filter-search'
+				) }
+			</p>
+		);
+	}
+
+	let blockThemeAlertArchive = '';
+
+	if ( isBlockTheme && '[]' !== DisplayOnPosttypeArchive ) {
+		blockThemeAlertArchive = (
+			<p
+				className={ `vkfs__alert vkfs__alert--danger vkfs__alert--blockTheme` }
+			>
+				{ __(
+					'If you want to display the Search Form on the Post Type Archive screen, you need to put a "Search Result Form" block in the Archive template on theme editor.',
+					'vk-filter-search'
+				) }
+				{ __(
+					'Alternatively, uncheck it and place the search form directly in the archive page template.',
+					'vk-filter-search'
+				) }
+			</p>
+		);
+	}
+
 	return (
 		<>
 			<InspectorControls>
 				<PanelBody
-					title={ __( 'Target of Post Type', 'vk-filter-search' ) }
+					title={ __( 'Search Form Setting', 'vk-filter-search' ) }
 					initialOpen={ true }
 				>
 					<BaseControl id={ 'vkfs-search-form-01' }>
@@ -106,6 +142,7 @@ export default function FilterSearchEdit( props ) {
 								} )
 							}
 						/>
+						{ blockThemeAlert }
 					</BaseControl>
 					<BaseControl
 						id={ 'vkfs-search-form-03' }
@@ -125,6 +162,7 @@ export default function FilterSearchEdit( props ) {
 							) }
 							{ ...props }
 						/>
+						{ blockThemeAlertArchive }
 					</BaseControl>
 				</PanelBody>
 			</InspectorControls>

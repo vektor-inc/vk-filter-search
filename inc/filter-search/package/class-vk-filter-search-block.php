@@ -121,7 +121,7 @@ class VK_Filter_Search_Block {
 		// 固定ページが空でない場合にリスト・選択肢に追加.
 		$get_posts = get_posts(
 			array(
-				'post_type' => 'page',
+				'post_type'        => 'page',
 				'suppress_filters' => false,
 			)
 		);
@@ -149,7 +149,7 @@ class VK_Filter_Search_Block {
 		foreach ( $the_post_types as $the_post_type ) {
 			$get_posts = get_posts(
 				array(
-					'post_type' => $the_post_type->name,
+					'post_type'        => $the_post_type->name,
 					'suppress_filters' => false,
 				)
 			);
@@ -205,6 +205,12 @@ class VK_Filter_Search_Block {
 			}
 		}
 
+		if ( function_exists( 'wp_is_block_theme' ) ) {
+			$is_block_theme = wp_is_block_theme();
+		} else {
+			$is_block_theme = false;
+		}
+
 		// ブロックに値を渡す
 		wp_localize_script(
 			'vk-filter-search-block',
@@ -216,6 +222,7 @@ class VK_Filter_Search_Block {
 				'post_type_archive_checkbox' => $post_type_archive_checkbox,
 				'taxonomy_list'              => $taxonomy_list,
 				'taxonomy_option'            => $taxonomy_option,
+				'isBlockTheme'               => $is_block_theme,
 			)
 		);
 
@@ -225,6 +232,10 @@ class VK_Filter_Search_Block {
 			'post-type-search',
 			'taxonomy-search',
 		);
+
+		if ( $is_block_theme ) {
+			$block_array[] = 'search-result-form';
+		}
 
 		foreach ( $block_array as $block ) {
 			require_once plugin_dir_path( __FILE__ ) . 'src/' . $block . '/index.php';
