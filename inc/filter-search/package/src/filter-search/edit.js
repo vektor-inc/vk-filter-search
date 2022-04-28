@@ -82,7 +82,7 @@ export default function FilterSearchEdit( props ) {
 				className={ `vkfs__alert vkfs__alert--danger vkfs__alert--blockTheme` }
 			>
 				{ __(
-					'If you want to display the Search Form on the results screen, you need to put a "Search Result Form" block in the Search template on theme editor.',
+					'If you want to display the Search Form on the results screen, you need to put a "Search Result Form" block in the "Search" template on theme editor.',
 					'vk-filter-search'
 				) }
 			</p>
@@ -97,7 +97,7 @@ export default function FilterSearchEdit( props ) {
 				className={ `vkfs__alert vkfs__alert--danger vkfs__alert--blockTheme` }
 			>
 				{ __(
-					'If you want to display the Search Form on the Post Type Archive screen, you need to put a "Search Result Form" block in the Archive template on theme editor.',
+					'If you want to display the Search Form on the Post Type Archive screen, you need to put a "Search Result Form" block in the "Archive" template on theme editor.',
 					'vk-filter-search'
 				) }
 				{ __(

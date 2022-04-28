@@ -605,6 +605,12 @@ class VK_Filter_Search {
 				'class' => array(),
 				'href'  => array(),
 			),
+			'button' => array(
+				'id'    => array(),
+				'type'  => array(),
+				'class' => array(),
+				'href'  => array(),
+			),
 		);
 		echo wp_kses( $content, $allowed );
 	}
