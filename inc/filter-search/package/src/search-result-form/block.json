@@ -1,7 +1,7 @@
 {
 	"apiVersion": "2",
 	"name": "vk-filter-search/search-result-form",
-	"title":"Search Result Form",
+	"title": "Search Result Form",
 	"category": "vk-blocks-cat",
 	"editorScript": "file:../../build/block.js",
 	"editorStyle": "file:../../build/editor.css",

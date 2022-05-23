@@ -1,7 +1,7 @@
 {
 	"apiVersion": "2",
 	"name": "vk-filter-search/filter-search",
-	"title":"VK Filter Search",
+	"title": "VK Filter Search",
 	"category": "vk-blocks-cat",
 	"editorScript": "file:../../build/block.js",
 	"editorStyle": "file:../../build/editor.css",

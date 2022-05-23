@@ -47,8 +47,7 @@ const set_redirect_url = () => {
 					].replace( /,/g, '+' );
 				}
 			}
-		}
-		if ( key === 'vkfs_form_id' ) {
+		} else if ( key === 'vkfs_form_id' ) {
 			search_query.vkfs_form_id = `vkfs_form_id=${ url_queries[ key ] }`;
 		}
 	} );

@@ -73,4 +73,32 @@ html :where(.editor-styles-wrapper) {
   }
 }
 
+/******************************
+ * Alert
+ */
+
+ .vkfs__alert{
+	.editor-styles-wrapper & {
+		padding: 1.5em;
+	}
+	.components-panel__body & {
+		padding: 1em;
+	}	
+	border-radius: 3px;
+	&--danger {
+		background-color: #f2dede;
+		color: #a94442;
+		border:1px solid #ebccd1;
+	}
+	&--warning {
+		background-color: #fcf8e3;
+		color: #8a6d3b;
+		border:1px solid #faebcc;
+	}
+}
+.vkfs__alert-title {
+	text-align: center;
+	font-size:21px;
+}
+
 // only editor
