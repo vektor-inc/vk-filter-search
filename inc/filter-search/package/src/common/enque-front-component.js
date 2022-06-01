@@ -44,6 +44,13 @@ export const get_url_queries = () => {
 				-1
 			);
 		}
+		// クエリ文字列が undefined の場合
+		if (
+			queries[ query_array[ 0 ] ] === undefined ||
+			queries[ query_array[ 0 ] ] === 'undefined'
+		) {
+			queries[ query_array[ 0 ] ] = '';
+		}
 	} );
 	return queries;
 };
