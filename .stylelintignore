@@ -1,0 +1,5 @@
+library/
+node_modules/
+vendor/
+temp/
+**/build/**

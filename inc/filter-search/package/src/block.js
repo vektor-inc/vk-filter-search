@@ -35,20 +35,20 @@ export const __getVKFilterSearchBlocks = () => [
  * @param {Object} block The block to be registered.
  *
  */
-const registerBlock = ( block ) => {
-	if ( ! block ) {
+const registerBlock = (block) => {
+	if (!block) {
 		return;
 	}
 
 	const { metadata, settings, name } = block;
 
-	if ( metadata ) {
-		unstable__bootstrapServerSideBlockDefinitions( { [ name ]: metadata } );
+	if (metadata) {
+		unstable__bootstrapServerSideBlockDefinitions({ [name]: metadata });
 	}
-	registerBlockType( name, settings );
+	registerBlockType(name, settings);
 };
 
 /**
  * Function to register VK Blocks.
  */
-__getVKFilterSearchBlocks().forEach( registerBlock );
+__getVKFilterSearchBlocks().forEach(registerBlock);

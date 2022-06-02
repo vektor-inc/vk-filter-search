@@ -19,7 +19,7 @@ jobs:
 
             # setup node based on the version from the .node-version file, fetched in the previous step
             - name: Setup Node.js (.node-version)
-              uses: actions/setup-node@v1
+              uses: actions/setup-node@v3
               with:
                   node-version: '${{ steps.nodenv.outputs.NODEVERSION }}'
             - run: npm install
@@ -35,7 +35,7 @@ jobs:
         name: release
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v3
             # get the node version from the .node-version file
             - name: Read .node-version
               run: echo "##[set-output name=NODEVERSION;]$(cat .node-version)"
@@ -43,7 +43,7 @@ jobs:
 
             # setup node based on the version from the .node-version file, fetched in the previous step
             - name: Setup Node.js (.node-version)
-              uses: actions/setup-node@v1
+              uses: actions/setup-node@v3
               with:
                   node-version: '${{ steps.nodenv.outputs.NODEVERSION }}'
             - run: npm install
