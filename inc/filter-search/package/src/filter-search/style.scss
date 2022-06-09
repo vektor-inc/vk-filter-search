@@ -16,29 +16,33 @@ html :where(.editor-styles-wrapper) {
 		justify-content: stretch;
 
 		.wp-block-vk-filter-search-filter-search & {//無料版のみ固定幅のため追加
-				@media (max-width: $sm-max){
-					display: block;
-				}
+
+			@media (max-width: $sm-max) {
+				display: block;
+			}
 		}
 
 	}
 
 	&__outer-wrap {
 		flex-basis: calc(50% - 0.8rem);
-		margin-bottom:calc( var(--vk-size-text) * 1 );
+		margin-bottom: calc(var(--vk-size-text) * 1);
 		margin-right: var(--vkfs-outer-margin-left-right);
 		margin-left: var(--vkfs-outer-margin-left-right);
 	}
+
 	&__label-name {
 		font-weight: 700;
-		margin-bottom:calc( var(--vk-size-text) * 0.5 ); 
+		margin-bottom: calc(var(--vk-size-text) * 0.5);
 	}
+
 	&__input-wrap {
 		margin: 0;
 		margin-top: 0;
 		margin-bottom: 0;
-		&:after { 
-			clear:both
+
+		&::after {
+			clear: both;
 		}
 
 
@@ -72,7 +76,7 @@ html :where(.editor-styles-wrapper) {
 		box-sizing: border-box;
 	}
 
-	  
+
 	select {
 		// デフォルトの下向き矢印は位置がコントロールできないので一旦削除
 		-webkit-appearance: none;/* ベンダープレフィックス(Google Chrome、Safari用) */
@@ -84,7 +88,7 @@ html :where(.editor-styles-wrapper) {
 		background-size: 16px 16px;
 	}
 
-	.btn[type="submit"]{
+	.btn[type="submit"] {
 		padding: 0.5em 1em;
 		margin-top: 0.5em;
 		width: calc(100% - 0.8rem);
