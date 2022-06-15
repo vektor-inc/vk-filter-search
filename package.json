@@ -4,7 +4,7 @@
 	"description": "Support Filtering Search of keyword, post-type and taxonomy.",
 	"main": "gulpfile.js",
 	"scripts": {
-		"start": "npm run build && npx wp-env start",
+		"start": "npm install && composer install && npm run build && npx wp-env start",
 		"stop": "npx wp-env stop",
 		"update": "npx ncu -u",
 		"build": "npx gulp replace_text_domain && npm run build:block && npm run build:css && npm run build:js",
