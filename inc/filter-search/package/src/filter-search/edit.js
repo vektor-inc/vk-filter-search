@@ -33,11 +33,17 @@ export default function FilterSearchEdit(props) {
 			if (FormID === null || FormID === undefined) {
 				setAttributes({ FormID: clientId });
 			}
-
 			if (PostID === null || PostID === undefined) {
-				setAttributes({
-					PostID: wp.data.select('core/editor').getCurrentPostId(),
-				});
+				if (
+					wp.data.select('core/editor') &&
+					wp.data.select('core/editor').getCurrentPostId()
+				) {
+					setAttributes({
+						PostID: wp.data
+							.select('core/editor')
+							.getCurrentPostId(),
+					});
+				}
 			}
 		}
 	}, [clientId]);
