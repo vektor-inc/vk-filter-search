@@ -35,7 +35,7 @@ require_once plugin_dir_path( __FILE__ ) . 'inc/filter-search/config.php';
 // Add a link to this plugin's settings page
 function vkfs_free_set_plugin_meta( $links ) {
     $link_url = __( 'https://vk-filter-search.com/', 'vk-filter-search' );
-	$settings_link = '<a href="' . $link_url . '">' . __( 'Buy Pro', 'vk-filter-search' ) . '</a>';
+	$settings_link = '<a href="' . $link_url . '?ref=admin-plugin-list"  target="_blank" rel="noopener noreferrer">' . __( 'Buy Pro', 'vk-filter-search' ) . '</a>';
 	array_push( $links, $settings_link );
 	return $links;
 }
