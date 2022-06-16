@@ -6,7 +6,7 @@
 	"editorScript": "file:../../build/block.js",
 	"editorStyle": "file:../../build/editor.css",
 	"style": "file:../../build/style.css",
-	"parent": ["vk-filter-search/filter-search"],
+	"parent": [ "vk-filter-search/filter-search" ],
 	"attributes": {
 		"isCheckedPostType": {
 			"type": "string",

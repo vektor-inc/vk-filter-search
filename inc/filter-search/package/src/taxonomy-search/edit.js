@@ -3,7 +3,7 @@ import { PanelBody, BaseControl, SelectControl } from '@wordpress/components';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import ServerSideRender from '@wordpress/server-side-render';
 
-export default function TaxonomySearchEdit(props) {
+export default function TaxonomySearchEdit( props ) {
 	const { attributes, setAttributes } = props;
 
 	const { isSelectedTaxonomy } = attributes;
@@ -13,12 +13,12 @@ export default function TaxonomySearchEdit(props) {
 	const taxonomyOption = vk_filter_search_pro_params.taxonomy_option;
 	//eslint-disable-next-line camelcase,no-undef
 	const taxonomyList = vk_filter_search_pro_params.taxonomy_list;
-	const condition = (taxonomy) => taxonomy.value === isSelectedTaxonomy;
+	const condition = ( taxonomy ) => taxonomy.value === isSelectedTaxonomy;
 
-	const selectedTaxonomy = taxonomyList.find(condition);
+	const selectedTaxonomy = taxonomyList.find( condition );
 
 	if (
-		taxonomyOption.some(condition) &&
+		taxonomyOption.some( condition ) &&
 		isSelectedTaxonomy !== '' &&
 		isSelectedTaxonomy !== null &&
 		isSelectedTaxonomy !== undefined
@@ -26,7 +26,7 @@ export default function TaxonomySearchEdit(props) {
 		editContent = (
 			<ServerSideRender
 				block="vk-filter-search/taxonomy-search"
-				attributes={props.attributes}
+				attributes={ props.attributes }
 			/>
 		);
 	} else if (
@@ -38,13 +38,13 @@ export default function TaxonomySearchEdit(props) {
 			<div>
 				<div className="vkfs__warning">
 					<div className="vkfs__label-name">
-						{__('Taxonomy', 'vk-filter-search')}
+						{ __( 'Taxonomy', 'vk-filter-search' ) }
 					</div>
 					<div className="vkfs__warning-text">
-						{__(
+						{ __(
 							'This block will not be displayed because no taxonomy is selected.',
 							'vk-filter-search'
-						)}
+						) }
 					</div>
 				</div>
 			</div>
@@ -54,43 +54,43 @@ export default function TaxonomySearchEdit(props) {
 			<div>
 				<div className="vkfs__warning">
 					<div className="vkfs__label-name">
-						{selectedTaxonomy.label}
+						{ selectedTaxonomy.label }
 					</div>
 					<div className="vkfs__warning-text">
-						{__(
+						{ __(
 							'This block will not be displayed because this taxonomy has no term.',
 							'vk-filter-search'
-						)}
+						) }
 					</div>
 				</div>
 			</div>
 		);
 	}
 
-	const blockProps = useBlockProps({
+	const blockProps = useBlockProps( {
 		className: `vkfs-taxonomy-search`,
-	});
+	} );
 
 	return (
 		<>
 			<InspectorControls>
 				<PanelBody
-					title={__('Taxonomy Option', 'vk-filter-search')}
-					initialOpen={true}
+					title={ __( 'Taxonomy Option', 'vk-filter-search' ) }
+					initialOpen={ true }
 				>
-					<BaseControl id={'vsfs03'}>
+					<BaseControl id={ 'vsfs03' }>
 						<SelectControl
-							label={__('Taxonomy', 'vk-filter-search')}
-							value={isSelectedTaxonomy}
-							options={taxonomyOption}
-							onChange={(value) =>
-								setAttributes({ isSelectedTaxonomy: value })
+							label={ __( 'Taxonomy', 'vk-filter-search' ) }
+							value={ isSelectedTaxonomy }
+							options={ taxonomyOption }
+							onChange={ ( value ) =>
+								setAttributes( { isSelectedTaxonomy: value } )
 							}
 						/>
 					</BaseControl>
 				</PanelBody>
 			</InspectorControls>
-			<div {...blockProps}>{editContent}</div>
+			<div { ...blockProps }>{ editContent }</div>
 		</>
 	);
 }

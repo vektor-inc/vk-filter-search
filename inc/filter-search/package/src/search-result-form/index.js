@@ -9,7 +9,7 @@ const { name } = metadata;
 export { metadata, name };
 
 export const settings = {
-	title: __('Search Result Form', 'vk-filter-search'),
+	title: __( 'Search Result Form', 'vk-filter-search' ),
 	icon: <Icon />,
 	edit,
 };
