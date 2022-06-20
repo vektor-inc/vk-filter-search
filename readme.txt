@@ -4,7 +4,7 @@ Donate link:
 Tags: Guternberg, Search
 Requires at least: 5.7
 Tested up to: 6.0.0
-Stable tag: 1.10.7
+Stable tag: 1.10.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -78,6 +78,9 @@ More languages will be added in the future. If you would like to help with trans
 
 
 == Changelog ==
+
+= 1.10.8 =
+[ Bug Fix ] Fix VK Taxonomy Search Block Error ( Free Only ).
 
 = 1.10.3 =
 [ Bug Fix ] Corresponds to block widget.
