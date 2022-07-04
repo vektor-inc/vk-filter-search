@@ -14,22 +14,11 @@ class VK_Filter_Search {
 	 * Constructor
 	 */
 	public function __construct() {
-
-		$theme_hook_array     = self::theme_hook_array();
-		$current_parent_theme = get_template();
-
 		add_action( 'pre_get_posts', array( __CLASS__, 'pre_get_posts' ) );
 		add_action( 'dynamic_sidebar_before', array( __CLASS__, 'dynamic_sidebar_before' ) );
 		add_action( 'dynamic_sidebar_after', array( __CLASS__, 'dynamic_sidebar_after' ) );
-
-		if ( array_key_exists( $current_parent_theme, $theme_hook_array ) ) {
-			add_action( $theme_hook_array[ $current_parent_theme ], array( __CLASS__, 'display_search_result_form_content' ) );
-		} elseif ( ! wp_is_block_theme() ) {
-			add_action( 'loop_start', array( __CLASS__, 'display_search_result_form_content' ) );
-		}
-
+		add_action( 'after_setup_theme', array( __CLASS__, 'insert_theme_hook' ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
-
 		// Fallback for theme editor
 		add_action( 'admin_init', array( __CLASS__, 'enqueue_style_on_theme_editor' ) );
 	}
@@ -69,6 +58,19 @@ class VK_Filter_Search {
 			'select',
 		);
 		return apply_filters( 'vk_filter_search_form_style', $form_style_option );
+	}
+
+	/**
+	 * Hook Setting
+	 */
+	public static function insert_theme_hook() {
+		$theme_hook_array     = self::theme_hook_array();
+		$current_parent_theme = get_template();
+		if ( array_key_exists( $current_parent_theme, $theme_hook_array ) ) {
+			add_action( $theme_hook_array[ $current_parent_theme ], array( __CLASS__, 'display_search_result_form_content' ) );
+		} elseif ( ! wp_is_block_theme() ) {
+			add_action( 'loop_start', array( __CLASS__, 'display_search_result_form_content' ) );
+		}
 	}
 
 	/**

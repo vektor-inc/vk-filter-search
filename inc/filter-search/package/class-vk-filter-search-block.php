@@ -20,7 +20,7 @@ class VK_Filter_Search_Block {
 		} else {
 			add_filter( 'block_categories', array( __CLASS__, 'register_block_category' ), 10, 2 );
 		}
-		add_action( 'init', array( __CLASS__, 'register_blocks' ) );
+		add_action( 'init', array( __CLASS__, 'register_blocks' ), 11 );
 	}
 
 	/**
