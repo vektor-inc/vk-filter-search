@@ -8,8 +8,8 @@ html :where(.editor-styles-wrapper) {
 // 一部CSSがコアの指定に負けてしまうため .wp-core-ui の中に変更
 .wp-core-ui,
 .editor-styles-wrapper {
-
-	& .vkfs select {
+	.vkfs input[type="text"],
+	.vkfs select {
 		width: 100%;
 		max-width: 100%;
 		margin: 0;
