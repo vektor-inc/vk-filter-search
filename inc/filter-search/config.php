@@ -45,5 +45,5 @@ if ( ! function_exists( 'vkfs_set_script_translations' ) ) {
 			wp_set_script_translations( 'vk-filter-search-block', 'vk-filter-search' );
 		}
 	}
-	add_action( 'init', 'vkfs_set_script_translations' );
+	add_action( 'init', 'vkfs_set_script_translations', 11 );
 }
