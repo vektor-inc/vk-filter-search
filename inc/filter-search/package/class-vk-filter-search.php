@@ -66,9 +66,10 @@ class VK_Filter_Search {
 	public static function insert_theme_hook() {
 		$theme_hook_array     = self::theme_hook_array();
 		$current_parent_theme = get_template();
+		$is_block_theme       = function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ? true : false;
 		if ( array_key_exists( $current_parent_theme, $theme_hook_array ) ) {
 			add_action( $theme_hook_array[ $current_parent_theme ], array( __CLASS__, 'display_search_result_form_content' ) );
-		} elseif ( ! wp_is_block_theme() ) {
+		} elseif ( false === $is_block_theme ) {
 			add_action( 'loop_start', array( __CLASS__, 'display_search_result_form_content' ) );
 		}
 	}

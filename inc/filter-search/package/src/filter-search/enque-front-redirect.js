@@ -110,6 +110,8 @@ const set_redirect_url = () => {
 	document.location.href = search_url;
 };
 
+// url に vkfs_submitted が含まれていたら
 if ( query_string.indexOf( 'vkfs_submitted=true' ) !== -1 ) {
+	// リダイレクトを実行
 	setTimeout( set_redirect_url(), 0 );
 }

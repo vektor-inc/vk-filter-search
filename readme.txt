@@ -80,7 +80,7 @@ More languages will be added in the future. If you would like to help with trans
 == Changelog ==
 
 = 1.10.11 =
-[ Bug Fix ] Fix Translate
+[ Bug fix ] Fix WordPress 5.8 Fatal Error
 
 = 1.10.10 =
 [ Design bugfix ] Adjusted the width of the text between dates
