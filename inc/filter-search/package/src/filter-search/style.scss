@@ -35,6 +35,27 @@ html :where(.editor-styles-wrapper) {
 		font-weight: 700;
 		margin-bottom: calc(var(--vk-size-text) * 0.5);
 	}
+	.vkfs__label-name-wrap {
+		display: flex;
+		flex-wrap: nowrap;
+		justify-content: space-between;
+		align-items: center;
+		.vkfs__operator-wrap {
+			gap: 1em;
+			margin-right:10px;
+		}
+		li {
+			margin:0;
+			padding-top:0;
+			padding-right:0;
+			padding-bottom:0;
+			font-weight: 500;
+			line-height:1.8;
+			label {
+				cursor: pointer;
+			}
+		}
+	}
 
 	&__input-wrap {
 		margin: 0;

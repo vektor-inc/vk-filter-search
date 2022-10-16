@@ -3,8 +3,8 @@ Contributors: vektor-inc,kurudrive,rickaddison7634,naoki0h,mimitips
 Donate link:
 Tags: Guternberg, Search
 Requires at least: 5.7
-Tested up to: 6.0.0
-Stable tag: 1.10.14
+Tested up to: 6.0.2
+Stable tag: 1.11.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -78,6 +78,10 @@ More languages will be added in the future. If you would like to help with trans
 
 
 == Changelog ==
+
+= 1.11.0 =
+[ Add function ][ Pro ][ Taxonomy ] Added a function to let users choose AND search or OR search when checkbox is specified in taxonomy block.
+[ Add function ][ Pro ][ Taxonomy ] Add two options show post counts & hide empty terms.
 
 = 1.10.14 =
 [ Specification Change ] Change Version Only.

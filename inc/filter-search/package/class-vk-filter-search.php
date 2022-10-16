@@ -77,26 +77,33 @@ class VK_Filter_Search {
 	/**
 	 * Get Keyword Filter Form HTML
 	 *
-	 * @param string $label       label of form.
-	 * @param string $placeholder placeholder of text.
+	 * @param array $options options.
 	 */
-	public static function get_keyword_form_html( $label, $placeholder, $outer_columns, $class_name ) {
-		$label       = ! empty( $label ) ? $label : __( 'Keyword', 'vk-filter-search' );
-		$placeholder = ! empty( $placeholder ) ? $placeholder : __( 'Input Keyword', 'vk-filter-search' );
+	public static function get_keyword_form_html( $options = array() ) {
+		// オプションの値を調整
+		$default = array(
+			'class_name'    => '',
+			'label'         => __( 'Keyword', 'vk-filter-search' ),
+			'placeholder'   => __( 'Input Keyword', 'vk-filter-search' ),
+			'outer_columns' => array(),
+		);
+		$options = wp_parse_args( $options, $default );
 
-		$column_classes = '';
-		if ( ! empty( $outer_columns ) ) {
-			foreach ( $outer_columns as $key => $value ) {
-				$column_classes .= ' vkfs__outer-wrap--col-' . $key . '-' . $value;
+		$keuword_name = 's';
+
+		$outer_classes = '';
+		if ( ! empty( $options['outer_columns'] ) ) {
+			foreach ( $options['outer_columns'] as $key => $value ) {
+				$outer_classes .= ' vkfs__outer-wrap--col-' . $key . '-' . $value;
 			}
 		}
 
-		$class_name = ! empty( $class_name ) ? ' ' . $class_name : '';
+		$outer_classes .= ! empty( $options['class_name'] ) ? ' ' . $options['class_name'] : '';
 
-		$keyword_form_html  = '<div class="vkfs__outer-wrap vkfs__keyword' . $column_classes . $class_name . '">';
-		$keyword_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
+		$keyword_form_html  = '<div class="vkfs__outer-wrap vkfs__keyword' . $outer_classes . '">';
+		$keyword_form_html .= '<div class="vkfs__label-name">' . $options['label'] . '</div>';
 		$keyword_form_html .= '<div class="vkfs__input-wrap vkfs__input-wrap--text vkfs__input-wrap--keyword">';
-		$keyword_form_html .= '<input type="text" name="s" id="s" placeholder="' . $placeholder . '" />';
+		$keyword_form_html .= '<input type="text" name="' . $keuword_name . '" id="s" placeholder="' . $options['placeholder'] . '" />';
 		$keyword_form_html .= '</div>';
 		$keyword_form_html .= '</div>';
 		return $keyword_form_html;
@@ -105,45 +112,49 @@ class VK_Filter_Search {
 	/**
 	 * Get Post Type Filter Form HTML
 	 *
-	 * @param array  $post_types  filtering post types.
-	 * @param string $label       label of form.
-	 * @param string $post_label  label for post.
-	 * @param string $page_label  label for page.
-	 * @param string $form_design design of form.
+	 * @param array  $post_types filtering post types.
+	 * @param array  $options    options.
 	 */
-	public static function get_post_type_form_html( $post_types, $label, $post_label, $page_label, $form_design, $outer_columns, $inner_columns, $class_name ) {
+	public static function get_post_type_form_html( $post_types, $options = array() ) {
 
 		// 投稿タイプの調整.
 		$post_types = ! empty( $post_types ) ? $post_types : array( 'post', 'page' );
 
-		// ラベルの調整.
-		$label      = ! empty( $label ) ? $label : __( 'Post Type', 'vk-filter-search' );
-		$post_label = ! empty( $post_label ) ? $post_label : get_post_type_object( 'post' )->labels->singular_name;
-		$page_label = ! empty( $page_label ) ? $page_label : get_post_type_object( 'page' )->labels->singular_name;
+		// オプションの値を調整
+		$default = array(
+			'class_name'    => '',
+			'label'         => __( 'Post Type', 'vk-filter-search' ),
+			'post_label'    => get_post_type_object( 'post' )->labels->singular_name,
+			'page_label'    => get_post_type_object( 'page' )->labels->singular_name,
+			'form_design'   => 'select',
+			'outer_columns' => array(),
+			'inner_columns' => array(),			
+		);
+		$options = wp_parse_args( $options, $default );
 
 		// デザインの調整.
 		$form_style_option = self::form_style_option();
-		$form_design       = ! empty( $form_design ) && in_array( $form_design, $form_style_option, true ) ? $form_design : 'select';
+		$form_design       = ! empty( $options['form_design'] ) && in_array( $options['form_design'], $form_style_option, true ) ? $options['form_design'] : 'select';
 
 		// カラムの調整
-		$column_classes = '';
-		if ( ! empty( $outer_columns ) ) {
-			foreach ( $outer_columns as $key => $value ) {
-				$column_classes .= ' vkfs__outer-wrap--col-' . $key . '-' . $value;
+		$outer_classes = '';
+		if ( ! empty( $options['outer_columns'] ) ) {
+			foreach ( $options['outer_columns'] as $key => $value ) {
+				$outer_classes .= ' vkfs__outer-wrap--col-' . $key . '-' . $value;
 			}
 		}
 
 		// 追加クラスの調整.
-		$class_name = ! empty( $class_name ) ? ' ' . $class_name : '';
+		$outer_classes .= ! empty( $options['class_name'] ) ? ' ' . $options['class_name'] : '';
 
 		// 変数の初期化.
 		$post_type_form_html = '';
 
 		// 描画開始.
 		if ( ! empty( $post_types ) ) {
-			$post_type_form_html .= '<div class="vkfs__outer-wrap vkfs__post_type' . $column_classes . $class_name . '">';
-			$post_type_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
-			$post_type_form_html .= self::get_post_type_design_html( $post_types, $label, $post_label, $page_label, $form_design, $inner_columns );
+			$post_type_form_html .= '<div class="vkfs__outer-wrap vkfs__post_type' . $outer_classes . '">';
+			$post_type_form_html .= '<div class="vkfs__label-name">' . $options['label'] . '</div>';
+			$post_type_form_html .= self::get_post_type_design_html( $post_types, $options );
 			$post_type_form_html .= '</div>';
 		}
 		return $post_type_form_html;
@@ -152,24 +163,28 @@ class VK_Filter_Search {
 	/**
 	 * Get Post Type Filter Design HTML
 	 *
-	 * @param array  $post_types  filtering post types.
-	 * @param string $label       label for form.
-	 * @param string $post_label  label for post.
-	 * @param string $page_label  label for page.
-	 * @param string $form_design design of form.
+	 * @param array  $post_types filtering post types.
+	 * @param array  $options    options.
 	 */
-	public static function get_post_type_design_html( $post_types, $label, $post_label, $page_label, $form_design, $inner_columns ) {
+	public static function get_post_type_design_html( $post_types, $options = array() ) {
 		// 投稿タイプの調整.
 		$post_types = ! empty( $post_types ) ? $post_types : array( 'post', 'page' );
 
-		// ラベルの調整.
-		$label      = ! empty( $label ) ? $label : __( 'Post Type', 'vk-filter-search' );
-		$post_label = ! empty( $post_label ) ? $post_label : get_post_type_object( 'post' )->labels->singular_name;
-		$page_label = ! empty( $page_label ) ? $page_label : get_post_type_object( 'page' )->labels->singular_name;
+		// オプションの値を調整
+		$default = array(
+			'class_name'    => '',
+			'label'         => __( 'Post Type', 'vk-filter-search' ),
+			'post_label'    => get_post_type_object( 'post' )->labels->singular_name,
+			'page_label'    => get_post_type_object( 'page' )->labels->singular_name,
+			'form_design'   => 'select',
+			'outer_columns' => array(),
+			'inner_columns' => array(),			
+		);
+		$options = wp_parse_args( $options, $default );
 
 		// デザインの調整.
 		$form_style_option = self::form_style_option();
-		$form_design       = ! empty( $form_design ) && in_array( $form_design, $form_style_option, true ) ? $form_design : 'select';
+		$form_design       = ! empty( $options['form_design'] ) && in_array( $options['form_design'], $form_style_option, true ) ? $options['form_design'] : 'select';
 
 		// 変数の初期化.
 		$post_type_design_html  = '';
@@ -189,12 +204,12 @@ class VK_Filter_Search {
 			if ( ! empty( get_post_type_object( $post_type ) ) ) {
 				if ( 'post' === $post_type ) {
 					$post_type_option_array[] = array(
-						'label' => $post_label,
+						'label' => $options['post_label'],
 						'value' => $post_type,
 					);
 				} elseif ( 'page' === $post_type ) {
 					$post_type_option_array[] = array(
-						'label' => $page_label,
+						'label' => $options['page_label'],
 						'value' => $post_type,
 					);
 				} else {
@@ -230,44 +245,49 @@ class VK_Filter_Search {
 			$post_type_design_html .= '</select>';
 
 		}
-		return apply_filters( 'vk_search_filter_post_type_design_html', $post_type_design_html, $post_types, $label, $post_label, $page_label, $form_design, $inner_columns );
+		return apply_filters( 'vk_search_filter_post_type_design_html', $post_type_design_html, $post_types, $options );
 	}
 
 	/**
 	 * Get Taxonomy Filter Form HTML
 	 *
-	 * @param string $taxonomy    name of taxonomy.
-	 * @param string $label       label of form.
-	 * @param string $form_design design of form.
-	 * @param string $operator    filtering operator.
+	 * @param string $taxonomy name of taxonomy.
+	 * @param array  $options  options.
 	 */
-	public static function get_taxonomy_form_html( $taxonomy, $label, $form_design, $operator, $outer_columns, $inner_columns, $class_name ) {
+	public static function get_taxonomy_form_html( $taxonomy, $options = array() ) {
 
 		// タクソノミーの調整.
 		$taxonomy        = ! empty( $taxonomy ) ? $taxonomy : 'category';
 		$taxonomy_object = get_taxonomy( $taxonomy );
 		$taxonomy_terms  = get_terms( $taxonomy );
 
-		// ラベルの調整.
-		$label = ! empty( $label ) ? $label : $taxonomy_object->labels->singular_name;
+		// オプションの値を調整
+		$default = array(
+			'class_name'    => '',
+			'label'         => $taxonomy_object->labels->singular_name,
+			'form_design'   => 'select',
+			'operator'      => 'or',
+			'show_count'     => false,
+			'hide_empty'     => true,
+			'outer_columns' => array(),
+			'inner_columns' => array(),			
+		);
+		$options = wp_parse_args( $options, $default );
 
 		// デザインの調整.
 		$form_style_option = self::form_style_option();
-		$form_design       = ! empty( $form_design ) && in_array( $form_design, $form_style_option, true ) ? $form_design : 'select';
-
-		// 演算子の調整.
-		$operator = ! empty( $operator ) ? $operator : 'or';
+		$form_design       =  ! empty( $options['form_design'] ) && in_array( $options['form_design'], $form_style_option, true ) ? $options['form_design'] : 'select';
 
 		// カラムの調整
-		$column_classes = '';
-		if ( ! empty( $outer_columns ) ) {
-			foreach ( $outer_columns as $key => $value ) {
-				$column_classes .= ' vkfs__outer-wrap--col-' . $key . '-' . $value;
+		$outer_classes = '';
+		if ( ! empty( $options['outer_columns'] ) ) {
+			foreach ( $options['outer_columns'] as $key => $value ) {
+				$outer_classes .= ' vkfs__outer-wrap--col-' . $key . '-' . $value;
 			}
 		}
 
 		// 追加クラスの調整.
-		$class_name = ! empty( $class_name ) ? ' ' . $class_name : '';
+		$outer_classes .= ! empty( $options['class_name'] ) ? ' ' . $options['class_name'] : '';
 
 		// 変数を初期化.
 		$taxonomy_form_html   = '';
@@ -275,10 +295,32 @@ class VK_Filter_Search {
 
 		// 描画開始.
 		if ( ! empty( $taxonomy_object ) && ! empty( $taxonomy_terms ) ) {
-			$taxonomy_form_html .= '<div class="vkfs__outer-wrap vkfs__taxonomy' . $column_classes . $class_name . '">';
-			$taxonomy_form_html .= '<div class="vkfs__label-name">' . $label . '</div>';
-			$taxonomy_form_html .= self::get_taxonomy_design_html( $taxonomy, $label, $form_design, $inner_columns );
-			$taxonomy_form_html .= '<input type="hidden" name="vkfs_' . $taxonomy . '_operator" value="' . $operator . '" />';
+			$taxonomy_form_html .= '<div class="vkfs__outer-wrap vkfs__taxonomy' . $outer_classes . '">';
+			$taxonomy_form_html .= '<div class="vkfs__label-name">';
+			if ( 'user' !== $options['operator'] ) { 
+				$taxonomy_form_html .= $options['label'];
+			} elseif ( 'user' === $options['operator'] ) { 
+				$taxonomy_form_html .= '<div class="vkfs__label-name-wrap">';
+				$taxonomy_form_html .= '<span class="vkfs__label-name-item">';
+				$taxonomy_form_html .= $options['label'];
+				$taxonomy_form_html .= '</span>';
+				$taxonomy_form_html .= '<ul class="vkfs__label-name-item vkfs__operator-wrap vkfs__input-wrap vkfs__input-wrap--radio">';
+				$taxonomy_form_html .= '<li class="vkfs_prefix__level-0"><label>';
+				$taxonomy_form_html .= '<input type="radio" name="vkfs_' . $taxonomy . '_operator" value="and">';
+				$taxonomy_form_html .= __( 'AND Search', 'vk-filter-search' );
+				$taxonomy_form_html .= '</label></li>';
+				$taxonomy_form_html .= '<li class="vkfs_prefix__level-0"><label>';
+				$taxonomy_form_html .= '<input type="radio" name="vkfs_' . $taxonomy . '_operator" value="or">';
+				$taxonomy_form_html .= __( 'OR Search', 'vk-filter-search' );
+				$taxonomy_form_html .= '</label></li>';
+				$taxonomy_form_html .= '</ul>';
+				$taxonomy_form_html .= '</div>';
+			}
+			$taxonomy_form_html .= '</div>';
+			$taxonomy_form_html .= self::get_taxonomy_design_html( $taxonomy, $options );
+			if ( 'user' !== $options['operator'] ) {
+				$taxonomy_form_html .= '<input type="hidden" name="vkfs_' . $taxonomy . '_operator" value="' . $options['operator'] . '" />';
+			}
 			$taxonomy_form_html .= '</div>';
 		}
 		return $taxonomy_form_html;
@@ -287,20 +329,32 @@ class VK_Filter_Search {
 	/**
 	 * Get Taxonomy Filter Design HTML
 	 *
-	 * @param string $taxonomy    name of taxonomy.
-	 * @param string $label       label of form.
-	 * @param string $form_design design of form.
+	 * @param string $taxonomy name of taxonomy.
+	 * @param array  $options  options.
 	 */
-	public static function get_taxonomy_design_html( $taxonomy, $label, $form_design, $inner_columns ) {
+	public static function get_taxonomy_design_html( $taxonomy, $options = array() ) {
 
 		// タクソノミーの調整.
 		$taxonomy        = ! empty( $taxonomy ) ? $taxonomy : 'category';
 		$taxonomy_object = get_taxonomy( $taxonomy );
 		$taxonomy_terms  = get_terms( $taxonomy );
 
+		// オプションの値を調整
+		$default = array(
+			'class_name'    => '',
+			'label'         => $taxonomy_object->labels->singular_name,
+			'form_design'   => 'select',
+			'operator'      => 'or',
+			'show_count'     => false,
+			'hide_empty'     => true,
+			'outer_columns' => array(),
+			'inner_columns' => array(),			
+		);
+		$options = wp_parse_args( $options, $default );
+
 		// デザインの調整.
 		$form_style_option = self::form_style_option();
-		$form_design       = ! empty( $form_design ) && in_array( $form_design, $form_style_option, true ) ? $form_design : 'select';
+		$form_design       =  ! empty( $options['form_design'] ) && in_array( $options['form_design'], $form_style_option, true ) ? $options['form_design'] : 'select';
 
 		// 変数を初期化.
 		$taxonomy_design_html  = '';
@@ -310,6 +364,8 @@ class VK_Filter_Search {
 		$common_args = array(
 			'show_option_none'  => __( 'Any', 'vk-filter-search' ),
 			'option_none_value' => '',
+			'show_count'        => $options['show_count'],
+			'hide_empty'        => $options['hide_empty'],
 			'echo'              => false,
 			'taxonomy'          => $taxonomy,
 			'value_field'       => 'slug',     
@@ -320,8 +376,6 @@ class VK_Filter_Search {
 			'orderby'      => 'NAME',
 			'order'        => 'ASC',
 			'hierarchical' => true,
-			'show_count'   => 0,
-			'hide_empty'   => 1,
 		);
 		$custom_args = apply_filters( 'vkfs_taxonomy_custom_setting', $custom_args );
 
@@ -368,7 +422,7 @@ class VK_Filter_Search {
 				);
 			}
 		}
-		return apply_filters( 'vk_search_filter_taxonomy_design_html', $taxonomy_design_html, $taxonomy, $label, $form_design, $inner_columns );
+		return apply_filters( 'vk_search_filter_taxonomy_design_html', $taxonomy_design_html, $taxonomy, $options );
 
 	}
 

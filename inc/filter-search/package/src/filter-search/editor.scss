@@ -5,6 +5,11 @@ html :where(.editor-styles-wrapper) {
 	display: block;
 }
 
+.components-base-control__label[for*="vsfs-"] {
+	font-weight: 700;
+	margin-bottom:10px;
+}
+
 // 一部CSSがコアの指定に負けてしまうため .wp-core-ui の中に変更
 .wp-core-ui,
 .editor-styles-wrapper {
@@ -66,6 +71,15 @@ html :where(.editor-styles-wrapper) {
 				}
 			}
 		}
+
+		.vkfs__label-name-wrap {
+			margin-right:10px;
+			li {
+				margin-top:0;
+				line-height: 2;
+			}
+		}
+
 	}
 	//無料版のインサーターのデザイン
 	//無料版はインサーターの幅が固定

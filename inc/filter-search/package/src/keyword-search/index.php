@@ -3,7 +3,7 @@
 /**
  * Registers the `vk-filter-search/keyword-search` block.
  */
-if( function_exists('register_block_type_from_metadata')) {
+if( function_exists('register_block_type_from_metadata') ) {
 
 	function register_block_vkfs_keyword_search() {
 		register_block_type_from_metadata(
@@ -38,9 +38,11 @@ function vkfs_keyword_search_render_callback( $attributes, $content ) {
 			'className' => '',
 		)
 	);
-	$label         = '';
-	$placeholder   = '';
-	$outer_columns = array();
-	$class_name    = ! empty( $attributes['className'] ) ? $attributes['className'] : '';
-	return VK_Filter_Search::get_keyword_form_html( $label, $placeholder, $outer_columns, $class_name );
+
+	// オプションを設定
+	$options = array(
+		'class_name'    => ! empty( $attributes['className'] ) ? $attributes['className'] : '',
+	);
+	
+	return VK_Filter_Search::get_keyword_form_html( $options );
 }

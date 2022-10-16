@@ -3,7 +3,7 @@
 /**
  * Registers the `vk-filter-search/taxonomy-search` block.
  */
-if( function_exists('register_block_type_from_metadata')) {
+if( function_exists('register_block_type_from_metadata') ) {
 
 	function register_block_vkfs_taxonomy_search() {
 		register_block_type_from_metadata(
@@ -44,18 +44,13 @@ function vkfs_taxonomy_search_render_callback( $attributes, $content ) {
 		)
 	);
 
+	// タクソノミーを処理
 	$taxonomy      = ! empty( $attributes['isSelectedTaxonomy'] ) ? $attributes['isSelectedTaxonomy'] : '';
-	$label         = '';
-	$form_design   = '';
-	$operator      = '';
-	$outer_columns = array();
-	$inner_columns = array();
-	$class_name    = ! empty( $attributes['className'] ) ? $attributes['className'] : '';
 
-	$content = '';
-	if ( ! empty( $taxonomy ) ) {
-		$content = VK_Filter_Search::get_taxonomy_form_html( $taxonomy, $label, $form_design, $operator, $outer_columns, $inner_columns, $class_name );
-	}
+	// オプションを設定
+	$options = array(
+		'class_name'    => ! empty( $attributes['className'] ) ? $attributes['className'] : '',
+	);
 
-	return $content;
+	return VK_Filter_Search::get_taxonomy_form_html( $taxonomy, $options );
 }

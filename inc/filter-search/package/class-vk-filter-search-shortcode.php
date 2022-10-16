@@ -29,12 +29,15 @@ class VK_Filter_Search_Shortcode {
 	public static function add_search_form_shortcode( $atts, $content ) {
 		$atts = shortcode_atts(
 			array(
-				'post_type' => '',
+				'class_name'  => '',
+				'post_type'   => '',
 			),
 			$atts
 		);
 
-		$form_before_html  = '<form class="vk-filter-search vkfs" method="get" action="' . home_url( '/' ) . '">';
+		$class_name  = ! empty( $atts['class_name'] ) ? ' ' . $atts['class_name'] : '';
+
+		$form_before_html  = '<form class="vk-filter-search vkfs' . $class_name . '" method="get" action="' . home_url( '/' ) . '">';
 		$form_before_html .= '<div class="vkfs__labels">';
 
 		$inner_content = shortcode_unautop( $content );
@@ -63,12 +66,18 @@ class VK_Filter_Search_Shortcode {
 	 * @param string $content Inner Contents.
 	 */
 	public static function add_keyword_form_shortcode( $atts, $content ) {
-		$label         = '';
-		$placeholder   = '';
-		$outer_columns = array();
-		$class_name    = '';
+		$atts = shortcode_atts(
+			array(
+				'class_name'  => '',
+			),
+			$atts
+		);
 
-		return VK_Filter_Search::get_keyword_form_html( $label, $placeholder, $outer_columns, $class_name );
+		$options = array(
+			'class_name' =>  ! empty( $atts['class_name'] ) ? $atts['class_name'] : '',
+		);
+
+		return VK_Filter_Search::get_keyword_form_html( $options );
 	}
 
 	/**
@@ -81,20 +90,18 @@ class VK_Filter_Search_Shortcode {
 		$atts = shortcode_atts(
 			array(
 				'post_types' => 'post,page',
+				'class_name'  => '',
 			),
 			$atts
 		);
 
 		$post_types = ! empty( $atts['post_types'] ) ? explode( ',', $atts['post_types'] ) : array();
-		$label         = '';
-		$post_label    = '';
-		$page_label    = '';
-		$form_design   = '';
-		$outer_columns = array();
-		$inner_columns = array();
-		$class_name    = '';
 
-		return VK_Filter_Search::get_post_type_form_html( $post_types, $label, $post_label, $page_label, $form_design, $outer_columns, $inner_columns, $class_name );
+		$options = array(
+			'class_name' =>  ! empty( $atts['class_name'] ) ? $atts['class_name'] : '',
+		);
+		
+		return VK_Filter_Search::get_post_type_form_html( $post_types, $options );
 	}
 
 	/**
@@ -107,19 +114,18 @@ class VK_Filter_Search_Shortcode {
 		$atts = shortcode_atts(
 			array(
 				'taxonomy' => 'category',
+				'class_name'  => '',
 			),
 			$atts
 		);
 
 		$taxonomy      = ! empty( $atts['taxonomy'] ) ? $atts['taxonomy'] : '';
-		$label         = '';
-		$form_design   = '';
-		$operator      = '';
-		$outer_columns = array();
-		$inner_columns = array();
-		$class_name    = '';
 
-		return VK_Filter_Search::get_taxonomy_form_html( $taxonomy, $label, $form_design, $operator, $outer_columns, $inner_columns, $class_name );
+		$options = array(
+			'class_name' =>  ! empty( $atts['class_name'] ) ? $atts['class_name'] : '',
+		);
+
+		return VK_Filter_Search::get_taxonomy_form_html( $taxonomy, $options );
 	}
 }
 new VK_Filter_Search_Shortcode();

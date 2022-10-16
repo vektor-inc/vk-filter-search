@@ -3,7 +3,7 @@
 /**
  * Registers the `vk-filter-search/post-type-search` block.
  */
-if( function_exists('register_block_type_from_metadata')) {
+if( function_exists('register_block_type_from_metadata') ) {
 
 	function register_block_vkfs_post_type_search() {
 		register_block_type_from_metadata(
@@ -50,21 +50,14 @@ function vkfs_post_type_search_render_callback( $attributes, $content ) {
 		$attributes['isCheckedPostType'] = str_replace( '"', '', $attributes['isCheckedPostType'] );
 	}
 
+	// 投稿タイプを処理
 	$post_types    = ! empty( $attributes['isCheckedPostType'] ) ? explode( ',', $attributes['isCheckedPostType'] ) : array();
-	$label         = '';
-	$post_label    = '';
-	$page_label    = '';
-	$form_design   = '';
-	$outer_columns = array();
-	$inner_columns = array();
-	$class_name    = ! empty( $attributes['className'] ) ? $attributes['className'] : '';
+	
+	// オプションを設定
+	$options = array(
+		'class_name'    => ! empty( $attributes['className'] ) ? $attributes['className'] : '',
+	);
 
-	$post_label  = '';
-	$content = '';
-	if ( ! empty( $post_types ) ) {
-		$content = VK_Filter_Search::get_post_type_form_html( $post_types, $label, $post_label, $page_label, $form_design, $outer_columns, $inner_columns,  $class_name );
-	}
-
-	return $content;
+	return VK_Filter_Search::get_post_type_form_html( $post_types, $options );
 	
 }
