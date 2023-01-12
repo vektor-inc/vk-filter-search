@@ -15,13 +15,21 @@
 
 defined( 'ABSPATH' ) || exit;
 
-// Define Plugin  Root Path
-define( 'VKFS_PLUGIN_ROOT_PATH', plugin_dir_path( __FILE__ ) );
+// Define Plugin Root Path
+if ( ! defined( 'VKFS_PLUGIN_ROOT_PATH' ) ) {	
+	define( 'VKFS_PLUGIN_ROOT_PATH', plugin_dir_path( __FILE__ ) );
+}
+
 // Define Plugin Root URL
-define( 'VKFS_PLUGIN_ROOT_URL', plugin_dir_url( __FILE__ ) );
+if ( ! defined( 'VKFS_PLUGIN_ROOT_URL' ) ) {
+	define( 'VKFS_PLUGIN_ROOT_URL', plugin_dir_path( __FILE__ ) );
+}
+
 // Define Plugin Version
-$plugin_data = get_file_data( __FILE__, array( 'version' => 'Version' ) );
-define( 'VKFS_PLUGIN_VERSION', $plugin_data['version'] );
+if ( ! defined( 'VKFS_PLUGIN_VERSION' ) ) {
+	$plugin_data    = get_file_data( __FILE__, array( 'version' => 'Version' ) );
+	define( 'VKFS_PLUGIN_VERSION', $plugin_data['version'] );
+}
 
 // Plugin Version
 global $vkfs_prefix;
