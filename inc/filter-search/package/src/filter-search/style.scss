@@ -23,6 +23,13 @@ html :where(.editor-styles-wrapper) {
 		}
 
 	}
+	&__warning {
+		background-color: #fcf8e3;
+		color: #8a6d3b;
+		border: 1px solid #faebcc;
+		padding: 1em;
+		border-radius: 3px;
+	}
 
 	&__outer-wrap {
 		flex-basis: calc(50% - 0.8rem);

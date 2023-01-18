@@ -36,6 +36,8 @@ if( function_exists('register_block_type_from_metadata') ) {
  * @param html  $content content.
  */
 function vkfs_taxonomy_search_render_callback( $attributes, $content ) {
+
+	// 設定項目を処理
 	$attributes = wp_parse_args(
 		$attributes,
 		array(
@@ -44,13 +46,21 @@ function vkfs_taxonomy_search_render_callback( $attributes, $content ) {
 		)
 	);
 
+	// コンテンツは初期化
+	$content = '';	
+
 	// タクソノミーを処理
 	$taxonomy      = ! empty( $attributes['isSelectedTaxonomy'] ) ? $attributes['isSelectedTaxonomy'] : '';
 
-	// オプションを設定
-	$options = array(
-		'class_name'    => ! empty( $attributes['className'] ) ? $attributes['className'] : '',
-	);
+	// タクソノミーの構造体が存在している場合はそのタクソノミーのフォームをコンテンツに反映
+	if ( ! empty( get_taxonomy( $taxonomy ) ) ) {
+		// オプションを設定
+		$options = array(
+			'class_name'    => ! empty( $attributes['className'] ) ? $attributes['className'] : '',
+		);
 
-	return VK_Filter_Search::get_taxonomy_form_html( $taxonomy, $options );
+		$content = VK_Filter_Search::get_taxonomy_form_html( $taxonomy, $options );
+	}
+
+	return $content;
 }

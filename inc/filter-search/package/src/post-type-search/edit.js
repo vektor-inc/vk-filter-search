@@ -20,7 +20,7 @@ export default function PostTypeSearchEdit( props ) {
 		);
 	} else {
 		editContent = (
-			<div className="vkfs_warning">
+			<div className="vkfs__warning">
 				<div className="vkfs__label-name">
 					{ __( 'Post Type', 'vk-filter-search' ) }
 				</div>

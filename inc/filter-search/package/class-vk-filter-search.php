@@ -263,14 +263,15 @@ class VK_Filter_Search {
 
 		// オプションの値を調整
 		$default = array(
-			'class_name'    => '',
-			'label'         => $taxonomy_object->labels->singular_name,
-			'form_design'   => 'select',
-			'operator'      => 'or',
-			'show_count'     => false,
-			'hide_empty'     => true,
-			'outer_columns' => array(),
-			'inner_columns' => array(),			
+			'class_name'         => '',
+			'label'              => $taxonomy_object->labels->singular_name,
+			'form_design'        => 'select',
+			'non_selected_label' => '',
+			'operator'           => 'or',
+			'show_count'         => false,
+			'hide_empty'         => true,
+			'outer_columns'      => array(),
+			'inner_columns'      => array(),			
 		);
 		$options = wp_parse_args( $options, $default );
 
@@ -341,14 +342,15 @@ class VK_Filter_Search {
 
 		// オプションの値を調整
 		$default = array(
-			'class_name'    => '',
-			'label'         => $taxonomy_object->labels->singular_name,
-			'form_design'   => 'select',
-			'operator'      => 'or',
-			'show_count'     => false,
-			'hide_empty'     => true,
-			'outer_columns' => array(),
-			'inner_columns' => array(),			
+			'class_name'         => '',
+			'label'              => $taxonomy_object->labels->singular_name,
+			'form_design'        => 'select',
+			'non_selected_label' => '',
+			'operator'           => 'or',
+			'show_count'         => false,
+			'hide_empty'         => true,
+			'outer_columns'      => array(),
+			'inner_columns'      => array(),			
 		);
 		$options = wp_parse_args( $options, $default );
 
@@ -362,7 +364,7 @@ class VK_Filter_Search {
 
 		// 共通の設定項目.
 		$common_args = array(
-			'show_option_none'  => __( 'Any', 'vk-filter-search' ),
+			'show_option_none'  => ! empty( $options['non_selected_label'] ) ? $options['non_selected_label'] : __( 'Any', 'vk-filter-search' ),
 			'option_none_value' => '',
 			'show_count'        => $options['show_count'],
 			'hide_empty'        => $options['hide_empty'],

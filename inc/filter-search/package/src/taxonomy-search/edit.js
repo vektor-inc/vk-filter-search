@@ -49,19 +49,41 @@ export default function TaxonomySearchEdit( props ) {
 				</div>
 			</div>
 		);
+	} else if (
+		selectedTaxonomy !== undefined &&
+		selectedTaxonomy.label !== undefined
+	) {
+		editContent = (
+			<div className="vkfs__warning">
+				<div className="vkfs__label-name">
+					{ selectedTaxonomy.label }
+				</div>
+				<div className="vkfs__warning-text">
+					{ __(
+						'This block will not be displayed because this taxonomy has no term.',
+						'vk-filter-search'
+					) }
+				</div>
+			</div>
+		);
 	} else {
 		editContent = (
-			<div>
-				<div className="vkfs__warning">
-					<div className="vkfs__label-name">
-						{ selectedTaxonomy.label }
-					</div>
-					<div className="vkfs__warning-text">
-						{ __(
-							'This block will not be displayed because this taxonomy has no term.',
-							'vk-filter-search'
-						) }
-					</div>
+			<div className="vkfs__warning">
+				<div className="vkfs__label-name">
+					{ __(
+						'Specified taxonomy does not exist',
+						'vk-filter-search'
+					) }
+				</div>
+				<div className="vkfs__warning-text">
+					{ __(
+						'This block will not be displayed because the specified taxonomy does not exist.',
+						'vk-filter-search'
+					) }
+					{ __(
+						'Please reselect the taxonomy or remove this block..',
+						'vk-filter-search'
+					) }
 				</div>
 			</div>
 		);
