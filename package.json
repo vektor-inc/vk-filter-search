@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "npm install && composer install && npm run build && npx wp-env start",
 		"stop": "npx wp-env stop",
-		"update": "npx ncu -u",
+		"update": "npx ncu -u && rm -rf node_nodules package-lock.json && npm install",
 		"build": "npx gulp replace_text_domain && npm run build:block && npm run build:css && npm run build:js",
 		"build:block": "wp-scripts build --config webpack.config.js",
 		"build:css": "npx gulp build_css",
