@@ -4,7 +4,7 @@ Donate link:
 Tags: Guternberg, Search
 Requires at least: 5.9
 Tested up to: 6.1
-Stable tag: 1.13.0
+Stable tag: 1.13.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -78,6 +78,9 @@ More languages will be added in the future. If you would like to help with trans
 
 
 == Changelog ==
+
+= 1.13.1 =
+[ Specification Change ] Change Version Only.
 
 = 1.13.0 =
 [ Add function ][ Search Result Single Order Pro ] Add Outer Column Setting
