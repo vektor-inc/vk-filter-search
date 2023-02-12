@@ -75,6 +75,72 @@ class VK_Filter_Search {
 	}
 
 	/**
+	 * HTML Allowed
+	 */
+	public static function kses_allowed() {
+		return array(
+			'form'   => array(
+				'id'     => array(),
+				'class'  => array(),
+				'method' => array(),
+				'action' => array(),
+			),
+			'div'    => array(
+				'id'    => array(),
+				'class' => array(),
+			),
+			'ul'     => array(
+				'id'    => array(),
+				'class' => array(),
+			),
+			'li'     => array(
+				'id'    => array(),
+				'class' => array(),
+			),
+			'label'  => array(
+				'id'    => array(),
+				'class' => array(),
+				'for'   => array(),
+			),
+			'input'  => array(
+				'id'          => array(),
+				'class'       => array(),
+				'type'        => array(),
+				'name'        => array(),
+				'value'       => array(),
+				'placeholder' => array(),
+				'checked'     => array(),
+			),
+			'select' => array(
+				'id'    => array(),
+				'class' => array(),
+				'name'  => array(),
+			),
+			'option' => array(
+				'id'       => array(),
+				'class'    => array(),
+				'value'    => array(),
+				'selected' => array(),
+			),
+			'a'      => array(
+				'id'    => array(),
+				'class' => array(),
+				'href'  => array(),
+			),
+			'span'      => array(
+				'id'    => array(),
+				'class' => array(),
+			),
+			'button' => array(
+				'id'    => array(),
+				'type'  => array(),
+				'class' => array(),
+				'href'  => array(),
+			),
+		);
+	}
+
+	/**
 	 * Get Keyword Filter Form HTML
 	 *
 	 * @param array $options options.
@@ -106,7 +172,7 @@ class VK_Filter_Search {
 		$keyword_form_html .= '<input type="text" name="' . $keuword_name . '" id="s" placeholder="' . $options['placeholder'] . '" />';
 		$keyword_form_html .= '</div>';
 		$keyword_form_html .= '</div>';
-		return $keyword_form_html;
+		return wp_kses( $keyword_form_html, self::kses_allowed() );
 	}
 
 	/**
@@ -157,7 +223,7 @@ class VK_Filter_Search {
 			$post_type_form_html .= self::get_post_type_design_html( $post_types, $options );
 			$post_type_form_html .= '</div>';
 		}
-		return $post_type_form_html;
+		return wp_kses( $post_type_form_html, self::kses_allowed() );
 	}
 
 	/**
@@ -324,7 +390,7 @@ class VK_Filter_Search {
 			}
 			$taxonomy_form_html .= '</div>';
 		}
-		return $taxonomy_form_html;
+		return wp_kses( $taxonomy_form_html, self::kses_allowed() );
 	}
 
 	/**
@@ -615,62 +681,7 @@ class VK_Filter_Search {
 	 */
 	public static function display_search_result_form_content() {
 		$content = self::search_result_form_content();
-		$allowed = array(
-			'form'   => array(
-				'id'     => array(),
-				'class'  => array(),
-				'method' => array(),
-				'action' => array(),
-			),
-			'div'    => array(
-				'id'    => array(),
-				'class' => array(),
-			),
-			'ul'     => array(
-				'id'    => array(),
-				'class' => array(),
-			),
-			'li'     => array(
-				'id'    => array(),
-				'class' => array(),
-			),
-			'label'  => array(
-				'id'    => array(),
-				'class' => array(),
-				'for'   => array(),
-			),
-			'input'  => array(
-				'id'          => array(),
-				'class'       => array(),
-				'type'        => array(),
-				'name'        => array(),
-				'value'       => array(),
-				'placeholder' => array(),
-				'checked'     => array(),
-			),
-			'select' => array(
-				'id'    => array(),
-				'class' => array(),
-				'name'  => array(),
-			),
-			'option' => array(
-				'id'       => array(),
-				'class'    => array(),
-				'value'    => array(),
-				'selected' => array(),
-			),
-			'a'      => array(
-				'id'    => array(),
-				'class' => array(),
-				'href'  => array(),
-			),
-			'button' => array(
-				'id'    => array(),
-				'type'  => array(),
-				'class' => array(),
-				'href'  => array(),
-			),
-		);
+		$allowed = self::kses_allowed();
 		echo wp_kses( $content, $allowed );
 	}
 

@@ -30,9 +30,9 @@
 	},
 	"homepage": "https://github.com/vektor-inc/vk-filter-search#readme",
 	"devDependencies": {
-		"@babel/plugin-transform-react-jsx": "^7.20.7",
+		"@babel/plugin-transform-react-jsx": "^7.20.13",
 		"@babel/preset-env": "^7.20.2",
-		"@wordpress/scripts": "25.2.0",
+		"@wordpress/scripts": "25.3.0",
 		"babel-loader": "^9.1.2",
 		"babel-plugin-inline-json-import": "^0.3.2",
 		"babel-plugin-module-resolver": "^5.0.0",
@@ -44,9 +44,9 @@
 		"gulp-rename": "^2.0.0",
 		"gulp-replace": "^1.1.4",
 		"gulp-sass": "^5.1.0",
-		"npm-check-updates": "^16.6.2",
-		"sass": "^1.57.1",
+		"npm-check-updates": "^16.7.4",
+		"sass": "^1.58.0",
 		"@emotion/babel-plugin": "^11.10.5",
-		"@wordpress/env": "^5.10.0"
+		"@wordpress/env": "^5.11.0"
 	}
 }

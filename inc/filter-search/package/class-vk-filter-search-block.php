@@ -21,6 +21,160 @@ class VK_Filter_Search_Block {
 			add_filter( 'block_categories', array( __CLASS__, 'register_block_category' ), 10, 2 );
 		}
 		add_action( 'init', array( __CLASS__, 'register_blocks' ), 11 );
+		add_action( 'enqueue_block_editor_assets', array( __CLASS__, 'set_block_data' ) );
+	}
+
+	/**
+	 * 現在のテーマがブロックテーマか否か
+	 */
+	public static function is_block_theme() {
+
+		if ( function_exists( 'wp_is_block_theme' ) ) {
+			$is_block_theme = wp_is_block_theme();
+		} else {
+			$is_block_theme = false;
+		}
+		return $is_block_theme;
+
+	}
+
+	/**
+	 * ブロックに必要なデータを設定
+	 */
+	public static function get_block_data() {
+
+		// データを初期化
+		$data = array(
+			'post_type_checkbox'         => array(),
+			'post_type_archive_checkbox' => array(),
+			'post_type_select'           => array(
+				array(
+					'label' => __( 'Any', 'vk-filter-search' ),
+					'value' => '',
+				),
+			),
+			'taxonomy_list'             => array(),
+			'taxonomy_option'           => array(
+				array(
+					'label' => __( 'Any', 'vk-filter-search' ),
+					'value' => '',
+				),
+			)
+		);
+
+		// 投稿タイプのリスト
+		$post_types_all = array(
+			'post' => 'post',
+			'page' => 'page',
+		);
+		$post_types_all = array_merge(
+			$post_types_all,
+			get_post_types(				array(
+					'public'   => true,
+					'show_ui'  => true,
+					'_builtin' => false,
+				),
+				'names',
+				'and'
+			)
+		);
+		foreach ( $post_types_all as $post_type ) {
+
+			// 投稿タイプのオブジェクトを取得
+			$post_type_object = get_post_type_object( $post_type );
+
+			// 投稿があるかないか判定
+			$get_posts = get_posts(
+				array(
+					'post_type'        => $post_type_object->name,
+					'suppress_filters' => false,
+				)
+			);
+
+			// 投稿があれば配列に追加
+			if ( ! empty( $get_posts ) ) {
+				// 投稿タイプのチェックボックスリストに投稿タイプを追加				
+				$data['post_type_checkbox'][] = array(
+					'label' => $post_type_object->labels->singular_name,
+					'slug'  => $post_type_object->name,
+				);
+				// 投稿タイプの選択肢に投稿タイプを追加
+				$data['post_type_select'][] = array(
+					'label' => $post_type_object->labels->singular_name,
+					'value' => $post_type_object->name,
+				);
+			}
+		}
+
+		// 投稿タイプ（アーカイブあり）のリスト
+		$post_types_has_archive = array(
+			'post' => 'post',
+		);
+		$post_types_has_archive = array_merge(
+			$post_types_has_archive,
+			get_post_types(
+				array(
+					'public'      => true,
+					'show_ui'  => true,
+					'has_archive' => true,
+					'_builtin'    => false,
+				),
+				'names',
+				'and'
+			)
+		);
+		foreach ( $post_types_has_archive as $post_type ) {
+
+			// 投稿タイプのオブジェクトを取得
+			$post_type_object = get_post_type_object( $post_type );
+
+			// 投稿があるかないか判定
+			$get_posts = get_posts(
+				array(
+					'post_type'        => $post_type_object->name,
+					'suppress_filters' => false,
+				)
+			);
+
+			// 投稿があれば配列に追加
+			if ( ! empty( $get_posts ) ) {
+				// 投稿タイプ（アーカイブあり）のチェックボックスリストに投稿タイプを追加
+				$data['post_type_archive_checkbox'][]         = array(
+					'label' => $post_type_object->labels->singular_name,
+					'slug'  => $post_type_object->name,
+				);
+			}
+		}
+
+		/**
+		 * タクソノミーの選択肢のリスト
+		 */
+		// タクソノミーリストを生成.
+		$the_taxonomies = get_taxonomies(
+			array(
+				'public'  => true,
+				'show_ui' => true,
+			),
+			'objects',
+			'and'
+		);
+		foreach ( $the_taxonomies as $the_taxonomy ) {
+			$data['taxonomy_list'][] = array(
+				'label' => $the_taxonomy->labels->singular_name,
+				'value' => $the_taxonomy->name,
+			);
+			$terms           = get_terms( $the_taxonomy->name );
+			if ( ! empty( $terms ) ) {
+				$data['taxonomy_option'][] = array(
+					'label' => $the_taxonomy->labels->singular_name,
+					'value' => $the_taxonomy->name,
+				);
+			}
+		}
+		$data = apply_filters( 'vkfs_block_data', $data );
+
+		return $data;
+
 	}
 
 	/**
@@ -80,136 +234,25 @@ class VK_Filter_Search_Block {
 			true
 		);
 
-		/**
-		 * 選択させる投稿タイプのリストを生成し渡す
-		 */
-		// 投稿タイプ用のブロックで使うチェックボックスリスト.
-		$post_type_checkbox = array();
-		// アーカイブページで検索フォームを表示させる投稿タイプのチェックボックスリスト.
-		$post_type_archive_checkbox = array();
-		// フォーム用のブロックで使うプルダウンリスト.
-		$post_type_select = array(
-			array(
-				'label' => __( 'Any', 'vk-filter-search' ),
-				'value' => '',
-			),
+		$block_array = array(
+			'filter-search',
+			'keyword-search',
+			'post-type-search',
+			'taxonomy-search',
+			'search-result-form',
 		);
 
-		// 投稿が空でない場合にリスト・選択肢に追加.
-		$get_posts = get_posts(
-			array(
-				'post_type'        => 'post',
-				'suppress_filters' => false,
-			)
-		);
-		if ( ! empty( $get_posts ) ) {
-			$post_type_checkbox[]         = array(
-				'label' => get_post_type_object( 'post' )->labels->singular_name,
-				'slug'  => get_post_type_object( 'post' )->name,
-			);
-			$post_type_archive_checkbox[] = array(
-				'label' => get_post_type_object( 'post' )->labels->singular_name,
-				'slug'  => get_post_type_object( 'post' )->name,
-			);
-			$post_type_select[]           = array(
-				'label' => get_post_type_object( 'post' )->labels->singular_name,
-				'value' => get_post_type_object( 'post' )->name,
-			);
-
+		foreach ( $block_array as $block ) {
+			require_once plugin_dir_path( __FILE__ ) . 'src/' . $block . '/index.php';
 		}
+	}
 
-		// 固定ページが空でない場合にリスト・選択肢に追加.
-		$get_posts = get_posts(
-			array(
-				'post_type'        => 'page',
-				'suppress_filters' => false,
-			)
-		);
-		if ( ! empty( $get_posts ) ) {
-			$post_type_checkbox[] = array(
-				'label' => get_post_type_object( 'page' )->labels->singular_name,
-				'slug'  => get_post_type_object( 'page' )->name,
-			);
-			$post_type_select[]   = array(
-				'label' => get_post_type_object( 'page' )->labels->singular_name,
-				'value' => get_post_type_object( 'page' )->name,
-			);
-		}
-
-		// その他の投稿タイプが空でないい場合にリスト・選択肢に追加.
-		$the_post_types = get_post_types(
-			array(
-				'public'   => true,
-				'show_ui'  => true,
-				'_builtin' => false,
-			),
-			'objects',
-			'and'
-		);
-		foreach ( $the_post_types as $the_post_type ) {
-			$get_posts = get_posts(
-				array(
-					'post_type'        => $the_post_type->name,
-					'suppress_filters' => false,
-				)
-			);
-			if ( ! empty( $get_posts ) ) {
-				$post_type_checkbox[]         = array(
-					'label' => $the_post_type->labels->singular_name,
-					'slug'  => $the_post_type->name,
-				);
-				$post_type_archive_checkbox[] = array(
-					'label' => $the_post_type->labels->singular_name,
-					'slug'  => $the_post_type->name,
-				);
-				$post_type_select[]           = array(
-					'label' => $the_post_type->labels->singular_name,
-					'value' => $the_post_type->name,
-				);
-			}
-		}
-
-		/**
-		 * 選択させるタクソノミーのリストを生成し渡す
-		 */
-		// タクソノミーリストを生成.
-		$the_taxonomies = get_taxonomies(
-			array(
-				'public'  => true,
-				'show_ui' => true,
-			),
-			'objects',
-			'and'
-		);
-
-		// タクソノミーブロックで警告を出す際に使うタクソノミーのリスト.
-		$taxonomy_list = array();
-		// タクソノミーブロックで使うタクソノミーの選択肢.
-		$taxonomy_option = array(
-			array(
-				'label' => __( 'Any', 'vk-filter-search' ),
-				'value' => '',
-			),
-		);
-		foreach ( $the_taxonomies as $the_taxonomy ) {
-			$taxonomy_list[] = array(
-				'label' => $the_taxonomy->labels->singular_name,
-				'value' => $the_taxonomy->name,
-			);
-			$terms           = get_terms( $the_taxonomy->name );
-			if ( ! empty( $terms ) ) {
-				$taxonomy_option[] = array(
-					'label' => $the_taxonomy->labels->singular_name,
-					'value' => $the_taxonomy->name,
-				);
-			}
-		}
-
-		if ( function_exists( 'wp_is_block_theme' ) ) {
-			$is_block_theme = wp_is_block_theme();
-		} else {
-			$is_block_theme = false;
-		}
+	/**
+	 * Set Block Data
+	 */
+	public static function set_block_data() {
+		// ブロックデータを取得
+		$block_data = self::get_block_data();
 
 		// ブロックに値を渡す
 		wp_localize_script(
@@ -217,29 +260,14 @@ class VK_Filter_Search_Block {
 			'vk_filter_search_params',
 			array(
 				'home_url'                   => home_url( '/' ),
-				'post_type_checkbox'         => $post_type_checkbox,
-				'post_type_select'           => $post_type_select,
-				'post_type_archive_checkbox' => $post_type_archive_checkbox,
-				'taxonomy_list'              => $taxonomy_list,
-				'taxonomy_option'            => $taxonomy_option,
-				'isBlockTheme'               => $is_block_theme,
+				'post_type_checkbox'         => $block_data['post_type_checkbox'],
+				'post_type_select'           => $block_data['post_type_select'],
+				'post_type_archive_checkbox' => $block_data['post_type_archive_checkbox'],
+				'taxonomy_list'              => $block_data['taxonomy_list'],
+				'taxonomy_option'            => $block_data['taxonomy_option'],
+				'isBlockTheme'               => self::is_block_theme(),
 			)
 		);
-
-		$block_array = array(
-			'filter-search',
-			'keyword-search',
-			'post-type-search',
-			'taxonomy-search',
-		);
-
-		if ( $is_block_theme ) {
-			$block_array[] = 'search-result-form';
-		}
-
-		foreach ( $block_array as $block ) {
-			require_once plugin_dir_path( __FILE__ ) . 'src/' . $block . '/index.php';
-		}
 	}
 }
 new VK_Filter_Search_Block();
