@@ -48,39 +48,6 @@ export default function FilterSearchEdit( props ) {
 		}
 	}, [ clientId ] );
 
-	let allowedBlocks;
-	let hiddenPostTypes;
-
-	if ( TargetPostType === '' ) {
-		allowedBlocks = [
-			'vk-filter-search/keyword-search',
-			'vk-filter-search/post-type-search',
-			'vk-filter-search/taxonomy-search',
-		];
-		hiddenPostTypes = '';
-	} else {
-		allowedBlocks = [
-			'vk-filter-search/keyword-search',
-			'vk-filter-search/taxonomy-search',
-		];
-		hiddenPostTypes = (
-			<input type="hidden" name="post_type" value={ TargetPostType } />
-		);
-	}
-
-	let hiddenResult;
-	if ( DisplayOnResult ) {
-		hiddenResult = (
-			<input type="hidden" name="vkfs_form_id" value={ FormID } />
-		);
-	} else {
-		hiddenResult = '';
-	}
-
-	const blockProps = useBlockProps( {
-		className: `vk-filter-search vkfs`,
-	} );
-
 	let blockThemeAlert = '';
 	if ( isBlockTheme && DisplayOnResult ) {
 		blockThemeAlert = (
@@ -114,6 +81,84 @@ export default function FilterSearchEdit( props ) {
 		);
 	}
 
+	const pathString = window.location.pathname;
+	let formOptionControl = '';
+	if (
+		pathString.indexOf( 'site-editor.php' ) === -1 &&
+		pathString.indexOf( 'widgets.php' ) === -1
+	) {
+		formOptionControl = (
+			<>
+				<BaseControl id={ 'vkfs-search-form-DisplayOnResult' }>
+					<ToggleControl
+						label={ __(
+							'Display this form on search result page',
+							'vk-filter-search'
+						) }
+						checked={ DisplayOnResult }
+						onChange={ ( checked ) =>
+							setAttributes( {
+								DisplayOnResult: checked,
+							} )
+						}
+					/>
+					{ blockThemeAlert }
+				</BaseControl>
+				<BaseControl
+					id={ 'vkfs-search-form-DisplayOnPosttypeArchive' }
+					label={ __(
+						'Display on post type archive.',
+						'vk-filter-search'
+					) }
+				>
+					<AdvancedCheckboxControl
+						schema={ 'DisplayOnPosttypeArchive' }
+						rawData={
+							//eslint-disable-next-line camelcase,no-undef
+							vk_filter_search_params.post_type_archive_checkbox
+						}
+						checkedData={ JSON.parse( DisplayOnPosttypeArchive ) }
+						{ ...props }
+					/>
+					{ blockThemeAlertArchive }
+				</BaseControl>
+			</>
+		);
+	}
+
+	let allowedBlocks;
+	let hiddenPostTypes;
+
+	if ( TargetPostType === '' ) {
+		allowedBlocks = [
+			'vk-filter-search/keyword-search',
+			'vk-filter-search/post-type-search',
+			'vk-filter-search/taxonomy-search',
+		];
+		hiddenPostTypes = '';
+	} else {
+		allowedBlocks = [
+			'vk-filter-search/keyword-search',
+			'vk-filter-search/taxonomy-search',
+		];
+		hiddenPostTypes = (
+			<input type="hidden" name="post_type" value={ TargetPostType } />
+		);
+	}
+
+	let hiddenResult;
+	if ( DisplayOnResult ) {
+		hiddenResult = (
+			<input type="hidden" name="vkfs_form_id" value={ FormID } />
+		);
+	} else {
+		hiddenResult = '';
+	}
+
+	const blockProps = useBlockProps( {
+		className: `vk-filter-search vkfs`,
+	} );
+
 	return (
 		<>
 			<InspectorControls>
@@ -121,7 +166,7 @@ export default function FilterSearchEdit( props ) {
 					title={ __( 'Search Form Setting', 'vk-filter-search' ) }
 					initialOpen={ true }
 				>
-					<BaseControl id={ 'vkfs-search-form-01' }>
+					<BaseControl id={ 'vkfs-search-TargetPostType' }>
 						<SelectControl
 							label={ __(
 								'Target of Post Type',
@@ -135,41 +180,7 @@ export default function FilterSearchEdit( props ) {
 							}
 						/>
 					</BaseControl>
-					<BaseControl id={ 'vkfs-search-form-02' }>
-						<ToggleControl
-							label={ __(
-								'Display this form on search result page',
-								'vk-filter-search'
-							) }
-							checked={ DisplayOnResult }
-							onChange={ ( checked ) =>
-								setAttributes( {
-									DisplayOnResult: checked,
-								} )
-							}
-						/>
-						{ blockThemeAlert }
-					</BaseControl>
-					<BaseControl
-						id={ 'vkfs-search-form-03' }
-						label={ __(
-							'Display on post type archive.',
-							'vk-filter-search'
-						) }
-					>
-						<AdvancedCheckboxControl
-							schema={ 'DisplayOnPosttypeArchive' }
-							rawData={
-								//eslint-disable-next-line camelcase,no-undef
-								vk_filter_search_params.post_type_archive_checkbox
-							}
-							checkedData={ JSON.parse(
-								DisplayOnPosttypeArchive
-							) }
-							{ ...props }
-						/>
-						{ blockThemeAlertArchive }
-					</BaseControl>
+					{ formOptionControl }
 				</PanelBody>
 			</InspectorControls>
 			<form

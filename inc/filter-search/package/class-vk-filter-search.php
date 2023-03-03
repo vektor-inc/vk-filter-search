@@ -591,7 +591,92 @@ class VK_Filter_Search {
 	 * Get Option
 	 */
 	public static function get_options() {
+		// オプションを取得
 		$options = get_option( 'vk_filter_search' );
+
+		// 存在価値がないフォームデータを削除
+		$options = self::option_reduction( $options );
+
+		return $options;
+	}
+
+	/**
+	 *  Option Reduction
+	 */
+	public static function option_reduction( $options ) {
+
+		// 検索結果のオプション値を整理
+		if ( ! empty( $options['display_on_result'] ) ) {
+
+			// オプション値のキーを取得
+			$block_id_array = array_keys( $options['display_on_result'] );
+
+			// ループ用の変数を初期化
+			$i = 0;
+
+			// それぞれのフォームデータに対して処理を実行
+			foreach ( $options['display_on_result'] as $the_post ) {
+				if ( ! is_array( $options['display_on_result'][ $block_id_array[ $i ] ] ) ) {
+					// フォームの保存データが配列でなければそのフォームのデータを削除
+					unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
+				} elseif ( ! empty( $the_post['form_post_id'] ) ) {
+					// フォームの保存データに投稿 ID がある場合はまず投稿を取得
+					$post_object = get_post( intval( $the_post['form_post_id'] ) );
+					if ( empty( $post_object ) ) {
+						// 投稿の中身がなければそのフォームのデータを削除
+						unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
+					} else {
+						// 投稿の中身に該当のブロックが設置されていなければそのフォームのデータを削除
+						$post_content = $post_object->post_content;
+						if ( false === strpos( $post_content, $block_id_array[ $i ] ) ) {
+							unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
+						}
+						
+					}
+				} else {
+					// フォームの保存データに投稿 ID がない場合はそのフォームは削除
+					unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
+				}
+				$i++;
+			}
+		}
+
+		// 投稿タイプアーカイブに関するオプション値を整理
+		if ( ! empty( $options['display_on_post_type_archive'] ) ) {
+
+			// オプション値のキーを取得
+			$block_id_array = array_keys( $options['display_on_post_type_archive'] );
+
+			// ループ用の変数を初期化
+			$i = 0;
+
+			// それぞれのフォームデータに対して処理を実行
+			foreach ( $options['display_on_post_type_archive'] as $the_post ) {				
+				if ( ! is_array( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] ) ) {
+					// フォームの保存データが配列でなければそのフォームのデータを削除
+					unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
+				} elseif ( ! empty( $the_post['form_post_id'] ) ) {
+					// フォームの保存データに投稿 ID がある場合はまず投稿を取得
+					$post_object = get_post( intval( $the_post['form_post_id'] ) );
+					if ( empty( $post_object ) ) {
+						// 投稿の中身がなければそのフォームのデータを削除
+						unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
+					} else {
+						// 投稿の中身に該当のブロックが設置されていなければそのフォームのデータを削除
+						$post_content = $post_object->post_content;
+						if ( false === strpos( $post_content, $block_id_array[ $i ] ) ) {
+							unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
+						}
+					}
+				} else {
+					// フォームの保存データに投稿 ID がない場合はそのフォームは削除
+					unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
+				}
+				$i++;
+			}
+		}
+		update_option( 'vk_filter_search', $options );
+
 		return $options;
 	}
 
@@ -601,53 +686,6 @@ class VK_Filter_Search {
 	public static function search_result_form_content() {
 		$content = '';
 		$options = self::get_options();
-
-		if ( ! empty( $options['display_on_result'] ) ) {
-			$block_id_array = array_keys( $options['display_on_result'] );
-			$i              = 0;
-			foreach ( $options['display_on_result'] as $the_post ) {
-				if ( ! is_array( $options['display_on_result'][ $block_id_array[ $i ] ] ) ) {
-					unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
-				} else {
-					if ( ! empty( $the_post['form_post_id'] ) && is_numeric( $the_post['form_post_id'] ) ) {
-						$post_object = get_post( $the_post['form_post_id'] );
-						if ( empty( $post_object ) ) {
-							unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
-						} else {
-							$post_content = $post_object->post_content;
-							if ( false === strpos( $post_content, $block_id_array[ $i ] ) ) {
-								unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
-							}
-						}
-					}
-				}
-				$i++;
-			}
-		}
-
-		if ( ! empty( $options['display_on_post_type_archive'] ) ) {
-			$block_id_array = array_keys( $options['display_on_post_type_archive'] );
-			$i              = 0;
-			foreach ( $options['display_on_post_type_archive'] as $the_post ) {
-				if ( ! is_array( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] ) ) {
-					unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
-				} else {
-					if ( ! empty( $the_post['form_post_id'] ) && is_numeric( $the_post['form_post_id'] ) ) {
-						$post_object = get_post( $the_post['form_post_id'] );
-						if ( empty( $post_object ) ) {
-							unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
-						} else {
-							$post_content = $post_object->post_content;
-							if ( false === strpos( $post_content, $block_id_array[ $i ] ) ) {
-								unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
-							}
-						}
-					}
-				}
-				$i++;
-			}
-		}
-		update_option( 'vk_filter_search', $options );
 
 		if ( ! self::is_widget_area() && is_main_query() ) {
 			if ( is_search() && isset( $_GET['vkfs_form_id'] ) && ! empty( $options['display_on_result'] ) ) {

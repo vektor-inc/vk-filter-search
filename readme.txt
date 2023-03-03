@@ -4,7 +4,7 @@ Donate link:
 Tags: Guternberg, Search
 Requires at least: 5.9
 Tested up to: 6.1
-Stable tag: 1.13.1
+Stable tag: 1.13.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -78,6 +78,11 @@ More languages will be added in the future. If you would like to help with trans
 
 
 == Changelog ==
+
+= 1.13.2 =
+[ Specification Change ][ Checkbox / Radio ( Pro Only )] Remove unnecessary id in input tag
+[ Bug fix ] Delete undeletable form data.
+[ Bug fix ] When curent screen is site-editor or widget-editor, delete setting for display search form on search result screen or post-type-archive screen.
 
 = 1.13.1 =
 [ Specification Change ] Change Version Only.
