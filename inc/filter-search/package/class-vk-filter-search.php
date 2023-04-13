@@ -116,6 +116,10 @@ class VK_Filter_Search {
 				'class' => array(),
 				'name'  => array(),
 			),
+			'i' => array(
+				'id'    => array(),
+				'class' => array(),
+			),
 			'option' => array(
 				'id'       => array(),
 				'class'    => array(),

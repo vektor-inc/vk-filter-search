@@ -182,6 +182,62 @@ export default function FilterSearchEdit( props ) {
 					</BaseControl>
 					{ formOptionControl }
 				</PanelBody>
+				<PanelBody
+					title={ __( 'VK Filter Search', 'vk-filter-search' ) }
+					initialOpen={ true }
+					className={ 'vkfs__pro' }
+				>
+					<BaseControl id={ 'vkfs-search-form-03' }>
+						<p>
+							<strong>
+								{ __(
+									'Get more features',
+									'vk-filter-search'
+								) }
+							</strong>
+						</p>
+						<ul>
+							<li>
+								{ __( 'Post date search', 'vk-filter-search' ) }
+							</li>
+							<li>
+								{ __(
+									'Search Result Single Order',
+									'vk-filter-search'
+								) }
+							</li>
+							<li>
+								{ __(
+									'Custom Field Search (beta)',
+									'vk-filter-search'
+								) }
+							</li>
+							<li>
+								{ __(
+									'Editable text for search buttons, labels and placeholder',
+									'vk-filter-search'
+								) }
+							</li>
+						</ul>
+						<p>{ __( 'and more…', 'vk-filter-search' ) }</p>
+						<a
+							className={ 'button button-primary' }
+							target={ '_blank' }
+							href={ __(
+								'https://vk-filter-search.com/',
+								'vk-filter-search'
+							) }
+							rel="noreferrer"
+						>
+							<span>
+								{ __(
+									'Check the Pro Features',
+									'vk-filter-search'
+								) }
+							</span>
+						</a>
+					</BaseControl>
+				</PanelBody>
 			</InspectorControls>
 			<form
 				{ ...blockProps }

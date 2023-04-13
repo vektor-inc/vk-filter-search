@@ -3,35 +3,36 @@ Contributors: vektor-inc,kurudrive,rickaddison7634,naoki0h,mimitips
 Donate link:
 Tags: Guternberg, Search
 Requires at least: 5.9
-Tested up to: 6.1
-Stable tag: 1.13.2
+Tested up to: 6.2
+Requires PHP: 7.4
+Stable tag: 1.14.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 This plugin allows you to add a search function as a block to narrow down your search by category, tag, custom post type, keyword, etc.
 
 == Description ==
-
 This is the Filter & Search plugin for WordPress compatible with Gutenberg Block Editor.
 This plugin makes it easy to put search box anywhere on your WordPress website.
 If you have custom post type, you can also narrow down the search by custom post types.
 
-[youtube https://youtu.be/IiKlvka8rpo]
+[youtube https://youtu.be/PbtQB58CPYM]
 
-<h4>Add Filter Function</h4>
+= Add Filter Function =
 Site visitors can search your posts by filtered category, tag, custom post type, keyword, etc.
+You can see the documentation [on our website](https://vk-filter-search.com/).
 
-<h4>3,000+ Active installations</h4>
+= 4,000+ Active installations =
 Since its release in November 2020, it has been installed on many websites.
 
-<h4>Block Editor Support</h4>
+= Block Editor Support =
 You can easily place the search box as a block. No coding in PHP etc is required.
 
-<h4>Easy to Use</h4>
+= Easy to Use =
 With this plugin, you can create the Filter Search Block on your edit screen.
 If you have custom post types, you can also narrow down the search by custom post types.
 
-<h3>Features</h3>
+## Features
 * Block editor support
 * Taxonomy search (category, tag, custom taxonomy)
 * Keyword search
@@ -39,6 +40,19 @@ If you have custom post types, you can also narrow down the search by custom pos
 * Insert form in search result page
 * Display on post archive page
 
+= Pro Version =
+Pro Version has a Wide Range of Features!
+* Post Date Search Block
+* Search Result Single Order
+* Custom Field Search (beta)
+* Check Boxes or Radio Buttons are also available for selection
+* AND/OR search settings for checkbox selection
+* When using Taxonomy Search Block, the “Post Counts” can be displayed
+* When using Taxonomy Search Block, terms with no postings can be displayed
+* Block width settings for each screen size
+* Editable text for labels (item names)
+* Editable text for search buttons
+Find out about additional features of VK Filter Search Pro [on our website](https://vk-filter-search.com/).
 
 == Installation ==
 
@@ -48,7 +62,6 @@ This plugin can be installed directly from “Plugins” in your WordPress dashb
 2. Type '/filter' on the edit screen and the VK Filter Search Block will appear in the suggested list.
 3. If you select “VK Filter Search” from the suggested list, some preset blocks are inserted to edit the area. Taxonomy Search Block (Set to Category) / Taxonomy Search Block (Set to Tag) / Keyword Search Block / Search Button Block are inserted as preset blocks.
 4. You can change the setting of the block. (e.g. the taxonomy to target, the order of the blocks)
-
 
 == Frequently Asked Questions ==
 
@@ -64,10 +77,14 @@ Items are placed in blocks, so there are no limitations on the numbers. However,
 = Can it search the post content? =
 Yes, users can search the content field of the posts with the Keyword Search Block.
 
+= Is it possible to use checkboxes or radio buttons? =
+Users can use checkboxes and radio buttons with the Pro version.
+Please check out the feature [comparison between the free and pro versions](https://vk-filter-search.com/docs/free-vs-pro-features-comparison/).
+
 = Which languages are available? =
 It is currently available in English and Japanese.
 More languages will be added in the future. If you would like to help with translation, please click on the link below to join the contribution.
-<a href="https://translate.wordpress.org/projects/wp-plugins/vk-filter-search/" target="_blank">Translating WordPress</a>
+[Translating WordPress](https://translate.wordpress.org/projects/wp-plugins/vk-filter-search/)
 
 == Screenshots ==
 
@@ -76,8 +93,13 @@ More languages will be added in the future. If you would like to help with trans
 3. Display this form on your search result page
 4. Search Results page
 
-
 == Changelog ==
+
+= 1.14.1 =
+[ Bug fix ] allow i tag when html escaped
+
+= 1.14.0 =
+[ Add Setting ][ Pro ] Add submit button style setting.
 
 = 1.13.2 =
 [ Specification Change ][ Checkbox / Radio ( Pro Only )] Remove unnecessary id in input tag

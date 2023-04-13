@@ -60,6 +60,58 @@ export default function PostTypeSearchEdit( props ) {
 						/>
 					</BaseControl>
 				</PanelBody>
+				<PanelBody
+					title={ __( 'VK Post Type Search', 'vk-filter-search' ) }
+					initialOpen={ true }
+					className={ 'vkfs__pro' }
+				>
+					<BaseControl id={ 'vkfs-search-form-03' }>
+						<p>
+							<strong>
+								{ __(
+									'Get more features',
+									'vk-filter-search'
+								) }
+							</strong>
+						</p>
+						<ul>
+							<li>
+								{ __(
+									'Checkbox / Radio button',
+									'vk-filter-search'
+								) }
+							</li>
+							<li>
+								{ __(
+									'Editable text for labels',
+									'vk-filter-search'
+								) }
+							</li>
+							<li>
+								{ __(
+									'Block width settings for each screen size',
+									'vk-filter-search'
+								) }
+							</li>
+						</ul>
+						<a
+							className={ 'button button-primary' }
+							target={ '_blank' }
+							href={ __(
+								'https://vk-filter-search.com/',
+								'vk-filter-search'
+							) }
+							rel="noreferrer"
+						>
+							<span>
+								{ __(
+									'Check the Pro Features',
+									'vk-filter-search'
+								) }
+							</span>
+						</a>
+					</BaseControl>
+				</PanelBody>
 			</InspectorControls>
 			<div { ...blockProps }>{ editContent }</div>
 		</>
