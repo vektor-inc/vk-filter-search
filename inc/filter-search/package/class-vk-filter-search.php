@@ -139,6 +139,7 @@ class VK_Filter_Search {
 				'id'    => array(),
 				'type'  => array(),
 				'class' => array(),
+				'style' => array(),
 				'href'  => array(),
 			),
 		);

@@ -5,7 +5,7 @@ Tags: Guternberg, Search
 Requires at least: 5.9
 Tested up to: 6.2
 Requires PHP: 7.4
-Stable tag: 1.14.1
+Stable tag: 1.14.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -95,8 +95,14 @@ More languages will be added in the future. If you would like to help with trans
 
 == Changelog ==
 
+= 1.14.3 =
+[ Bug fix ] Fix submit button font size setting.
+
+= 1.14.2 =
+[ Bug fix ] Allow button's style when html escaped.
+
 = 1.14.1 =
-[ Bug fix ] allow i tag when html escaped
+[ Bug fix ] Allow i tag when html escaped.
 
 = 1.14.0 =
 [ Add Setting ][ Pro ] Add submit button style setting.
