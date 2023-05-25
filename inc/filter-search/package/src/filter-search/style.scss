@@ -1,5 +1,5 @@
 // editor and front styles
-@import "variable";
+@import 'variable';
 
 // Fall back for theme editor
 html :where(.editor-styles-wrapper) {
@@ -15,14 +15,15 @@ html :where(.editor-styles-wrapper) {
 		flex-wrap: wrap;
 		justify-content: stretch;
 
-		.wp-block-vk-filter-search-filter-search & {//無料版のみ固定幅のため追加
+		.wp-block-vk-filter-search-filter-search & {
+			//無料版のみ固定幅のため追加
 
 			@media (max-width: $sm-max) {
 				display: block;
 			}
 		}
-
 	}
+
 	&__warning {
 		background-color: #fcf8e3;
 		color: #8a6d3b;
@@ -42,22 +43,26 @@ html :where(.editor-styles-wrapper) {
 		font-weight: 700;
 		margin-bottom: calc(var(--vk-size-text) * 0.5);
 	}
+
 	.vkfs__label-name-wrap {
 		display: flex;
 		flex-wrap: nowrap;
 		justify-content: space-between;
 		align-items: center;
+
 		.vkfs__operator-wrap {
 			gap: 1em;
-			margin-right:10px;
+			margin-right: 10px;
 		}
+
 		li {
-			margin:0;
-			padding-top:0;
-			padding-right:0;
-			padding-bottom:0;
+			margin: 0;
+			padding-top: 0;
+			padding-right: 0;
+			padding-bottom: 0;
 			font-weight: 500;
-			line-height:1.8;
+			line-height: 1.8;
+
 			label {
 				cursor: pointer;
 			}
@@ -73,18 +78,15 @@ html :where(.editor-styles-wrapper) {
 			clear: both;
 		}
 
-
 		label {
 			margin-bottom: 0;
 			display: block;
 		}
-
 	}
-
 
 	// Bootstrap .form-control と基本同じだが、
 	// 記事編集画面やLightning以外のテーマでは .form-control が当然自動ではつかないので追加指定
-	input[type="text"],
+	input[type='text'],
 	select {
 		display: block;
 		width: 100%;
@@ -104,19 +106,21 @@ html :where(.editor-styles-wrapper) {
 		box-sizing: border-box;
 	}
 
-
 	select {
 		// デフォルトの下向き矢印は位置がコントロールできないので一旦削除
-		-webkit-appearance: none;/* ベンダープレフィックス(Google Chrome、Safari用) */
-		-moz-appearance: none; /* ベンダープレフィックス(Firefox用) */
-		appearance: none; /* 標準のスタイルを無効にする */
+		-webkit-appearance: none;
+		/* ベンダープレフィックス(Google Chrome、Safari用) */
+		-moz-appearance: none;
+		/* ベンダープレフィックス(Firefox用) */
+		appearance: none;
+		/* 標準のスタイルを無効にする */
 
 		// 管理画面コアで使われている下向き矢印
 		background: #fff url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23555%22%2F%3E%3C%2Fsvg%3E) no-repeat right 5px top 55%;
 		background-size: 16px 16px;
 	}
 
-	.btn[type="submit"] {
+	.btn[type='submit'] {
 		padding: 0.5em 1em;
 		margin-top: 0.5em;
 		width: calc(100% - 0.8rem);
@@ -125,5 +129,31 @@ html :where(.editor-styles-wrapper) {
 		display: block;
 		margin-left: auto;
 		margin-right: auto;
+	}
+}
+
+.vkfs__call-filter-search {
+	position: relative;
+}
+.vkfs__call-filter-search_editBtn {
+	position: absolute;
+	top: 0;
+	right: 0;
+	display: none;
+	opacity: 0;
+	font-size:12px;
+	background-color:  var(--wp--preset--color--primary);
+	transition: all 0.5s ease-out;
+	&.btn {
+		border-color: var(--wp--preset--color--primary);
+		padding: 0.3rem 1rem 0.25rem;
+		margin-top:0;
+		text-decoration: none;
+		color:#fff;
+	}
+	.vkfs__call-filter-search:hover & {
+		display: inline-block;
+		opacity: 1;
+		transition: all 0.5s ease-out;
 	}
 }

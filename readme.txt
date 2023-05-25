@@ -2,7 +2,7 @@
 Contributors: vektor-inc,kurudrive,rickaddison7634,naoki0h,mimitips
 Donate link:
 Tags: Guternberg, Search
-Requires at least: 5.9
+Requires at least: 6.0
 Tested up to: 6.2
 Requires PHP: 7.4
 Stable tag: 1.14.3
@@ -95,6 +95,11 @@ More languages will be added in the future. If you would like to help with trans
 
 == Changelog ==
 
+= 2.0.0 =
+[ Add function ] Add Filter Search post type and add block that call post of Filter Search post type.
+[ Bug fix ] Fixed the style of checkboxes and radio buttons so that the last item is to the left.
+[ Bug fix ][ Taxonomy ( Pro Only )] Fix the behavior of "Choose filter setting".
+
 = 1.14.3 =
 [ Bug fix ] Fix submit button font size setting.
 
@@ -122,7 +127,7 @@ More languages will be added in the future. If you would like to help with trans
 
 = 1.12.1 =
 [ Add Setting ][ Pro ][ Taxonomy ] Add "OPTION LABEL FOR NON-SELECTED" Setting for pulldown and radio button
-[ Other ] Add PHPUnit Fatal error test 
+[ Other ] Add PHPUnit Fatal error test
 [ Other ] Change require WordPress Version 5.9+
 [ Other ] Edit label name tuning
 [ Other ] Update Plugin Update Checker 5.0

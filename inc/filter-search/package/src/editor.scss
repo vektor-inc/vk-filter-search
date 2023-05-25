@@ -1,1 +1,26 @@
 @import "./filter-search/editor.scss";
+.editor-styles-wrapper {
+	.vkfs__alert {
+		--wp-components-color-accent : #cc1818;
+		padding: 2em;
+		color:var(--wp-components-color-accent);
+
+		// ※ 公開画面と違ってユーザーに上書きしやすさは気にしなくて良いので、
+		// readme.md の命名規則ではなく強めの指定をしています。
+		h4 {
+			margin-bottom:1em;
+		}
+		li {
+			margin:0.5rem 0;
+		}
+		border:1px solid var(--wp-components-color-accent);
+	}
+}
+
+
+.text-left {
+	text-align: left;
+}
+a.components-button{
+	text-decoration: none !important;
+}

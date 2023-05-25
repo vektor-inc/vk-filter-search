@@ -4,7 +4,7 @@ import { __ } from '@wordpress/i18n';
 export default function save( props ) {
 	const { attributes } = props;
 
-	const { TargetPostType } = attributes;
+	const { TargetPostType, DisplayOnResult, FormID } = attributes;
 
 	let hiddenPostTypes;
 
@@ -18,6 +18,15 @@ export default function save( props ) {
 				value={ TargetPostType }
 			/>
 		);
+	}
+
+	let hiddenResult;
+	if ( DisplayOnResult ) {
+		hiddenResult = (
+			<input type="hidden" name="vkfs_form_id" value={ FormID } />
+		);
+	} else {
+		hiddenResult = '';
 	}
 
 	const blockProps = useBlockProps.save( {
@@ -36,7 +45,7 @@ export default function save( props ) {
 			</div>
 			[no_keyword_hidden_input]
 			{ hiddenPostTypes }
-			[filter_search_result_input]
+			{ hiddenResult }
 			<input type="hidden" name="vkfs_submitted" value="true" />
 			<button className={ `btn btn-primary` } type={ `submit` }>
 				{ __( 'Search', 'vk-filter-search' ) }

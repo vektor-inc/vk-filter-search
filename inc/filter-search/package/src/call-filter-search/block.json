@@ -1,0 +1,18 @@
+{
+	"apiVersion": 2,
+	"name": "vk-filter-search/call-filter-search",
+	"title": "Call Filter Search Form",
+	"category": "vk-blocks-cat",
+	"editorScript": "file:../../build/block.js",
+	"editorStyle": "file:../../build/editor.css",
+	"style": "file:../../build/style.css",
+	"attributes": {
+		"TargetPost": {
+			"type": "number",
+			"default": -1
+		}
+	},
+	"supports": {
+		"className": true
+	}
+}

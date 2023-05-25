@@ -240,6 +240,7 @@ class VK_Filter_Search_Block {
 			'post-type-search',
 			'taxonomy-search',
 			'search-result-form',
+			'call-filter-search',
 		);
 
 		foreach ( $block_array as $block ) {
