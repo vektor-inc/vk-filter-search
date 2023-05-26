@@ -4,20 +4,20 @@
 	"description": "Support Filtering Search of keyword, post-type and taxonomy.",
 	"main": "gulpfile.js",
 	"scripts": {
-		"start": "npm install && composer install && npm run build && npx wp-env start",
-		"stop": "npx wp-env stop",
-		"update": "npx ncu -u && rm -rf node_nodules package-lock.json && npm install",
-		"build": "npx gulp replace_text_domain && npm run build:block && npm run build:css && npm run build:js",
+		"start": "npm install && composer install && npm run build && wp-env start",
+		"stop": "wp-env stop",
+		"update": "ncu -u -x '@wordpress/env' && rm -rf node_nodules package-lock.json && npm install",
+		"build": "gulp replace_text_domain && npm run build:block && npm run build:css && npm run build:js",
 		"build:block": "wp-scripts build --config webpack.config.js",
-		"build:css": "npx gulp build_css",
+		"build:css": "gulp build_css",
 		"build:js": "webpack --config webpack2.config.js",
-		"textdomain": "npx gulp replace_text_domain",
+		"textdomain": "gulp replace_text_domain",
 		"watch": "wp-scripts start --config webpack.config.js",
-		"check-engines": "npx wp-scripts check-engines",
-		"check-licenses": "npx wp-scripts check-licenses",
+		"check-engines": "wp-scripts check-engines",
+		"check-licenses": "wp-scripts check-licenses",
 		"lint:css": "wp-scripts lint-style --fix",
 		"lint:js": "wp-scripts format && wp-scripts lint-js --fix",
-		"phpunit": "wp-env run phpunit \"phpunit -c /var/www/html/wp-content/plugins/vk-filter-search/.phpunit.xml --verbose\""
+		"phpunit": "wp-env run tests-cli --env-cwd=wp-content/plugins/vk-filter-search 'phpunit -c .phpunit.xml --verbose'"
 	},
 	"repository": {
 		"type": "git",
@@ -47,6 +47,6 @@
 		"npm-check-updates": "^16.10.12",
 		"sass": "^1.62.1",
 		"@emotion/babel-plugin": "^11.11.0",
-		"@wordpress/env": "^8.0.0"
+		"@wordpress/env": "7.0.0"
 	}
 }
