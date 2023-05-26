@@ -7,6 +7,7 @@
 		"start": "npm install && composer install && npm run build && wp-env start",
 		"stop": "wp-env stop",
 		"update": "ncu -u -x '@wordpress/env' && rm -rf node_nodules package-lock.json && npm install",
+		"wp-env": "wp-env",
 		"build": "gulp replace_text_domain && npm run build:block && npm run build:css && npm run build:js",
 		"build:block": "wp-scripts build --config webpack.config.js",
 		"build:css": "gulp build_css",
