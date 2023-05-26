@@ -112,7 +112,7 @@ jobs:
             - name: Build 
               run: npm run build
             - name: Make Distribution
-              run: bash bin/deploy.sh
+              run: bash bin/dist.sh
             - name: Check ZIP File
               run: test -e dist/${{ env.plugin_name }}.zip
             - name: Create Release
