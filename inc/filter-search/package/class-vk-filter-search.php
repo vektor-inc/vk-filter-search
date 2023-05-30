@@ -120,37 +120,45 @@ class VK_Filter_Search {
 			'form'   => array(
 				'id'     => array(),
 				'class'  => array(),
+				'style'  => array(),
 				'method' => array(),
 				'action' => array(),
 			),
 			'div'    => array(
 				'id'    => array(),
 				'class' => array(),
+				'style' => array(),
 			),
 			'ul'     => array(
 				'id'    => array(),
 				'class' => array(),
+				'style' => array(),
 			),
 			'ol'     => array(
 				'id'    => array(),
 				'class' => array(),
+				'style' => array(),
 			),
 			'p'      => array(
 				'id'    => array(),
 				'class' => array(),
+				'style' => array(),
 			),
 			'li'     => array(
 				'id'    => array(),
 				'class' => array(),
+				'style' => array(),
 			),
 			'label'  => array(
 				'id'    => array(),
 				'class' => array(),
+				'style' => array(),
 				'for'   => array(),
 			),
 			'input'  => array(
 				'id'          => array(),
 				'class'       => array(),
+				'style'       => array(),
 				'type'        => array(),
 				'name'        => array(),
 				'value'       => array(),
@@ -160,11 +168,13 @@ class VK_Filter_Search {
 			'select' => array(
 				'id'    => array(),
 				'class' => array(),
+				'style' => array(),
 				'name'  => array(),
 			),
 			'i'      => array(
 				'id'    => array(),
 				'class' => array(),
+				'style' => array(),
 			),
 			'option' => array(
 				'id'       => array(),
@@ -175,11 +185,13 @@ class VK_Filter_Search {
 			'a'      => array(
 				'id'    => array(),
 				'class' => array(),
+				'style' => array(),
 				'href'  => array(),
 			),
 			'span'   => array(
 				'id'    => array(),
 				'class' => array(),
+				'style' => array(),
 			),
 			'button' => array(
 				'id'    => array(),

@@ -5,7 +5,7 @@ Tags: Guternberg, Search
 Requires at least: 6.0
 Tested up to: 6.2
 Requires PHP: 7.4
-Stable tag: 2.0.5
+Stable tag: 2.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -94,6 +94,9 @@ More languages will be added in the future. If you would like to help with trans
 4. Search Results page
 
 == Changelog ==
+
+= 2.0.6 =
+[ Bug fix ] Allow Inline Style on Search Result Form and Post Type Archive form.
 
 = 2.0.5 =
 [ Bug fix ] Fix no Filter Search Post Type Error
