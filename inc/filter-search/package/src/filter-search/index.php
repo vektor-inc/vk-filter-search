@@ -93,7 +93,7 @@ function vkfs_filter_search_render_callback( $attributes, $content ) {
 
 	$target_post = get_post( $attributes['PostID'] );
 	// 該当の投稿の投稿タイプが 'filter-search' の場合は post_meta に情報を保存
-	if ( 'filter-search' === $target_post->post_type ) {
+	if ( ! empty( $target_post ) && ! empty( $target_post->post_type ) && 'filter-search' === $target_post->post_type ) {
         // POST された値を取得後処理
         $display_result  = ! empty( $attributes['DisplayOnResult'] ) ? true : false;
         $display_archive = ! empty( $attributes['DisplayOnPosttypeArchive'] ) ? $attributes['DisplayOnPosttypeArchive'] : '';
@@ -104,7 +104,7 @@ function vkfs_filter_search_render_callback( $attributes, $content ) {
 	} else {
 		// 検索結果ページにフォームを表示する場合
 		// フォームのデータを option 値に保存しおき、それを検索結果ページで読み込むようにしている
-		if ( true === $attributes['DisplayOnResult'] ) {
+		if ( ! empty( $attributes['DisplayOnResult'] ) ) {
 			// フォームが設置してある投稿IDとコンテンツの情報を option に追加
 			$options['display_on_result'][ $attributes['FormID'] ] = array(
 				'form_post_id' => $attributes['PostID'],

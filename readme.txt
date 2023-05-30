@@ -1,11 +1,11 @@
 === VK Filter Search ===
-Contributors: vektor-inc,kurudrive,rickaddison7634,naoki0h,mimitips
+Contributors: vektor-inc,kurudrive,rickaddison7634,naoki0h,mimitips,una9,sysbird,chiakikouno
 Donate link:
 Tags: Guternberg, Search
 Requires at least: 6.0
 Tested up to: 6.2
 Requires PHP: 7.4
-Stable tag: 2.0.4
+Stable tag: 2.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -94,6 +94,9 @@ More languages will be added in the future. If you would like to help with trans
 4. Search Results page
 
 == Changelog ==
+
+= 2.0.5 =
+[ Bug fix ] Fix no Filter Search Post Type Error
 
 = 2.0.0 =
 [ Add function ] Add Filter Search post type and add block that call post of Filter Search post type.

@@ -81,7 +81,7 @@ jobs:
                   node-version: '${{ steps.nodenv.outputs.NODEVERSION }}'
             - name: Install NPM Scripts
               run: npm install
-            - name: Build 
+            - name: Build
               run: npm run build
             - name: Make Distribution
               run: bash bin/deploy.sh
@@ -109,7 +109,7 @@ jobs:
                   node-version: '${{ steps.nodenv.outputs.NODEVERSION }}'
             - name: Install NPM Scripts
               run: npm install
-            - name: Build 
+            - name: Build
               run: npm run build
             - name: Make Distribution
               run: bash bin/dist.sh
