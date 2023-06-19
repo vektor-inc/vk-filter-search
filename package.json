@@ -18,7 +18,7 @@
 		"check-licenses": "wp-scripts check-licenses",
 		"lint:css": "wp-scripts lint-style --fix",
 		"lint:js": "wp-scripts format && wp-scripts lint-js --fix",
-		"phpunit": "wp-env run tests-cli --env-cwd=wp-content/plugins/vk-filter-search 'phpunit -c .phpunit.xml --verbose'"
+		"phpunit": "composer install && wp-env run phpunit 'phpunit -c /var/www/html/wp-content/plugins/vk-filter-search/.phpunit.xml --verbose'"
 	},
 	"repository": {
 		"type": "git",
@@ -31,9 +31,9 @@
 	},
 	"homepage": "https://github.com/vektor-inc/vk-filter-search#readme",
 	"devDependencies": {
-		"@babel/plugin-transform-react-jsx": "^7.22.3",
-		"@babel/preset-env": "^7.22.4",
-		"@wordpress/scripts": "26.5.0",
+		"@babel/plugin-transform-react-jsx": "^7.22.5",
+		"@babel/preset-env": "^7.22.5",
+		"@wordpress/scripts": "26.6.0",
 		"babel-loader": "^9.1.2",
 		"babel-plugin-inline-json-import": "^0.3.2",
 		"babel-plugin-module-resolver": "^5.0.0",
@@ -46,8 +46,8 @@
 		"gulp-replace": "^1.1.4",
 		"gulp-sass": "^5.1.0",
 		"npm-check-updates": "^16.10.12",
-		"sass": "^1.62.1",
+		"sass": "^1.63.4",
 		"@emotion/babel-plugin": "^11.11.0",
-		"@wordpress/env": "7.0.0"
+		"@wordpress/env": "5.16.0"
 	}
 }
