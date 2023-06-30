@@ -10,6 +10,21 @@ html :where(.editor-styles-wrapper) {
 	margin-bottom:10px;
 }
 
+.edit-post-sidebar {
+	.components-base-control__description {
+			font-size:12px;
+	}
+	.components-base-control__checkbox-list {
+		.components-checkbox-control{
+			margin-bottom: 0;
+		}
+	}
+	.mb-description {
+		margin-bottom: 1em;
+	}
+}
+
+
 // 一部CSSがコアの指定に負けてしまうため .wp-core-ui の中に変更
 .wp-core-ui,
 .editor-styles-wrapper {

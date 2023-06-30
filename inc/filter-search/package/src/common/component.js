@@ -44,5 +44,5 @@ export const AdvancedCheckboxControl = ( props ) => {
 			/>
 		);
 	} );
-	return <ul>{ checkBoxComponents }</ul>;
+	return checkBoxComponents;
 };

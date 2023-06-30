@@ -20,6 +20,7 @@ class VK_Filter_Search {
 		add_action( 'dynamic_sidebar_after', array( __CLASS__, 'dynamic_sidebar_after' ) );
 		add_action( 'after_setup_theme', array( __CLASS__, 'content_filter' ) );
 		add_action( 'after_setup_theme', array( __CLASS__, 'insert_theme_hook' ) );
+		add_action( 'wp_head', array( __CLASS__, 'header_scripts' ), 0 );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 		// Fallback for theme editor
 		add_action( 'admin_init', array( __CLASS__, 'enqueue_style_on_theme_editor' ) );
@@ -129,17 +130,47 @@ class VK_Filter_Search {
 				'class' => array(),
 				'style' => array(),
 			),
+			'h1'     => array(
+				'id'    => array(),
+				'class' => array(),
+				'style' => array(),
+			),
+			'h2'     => array(
+				'id'    => array(),
+				'class' => array(),
+				'style' => array(),
+			),
+			'h3'     => array(
+				'id'    => array(),
+				'class' => array(),
+				'style' => array(),
+			),
+			'h4'     => array(
+				'id'    => array(),
+				'class' => array(),
+				'style' => array(),
+			),
+			'h5'     => array(
+				'id'    => array(),
+				'class' => array(),
+				'style' => array(),
+			),
+			'h6'     => array(
+				'id'    => array(),
+				'class' => array(),
+				'style' => array(),
+			),
+			'p'      => array(
+				'id'    => array(),
+				'class' => array(),
+				'style' => array(),
+			),
 			'ul'     => array(
 				'id'    => array(),
 				'class' => array(),
 				'style' => array(),
 			),
 			'ol'     => array(
-				'id'    => array(),
-				'class' => array(),
-				'style' => array(),
-			),
-			'p'      => array(
 				'id'    => array(),
 				'class' => array(),
 				'style' => array(),
@@ -888,6 +919,22 @@ class VK_Filter_Search {
 	}
 
 	/**
+	 * Header Scripts
+	 */
+	public static function header_scripts() {
+		if ( isset( $_GET['vkfs_submitted'] ) ) {
+			$header_script_params = array(
+				'home_url' => home_url( '/' ),
+			);
+
+			$header_scripts  = '<script type="text/javascript" id="vk-filter-search-redirct-js-extra">/* <![CDATA[ */ var vk_filter_search_params = ' . json_encode( $header_script_params ) . '; /* ]]> */</script>';
+			$header_scripts .= '<script type="text/javascript" id="vk-filter-search-redirct-js" src="' . VKFS_FREE_MODULE_ROOT_URL . 'build/vk-filter-search-redirect.min.js?ver=' . VKFS_FREE_MODULE_VERSION .'"></script>';
+			$header_scripts  = apply_filters( 'vkfs_header_scripts', $header_scripts );
+			echo $header_scripts;
+		}
+	}
+
+	/**
 	 * Enqueue Scripts
 	 */
 	public static function enqueue_scripts() {
@@ -897,23 +944,6 @@ class VK_Filter_Search {
 			array(),
 			VKFS_FREE_MODULE_VERSION
 		);
-		if ( isset( $_GET['vkfs_submitted'] ) ) {
-			wp_enqueue_script(
-				'vk-filter-search-redirct',
-				VKFS_FREE_MODULE_ROOT_URL . 'build/vk-filter-search-redirect.min.js',
-				array(),
-				VKFS_FREE_MODULE_VERSION,
-				false
-			);
-			// ブロックに値を渡す
-			wp_localize_script(
-				'vk-filter-search-redirct',
-				'vk_filter_search_params',
-				array(
-					'home_url' => home_url( '/' ),
-				)
-			);
-		}
 
 		if ( isset( $_GET['vkfs_form_id'] ) && ! isset( $_GET['vkfs_submitted'] ) ) {
 			wp_enqueue_script(

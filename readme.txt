@@ -95,6 +95,11 @@ More languages will be added in the future. If you would like to help with trans
 
 == Changelog ==
 
+= 2.1.0 =
+[ Add function ] Add Setting of Direct search ( Auto Submit ) that when you change pulldown or checkbox or radio-button, the form will be submited.
+[ Specification Change ] Force load javascript for redirection on header.
+[ Specification Change ] Allow heading tag on the form of search result or post type archive screen.
+
 = 2.0.6 =
 [ Bug fix ] Allow Inline Style on Search Result Form and Post Type Archive form.
 
