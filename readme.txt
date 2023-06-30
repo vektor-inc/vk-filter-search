@@ -5,7 +5,7 @@ Tags: Guternberg, Search
 Requires at least: 6.0
 Tested up to: 6.2
 Requires PHP: 7.4
-Stable tag: 2.0.6
+Stable tag: 2.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -94,6 +94,9 @@ More languages will be added in the future. If you would like to help with trans
 4. Search Results page
 
 == Changelog ==
+
+= 2.1.1 =
+[ Other ] Version only
 
 = 2.1.0 =
 [ Add function ] Add Setting of Direct search ( Auto Submit ) that when you change pulldown or checkbox or radio-button, the form will be submited.
