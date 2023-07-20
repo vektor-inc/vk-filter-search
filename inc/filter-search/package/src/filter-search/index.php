@@ -3,37 +3,15 @@
 /**
  * Registers the `vk-filter-search/filter-search` block.
  */
-if ( function_exists( 'register_block_type_from_metadata' ) ) {
+if ( function_exists( 'register_block_type' ) ) {
 
 	function register_block_vkfs_filter_search() {
-		register_block_type_from_metadata(
+		register_block_type(
 			__DIR__,
 			array(
 				'style'           => 'vk-filter-search-style',
 				'editor_style'    => 'vk-filter-search-editor',
 				'editor_script'   => 'vk-filter-search-block',
-				'attributes'      => array(
-					'TargetPostType'           => array(
-						'type'    => 'string',
-						'default' => '',
-					),
-					'DisplayOnResult'          => array(
-						'type'    => 'boolean',
-						'default' => false,
-					),
-					'DisplayOnPosttypeArchive' => array(
-						'type'    => 'string',
-						'default' => '[]',
-					),
-					'FormID'                   => array(
-						'type'    => 'string',
-						'default' => null,
-					),
-					'PostID'                   => array(
-						'type'    => 'number',
-						'default' => null,
-					),
-				),
 				'render_callback' => 'vkfs_filter_search_render_callback',
 			)
 		);
@@ -102,29 +80,38 @@ function vkfs_filter_search_render_callback( $attributes, $content ) {
         update_post_meta( $target_post->ID, 'vkfs_display_result', $display_result );
         update_post_meta( $target_post->ID, 'vkfs_display_archive', $display_archive );
 	} else {
-		// 検索結果ページにフォームを表示する場合
-		// フォームのデータを option 値に保存しおき、それを検索結果ページで読み込むようにしている
-		if ( ! empty( $attributes['DisplayOnResult'] ) ) {
-			// フォームが設置してある投稿IDとコンテンツの情報を option に追加
-			$options['display_on_result'][ $attributes['FormID'] ] = array(
-				'form_post_id' => $attributes['PostID'],
-				'form_content' => $content,
-			);
-		} else {
-			// フォームを検索結果に表示しない場合は opton からフォームの情報を削除
-			unset( $options['display_on_result'][ $attributes['FormID'] ] );
-		}
+		// 該当の投稿の情報を取得
+		$target_post = get_post( $attributes['PostID'] );
+		
+		// 公開済み or 非公開の場合はオプションを処理、それ以外の場合は除去
+		if ( 'publish' === $target_post->post_status || 'private' === $target_post->post_status ) {
+			// 検索結果ページにフォームを表示する場合
+			// フォームのデータを option 値に保存しおき、それを検索結果ページで読み込むようにしている
+			if ( ! empty( $attributes['DisplayOnResult'] ) ) {
+				// フォームが設置してある投稿IDとコンテンツの情報を option に追加
+				$options['display_on_result'][ $attributes['FormID'] ] = array(
+					'form_post_id' => $attributes['PostID'],
+					'form_content' => $content,
+				);
+			} else {
+				// フォームを検索結果に表示しない場合は opton からフォームの情報を削除
+				unset( $options['display_on_result'][ $attributes['FormID'] ] );
+			}
 
-		// 投稿タイプアーカイブにフォームを表示する場合
-		if ( ! empty( $post_types ) ) {
-			// 表示するフォームの情報を option に追加
-			$options['display_on_post_type_archive'][ $attributes['FormID'] ] = array(
-				'display_post_type' => $post_types,
-				'form_post_id'      => $attributes['PostID'],
-				'form_content'      => $content,
-			);
+			// 投稿タイプアーカイブにフォームを表示する場合
+			if ( ! empty( $post_types ) ) {
+				// 表示するフォームの情報を option に追加
+				$options['display_on_post_type_archive'][ $attributes['FormID'] ] = array(
+					'display_post_type' => $post_types,
+					'form_post_id'      => $attributes['PostID'],
+					'form_content'      => $content,
+				);
+			} else {
+				// フォームを投稿タイプアーカイブに表示しない場合は opton からフォームの情報を削除
+				unset( $options['display_on_post_type_archive'][ $attributes['FormID'] ] );
+			}
 		} else {
-			// フォームを投稿タイプアーカイブに表示しない場合は opton からフォームの情報を削除
+			unset( $options['display_on_result'][ $attributes['FormID'] ] );
 			unset( $options['display_on_post_type_archive'][ $attributes['FormID'] ] );
 		}
 

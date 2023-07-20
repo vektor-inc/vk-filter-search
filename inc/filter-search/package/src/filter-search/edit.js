@@ -12,6 +12,7 @@ import {
 	SelectControl,
 	ToggleControl,
 } from '@wordpress/components';
+import { select } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
 
 export default function FilterSearchEdit( props ) {
@@ -22,28 +23,41 @@ export default function FilterSearchEdit( props ) {
 		DisplayOnResult,
 		DisplayOnPosttypeArchive,
 		FormID,
-		PostID,
 	} = attributes;
+
+	const pathString = window.location.pathname;
 
 	//eslint-disable-next-line camelcase,no-undef
 	const isBlockTheme = vk_filter_search_params.isBlockTheme;
 
+	let currentPostType = null;
+	let currentPostID = null;
+	if (
+		pathString.indexOf( 'site-editor.php' ) === -1 &&
+		pathString.indexOf( 'widgets.php' ) === -1
+	) {
+		currentPostType = select( 'core/editor' ).getCurrentPostType();
+		currentPostID = select( 'core/editor' ).getCurrentPostId();
+	}
+
+	const isParentReusableBlock = !! select(
+		'core/block-editor'
+	).getBlockParentsByBlockName( clientId, [ 'core/block' ] ).length;
+
 	useEffect( () => {
 		if ( clientId ) {
-			if ( FormID === null || FormID === undefined ) {
-				setAttributes( { FormID: clientId } );
-			}
-			if ( PostID === null || PostID === undefined ) {
-				if (
-					wp.data.select( 'core/editor' ) &&
-					wp.data.select( 'core/editor' ).getCurrentPostId()
-				) {
-					setAttributes( {
-						PostID: wp.data
-							.select( 'core/editor' )
-							.getCurrentPostId(),
-					} );
+			// 先祖のブロックに再利用ブロックがない場合
+			if ( ! isParentReusableBlock.length ) {
+				// 投稿タイプが Filter Search の場合は現在の投稿 ID をそうでなければブロックの ID を FormID に格納
+				if ( currentPostType === 'filter-search' && !! currentPostID ) {
+					setAttributes( { FormID: currentPostID } );
+				} else {
+					setAttributes( { FormID: clientId } );
 				}
+				// 一応投稿 ID を PostID に格納しておく
+				setAttributes( {
+					PostID: !! currentPostID ? currentPostID : null,
+				} );
 			}
 		}
 	}, [ clientId ] );
@@ -81,7 +95,6 @@ export default function FilterSearchEdit( props ) {
 		);
 	}
 
-	const pathString = window.location.pathname;
 	let formOptionControl = '';
 	if (
 		pathString.indexOf( 'site-editor.php' ) === -1 &&

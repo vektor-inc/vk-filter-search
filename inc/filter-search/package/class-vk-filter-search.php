@@ -428,8 +428,10 @@ class VK_Filter_Search {
 			'label'              => $taxonomy_object->labels->singular_name,
 			'form_design'        => 'select',
 			'non_selected_label' => '',
+			'post_type'          => '',
 			'operator'           => 'or',
 			'show_count'         => false,
+			'auto_count'         => false,
 			'hide_empty'         => true,
 			'outer_columns'      => array(),
 			'inner_columns'      => array(),
@@ -507,8 +509,10 @@ class VK_Filter_Search {
 			'label'              => $taxonomy_object->labels->singular_name,
 			'form_design'        => 'select',
 			'non_selected_label' => '',
+			'post_type'          => '',
 			'operator'           => 'or',
 			'show_count'         => false,
+			'auto_count'         => false,
 			'hide_empty'         => true,
 			'outer_columns'      => array(),
 			'inner_columns'      => array(),
@@ -527,7 +531,10 @@ class VK_Filter_Search {
 		$common_args = array(
 			'show_option_none'  => ! empty( $options['non_selected_label'] ) ? $options['non_selected_label'] : __( 'Any', 'vk-filter-search' ),
 			'option_none_value' => '',
+			'post_type'         => $options['post_type'],
+			'operator'          => $options['operator'],
 			'show_count'        => $options['show_count'],
+			'auto_count'        => $options['auto_count'],
 			'hide_empty'        => $options['hide_empty'],
 			'echo'              => false,
 			'taxonomy'          => $taxonomy,
@@ -545,7 +552,7 @@ class VK_Filter_Search {
 		// デザインに応じて HTML を描画.
 		if ( 'select' === $form_design ) {
 			if ( 'category' === $taxonomy ) {
-				$taxonomy_design_html = wp_dropdown_categories(
+				$taxonomy_design_html = vk_dropdown_categories(
 					array_merge(
 						$common_args,
 						$custom_args,
@@ -553,12 +560,11 @@ class VK_Filter_Search {
 							'name'   => 'vkfs_category[]',
 							'id'     => 'vkfs_category',
 							'class'  => 'vkfs__input-wrap vkfs__input-wrap--select vkfs__input-wrap--category_name',
-							'walker' => new VK_Walker_Category_Dropdown(),
 						)
 					)
 				);
 			} elseif ( 'post_tag' === $taxonomy ) {
-				$taxonomy_design_html = wp_dropdown_categories(
+				$taxonomy_design_html = vk_dropdown_categories(
 					array_merge(
 						$common_args,
 						$custom_args,
@@ -566,12 +572,11 @@ class VK_Filter_Search {
 							'name'   => 'vkfs_post_tag[]',
 							'id'     => 'vkfs_post_tag',
 							'class'  => 'vkfs__input-wrap vkfs__input-wrap--select vkfs__input-wrap--tag',
-							'walker' => new VK_Walker_Category_Dropdown(),
 						)
 					)
 				);
 			} else {
-				$taxonomy_design_html = wp_dropdown_categories(
+				$taxonomy_design_html = vk_dropdown_categories(
 					array_merge(
 						$common_args,
 						$custom_args,
@@ -579,7 +584,6 @@ class VK_Filter_Search {
 							'name'   => 'vkfs_' . $taxonomy_object->name . '[]',
 							'id'     => 'vkfs_' . $taxonomy_object->name,
 							'class'  => 'vkfs__input-wrap vkfs__input-wrap--select vkfs__input-wrap--' . $taxonomy_object->name,
-							'walker' => new VK_Walker_Category_Dropdown(),
 						)
 					)
 				);
@@ -692,6 +696,8 @@ class VK_Filter_Search {
 		// 存在価値がないフォームデータを削除
 		$options = self::option_reduction( $options );
 
+		update_option( 'vk_filter_search', $options );
+
 		return $options;
 	}
 
@@ -724,6 +730,10 @@ class VK_Filter_Search {
 						// 投稿の中身に該当のブロックが設置されていなければそのフォームのデータを削除
 						$post_content = $post_object->post_content;
 						if ( false === strpos( $post_content, $block_id_array[ $i ] ) ) {
+							unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
+						}
+						// 公開済み or 非公開でなければそのフォームのデータを削除
+						if ( 'publish' !== $post_object->post_status && 'private' !== $post_object->post_status ) {
 							unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
 						}
 					}
@@ -761,6 +771,10 @@ class VK_Filter_Search {
 						if ( false === strpos( $post_content, $block_id_array[ $i ] ) ) {
 							unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
 						}
+						// 公開済み or 非公開でなければそのフォームのデータを削除
+						if ( 'publish' !== $post_object->post_status && 'private' !== $post_object->post_status ) {
+							unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
+						}
 					}
 				} else {
 					// フォームの保存データに投稿 ID がない場合はそのフォームは削除
@@ -768,8 +782,7 @@ class VK_Filter_Search {
 				}
 				$i++;
 			}
-		}
-		update_option( 'vk_filter_search', $options );
+		}		
 
 		return $options;
 	}
@@ -791,7 +804,7 @@ class VK_Filter_Search {
 			$target_post = is_numeric( $target_id ) ? get_post( $target_id ) : array();
 
 			// Filter Search の投稿がある場合はそちらを優先する
-			if ( ! empty( $target_post ) ) {
+			if ( ! empty( $target_post ) && ( 'publish' === $target_post->post_status || 'private' === $target_post->post_status ) ) {
 
 				// 検索結果に表示するか否かのカスタムフィールドを取得
 				$display_result = get_post_meta( $target_post->ID, 'vkfs_display_result', true );

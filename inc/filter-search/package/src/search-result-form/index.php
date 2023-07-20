@@ -3,15 +3,15 @@
 /**
  * Registers the `vk-filter-search/keyword-search` block.
  */
-if( function_exists('register_block_type_from_metadata')) {
+if ( function_exists('register_block_type') ) {
 
 	function register_block_vkfs_search_result_form() {
-		register_block_type_from_metadata(
+		register_block_type(
 			__DIR__,
 			array(
 				'style'           => 'vk-filter-search-style',
 				'editor_style'    => 'vk-filter-search-editor',
-				'editor_script'   => 'vk-filter-search-js',
+				'editor_script'   => 'vk-filter-search-block',
 				'attributes'      => array(
 					'className'   => array(
 						'type'    => 'string',

@@ -10,7 +10,7 @@
  *
  * @return void
  */
-function vkfs_register_block_call_filteer_search() {
+function vkfs_register_block_call_filter_search() {
 	register_block_type(
 		__DIR__,
 		array(
@@ -31,7 +31,7 @@ function vkfs_register_block_call_filteer_search() {
 		)
 	);
 }
-add_action( 'init', 'vkfs_register_block_call_filteer_search', 99 );
+add_action( 'init', 'vkfs_register_block_call_filter_search', 9999 );
 
 /**
  * Set the data of `vk-filter-search/call-filter-search` block

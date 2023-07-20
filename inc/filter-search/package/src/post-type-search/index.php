@@ -3,10 +3,10 @@
 /**
  * Registers the `vk-filter-search/post-type-search` block.
  */
-if( function_exists('register_block_type_from_metadata') ) {
+if( function_exists('register_block_type') ) {
 
 	function register_block_vkfs_post_type_search() {
-		register_block_type_from_metadata(
+		register_block_type(
 			__DIR__,
 			array(
 				'style'           => 'vk-filter-search-style',
