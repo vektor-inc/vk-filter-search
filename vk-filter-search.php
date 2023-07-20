@@ -37,7 +37,7 @@ $vkfs_prefix = apply_filters( 'vkfs_prefix', 'VK ' );
 
 // Load Modules
 require_once plugin_dir_path( __FILE__ ) . 'inc/patches/config.php';
-require_once plugin_dir_path( __FILE__ ) . 'inc/dropdown-categories/config.php';
+require_once plugin_dir_path( __FILE__ ) . 'inc/dropdown-categories/dropdown-categories.php';
 require_once plugin_dir_path( __FILE__ ) . 'inc/filter-search/config.php';
 
 // Add a link to this plugin's settings page
