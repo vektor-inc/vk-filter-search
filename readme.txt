@@ -5,7 +5,7 @@ Tags: Guternberg, Search
 Requires at least: 6.0
 Tested up to: 6.2
 Requires PHP: 7.4
-Stable tag: 2.1.1
+Stable tag: 2.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -95,7 +95,7 @@ More languages will be added in the future. If you would like to help with trans
 
 == Changelog ==
 
-= 2.2.2 =
+= 2.2.3 =
 [ Add function ][ Taxonomy ( Pro ) ] Add Setting of auto post counts when the form will be submited.
 [ Specification Change ] Forms on Posts with statuses other than private and publish and future will not display on post-type-archive screen and search-result screen.
 [ Bug fix ] We have fixed the error that occurred when placing it on the widget screen.
