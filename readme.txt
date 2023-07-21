@@ -95,7 +95,7 @@ More languages will be added in the future. If you would like to help with trans
 
 == Changelog ==
 
-= 2.2.1 =
+= 2.2.2 =
 [ Add function ][ Taxonomy ( Pro ) ] Add Setting of auto post counts when the form will be submited.
 [ Specification Change ] Forms on Posts with statuses other than private and publish and future will not display on post-type-archive screen and search-result screen.
 [ Bug fix ] We have fixed the error that occurred when placing it on the widget screen.
