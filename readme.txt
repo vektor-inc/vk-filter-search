@@ -3,7 +3,7 @@ Contributors: vektor-inc,kurudrive,rickaddison7634,naoki0h,mimitips,una9,sysbird
 Donate link:
 Tags: Guternberg, Search
 Requires at least: 6.0
-Tested up to: 6.2
+Tested up to: 6.3
 Requires PHP: 7.4
 Stable tag: 2.2.3
 License: GPLv2 or later
@@ -94,6 +94,11 @@ More languages will be added in the future. If you would like to help with trans
 4. Search Results page
 
 == Changelog ==
+
+= 2.3.0 =
+[ Add function ] Added a minimum width specification to the column width setting method.
+[ Bug fix ][ Call filter search block ] Fixed the display issue with the edit button.
+[ Bug fix ] Fixed an issue where the post type archive form was displayed on the search results screen.
 
 = 2.2.3 =
 [ Add function ][ Taxonomy ( Pro ) ] Add Setting of auto post counts when the form will be submited.

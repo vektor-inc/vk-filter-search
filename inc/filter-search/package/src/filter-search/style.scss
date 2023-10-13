@@ -6,10 +6,28 @@ html :where(.editor-styles-wrapper) {
 	display: block;
 }
 
+// カラム指定（最小幅指定ではない）の場合
+.vkfs:where(:not(.vkfs__layout--min)) {
+	// マージンを付与する
+	.vkfs__outer-wrap{
+		margin-bottom: calc(var(--vk-size-text) * 1);
+		margin-right: var(--vkfs-outer-margin-left-right);
+		margin-left: var(--vkfs-outer-margin-left-right);
+	}
+	.vkfs__outer-wrap:not([class*="vkfs__outer-wrap--col"]){
+		flex-basis: calc(50% - 0.8rem);
+	}
+	.btn[type='submit'] {
+		width: calc(100% - 0.8rem);
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: 0.5em;
+	}
+}
+
 .vkfs {
 	font-size: 0.88rem;
 	margin-bottom: var(--vk-margin-section-bottom, 2em);
-
 	&__labels {
 		display: flex;
 		flex-wrap: wrap;
@@ -30,13 +48,6 @@ html :where(.editor-styles-wrapper) {
 		border: 1px solid #faebcc;
 		padding: 1em;
 		border-radius: 3px;
-	}
-
-	&__outer-wrap {
-		flex-basis: calc(50% - 0.8rem);
-		margin-bottom: calc(var(--vk-size-text) * 1);
-		margin-right: var(--vkfs-outer-margin-left-right);
-		margin-left: var(--vkfs-outer-margin-left-right);
 	}
 
 	&__label-name {
@@ -122,13 +133,9 @@ html :where(.editor-styles-wrapper) {
 
 	.btn[type='submit'] {
 		padding: 0.5em 1em;
-		margin-top: 0.5em;
-		width: calc(100% - 0.8rem);
 		letter-spacing: 0.5em;
 		font-size: 14px;
 		display: block;
-		margin-left: auto;
-		margin-right: auto;
 	}
 }
 
@@ -142,15 +149,20 @@ html :where(.editor-styles-wrapper) {
 	display: none;
 	opacity: 0;
 	font-size:12px;
-	background-color:  var(--wp--preset--color--primary);
 	transition: all 0.5s ease-out;
 	&.btn {
-		border-color: var(--wp--preset--color--primary);
+		background-color:  var(--wp--preset--color--primary, #3858e9); // .btn がないと負ける
+		border-color: var(--wp--preset--color--primary, #3858e9);
+		border-radius: 0;
 		padding: 0.3rem 1rem 0.25rem;
 		margin-top:0;
 		text-decoration: none;
 		color:#fff;
+		&:hover {
+			color:#fff;
+		}
 	}
+	// call filter search 全体がホバーされたら
 	.vkfs__call-filter-search:hover & {
 		display: inline-block;
 		opacity: 1;

@@ -24,6 +24,15 @@ html :where(.editor-styles-wrapper) {
 	}
 }
 
+/***
+ * [ Outer ] カラム指定の場合
+ */
+ .vkfs:where(:not(.vkfs__layout--min)) {
+	// 編集画面ではアウタークラスが二重出力されるので、内側はmarginを0にする.
+	.vkfs__outer-wrap .vkfs__outer-wrap{
+		margin: 0;
+	}
+}
 
 // 一部CSSがコアの指定に負けてしまうため .wp-core-ui の中に変更
 .wp-core-ui,
@@ -60,22 +69,20 @@ html :where(.editor-styles-wrapper) {
 				display: flex;
 				flex-wrap: wrap;
 				justify-content: stretch;
-
-				.vkfs__outer-wrap {
-					margin: 0.5rem 0;
-				}
-
-				.wp-block-vk-filter-search-taxonomy-search,
-				.wp-block-vk-filter-search-keyword-search,
-				.wp-block-vk-filter-search-post-type-search {
+				:is(
+					.wp-block-vk-filter-search-taxonomy-search,
+					.wp-block-vk-filter-search-keyword-search,
+					.wp-block-vk-filter-search-post-type-search
+				) {
 					flex-basis: calc(50% - 0.8rem);
 					margin: 0;
 					margin-right: var(--vkfs-outer-margin-left-right);
 					margin-left: var(--vkfs-outer-margin-left-right);
 				}
-
-				& > div {
-					margin: 0 var(--vkfs-outer-margin-left-right);
+				// カラムに関連するdivが編集画面では入れ子になってmarginが二重になるため打ち消し
+				.block-editor-block-list__block .vkfs__outer-wrap {
+					margin-left:0;
+					margin-right:0;
 				}
 			}
 			//インサーターのデザイン

@@ -90,7 +90,7 @@ export default function TaxonomySearchEdit( props ) {
 	}
 
 	const blockProps = useBlockProps( {
-		className: `vkfs-taxonomy-search`,
+		className: `vkfs__taxonomy`,
 	} );
 
 	return (

@@ -5,6 +5,10 @@
  * @package VK Input Categories
  */
 
+if ( function_exists( 'vk_dropdown_categories' ) || function_exists( 'vk_walk_category_dropdown_tree' ) ) {
+	return;
+}
+
 /**
  * VK Dropdown Categories
  */

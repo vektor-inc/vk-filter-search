@@ -92,6 +92,8 @@ function vkfs_call_filteer_search_render_callback( $attributes ) {
 
 	if ( ! empty( $target_content ) && ! empty( $display_result ) ) {
 		$target_content = str_replace( '[filter_search_result_input]', '<input type="hidden" name="vkfs_form_id" value="' . $target_id . '" />', $target_content );
+	} else {
+		$target_content = str_replace( '[filter_search_result_input]', '', $target_content );
 	}
 
 	$classes   = '';

@@ -235,6 +235,73 @@ class VK_Filter_Search {
 		);
 	}
 
+	public static function get_outer_column_width_method( $options = array() ) {
+		if ( empty( $options['outerColumnWidthMethod'] ) ){
+			return 'column';
+		} else if ( 'minimum' === $options['outerColumnWidthMethod'] ) {
+			return 'minimum';
+		} else {
+			return 'column';
+		}
+	}
+
+	/**
+	 * カラム制御用のクラス及びスタイル制御用のブロックidを取得
+	 * @param array $options options.
+	 * @return string $outer_classes
+	 */
+	public static function get_outer_column_class( $options = array() ) {
+		$outer_classes = '';
+		// カラムクラスの調整 //////////////////////////////////////
+		if ( 'column' === self::get_outer_column_width_method( $options ) ) {
+			foreach ( $options['outer_columns'] as $key => $value ) {
+				$outer_classes .= ' vkfs__outer-wrap--col-' . $key . '-' . $value;
+			}
+		}
+
+		// ブロックIDの追加.
+		$outer_classes .= ! empty( $options['blockId'] ) ? ' vkfs__block-id--' . $options['blockId'] : '';
+		return $outer_classes;
+	}
+
+	/**
+	 * Get Column Dynamic Style
+	 * 
+	 * @since 2.3.0
+	 * @param array $options options.
+	 * @return string $column_dynamic_style
+	 */
+	public static function get_column_dynamic_style( $options = array() ) {
+		$column_dynamic_style = '';
+		// Outerカラムが最小幅指定の場合はCSSを追加.
+		if ( 
+			isset( $options['outerColumnWidthMethod'] ) && 
+			isset( $options['blockId'] ) &&
+			'minimum' === $options['outerColumnWidthMethod'] && 
+			! empty( $options['outerColumnWidthMin'] ) 
+			){
+			$column_dynamic_style .= "<style type='text/css'>";
+			$column_dynamic_style .= ".vk-filter-search.vkfs__layout--min .vkfs__outer-wrap.vkfs__block-id--" . $options['blockId'] . "{
+				flex-basis:" . $options['outerColumnWidthMin'] . ";
+				min-width:" . $options['outerColumnWidthMin'] . ";
+			}";
+			$column_dynamic_style .= "</style>";
+		}
+
+		// インナーブロックで最小幅指定の場合はCSSを追加.
+		if ( method_exists( 'VK_Filter_Search_Pro', 'get_inner_column_width_method' ) ) {
+			if ( 'minimum' === VK_Filter_Search_Pro::get_inner_column_width_method( $options ) ){
+				$column_dynamic_style .= "<style type='text/css'>";
+				$column_dynamic_style .=  ".vkfs__block-id--" . $options['blockId'] . " > ul.vkfs__input-wrap > li:where(:not(.vkfs__has-children )){
+					flex-basis:". $options['innerColumnWidthMin'] . ";
+					min-width:" . $options['innerColumnWidthMin'] . ";
+				}";
+				$column_dynamic_style .= "</style>";
+			}
+		}
+		return $column_dynamic_style;
+	}
+
 	/**
 	 * Get Keyword Filter Form HTML
 	 *
@@ -253,11 +320,9 @@ class VK_Filter_Search {
 		$keuword_name = 's';
 
 		$outer_classes = '';
-		if ( ! empty( $options['outer_columns'] ) ) {
-			foreach ( $options['outer_columns'] as $key => $value ) {
-				$outer_classes .= ' vkfs__outer-wrap--col-' . $key . '-' . $value;
-			}
-		}
+
+		// カラム制御関連クラスの追加.
+		$outer_classes .= self::get_outer_column_class( $options );
 
 		$outer_classes .= ! empty( $options['class_name'] ) ? ' ' . $options['class_name'] : '';
 
@@ -267,7 +332,10 @@ class VK_Filter_Search {
 		$keyword_form_html .= '<input type="text" name="' . $keuword_name . '" id="s" placeholder="' . $options['placeholder'] . '" />';
 		$keyword_form_html .= '</div>';
 		$keyword_form_html .= '</div>';
-		return wp_kses( $keyword_form_html, self::kses_allowed() );
+
+		$form_html  = wp_kses( $keyword_form_html, self::kses_allowed() );
+		$form_html .= self::get_column_dynamic_style($options);
+		return $form_html;
 	}
 
 	/**
@@ -299,11 +367,9 @@ class VK_Filter_Search {
 
 		// カラムの調整
 		$outer_classes = '';
-		if ( ! empty( $options['outer_columns'] ) ) {
-			foreach ( $options['outer_columns'] as $key => $value ) {
-				$outer_classes .= ' vkfs__outer-wrap--col-' . $key . '-' . $value;
-			}
-		}
+
+		// カラム制御関連クラスの追加.
+		$outer_classes .= self::get_outer_column_class( $options );
 
 		// 追加クラスの調整.
 		$outer_classes .= ! empty( $options['class_name'] ) ? ' ' . $options['class_name'] : '';
@@ -313,12 +379,15 @@ class VK_Filter_Search {
 
 		// 描画開始.
 		if ( ! empty( $post_types ) ) {
-			$post_type_form_html .= '<div class="vkfs__outer-wrap vkfs__post_type' . $outer_classes . '">';
+			$post_type_form_html .= '<div class="vkfs__outer-wrap vkfs__post-type' . $outer_classes . '">';
 			$post_type_form_html .= '<div class="vkfs__label-name">' . $options['label'] . '</div>';
 			$post_type_form_html .= self::get_post_type_design_html( $post_types, $options );
 			$post_type_form_html .= '</div>';
 		}
-		return wp_kses( $post_type_form_html, self::kses_allowed() );
+		$form_html  = wp_kses( $post_type_form_html, self::kses_allowed() );
+		$form_html .= self::get_column_dynamic_style($options);
+		return $form_html;
+
 	}
 
 	/**
@@ -442,16 +511,14 @@ class VK_Filter_Search {
 		$form_style_option = self::form_style_option();
 		$form_design       = ! empty( $options['form_design'] ) && in_array( $options['form_design'], $form_style_option, true ) ? $options['form_design'] : 'select';
 
-		// カラムの調整
 		$outer_classes = '';
-		if ( ! empty( $options['outer_columns'] ) ) {
-			foreach ( $options['outer_columns'] as $key => $value ) {
-				$outer_classes .= ' vkfs__outer-wrap--col-' . $key . '-' . $value;
-			}
-		}
+
+		// カラム制御関連クラスの追加.
+		$outer_classes .= self::get_outer_column_class( $options );
 
 		// 追加クラスの調整.
 		$outer_classes .= ! empty( $options['class_name'] ) ? ' ' . $options['class_name'] : '';
+
 
 		// 変数を初期化.
 		$taxonomy_form_html   = '';
@@ -487,7 +554,10 @@ class VK_Filter_Search {
 			}
 			$taxonomy_form_html .= '</div>';
 		}
-		return wp_kses( $taxonomy_form_html, self::kses_allowed() );
+		$taxonomy_form_html = wp_kses( $taxonomy_form_html, self::kses_allowed() );
+
+		$taxonomy_form_html .= self::get_column_dynamic_style($options);
+		return $taxonomy_form_html;
 	}
 
 	/**
@@ -589,6 +659,7 @@ class VK_Filter_Search {
 				);
 			}
 		}
+		// プロ版のチェックボックスなどはフィルターで全部差し替え.
 		return apply_filters( 'vk_search_filter_taxonomy_design_html', $taxonomy_design_html, $taxonomy, $options );
 
 	}
@@ -817,6 +888,7 @@ class VK_Filter_Search {
 					$content = str_replace( '[filter_search_result_input]', '<input type="hidden" name="vkfs_form_id" value="' . $target_id . '" />', $target_post->post_content );
 					$content = apply_filters( 'filter_search_content', $content );
 				} else {
+					$content = str_replace( '[filter_search_result_input]', '', $target_post->post_content );
 					$content = apply_filters( 'filter_search_content', $target_post->post_content );
 				}
 			}
@@ -831,7 +903,7 @@ class VK_Filter_Search {
 		}
 
 		// 投稿タイプアーカイブにフォームを表示する場合
-		elseif ( ( is_post_type_archive() || is_home() ) ) {
+		elseif ( ( is_post_type_archive() || is_home() ) && ! is_search() ) {
 
 			// Filter Search の投稿一覧を取得
 			$posts = get_posts(
