@@ -56,7 +56,8 @@ class VK_Filter_Search_Shortcode {
 
 		$search_form = $form_before_html . $content . $form_after_html;
 		$search_form = preg_replace( '/\<p\>|\<\/p\>|\<br \/\>/', '', $search_form );
-		return $search_form;
+
+		return wp_kses( $search_form, VK_Filter_Search::kses_allowed() );
 	}
 
 	/**

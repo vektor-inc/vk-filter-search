@@ -3,7 +3,7 @@
  * Plugin Name: VK Filter Search
  * Plugin URI: https://vk-filter-search.com/
  * Description: This plugin for filter search.
- * Version: 2.3.1
+ * Version: 2.3.2
  * Requires at least: 5.7
  * Author:  Vektor,Inc.
  * Author URI: https://vektor-inc.co.jp
