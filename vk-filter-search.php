@@ -14,6 +14,30 @@
  */
 
 defined( 'ABSPATH' ) || exit;
+require_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+/**
+ * Deactive VK Filter Search
+ * ( Attend to Deactive Plugin VK Filter Search ( free ) when Pro version is activated
+ */
+function vkfs_deactive_plugin() {
+	// Deactive Plugin VK Filter Search ( free )
+	if ( 
+		is_plugin_active( 'vk-filter-search-pro/vk-filter-search-pro.php' ) || 
+		is_plugin_active( 'vk-filter-search-pro-global-edition/vk-filter-search-pro-global-edition.php' )
+	) {
+		deactivate_plugins( 'vk-filter-search/vk-filter-search.php' );
+	}
+}
+add_action( 'admin_init', 'vkfs_deactive_plugin' );
+
+// 無料版等が有効化されている場合は以下の処理をスキップ
+if ( 
+	is_plugin_active( 'vk-filter-search-pro/vk-filter-search-pro.php' ) || 
+	is_plugin_active( 'vk-filter-search-pro-global-edition/vk-filter-search-pro-global-edition.php' )
+) {
+	return;
+}
 
 // Define Plugin Root Path
 if ( ! defined( 'VKFS_PLUGIN_ROOT_PATH' ) ) {	

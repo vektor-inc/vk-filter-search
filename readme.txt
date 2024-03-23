@@ -95,6 +95,8 @@ More languages will be added in the future. If you would like to help with trans
 
 == Changelog ==
 
+[ Bug Fix ] Fix Error when activate this plugin.
+
 = 2.3.2 =
 [ Bug fix ] Fix XSS.
 
