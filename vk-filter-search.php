@@ -18,6 +18,7 @@ require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 /**
  * Deactive VK Filter Search
+ * ( Attend to Deactive Plugin VK Filter Search ( free ) when Pro version is activated
  */
 function vkfs_deactive_plugin() {
 	// Deactive Plugin VK Filter Search ( free )
