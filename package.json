@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "npm install && composer install && npm run build && wp-env start",
 		"stop": "wp-env stop",
-		"update": "ncu -u -x '@wordpress/env @wordpress/scripts @wordpress/icons' && rm -rf node_modules package-lock.json && npm install",
+		"update": "ncu -u -x '@wordpress/env gulp-autoprefixer' && rm -rf node_modules package-lock.json && npm install",
 		"wp-env": "wp-env",
 		"build": "gulp replace_text_domain && npm run build:block && npm run build:css && npm run build:js",
 		"build:block": "wp-scripts build --config webpack.config.js",
