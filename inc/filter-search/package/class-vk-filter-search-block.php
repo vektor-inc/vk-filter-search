@@ -35,7 +35,6 @@ class VK_Filter_Search_Block {
 			$is_block_theme = false;
 		}
 		return $is_block_theme;
-
 	}
 
 	/**
@@ -53,13 +52,13 @@ class VK_Filter_Search_Block {
 					'value' => '',
 				),
 			),
-			'taxonomy_list'             => array(),
-			'taxonomy_option'           => array(
+			'taxonomy_list'              => array(),
+			'taxonomy_option'            => array(
 				array(
 					'label' => __( 'Any', 'vk-filter-search' ),
 					'value' => '',
 				),
-			)
+			),
 		);
 
 		// 投稿タイプのリスト
@@ -69,7 +68,8 @@ class VK_Filter_Search_Block {
 		);
 		$post_types_all = array_merge(
 			$post_types_all,
-			get_post_types(				array(
+			get_post_types(
+				array(
 					'public'   => true,
 					'show_ui'  => true,
 					'_builtin' => false,
@@ -93,7 +93,7 @@ class VK_Filter_Search_Block {
 
 			// 投稿があれば配列に追加
 			if ( ! empty( $get_posts ) ) {
-				// 投稿タイプのチェックボックスリストに投稿タイプを追加				
+				// 投稿タイプのチェックボックスリストに投稿タイプを追加
 				$data['post_type_checkbox'][] = array(
 					'label' => $post_type_object->labels->singular_name,
 					'slug'  => $post_type_object->name,
@@ -115,7 +115,7 @@ class VK_Filter_Search_Block {
 			get_post_types(
 				array(
 					'public'      => true,
-					'show_ui'  => true,
+					'show_ui'     => true,
 					'has_archive' => true,
 					'_builtin'    => false,
 				),
@@ -139,7 +139,7 @@ class VK_Filter_Search_Block {
 			// 投稿があれば配列に追加
 			if ( ! empty( $get_posts ) ) {
 				// 投稿タイプ（アーカイブあり）のチェックボックスリストに投稿タイプを追加
-				$data['post_type_archive_checkbox'][]         = array(
+				$data['post_type_archive_checkbox'][] = array(
 					'label' => $post_type_object->labels->singular_name,
 					'slug'  => $post_type_object->name,
 				);
@@ -163,7 +163,7 @@ class VK_Filter_Search_Block {
 				'label' => $the_taxonomy->labels->singular_name,
 				'value' => $the_taxonomy->name,
 			);
-			$terms           = get_terms( $the_taxonomy->name );
+			$terms                   = get_terms( $the_taxonomy->name );
 			if ( ! empty( $terms ) ) {
 				$data['taxonomy_option'][] = array(
 					'label' => $the_taxonomy->labels->singular_name,
@@ -174,7 +174,6 @@ class VK_Filter_Search_Block {
 		$data = apply_filters( 'vkfs_block_data', $data );
 
 		return $data;
-
 	}
 
 	/**

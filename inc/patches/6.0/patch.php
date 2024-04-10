@@ -5,13 +5,13 @@
  * @package VK Filter Search
  */
 
- /**
-  * WordPress 6.0 のバグで記事のないタームが表示される問題を修正
-  * https://github.com/vektor-inc/vk-filter-search-pro/pull/187
-  */
+/**
+ * WordPress 6.0 のバグで記事のないタームが表示される問題を修正
+ * https://github.com/vektor-inc/vk-filter-search-pro/pull/187
+ */
 add_filter(
 	'terms_clauses',
-	function( $clauses, $taxonomies, $args ) {
+	function ( $clauses, $taxonomies, $args ) {
 		$get_terms_data = array(
 			'clauses'    => $clauses,
 			'taxonomies' => $taxonomies,
@@ -19,7 +19,7 @@ add_filter(
 		);
 		add_filter(
 			'terms_pre_query',
-			function( $terms, $class_object ) use ( $get_terms_data ) {
+			function ( $terms, $class_object ) use ( $get_terms_data ) {
 				$args       = $get_terms_data['args'];
 				$fields     = $args['fields'];
 				$taxonomies = $get_terms_data['taxonomies'];

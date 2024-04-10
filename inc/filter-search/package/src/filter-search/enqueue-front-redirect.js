@@ -5,8 +5,8 @@
 /* eslint no-shadow: 0 */
 
 import {
-	query_string,
 	get_url_queries,
+	query_string,
 } from '@vk-filter-search/common/enqueue-front-component';
 
 const set_redirect_url = () => {
@@ -107,11 +107,9 @@ const set_redirect_url = () => {
 			search_url += '&' + search_query.vkfs_form_id;
 		}
 	}
-	document.location.href = search_url;
+	return search_url;
 };
 
-// url に vkfs_submitted が含まれていたら
 if ( query_string.indexOf( 'vkfs_submitted=true' ) !== -1 ) {
-	// リダイレクトを実行
-	setTimeout( set_redirect_url(), 0 );
+	setTimeout( ( document.location.href = set_redirect_url() ), 0 );
 }

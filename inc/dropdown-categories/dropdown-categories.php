@@ -13,37 +13,37 @@ if ( function_exists( 'vk_dropdown_categories' ) || function_exists( 'vk_walk_ca
  * VK Dropdown Categories
  */
 function vk_dropdown_categories( $args ) {
-    $defaults = array(
-        'show_option_all'   => '',
-        'show_option_none'  => '',
-        'orderby'           => 'id',
-        'order'             => 'ASC',
+	$defaults = array(
+		'show_option_all'   => '',
+		'show_option_none'  => '',
+		'orderby'           => 'id',
+		'order'             => 'ASC',
 		'post_type'         => '',
-        'show_count'        => 0,
-        'auto_count'        => 0,
-        'operator'          => 'or',
-        'hide_empty'        => 1,
-        'child_of'          => 0,
-        'exclude'           => '',
-        'echo'              => 1,
-        'selected'          => 0,
-        'hierarchical'      => 0,
-        'name'              => 'cat',
-        'id'                => '',
-        'class'             => 'postform',
-        'depth'             => 0,
-        'tab_index'         => 0,
-        'taxonomy'          => 'category',
-        'hide_if_empty'     => false,
-        'option_none_value' => -1,
-        'value_field'       => 'term_id',
-        'required'          => false,
-        'aria_describedby'  => '',
-    );
-    
+		'show_count'        => 0,
+		'auto_count'        => 0,
+		'operator'          => 'or',
+		'hide_empty'        => 1,
+		'child_of'          => 0,
+		'exclude'           => '',
+		'echo'              => 1,
+		'selected'          => 0,
+		'hierarchical'      => 0,
+		'name'              => 'cat',
+		'id'                => '',
+		'class'             => 'postform',
+		'depth'             => 0,
+		'tab_index'         => 0,
+		'taxonomy'          => 'category',
+		'hide_if_empty'     => false,
+		'option_none_value' => -1,
+		'value_field'       => 'term_id',
+		'required'          => false,
+		'aria_describedby'  => '',
+	);
+
 	$li_class = 'vkfs__level-0';
 
-    $defaults['selected'] = ( is_category() ) ? get_query_var( 'cat' ) : 0;
+	$defaults['selected'] = ( is_category() ) ? get_query_var( 'cat' ) : 0;
 
 	// Parse incoming $args into an array and merge it with $defaults.
 	$parsed_args = wp_parse_args( $args, $defaults );
@@ -100,7 +100,6 @@ function vk_dropdown_categories( $args ) {
 	}
 
 	if ( ! empty( $categories ) ) {
-
 		if ( $parsed_args['show_option_all'] ) {
 
 			/** This filter is documented in wp-includes/category-template.php */
@@ -160,7 +159,7 @@ function vk_dropdown_categories( $args ) {
  * @return string
  */
 function vk_walk_category_dropdown_tree( ...$args ) {
-    require_once dirname( __FILE__ ) . '/class-vk-walker-catrgory-dropdown.php';
+	require_once __DIR__ . '/class-vk-walker-catrgory-dropdown.php';
 	// The user's options are the third parameter.
 	if ( empty( $args[2]['walker'] ) || ! ( $args[2]['walker'] instanceof Walker ) ) {
 		$walker = new VK_Walker_CategoryDropdown();

@@ -4,6 +4,9 @@
 	"title": "VK Keyword Search",
 	"category": "vk-blocks-cat",
 	"parent": [ "vk-filter-search/filter-search" ],
+	"editorScript": "vk-filter-search-block",
+	"editorStyle": "vk-filter-search-editor",
+	"style": "vk-filter-search-style",
 	"attributes": {
 		"className": {
 			"type": "string",

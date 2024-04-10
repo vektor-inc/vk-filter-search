@@ -3,21 +3,12 @@
 /**
  * Registers the `vk-filter-search/keyword-search` block.
  */
-if( function_exists('register_block_type') ) {
+if ( function_exists( 'register_block_type' ) ) {
 
 	function register_block_vkfs_keyword_search() {
 		register_block_type(
 			__DIR__,
 			array(
-				'style'           => 'vk-filter-search-style',
-				'editor_style'    => 'vk-filter-search-editor',
-				'editor_script'   => 'vk-filter-search-block',
-				'attributes'      => array(
-					'className'   => array(
-						'type'    => 'string',
-						'default' => '',
-					),
-				),
 				'render_callback' => 'vkfs_keyword_search_render_callback',
 			)
 		);
@@ -41,8 +32,8 @@ function vkfs_keyword_search_render_callback( $attributes, $content ) {
 
 	// オプションを設定
 	$options = array(
-		'class_name'    => ! empty( $attributes['className'] ) ? $attributes['className'] : '',
+		'class_name' => ! empty( $attributes['className'] ) ? $attributes['className'] : '',
 	);
-	
+
 	return VK_Filter_Search::get_keyword_form_html( $options );
 }

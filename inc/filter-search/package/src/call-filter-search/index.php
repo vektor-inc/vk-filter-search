@@ -14,19 +14,6 @@ function vkfs_register_block_call_filter_search() {
 	register_block_type(
 		__DIR__,
 		array(
-			'style'           => 'vk-filter-search-style',
-			'editor_style'    => 'vk-filter-search-editor',
-			'editor_script'   => 'vk-filter-search-block',
-			'attributes'      => array(
-				'className'  => array(
-					'type'    => 'string',
-					'default' => '',
-				),
-				'TargetPost' => array(
-					'type'    => 'number',
-					'default' => -1,
-				),
-			),
 			'render_callback' => 'vkfs_call_filteer_search_render_callback',
 		)
 	);
@@ -75,7 +62,6 @@ function vkfs_set_call_filteer_search_data() {
 			'targetPosts'          => $post_selection,
 		)
 	);
-
 }
 add_action( 'enqueue_block_editor_assets', 'vkfs_set_call_filteer_search_data' );
 
@@ -90,7 +76,7 @@ function vkfs_call_filteer_search_render_callback( $attributes ) {
 	$target_content = -1 !== $target_id ? get_post( $target_id )->post_content : '';
 	$display_result = get_post_meta( $target_id, 'vkfs_display_result', true );
 
-	if ( ! empty( $target_content ) && ! empty( $display_result ) ) {
+	if ( ! empty( $target_content ) ) {
 		$target_content = str_replace( '[filter_search_result_input]', '<input type="hidden" name="vkfs_form_id" value="' . $target_id . '" />', $target_content );
 	} else {
 		$target_content = str_replace( '[filter_search_result_input]', '', $target_content );
@@ -110,7 +96,7 @@ function vkfs_call_filteer_search_render_callback( $attributes ) {
 
 		$page_html .= '<div class="' . $classes . '">';
 		$page_html .= apply_filters( 'filter_search_content', $target_content );
-		$url = get_edit_post_link( $target_id );
+		$url        = get_edit_post_link( $target_id );
 		if ( $url ) {
 			$page_html .= '<a href="' . esc_url( $url ) . '" class="vkfs__call-filter-search_editBtn btn btn-outline-primary btn-sm veu_adminEdit" target="_blank">' . __( 'Edit Search Form', 'vk-filter-search' ) . '</a>';
 		}

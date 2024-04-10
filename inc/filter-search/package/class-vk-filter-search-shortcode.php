@@ -29,15 +29,15 @@ class VK_Filter_Search_Shortcode {
 	public static function add_search_form_shortcode( $atts, $content ) {
 		$atts = shortcode_atts(
 			array(
-				'class_name'  => '',
-				'post_type'   => '',
+				'class_name' => '',
+				'post_type'  => '',
 			),
 			$atts
 		);
 
-		$class_name  = ! empty( $atts['class_name'] ) ? ' ' . $atts['class_name'] : '';
+		$class_name = ! empty( $atts['class_name'] ) ? ' ' . $atts['class_name'] : '';
 
-		$form_before_html  = '<form class="vk-filter-search vkfs' . $class_name . '" method="get" action="' . home_url( '/' ) . '">';
+		$form_before_html  = '<form class="vk-filter-search vkfs' . $class_name . '" method="get" action="' . VK_Filter_Search::get_search_root_url() . '">';
 		$form_before_html .= '<div class="vkfs__labels">';
 
 		$inner_content = shortcode_unautop( $content );
@@ -69,13 +69,13 @@ class VK_Filter_Search_Shortcode {
 	public static function add_keyword_form_shortcode( $atts, $content ) {
 		$atts = shortcode_atts(
 			array(
-				'class_name'  => '',
+				'class_name' => '',
 			),
 			$atts
 		);
 
 		$options = array(
-			'class_name' =>  ! empty( $atts['class_name'] ) ? $atts['class_name'] : '',
+			'class_name' => ! empty( $atts['class_name'] ) ? $atts['class_name'] : '',
 		);
 
 		return VK_Filter_Search::get_keyword_form_html( $options );
@@ -91,7 +91,7 @@ class VK_Filter_Search_Shortcode {
 		$atts = shortcode_atts(
 			array(
 				'post_types' => 'post,page',
-				'class_name'  => '',
+				'class_name' => '',
 			),
 			$atts
 		);
@@ -99,9 +99,9 @@ class VK_Filter_Search_Shortcode {
 		$post_types = ! empty( $atts['post_types'] ) ? explode( ',', $atts['post_types'] ) : array();
 
 		$options = array(
-			'class_name' =>  ! empty( $atts['class_name'] ) ? $atts['class_name'] : '',
+			'class_name' => ! empty( $atts['class_name'] ) ? $atts['class_name'] : '',
 		);
-		
+
 		return VK_Filter_Search::get_post_type_form_html( $post_types, $options );
 	}
 
@@ -114,16 +114,16 @@ class VK_Filter_Search_Shortcode {
 	public static function add_taxonomy_form_shortcode( $atts, $content ) {
 		$atts = shortcode_atts(
 			array(
-				'taxonomy' => 'category',
-				'class_name'  => '',
+				'taxonomy'   => 'category',
+				'class_name' => '',
 			),
 			$atts
 		);
 
-		$taxonomy      = ! empty( $atts['taxonomy'] ) ? $atts['taxonomy'] : '';
+		$taxonomy = ! empty( $atts['taxonomy'] ) ? $atts['taxonomy'] : '';
 
 		$options = array(
-			'class_name' =>  ! empty( $atts['class_name'] ) ? $atts['class_name'] : '',
+			'class_name' => ! empty( $atts['class_name'] ) ? $atts['class_name'] : '',
 		);
 
 		return VK_Filter_Search::get_taxonomy_form_html( $taxonomy, $options );

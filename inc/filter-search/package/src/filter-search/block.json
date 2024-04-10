@@ -3,6 +3,9 @@
 	"name": "vk-filter-search/filter-search",
 	"title": "VK Filter Search",
 	"category": "vk-blocks-cat",
+	"editorScript": "vk-filter-search-block",
+	"editorStyle": "vk-filter-search-editor",
+	"style": "vk-filter-search-style",
 	"attributes": {
 		"TargetPostType": {
 			"type": "string",

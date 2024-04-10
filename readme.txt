@@ -2,8 +2,8 @@
 Contributors: vektor-inc,kurudrive,rickaddison7634,naoki0h,mimitips,una9,sysbird,chiakikouno
 Donate link:
 Tags: Guternberg, Search
-Requires at least: 6.0
-Tested up to: 6.3
+Requires at least: 6.2
+Tested up to: 6.5
 Requires PHP: 7.4
 Stable tag: 2.3.2
 License: GPLv2 or later
@@ -95,7 +95,43 @@ More languages will be added in the future. If you would like to help with trans
 
 == Changelog ==
 
+= 2.6.0 =
+[ Specification Change ][ Pro ] Cancel forced linkage of some setting items.
+[ Specification Change ][ Pro ] Attend to I18N Improvements in 6.5.
+[ Bug fix ][ Pro ] Fixed an issue where elements would overflow when the column width method was set to 'minimum width' but the minimum width was not specified.
+[ Bug fix ] Fix Block Registration Error ( Already Registerd. ).
+
+= 2.5.3 =
+[ Bug fix ][ Pro ] Fix post count logic of category / post_tag.
+[ Bug fix ][ Pro ] Fix search result url logic.
+
+= 2.5.2 =
+[ Bug fix ][ Pro ] Fix count changing when auto count disable and auto count logic.
+[ Bug fix ][ Call Filter Search ] The script that maintains the form is now loaded even if you do not select Show in search results.
+
+= 2.5.1 =
+[ Other ] Fix translation
+
+= 2.5.0 =
+[ Add function ] Fix title tag of search result screen.
 [ Bug Fix ] Fix Error when activate this plugin.
+
+= 2.4.2 =
+[ Bug fix ][ Custom Field Search (beta) ] Fixed a bug the design of the Custom Field Form to break.
+[ Bug fix ][ Custom Field Search (beta) ] Corrected the label names for field types in custom fields.
+[ Bug fix ] Improve to automatically add margins when the minimum width and GAP are not specified, with a minimum maintenance width specified.
+
+= 2.4.1 =
+[ Bug fix ] Fixed a bug affecting search results in version 2.4.0, where the Filter Search Block was directly set to a post without using the Call Filter Search Pro Block.
+
+= 2.4.0 =
+[ Specification Change ][ Custom Field Search (beta) ] Compatible with date/time/date/time/numeric values.
+[ Specification Change ][ Post Date Search ] Add Setting of min date / max date.
+[ Specification Change ] Display warning on forms created in old format.
+[ Other ] Composer Update ( Plugin Update Checker 5.0 -> 5.3 etc )
+
+= 2.3.3 =
+[ Specification Change ] Added filter hooks for URLs related to search results such as form action attributes.
 
 = 2.3.2 =
 [ Bug fix ] Fix XSS.
@@ -181,7 +217,7 @@ Change test version
 [ Bug fix ] Fix WordPress 5.8 Fatal Error
 
 = 1.10.10 =
-[ Design bugfix ] Adjusted the width of the text between dates
+[ Design Bug fix ] Adjusted the width of the text between dates
 
 = 1.10.9 =
 [ Bug Fix ] Theme hook array fire at after_theme_setup@10
@@ -204,27 +240,27 @@ Change test version
 [ Add Block ] Add Search Result Single Order Block ( Pro Only )
 
 = 1.9.2 =
-[ BugFix ] Fix alert for block themes.
+[ Bug fix ] Fix alert for block themes.
 
 = 1.9.1 =
 [ Specification Change ] fix Custom Field Block Choice System. ( Pro Only )
 [ Specification Change ] Corresponds to block themes.
-[ Design BugFix ] Fix front style when enable block separate loading
+[ Design Bug fix ] Fix front style when enable block separate loading
 
 = 1.8.1 =
-[ bugFix ] Fix submit button style for Free.
+[ Bug fix ] Fix submit button style for Free.
 
 = 1.8.0 =
 [ Specification Change ] Add second field around text setting
 [ Specification Change ] Change 'Do not specify xx' to 'Any'
-[ bugFix ] Fix input / option label on search form
-[ bugFix ] Fix Custom Field Block Label ( Pro Only )
+[ Bug fix ] Fix input / option label on search form
+[ Bug fix ] Fix Custom Field Block Label ( Pro Only )
 
 = 1.7.2 =
-[ bugFix ] Fix Archive page icon
+[ Bug fix ] Fix Archive page icon
 
 = 1.7.1 =
-[ bugFix ] Fix Archive page button
+[ Bug fix ] Fix Archive page button
 
 = 1.7.0 =
 [ Specification Change ] change can use fontawesome html tags in search button
@@ -234,7 +270,7 @@ Change test version
 
 = 1.6.0 =
 [ Add block ] Add custom field search block ( Beta ) ( Pro Only )
-[ bugFix ] Fix Translate ( Free Only )
+[ Bug fix ] Fix Translate ( Free Only )
 
 = 1.5.6 =
 [ Specification Change ] change version only
@@ -262,10 +298,10 @@ Change test version
 [ Spechification Change ] Change css selector strongth for cope with other theme
 
 = 1.3.4 =
-[ bugfix ] Fix script for redirect after search
+[ Bug fix ] Fix script for redirect after search
 
 = 1.3.3 =
-[ bugfix ] Fix script for redirect after search
+[ Bug fix ] Fix script for redirect after search
 
 = 1.3.2 =
 [ Other ] change version
@@ -316,7 +352,7 @@ Change test version
 [ Specification Change ] Change script of query.
 
 = 0.6.4 =
-[ Bugfix ] If Post type is not selected, result page is not for any post type.
+[ Bug fix ] If Post type is not selected, result page is not for any post type.
 
 = 0.6.3 =
 [ Specification Change ] Change Config file
@@ -331,10 +367,10 @@ Change test version
 [ Specification Change ] Button design
 
 = 0.5.2 =
-[ Bugfix ] If options is empty, Warning is appear
+[ Bug fix ] If options is empty, Warning is appear
 
 = 0.5.1 =
-[ Bugfix ] If options is empty, Warning is appear
+[ Bug fix ] If options is empty, Warning is appear
 
 = 0.5.0 =
 [ Add Function ] Display to post type archive page

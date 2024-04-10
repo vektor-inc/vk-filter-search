@@ -97,8 +97,12 @@ html :where(.editor-styles-wrapper) {
 
 	// Bootstrap .form-control と基本同じだが、
 	// 記事編集画面やLightning以外のテーマでは .form-control が当然自動ではつかないので追加指定
-	input[type='text'],
-	select {
+	:is(
+		input[type='text'],
+		input[type='number'],
+		select
+	)
+ 	{
 		display: block;
 		width: 100%;
 		max-width: 100%;

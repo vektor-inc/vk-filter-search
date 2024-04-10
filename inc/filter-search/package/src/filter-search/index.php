@@ -9,9 +9,6 @@ if ( function_exists( 'register_block_type' ) ) {
 		register_block_type(
 			__DIR__,
 			array(
-				'style'           => 'vk-filter-search-style',
-				'editor_style'    => 'vk-filter-search-editor',
-				'editor_script'   => 'vk-filter-search-block',
 				'render_callback' => 'vkfs_filter_search_render_callback',
 			)
 		);
@@ -37,6 +34,9 @@ function vkfs_filter_search_render_callback( $attributes, $content ) {
 		)
 	);
 
+	// 多言語プラグイン等で検索結果の基準となる URL が変わる場合があるため action の URL を変更
+	$content = str_replace( 'action="' . home_url( '/' ) . '"', 'action="' . VK_Filter_Search::get_search_root_url() . '"', $content );
+
 	// 検索としての扱いになるようにキーワードサーチが追加されるようにしている /////////////////////
 	// キーワードサーチのブロックが含まれていない場合
 	if ( false === strpos( $content, 'vkfs__keyword' ) ) {
@@ -54,8 +54,6 @@ function vkfs_filter_search_render_callback( $attributes, $content ) {
 		$content = str_replace( '[filter_search_result_input]', '', $content );
 	}
 
-	
-
 	// 投稿タイプアーカイブにもフォームを追加する場合
 	// ["post","event"] のような形で保存されているので、 [] と "" を削除して , 区切りだけの文字列に変換
 	if ( ! empty( $attributes['DisplayOnPosttypeArchive'] ) ) {
@@ -72,17 +70,17 @@ function vkfs_filter_search_render_callback( $attributes, $content ) {
 	$target_post = get_post( $attributes['PostID'] );
 	// 該当の投稿の投稿タイプが 'filter-search' の場合は post_meta に情報を保存
 	if ( ! empty( $target_post ) && ! empty( $target_post->post_type ) && 'filter-search' === $target_post->post_type ) {
-        // POST された値を取得後処理
-        $display_result  = ! empty( $attributes['DisplayOnResult'] ) ? true : false;
-        $display_archive = ! empty( $attributes['DisplayOnPosttypeArchive'] ) ? $attributes['DisplayOnPosttypeArchive'] : '';
+		// POST された値を取得後処理
+		$display_result  = ! empty( $attributes['DisplayOnResult'] ) ? true : false;
+		$display_archive = ! empty( $attributes['DisplayOnPosttypeArchive'] ) ? $attributes['DisplayOnPosttypeArchive'] : '';
 
-        // 値を保存
-        update_post_meta( $target_post->ID, 'vkfs_display_result', $display_result );
-        update_post_meta( $target_post->ID, 'vkfs_display_archive', $display_archive );
+		// 値を保存
+		update_post_meta( $target_post->ID, 'vkfs_display_result', $display_result );
+		update_post_meta( $target_post->ID, 'vkfs_display_archive', $display_archive );
 	} else {
 		// 該当の投稿の情報を取得
 		$target_post = get_post( $attributes['PostID'] );
-		
+
 		// 公開済み or 非公開の場合はオプションを処理、それ以外の場合は除去
 		if ( 'publish' === $target_post->post_status || 'private' === $target_post->post_status ) {
 			// 検索結果ページにフォームを表示する場合
@@ -118,8 +116,6 @@ function vkfs_filter_search_render_callback( $attributes, $content ) {
 		// オプション値を更新
 		update_option( 'vk_filter_search', $options );
 	}
-
-
 
 	return $content;
 }

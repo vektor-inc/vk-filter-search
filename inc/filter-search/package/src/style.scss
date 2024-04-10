@@ -1,1 +1,16 @@
 @import "./filter-search/style.scss";
+
+.vkfs_old-form-alert {
+    border: 1px solid rgba(0,0,0,0.125);
+    padding: 0.5em 1em;
+    border-radius: 4px;;
+    margin-bottom: 2rem;
+    font-size: 0.875rem;
+    display:flex;
+    align-items: center;
+}
+/* Alert Content部分に段落タグを入れた場合に最後の段落の余白を0にする */
+.vkfs_old-form-alert p:last-of-type{
+    margin-bottom:0;
+    margin-top: 0;
+}
