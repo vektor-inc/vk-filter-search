@@ -45,6 +45,7 @@ class VK_Filter_Search {
 				'label'         => __( 'VK Filter Search', 'vk-filter-search-addon' ),
 				'public'        => false,
 				'has_archive'   => false,
+				'menu_icon'    => 'dashicons-filter',
 				'show_ui'       => true,
 				'show_in_menu'  => true,
 				'menu_position' => 20,

@@ -11,7 +11,7 @@
 class VK_Filter_Search_Title {
 
 	public function __construct() {
-		add_filter( 'pre_get_document_title', array( __CLASS__, 'get_search_title' ), 12 );
+		add_filter( 'pre_get_document_title', array( __CLASS__, 'get_search_title_filter' ), 12 );
 	}
 
 	/**
@@ -305,6 +305,21 @@ class VK_Filter_Search_Title {
 	}
 
 	/**
+	 * タイトルのフィルター処理
+	 *
+	 * @param string $title タイトル : フィルターで落ちてくるタイトル。ExUnit などで指定したものが落ちてくる事がある。
+	 * @return string
+	 */
+	public static function get_search_title_filter( $title ){
+		if ( ! is_search() ) {
+			// 検索結果ページ以外はそのまま返す
+			return $title;
+		} else {
+			return self::get_search_title();
+		}
+	}
+
+	/**
 	 * 検索タイトルを取得
 	 *
 	 * @param array|string $search_title_args 区切り文字など設定項目の配列
@@ -315,6 +330,7 @@ class VK_Filter_Search_Title {
 	public static function get_search_title( $search_title_args = array() ) {
 
 		if ( ! is_search() ) {
+			// 検索結果ページ以外は '' を返す
 			return '';
 		}
 

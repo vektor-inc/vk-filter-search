@@ -76,12 +76,6 @@ function vkfs_call_filteer_search_render_callback( $attributes ) {
 	$target_content = -1 !== $target_id ? get_post( $target_id )->post_content : '';
 	$display_result = get_post_meta( $target_id, 'vkfs_display_result', true );
 
-	if ( ! empty( $target_content ) ) {
-		$target_content = str_replace( '[filter_search_result_input]', '<input type="hidden" name="vkfs_form_id" value="' . $target_id . '" />', $target_content );
-	} else {
-		$target_content = str_replace( '[filter_search_result_input]', '', $target_content );
-	}
-
 	$classes   = '';
 	$page_html = '';
 
