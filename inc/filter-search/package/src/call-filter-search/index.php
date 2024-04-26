@@ -72,9 +72,20 @@ add_action( 'enqueue_block_editor_assets', 'vkfs_set_call_filteer_search_data' )
  * @return string
  */
 function vkfs_call_filteer_search_render_callback( $attributes ) {
-	$target_id      = ! empty( $attributes['TargetPost'] ) ? $attributes['TargetPost'] : -1;
+	// 投稿タイプ VK Filter Search で作った投稿のID
+	$target_id = ! empty( $attributes['TargetPost'] ) ? $attributes['TargetPost'] : -1;
+	// 投稿タイプ VK Filter Search で作成した投稿（フォーム）コンテンツを取得
 	$target_content = -1 !== $target_id ? get_post( $target_id )->post_content : '';
+	// 検索結果ページに表示するかどうか
 	$display_result = get_post_meta( $target_id, 'vkfs_display_result', true );
+
+	// 検索結果に表示する設定の場合
+	if ( ! empty( $target_content ) && ! empty( $display_result ) ) {
+		// 表示するフォームに、フォームの投稿IDを追加 -> IDが投げられるので、結果に表示するフォームを特定できる
+		$target_content = str_replace( '[filter_search_result_input]', '<input type="hidden" name="vkfs_form_id" value="' . $target_id . '" />', $target_content );
+	} else {
+		$target_content = str_replace( '[filter_search_result_input]', '', $target_content );
+	}
 
 	$classes   = '';
 	$page_html = '';

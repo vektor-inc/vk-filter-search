@@ -5,7 +5,7 @@ Tags: Guternberg, Search
 Requires at least: 6.2
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 2.7.0
+Stable tag: 2.7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -95,9 +95,12 @@ More languages will be added in the future. If you would like to help with trans
 
 == Changelog ==
 
+= 2.7.1 =
+[ Bug fix ][ Call Filter Search ] Fix search results were not displayed even if "Display form on search results page" was enabled.
+
 = 2.7.0 =
 [ Specification Change ] Change dashboard icon.
-[ Bug fix ][ Call Filter Search ] Fix  search results were displayed on the first search even if "Display form on search results page" was disabled.
+[ Bug fix ][ Call Filter Search ] Fix search results were displayed on the first search even if "Display form on search results page" was disabled.
 [ Bug fix ] Fixed a bug in the title filter.
 [ Bug fix ] Fixed the JavaScript that controls the form
 

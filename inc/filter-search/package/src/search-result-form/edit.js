@@ -10,10 +10,15 @@ export default function KeywordSearchEdit() {
 	let editContent = '';
 	const pathString = window.location.pathname;
 	if (
-		pathString.indexOf( 'site-editor.php' ) !== -1 ||
-		pathString.indexOf( 'post.php' ) !== -1 ||
-		pathString.indexOf( 'post-new.php' ) !== -1
+		pathString.indexOf( 'site-editor.php' ) === -1 &&
+		pathString.indexOf( 'widgets.php' ) === -1 &&
+		pathString.indexOf( 'post-new.php' ) === -1 &&
+		pathString.indexOf( 'post.php' ) === -1
 	) {
+		editContent = (
+			<ServerSideRender block="vk-filter-search/search-result-form" />
+		);
+	} else {
 		editContent = (
 			<div className="vkfs__alert vkfs__alert--warning">
 				<div className="vkfs__alert-title">
@@ -34,10 +39,6 @@ export default function KeywordSearchEdit() {
 					) }
 				</p>
 			</div>
-		);
-	} else {
-		editContent = (
-			<ServerSideRender block="vk-filter-search/search-result-form" />
 		);
 	}
 
