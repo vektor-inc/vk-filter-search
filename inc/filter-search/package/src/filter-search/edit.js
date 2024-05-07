@@ -139,21 +139,11 @@ export default function FilterSearchEdit( props ) {
 		);
 	}
 
-	let allowedBlocks;
 	let hiddenPostTypes;
 
 	if ( TargetPostType === '' ) {
-		allowedBlocks = [
-			'vk-filter-search/keyword-search',
-			'vk-filter-search/post-type-search',
-			'vk-filter-search/taxonomy-search',
-		];
 		hiddenPostTypes = '';
 	} else {
-		allowedBlocks = [
-			'vk-filter-search/keyword-search',
-			'vk-filter-search/taxonomy-search',
-		];
 		hiddenPostTypes = (
 			<input type="hidden" name="post_type" value={ TargetPostType } />
 		);
@@ -260,7 +250,7 @@ export default function FilterSearchEdit( props ) {
 			>
 				<div className={ `vkfs__labels` }>
 					<InnerBlocks
-						allowedBlocks={ allowedBlocks }
+						// allowedBlocks は子ブロックの block.json から parent で指定されている
 						templateLock={ false }
 						template={ [
 							[

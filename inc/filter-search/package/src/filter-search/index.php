@@ -88,7 +88,9 @@ function vkfs_filter_search_render_callback( $attributes, $content ) {
 			if ( ! empty( $attributes['DisplayOnResult'] ) ) {
 				// フォームが設置してある投稿IDとコンテンツの情報を option に追加
 				$options['display_on_result'][ $attributes['FormID'] ] = array(
-					'form_post_id' => $attributes['PostID'],
+					// フォームが配置してある投稿ID
+					'form_post_id' => $attributes['PostID'], 
+					 // フォームDOM
 					'form_content' => $content,
 				);
 			} else {

@@ -953,10 +953,11 @@ class VK_Filter_Search {
 			// 表示するフォームの ID を取得
 			$target_id = sanitize_text_field( wp_unslash( $_GET['vkfs_form_id'] ) );
 
-			// フォームの ID が数値型なら該当の投稿を取得
+			// フォームのIDは 投稿タイプ VK Filter Search : 数値 / 直配置の場合 : 16進数と - の文字列
+			// フォームの ID が数値型なら該当の投稿（VK Filter Search）を取得
 			$target_post = is_numeric( $target_id ) ? get_post( $target_id ) : array();
 
-			// Filter Search の投稿がある場合はそちらを優先する
+			// 投稿タイプ VK Filter Search のフォームがある場合はそちらを優先する
 			if ( ! empty( $target_post ) && ( 'publish' === $target_post->post_status || 'private' === $target_post->post_status ) ) {
 				// 新しいのでフラグを消す
 
