@@ -48,7 +48,7 @@
 		"gulp-replace": "^1.1.4",
 		"gulp-sass": "^5.1.0",
 		"npm-check-updates": "^16.14.20",
-		"sass": "^1.77.0",
+		"sass": "^1.77.1",
 		"@emotion/babel-plugin": "^11.11.0"
 	}
 }

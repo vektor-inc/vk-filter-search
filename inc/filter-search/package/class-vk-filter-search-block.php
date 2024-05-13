@@ -239,6 +239,7 @@ class VK_Filter_Search_Block {
 			'post-type-search',
 			'taxonomy-search',
 			'search-result-form',
+			'search-result-title',
 			'call-filter-search',
 		);
 

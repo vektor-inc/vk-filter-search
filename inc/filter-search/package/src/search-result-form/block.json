@@ -7,6 +7,10 @@
 	"editorStyle": "vk-filter-search-editor",
 	"style": "vk-filter-search-style",
 	"attributes": {
+		"forceDisplayResult": {
+			"type": "boolean",
+			"default": false
+		},
 		"className": {
 			"type": "string",
 			"default": ""

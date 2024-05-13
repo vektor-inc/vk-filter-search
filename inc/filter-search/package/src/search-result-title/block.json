@@ -1,0 +1,91 @@
+{
+	"apiVersion": "2",
+	"name": "vk-filter-search/search-result-title",
+	"title": "Search Result Title",
+	"category": "vk-blocks-cat",
+	"editorScript": "vk-filter-search-block",
+	"editorStyle": "vk-filter-search-editor",
+	"style": "vk-filter-search-style",
+	"attributes": {
+		"outerTagName": {
+			"type": "string",
+			"default": "div"
+		},
+		"textAlign": {
+			"type": "string"
+		},
+		"queriesFormat": {
+			"type": "string"
+		},
+		"queryTitleDisplay": {
+			"type": "boolean",
+			"default": true
+		},
+		"queryTitleAfter": {
+			"type": "string",
+			"default": ": "
+		},
+		"queryElementOR": {
+			"type": "string",
+			"default": " or "
+		},
+		"queryElementAND": {
+			"type": "string",
+			"default": " and "
+		},
+		"queryElementBefore": {
+			"type": "string",
+			"default": "\""
+		},
+		"queryElementAfter": {
+			"type": "string",
+			"default": "\""
+		},
+		"queryElementsAfter": {
+			"type": "string",
+			"default": " , "
+		},
+		"queryDateMinFormat": {
+			"type": "string"
+		},
+		"queryDateMaxFormat": {
+			"type": "string"
+		},
+		"queryDaterRangeFormat": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"className": true,
+		"color": {
+			"gradients": true,
+			"link": true,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": true
+			}
+		},
+		"spacing": {
+			"margin": true,
+			"padding": true,
+			"__experimentalDefaultControls": {
+				"margin": false,
+				"padding": false
+			}
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalFontStyle": true,
+			"__experimentalFontWeight": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalTextTransform": true,
+			"__experimentalWritingMode": true,
+			"__experimentalDefaultControls": {
+				"fontSize": true
+			}
+		}
+	}
+}

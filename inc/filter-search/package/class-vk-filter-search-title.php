@@ -54,6 +54,9 @@ class VK_Filter_Search_Title {
 	 */
 	public static function get_post_type_search_title( $search_title_args ) {
 
+		// タイトルを初期化
+		$search_title = '';
+		// 投稿タイプを取得
 		$post_type_value = get_query_var( 'post_type' );
 		if ( ! empty( $post_type_value ) && $post_type_value !== 'any' ) {
 
@@ -78,11 +81,12 @@ class VK_Filter_Search_Title {
 			}
 
 			$count = 0;
+
+			// query_title_display が true の場合はクエリタイトルを表示
 			if ( $search_title_args['query_title_display'] ) {
-				$search_title = __( 'Post Type', 'vk-filter-search' ) . $search_title_args['query_title_after'];
-			} else {
-				$search_title = '';
+				$search_title .= __( 'Post Type', 'vk-filter-search' ) . $search_title_args['query_title_after'];
 			}
+
 			foreach ( $post_type_value as $post_type ) {
 				$search_title .= $search_title_args['query_element_before'];
 				$search_title .= $post_type_labels[ $post_type ];
@@ -93,8 +97,9 @@ class VK_Filter_Search_Title {
 				++$count;
 			}
 			$search_title .= $search_title_args['query_elements_after'];
-			return $search_title;
+			
 		}
+		return $search_title;
 	}
 
 	/**
@@ -104,6 +109,9 @@ class VK_Filter_Search_Title {
 	 * @return string
 	 */
 	public static function get_taxonomy_search_title( $search_title_args ) {
+
+		// タイトルを初期化
+		$search_title = '';
 
 		// 追加されたタクソノミーの取得
 		$tax_args   = array(
@@ -128,8 +136,7 @@ class VK_Filter_Search_Title {
 			$taxonomy_label_array[ $taxonomy ] = get_taxonomy( $taxonomy )->labels->singular_name;
 		}
 
-		// タイトルを初期化
-		$search_title = '';
+
 
 		foreach ( $taxonomy_array as $taxonomy ) {
 			if ( 'category_name' === $taxonomy ) {
@@ -154,11 +161,12 @@ class VK_Filter_Search_Title {
 
 				// カテゴリのタイトルを作成
 				if ( ! empty( $taxnomy_value ) ) {
+
+					// query_title_display が true の場合はクエリタイトルを表示
 					if ( $search_title_args['query_title_display'] ) {
-						$search_title = get_taxonomy('category')->label . $search_title_args['query_title_after'];
-					} else {
-						$search_title = '';
+						$search_title .= get_taxonomy('category')->label . $search_title_args['query_title_after'];
 					}
+
 					$count = 0;
 					foreach ( $taxnomy_value as $category_id ) {
 						$search_title .= $search_title_args['query_element_before'];
@@ -192,6 +200,8 @@ class VK_Filter_Search_Title {
 
 				// タグのタイトルを作成
 				if ( ! empty( $taxnomy_value ) ) {
+
+					// query_title_display が true の場合はクエリタイトルを表示
 					if ( $search_title_args['query_title_display'] ) {
 						$search_title .= get_taxonomy('post_tag')->label . $search_title_args['query_title_after'];
 					}
@@ -232,7 +242,12 @@ class VK_Filter_Search_Title {
 
 				// タクソノミーのタイトルを作成
 				if ( ! empty( $taxnomy_value ) ) {
-					$search_title .= $taxonomy_label_array[ $taxonomy ] . $search_title_args['query_title_after'];
+					
+					// query_title_display が true の場合はクエリタイトルを表示
+					if ( $search_title_args['query_title_display'] ) {
+						$search_title .= $taxonomy_label_array[ $taxonomy ] . $search_title_args['query_title_after'];
+					}
+
 					$count         = 0;
 					foreach ( $taxnomy_value as $term_slug ) {
 						$search_title .= $search_title_args['query_element_before'];

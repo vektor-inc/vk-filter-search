@@ -80,7 +80,7 @@ function vkfs_call_filteer_search_render_callback( $attributes ) {
 	$display_result = get_post_meta( $target_id, 'vkfs_display_result', true );
 
 	// 検索結果に表示する設定の場合
-	if ( ! empty( $target_content ) && ! empty( $display_result ) ) {
+	if ( ! empty( $target_content ) ) {
 		// 表示するフォームに、フォームの投稿IDを追加 -> IDが投げられるので、結果に表示するフォームを特定できる
 		$target_content = str_replace( '[filter_search_result_input]', '<input type="hidden" name="vkfs_form_id" value="' . $target_id . '" />', $target_content );
 	} else {

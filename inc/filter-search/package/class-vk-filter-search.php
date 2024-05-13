@@ -880,7 +880,7 @@ class VK_Filter_Search {
 	 * - 'post_type_archive' (bool):
 	 *      true : 投稿タイプのアーカイブページ、またはホームページである場合に true。
 	 *      false : それ以外の場合、または検索結果画面である場合
-	 *
+	 * 
 	 * @return array 以下の形式の連想配列。
 	 *               [
 	 *                 'search_result' => bool,
@@ -939,8 +939,10 @@ class VK_Filter_Search {
 
 	/**
 	 * Search Form on Loop
+	 * 
+	 * @param bool $force_display_result 検索結果を強制表示するかどうか
 	 */
-	public static function search_result_form_content() {
+	public static function search_result_form_content( $force_display_result = false ) {
 		$content  = '';
 		$old_flag = false;
 		$options  = self::get_options();
@@ -969,15 +971,14 @@ class VK_Filter_Search {
 				// 上記カスタムフィールドを処理
 				$display_result = ! empty( $display_result ) ? true : false;
 
-				// 上記フィールドが true ならその投稿を表示
-				if ( ! empty( $display_result ) ) {
+				// 上記フィールドが true か強制表示フラグが true ならその投稿を表示
+				if ( ! empty( $display_result ) || ! empty( $force_display_result ) ) {
 					$content = str_replace( '[filter_search_result_input]', '<input type="hidden" name="vkfs_form_id" value="' . $target_id . '" />', $target_post->post_content );
 					$content = apply_filters( 'filter_search_content', $content );
+					$content .= self::form_edit_content( $target_post->ID, $old_flag );
 				} else {
-					$content = str_replace( '[filter_search_result_input]', '', $target_post->post_content );
-					$content = apply_filters( 'filter_search_content', $target_post->post_content );
+					$content = '';
 				}
-				$content .= self::form_edit_content( $target_post->ID, $old_flag );
 			}
 
 			// 旧版のフォームを表示
