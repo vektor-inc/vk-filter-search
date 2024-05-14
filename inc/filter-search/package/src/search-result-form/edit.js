@@ -102,7 +102,7 @@ export default function SearchResultEdit( props ) {
 							<dd>
 								<p>
 									{ __(
-										'If you specify "Display form on search results page" in the search source VK Filter Search Pro block, it will be automatically displayed at a specific hook position (generally above the list of posts in search results). There is no need to place this block.',
+										'If you specify "Display form on search results page" in the search source VK Filter Search block, it will be automatically displayed at a specific hook position (generally above the list of posts in search results). There is no need to place this block.',
 										'vk-filter-search'
 									) }
 								</p>
@@ -125,7 +125,7 @@ export default function SearchResultEdit( props ) {
 							<dd>
 								<p>
 									{ __(
-										'If you specify "Display form on search results page" in the search source VK Filter Search Pro block, the form will be displayed where this block is placed. ',
+										'If you specify "Display form on search results page" in the search source VK Filter Search block, the form will be displayed where this block is placed. ',
 										'vk-filter-search'
 									) }
 								</p>

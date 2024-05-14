@@ -5,7 +5,7 @@ Tags: Guternberg, Search
 Requires at least: 6.2
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 2.8.0
+Stable tag: 2.8.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -94,6 +94,9 @@ More languages will be added in the future. If you would like to help with trans
 4. Search Results page
 
 == Changelog ==
+
+= 2.8.1 =
+[ Translate ] Text and translate adjustment
 
 = 2.8.0 =
 [ Add Block ] Add Search Result Title Block
