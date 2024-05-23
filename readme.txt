@@ -5,7 +5,7 @@ Tags: Guternberg, Search
 Requires at least: 6.2
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 2.8.1
+Stable tag: 2.9.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -94,6 +94,14 @@ More languages will be added in the future. If you would like to help with trans
 4. Search Results page
 
 == Changelog ==
+
+= 2.9.0 =
+[ Specification Change ][ Block Laayout Setting ] Unified the block width settings to be configured from the upper panel of the sidebar.
+[ Bug fix ] Fixed the PHP warning on the edit screen of the post type "VK Filter Search."
+[ Design bug fix ][ VK Post Date Search Pro ] Modify it so that the calendar icon is not displayed when the display area is narrow.
+[ Design bug fix ][ VK Taxonomy Search Pro ] Fixed the misalignment of the active position of the radio button.
+[ Design bug fix ][ VK Taxonomy Search Pro ] Fixed the misalignment of the active position of the checkbox.
+[ Design bug fix ][ VK Taxonomy Search Pro ] Added a 0 margin-top specification to the li tags of each item because the margin-top varied depending on the theme, requiring additional CSS.
 
 = 2.8.1 =
 [ Translate ] Text and translate adjustment

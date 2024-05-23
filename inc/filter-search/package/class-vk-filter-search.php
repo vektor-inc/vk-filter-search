@@ -922,9 +922,9 @@ class VK_Filter_Search {
 				$edit_content .= '<div class="vkfs_old-form-alert" data-nosnippet">';
 				$edit_content .= '<div class="vkfs_old-form-alert--icon"><i class="fa-solid fa-circle-info"></i></div>';
 				$edit_content .= '<div class="vkfs_old-form-alert--text">';
-				$edit_content .= __( 'This form is obsolete and may eventually become obsolete.', 'vk-filter-search' );
+				$edit_content .= __( 'This form is obsolete and may eventually be deleted.', 'vk-filter-search' );
 				$edit_content .= '<br>';
-				$edit_content .= __( 'We recommend creating a form with the post type "Filteer Search".', 'vk-filter-search' );
+				$edit_content .= __( 'We recommend creating a form with the post type "VK Filteer Search".', 'vk-filter-search' );
 				$edit_content .= '<br>';
 				$edit_content .= __( 'The post of "VK Filter Search" can be called by the "Call Filter Search" block.', 'vk-filter-search' );
 				$edit_content .= '</div>';

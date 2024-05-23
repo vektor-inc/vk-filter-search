@@ -51,16 +51,25 @@ html :where(.editor-styles-wrapper) {
 	}
 
 	&__label-name {
+		white-space: nowrap;
 		font-weight: 700;
 		margin-bottom: calc(var(--vk-size-text) * 0.5);
 	}
 
 	.vkfs__label-name-wrap {
 		display: flex;
-		flex-wrap: nowrap;
+		/* 
+		flex-wrap を wrap にしておかないと AND OR をユーザーに選択させてる場合に
+		サイドバーが狭いときに AND OR が潰れるてしまう
+		 */
+		flex-wrap: wrap; 
 		justify-content: space-between;
 		align-items: center;
 
+		row-gap: 5px;
+		input[name="vkfs_category_operator"]{
+			top:3px;
+		}
 		.vkfs__operator-wrap {
 			gap: 1em;
 			margin-right: 10px;

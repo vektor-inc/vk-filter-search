@@ -345,7 +345,7 @@ export default function SearchTitleEdit( props ) {
 					<BaseControl id={ 'vkfs_searchTitle_queryElementsAfter' }>
 						<TextControl
 							label={ __(
-								'The separator string after the query element.',
+								'The separator string after the query element',
 								'vk-filter-search'
 							) }
 							value={ queryElementsAfter }
