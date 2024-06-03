@@ -135,9 +135,11 @@ class VK_Filter_Search {
 				'action' => array(),
 			),
 			'div'    => array(
-				'id'    => array(),
-				'class' => array(),
-				'style' => array(),
+				'id'                           => array(),
+				'class'                        => array(),
+				'style'                        => array(),
+				'data-vkfs-dropdown-options'   => array(),
+				'data-vkfs-taxonomy-accordion' => array(),
 			),
 			'h1'     => array(
 				'id'    => array(),
@@ -505,17 +507,19 @@ class VK_Filter_Search {
 
 		// オプションの値を調整
 		$default = array(
-			'class_name'         => '',
-			'label'              => $taxonomy_object->labels->singular_name,
-			'form_design'        => 'select',
-			'non_selected_label' => '',
-			'post_type'          => '',
-			'operator'           => 'or',
-			'show_count'         => false,
-			'auto_count'         => false,
-			'hide_empty'         => true,
-			'outer_columns'      => array(),
-			'inner_columns'      => array(),
+			'class_name'            => '',
+			'label'                 => $taxonomy_object->labels->singular_name,
+			'form_design'           => 'select',
+			'non_selected_label'    => '',
+			'post_type'             => '',
+			'operator'              => 'or',
+			'enable_child_dropdown' => false,
+			'show_count'            => false,
+			'auto_count'            => false,
+			'hide_empty'            => true,
+			'outer_columns'         => array(),
+			'inner_columns'         => array(),
+			'accordion_type'        => 'none',
 		);
 		$options = wp_parse_args( $options, $default );
 
@@ -531,13 +535,38 @@ class VK_Filter_Search {
 		// 追加クラスの調整.
 		$outer_classes .= ! empty( $options['class_name'] ) ? ' ' . $options['class_name'] : '';
 
+		$dropdown_options      = array();
+		$data_dropdown_options = '';
+		if ( ! empty( $options['enable_child_dropdown'] ) ) {
+			$outer_classes        .= ' vkfs__child-dropdown';
+			$dropdown_options      = array(
+				'post_type'  => $options['post_type'],
+				'operator'   => $options['operator'],
+				'show_count' => $options['show_count'],
+				'auto_count' => $options['auto_count'],
+				'hide_empty' => $options['hide_empty'],
+			);
+			$data_dropdown_options = ' data-vkfs-dropdown-options="' . esc_html( wp_json_encode( $dropdown_options, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT ) ) . '"';
+		}
+
 		// 変数を初期化.
 		$taxonomy_form_html   = '';
 		$taxonomy_design_html = '';
 
+		$accordion_data               = array();
+		$data_vkfs_taxonomy_accordion = '';
+
+		if ( $options['accordion_type'] !== 'none' ) {
+			$accordion_data               = array(
+				'AccordionType' => $options['accordion_type'],
+			);
+			$data_vkfs_taxonomy_accordion = ' data-vkfs-taxonomy-accordion="' . esc_html( wp_json_encode( $accordion_data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT ) ) . '"';
+		}
+
 		// 描画開始.
 		if ( ! empty( $taxonomy_object ) && ! empty( $taxonomy_terms ) ) {
-			$taxonomy_form_html .= '<div class="vkfs__outer-wrap vkfs__taxonomy' . $outer_classes . '">';
+			$taxonomy_form_html .= '<div class="vkfs__outer-wrap vkfs__taxonomy' . $outer_classes . '"' . $data_vkfs_taxonomy_accordion . $data_dropdown_options . '>';
+
 			$taxonomy_form_html .= '<div class="vkfs__label-name">';
 			if ( 'user' !== $options['operator'] ) {
 				$taxonomy_form_html .= $options['label'];

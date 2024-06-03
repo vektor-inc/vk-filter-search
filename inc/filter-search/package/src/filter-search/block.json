@@ -27,9 +27,25 @@
 		"PostID": {
 			"type": "number",
 			"default": null
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"margin": {
+						"bottom": "3rem"
+					}
+				}
+			}
 		}
 	},
 	"supports": {
-		"className": true
+		"className": true,
+		"spacing": {
+			"margin": {
+				"top": true,
+				"bottom": true
+			}
+		}
 	}
 }

@@ -78,10 +78,11 @@ class VK_Walker_CategoryDropdown extends Walker {
 				// タクソノミーに応じて適切なクエリのキーに変換
 				$count_name = $data_object->taxonomy;
 				// 該当フォームの値
-				$count_value = esc_attr( urldecode( $data_object->{$value_field} ) );
-				$post_type   = $args['post_type'];
+				$count_value  = esc_attr( urldecode( $data_object->{$value_field} ) );
+				$multi_select = false;
+				$post_type    = $args['post_type'];
 				// 上記に基づいた投稿数を取得して表示
-				$output .= '&nbsp;&nbsp;(' . number_format_i18n( vkfs_auto_count( $count_name, $count_value, $post_type ) ) . ')';
+				$output .= '&nbsp;&nbsp;(' . number_format_i18n( vkfs_auto_count( $count_name, $count_value, $multi_select, $post_type ) ) . ')';
 			} else {
 				$output .= '&nbsp;&nbsp;(' . number_format_i18n( $data_object->count ) . ')';
 			}
