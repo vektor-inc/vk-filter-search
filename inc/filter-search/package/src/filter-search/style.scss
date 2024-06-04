@@ -54,6 +54,9 @@ html :where(.editor-styles-wrapper) {
 		white-space: nowrap;
 		font-weight: 700;
 		margin-bottom: calc(var(--vk-size-text) * 0.5);
+		i {
+			margin-right:0.5em;
+		}
 	}
 
 	.vkfs__label-name-wrap {

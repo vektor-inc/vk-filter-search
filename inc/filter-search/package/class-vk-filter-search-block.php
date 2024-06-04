@@ -14,12 +14,15 @@ class VK_Filter_Search_Block {
 	 * Constructor
 	 */
 	public function __construct() {
-		// ver5.8.0 block_categories_all
-		if ( function_exists( 'get_default_block_categories' ) && function_exists( 'get_block_editor_settings' ) ) {
-			add_filter( 'block_categories_all', array( __CLASS__, 'register_block_category' ), 10, 2 );
-		} else {
-			add_filter( 'block_categories', array( __CLASS__, 'register_block_category' ), 10, 2 );
-		}
+		
+		/*
+		Priority
+		10 - Exunit
+		11 - Video Block
+		12 - VK Filter Search
+		13 - VK Blocks
+		*/
+		add_filter( 'block_categories_all', array( __CLASS__, 'register_block_category' ), 12, 2 );
 		add_action( 'init', array( __CLASS__, 'register_blocks' ), 11 );
 		add_action( 'enqueue_block_editor_assets', array( __CLASS__, 'set_block_data' ) );
 	}
@@ -188,16 +191,16 @@ class VK_Filter_Search_Block {
 			$keys[] = $value['slug'];
 		}
 
-		if ( ! in_array( 'vk-blocks-cat', $keys, true ) ) {
-			$categories = array_merge(
-				$categories,
+		if ( ! in_array( 'vk-filter-search', $keys, true ) ) {
+			$categories = array_merge(				
 				array(
 					array(
-						'slug'  => 'vk-blocks-cat',
-						'title' => __( 'VK Blocks', 'vk-filter-search' ),
+						'slug'  => 'vk-filter-search',
+						'title' => __( 'VK Filter Search', 'vk-filter-search' ),
 						'icon'  => '',
 					),
-				)
+				),
+				$categories
 			);
 		}
 

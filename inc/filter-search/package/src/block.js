@@ -8,6 +8,7 @@ import {
 	registerBlockType,
 	unstable__bootstrapServerSideBlockDefinitions, // eslint-disable-line camelcase
 } from '@wordpress/blocks';
+import { vkfsCategoryIcon } from './block-category';
 
 /**
  * Internal dependencies
@@ -55,3 +56,5 @@ const registerBlock = ( block ) => {
  * Function to register VK Blocks.
  */
 __getVKFilterSearchBlocks().forEach( registerBlock );
+
+vkfsCategoryIcon();

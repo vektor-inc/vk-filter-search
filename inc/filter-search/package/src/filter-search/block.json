@@ -2,7 +2,7 @@
 	"apiVersion": "2",
 	"name": "vk-filter-search/filter-search",
 	"title": "VK Filter Search",
-	"category": "vk-blocks-cat",
+	"category": "vk-filter-search",
 	"allowedBlocks": [],
 	"editorScript": "vk-filter-search-block",
 	"editorStyle": "vk-filter-search-editor",

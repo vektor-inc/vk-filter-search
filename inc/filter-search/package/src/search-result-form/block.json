@@ -2,7 +2,7 @@
 	"apiVersion": "2",
 	"name": "vk-filter-search/search-result-form",
 	"title": "Search Result Form",
-	"category": "vk-blocks-cat",
+	"category": "vk-filter-search",
 	"editorScript": "vk-filter-search-block",
 	"editorStyle": "vk-filter-search-editor",
 	"style": "vk-filter-search-style",

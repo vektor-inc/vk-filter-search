@@ -5,7 +5,7 @@ Tags: Guternberg, Search
 Requires at least: 6.2
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 2.10.0
+Stable tag: 2.11.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -94,6 +94,10 @@ More languages will be added in the future. If you would like to help with trans
 4. Search Results page
 
 == Changelog ==
+
+= 2.11.0 =
+[ Specification Change ][ VK Filter Search / Pro ] Fix block category and placed at the top.
+[ Design bug fix ] When the icon tag is input into the label name input field, adjust it to create a margin to the right of the icon ( Pro version ).
 
 = 2.10.0 =
 [ Add Setting ][ Taxnomy Search Pro] Add accordion setting

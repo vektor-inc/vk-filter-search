@@ -2,7 +2,7 @@
 	"apiVersion": 2,
 	"name": "vk-filter-search/call-filter-search",
 	"title": "Call Filter Search Form",
-	"category": "vk-blocks-cat",
+	"category": "vk-filter-search",
 	"editorScript": "vk-filter-search-block",
 	"editorStyle": "vk-filter-search-editor",
 	"style": "vk-filter-search-style",
