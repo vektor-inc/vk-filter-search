@@ -14,7 +14,7 @@ class VK_Filter_Search_Block {
 	 * Constructor
 	 */
 	public function __construct() {
-		
+
 		/*
 		Priority
 		10 - Exunit
@@ -192,7 +192,8 @@ class VK_Filter_Search_Block {
 		}
 
 		if ( ! in_array( 'vk-filter-search', $keys, true ) ) {
-			$categories = array_merge(				
+			$categories = array_merge(
+				$categories,
 				array(
 					array(
 						'slug'  => 'vk-filter-search',
@@ -200,7 +201,6 @@ class VK_Filter_Search_Block {
 						'icon'  => '',
 					),
 				),
-				$categories
 			);
 		}
 

@@ -95,6 +95,9 @@ More languages will be added in the future. If you would like to help with trans
 
 == Changelog ==
 
+= 2.11.1 =
+[ Specification Change ] Fix block placed at the bottom.
+
 = 2.11.0 =
 [ Specification Change ][ VK Filter Search / Pro ] Fix block category and placed at the top.
 [ Design bug fix ] When the icon tag is input into the label name input field, adjust it to create a margin to the right of the icon ( Pro version ).

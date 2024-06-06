@@ -31,8 +31,8 @@
 	},
 	"homepage": "https://github.com/vektor-inc/vk-filter-search#readme",
 	"devDependencies": {
-		"@babel/plugin-transform-react-jsx": "^7.24.6",
-		"@babel/preset-env": "^7.24.6",
+		"@babel/plugin-transform-react-jsx": "^7.24.7",
+		"@babel/preset-env": "^7.24.7",
 		"@wordpress/env": "5.16.0",
 		"@wordpress/icons": "10.0.0",
 		"@wordpress/scripts": "28.0.0",
