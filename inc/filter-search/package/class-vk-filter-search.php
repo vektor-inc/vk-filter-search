@@ -45,7 +45,7 @@ class VK_Filter_Search {
 				'label'         => __( 'VK Filter Search', 'vk-filter-search-addon' ),
 				'public'        => false,
 				'has_archive'   => false,
-				'menu_icon'    => 'dashicons-filter',
+				'menu_icon'     => 'dashicons-filter',
 				'show_ui'       => true,
 				'show_in_menu'  => true,
 				'menu_position' => 20,
@@ -135,9 +135,11 @@ class VK_Filter_Search {
 				'action' => array(),
 			),
 			'div'    => array(
-				'id'    => array(),
-				'class' => array(),
-				'style' => array(),
+				'id'                           => array(),
+				'class'                        => array(),
+				'style'                        => array(),
+				'data-vkfs-dropdown-options'   => array(),
+				'data-vkfs-taxonomy-accordion' => array(),
 			),
 			'h1'     => array(
 				'id'    => array(),
@@ -505,17 +507,19 @@ class VK_Filter_Search {
 
 		// オプションの値を調整
 		$default = array(
-			'class_name'         => '',
-			'label'              => $taxonomy_object->labels->singular_name,
-			'form_design'        => 'select',
-			'non_selected_label' => '',
-			'post_type'          => '',
-			'operator'           => 'or',
-			'show_count'         => false,
-			'auto_count'         => false,
-			'hide_empty'         => true,
-			'outer_columns'      => array(),
-			'inner_columns'      => array(),
+			'class_name'            => '',
+			'label'                 => $taxonomy_object->labels->singular_name,
+			'form_design'           => 'select',
+			'non_selected_label'    => '',
+			'post_type'             => '',
+			'operator'              => 'or',
+			'enable_child_dropdown' => false,
+			'show_count'            => false,
+			'auto_count'            => false,
+			'hide_empty'            => true,
+			'outer_columns'         => array(),
+			'inner_columns'         => array(),
+			'accordion_type'        => 'none',
 		);
 		$options = wp_parse_args( $options, $default );
 
@@ -531,13 +535,38 @@ class VK_Filter_Search {
 		// 追加クラスの調整.
 		$outer_classes .= ! empty( $options['class_name'] ) ? ' ' . $options['class_name'] : '';
 
+		$dropdown_options      = array();
+		$data_dropdown_options = '';
+		if ( ! empty( $options['enable_child_dropdown'] ) ) {
+			$outer_classes        .= ' vkfs__child-dropdown';
+			$dropdown_options      = array(
+				'post_type'  => $options['post_type'],
+				'operator'   => $options['operator'],
+				'show_count' => $options['show_count'],
+				'auto_count' => $options['auto_count'],
+				'hide_empty' => $options['hide_empty'],
+			);
+			$data_dropdown_options = ' data-vkfs-dropdown-options="' . esc_html( wp_json_encode( $dropdown_options, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT ) ) . '"';
+		}
+
 		// 変数を初期化.
 		$taxonomy_form_html   = '';
 		$taxonomy_design_html = '';
 
+		$accordion_data               = array();
+		$data_vkfs_taxonomy_accordion = '';
+
+		if ( $options['accordion_type'] !== 'none' ) {
+			$accordion_data               = array(
+				'AccordionType' => $options['accordion_type'],
+			);
+			$data_vkfs_taxonomy_accordion = ' data-vkfs-taxonomy-accordion="' . esc_html( wp_json_encode( $accordion_data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT ) ) . '"';
+		}
+
 		// 描画開始.
 		if ( ! empty( $taxonomy_object ) && ! empty( $taxonomy_terms ) ) {
-			$taxonomy_form_html .= '<div class="vkfs__outer-wrap vkfs__taxonomy' . $outer_classes . '">';
+			$taxonomy_form_html .= '<div class="vkfs__outer-wrap vkfs__taxonomy' . $outer_classes . '"' . $data_vkfs_taxonomy_accordion . $data_dropdown_options . '>';
+
 			$taxonomy_form_html .= '<div class="vkfs__label-name">';
 			if ( 'user' !== $options['operator'] ) {
 				$taxonomy_form_html .= $options['label'];
@@ -922,11 +951,11 @@ class VK_Filter_Search {
 				$edit_content .= '<div class="vkfs_old-form-alert" data-nosnippet">';
 				$edit_content .= '<div class="vkfs_old-form-alert--icon"><i class="fa-solid fa-circle-info"></i></div>';
 				$edit_content .= '<div class="vkfs_old-form-alert--text">';
-				$edit_content .= __( 'This form is obsolete and may eventually become obsolete.', 'vk-filter-search' );
+				$edit_content .= __( 'This form is obsolete and may eventually be deleted.', 'vk-filter-search' );
 				$edit_content .= '<br>';
-				$edit_content .= __( 'We recommend creating a form with the post type "Filteer Search".', 'vk-filter-search' );
+				$edit_content .= __( 'We recommend creating a form with the post type "VK Filteer Search".', 'vk-filter-search' );
 				$edit_content .= '<br>';
-				$edit_content .= __( 'The post of "Filteer Search" can be called by the "Call Filter Search" block.', 'vk-filter-search' );
+				$edit_content .= __( 'The post of "VK Filter Search" can be called by the "Call Filter Search" block.', 'vk-filter-search' );
 				$edit_content .= '</div>';
 				$edit_content .= '</div>';
 			}
@@ -939,8 +968,10 @@ class VK_Filter_Search {
 
 	/**
 	 * Search Form on Loop
+	 *
+	 * @param bool $force_display_result 検索結果を強制表示するかどうか
 	 */
-	public static function search_result_form_content() {
+	public static function search_result_form_content( $force_display_result = false ) {
 		$content  = '';
 		$old_flag = false;
 		$options  = self::get_options();
@@ -953,10 +984,11 @@ class VK_Filter_Search {
 			// 表示するフォームの ID を取得
 			$target_id = sanitize_text_field( wp_unslash( $_GET['vkfs_form_id'] ) );
 
-			// フォームの ID が数値型なら該当の投稿を取得
+			// フォームのIDは 投稿タイプ VK Filter Search : 数値 / 直配置の場合 : 16進数と - の文字列
+			// フォームの ID が数値型なら該当の投稿（VK Filter Search）を取得
 			$target_post = is_numeric( $target_id ) ? get_post( $target_id ) : array();
 
-			// Filter Search の投稿がある場合はそちらを優先する
+			// 投稿タイプ VK Filter Search のフォームがある場合はそちらを優先する
 			if ( ! empty( $target_post ) && ( 'publish' === $target_post->post_status || 'private' === $target_post->post_status ) ) {
 				// 新しいのでフラグを消す
 
@@ -968,15 +1000,14 @@ class VK_Filter_Search {
 				// 上記カスタムフィールドを処理
 				$display_result = ! empty( $display_result ) ? true : false;
 
-				// 上記フィールドが true ならその投稿を表示
-				if ( ! empty( $display_result ) ) {
-					$content = str_replace( '[filter_search_result_input]', '<input type="hidden" name="vkfs_form_id" value="' . $target_id . '" />', $target_post->post_content );
-					$content = apply_filters( 'filter_search_content', $content );
+				// 上記フィールドが true か強制表示フラグが true ならその投稿を表示
+				if ( ! empty( $display_result ) || ! empty( $force_display_result ) ) {
+					$content  = str_replace( '[filter_search_result_input]', '<input type="hidden" name="vkfs_form_id" value="' . $target_id . '" />', $target_post->post_content );
+					$content  = apply_filters( 'filter_search_content', $content );
+					$content .= self::form_edit_content( $target_post->ID, $old_flag );
 				} else {
-					$content = str_replace( '[filter_search_result_input]', '', $target_post->post_content );
-					$content = apply_filters( 'filter_search_content', $target_post->post_content );
+					$content = '';
 				}
-				$content .= self::form_edit_content( $target_post->ID, $old_flag );
 			}
 
 			// 旧版のフォームを表示

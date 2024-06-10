@@ -134,10 +134,18 @@ html :where(.editor-styles-wrapper) {
 
 		.vkfs__label-name-wrap {
 			margin-right:10px;
+			ul {
+				margin-block-start: 0;
+				margin-block-end: 0;
+			}
 			li {
 				margin-top:0;
 				line-height: 2;
 			}
+		}
+		ul.vkfs__input-wrap { // x-t9 チェックボックス上下に無駄に余白ができるので追加
+			margin-block-start: 0;
+			margin-block-end: 0;
 		}
 
 	}

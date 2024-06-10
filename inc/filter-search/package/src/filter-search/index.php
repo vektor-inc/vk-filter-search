@@ -88,12 +88,16 @@ function vkfs_filter_search_render_callback( $attributes, $content ) {
 			if ( ! empty( $attributes['DisplayOnResult'] ) ) {
 				// フォームが設置してある投稿IDとコンテンツの情報を option に追加
 				$options['display_on_result'][ $attributes['FormID'] ] = array(
-					'form_post_id' => $attributes['PostID'],
+					// フォームが配置してある投稿ID
+					'form_post_id' => $attributes['PostID'], 
+					 // フォームDOM
 					'form_content' => $content,
 				);
 			} else {
 				// フォームを検索結果に表示しない場合は opton からフォームの情報を削除
-				unset( $options['display_on_result'][ $attributes['FormID'] ] );
+				if ( ! empty( $options['display_on_result'][ $attributes['FormID'] ] ) ) {
+					unset( $options['display_on_result'][ $attributes['FormID'] ] );
+				}
 			}
 
 			// 投稿タイプアーカイブにフォームを表示する場合
@@ -106,11 +110,17 @@ function vkfs_filter_search_render_callback( $attributes, $content ) {
 				);
 			} else {
 				// フォームを投稿タイプアーカイブに表示しない場合は opton からフォームの情報を削除
-				unset( $options['display_on_post_type_archive'][ $attributes['FormID'] ] );
+				if ( ! empty( $options['display_on_post_type_archive'][ $attributes['FormID'] ] ) ) {
+					unset( $options['display_on_post_type_archive'][ $attributes['FormID'] ] );
+				}
 			}
 		} else {
-			unset( $options['display_on_result'][ $attributes['FormID'] ] );
-			unset( $options['display_on_post_type_archive'][ $attributes['FormID'] ] );
+			if ( ! empty( $options['display_on_result'][ $attributes['FormID'] ] ) ) {
+				unset( $options['display_on_result'][ $attributes['FormID'] ] );
+			}
+			if ( ! empty( $options['display_on_post_type_archive'][ $attributes['FormID'] ] ) ) {
+				unset( $options['display_on_post_type_archive'][ $attributes['FormID'] ] );
+			}
 		}
 
 		// オプション値を更新

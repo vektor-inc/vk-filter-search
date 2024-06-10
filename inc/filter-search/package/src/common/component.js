@@ -20,7 +20,9 @@ export const AdvancedCheckboxControl = ( props ) => {
 	const { schema, rawData, checkedData, setAttributes } = props;
 	const [ checkedState, setCheckedState ] = useState( checkedData );
 
-	if ( ! rawData || ! checkedData ) return false;
+	if ( ! rawData || ! checkedData ) {
+		return false;
+	}
 
 	const advancedSetAttributes = ( schema2, saveData ) => {
 		setAttributes( { [ schema2 ]: JSON.stringify( saveData ) } );

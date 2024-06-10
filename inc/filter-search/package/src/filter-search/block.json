@@ -2,7 +2,8 @@
 	"apiVersion": "2",
 	"name": "vk-filter-search/filter-search",
 	"title": "VK Filter Search",
-	"category": "vk-blocks-cat",
+	"category": "vk-filter-search",
+	"allowedBlocks": [],
 	"editorScript": "vk-filter-search-block",
 	"editorStyle": "vk-filter-search-editor",
 	"style": "vk-filter-search-style",
@@ -26,9 +27,25 @@
 		"PostID": {
 			"type": "number",
 			"default": null
+		},
+		"style": {
+			"type": "object",
+			"default": {
+				"spacing": {
+					"margin": {
+						"bottom": "3rem"
+					}
+				}
+			}
 		}
 	},
 	"supports": {
-		"className": true
+		"className": true,
+		"spacing": {
+			"margin": {
+				"top": true,
+				"bottom": true
+			}
+		}
 	}
 }

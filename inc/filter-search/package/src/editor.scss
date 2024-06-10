@@ -7,11 +7,14 @@
 
 		// ※ 公開画面と違ってユーザーに上書きしやすさは気にしなくて良いので、
 		// readme.md の命名規則ではなく強めの指定をしています。
-		h4 {
-			margin-bottom:1em;
+		.vkfs__alert-title {
+			margin-bottom:0.5em;
 		}
 		li {
 			margin:0.5rem 0;
+		}
+		p:last-child {
+			margin-bottom:0;
 		}
 		border:1px solid var(--wp-components-color-accent);
 	}
@@ -23,4 +26,12 @@
 }
 a.components-button{
 	text-decoration: none !important;
+}
+.components-panel__vkfs-panel-body {
+	dt {
+		margin-bottom:1em;
+	}
+	dd {
+		margin-inline-start:1em;
+	}
 }

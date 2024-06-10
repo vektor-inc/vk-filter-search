@@ -1,11 +1,11 @@
 === VK Filter Search ===
-Contributors: vektor-inc,kurudrive,rickaddison7634,naoki0h,mimitips,una9,sysbird,chiakikouno
+Contributors: vektor-inc,kurudrive,rickaddison7634,naoki0h,mimitips,una9,sysbird,chiakikouno,mtdkei
 Donate link:
 Tags: Guternberg, Search
 Requires at least: 6.2
 Tested up to: 6.5
 Requires PHP: 7.4
-Stable tag: 2.7.0
+Stable tag: 2.11.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +22,7 @@ If you have custom post type, you can also narrow down the search by custom post
 Site visitors can search your posts by filtered category, tag, custom post type, keyword, etc.
 You can see the documentation [on our website](https://vk-filter-search.com/).
 
-= 4,000+ Active installations =
+= 5,000+ Active installations =
 Since its release in November 2020, it has been installed on many websites.
 
 = Block Editor Support =
@@ -95,9 +95,44 @@ More languages will be added in the future. If you would like to help with trans
 
 == Changelog ==
 
+= 2.11.1 =
+[ Specification Change ] Fix block placed at the bottom.
+
+= 2.11.0 =
+[ Specification Change ][ VK Filter Search / Pro ] Fix block category and placed at the top.
+[ Design bug fix ] When the icon tag is input into the label name input field, adjust it to create a margin to the right of the icon ( Pro version ).
+
+= 2.10.0 =
+[ Add Setting ][ Taxnomy Search Pro] Add accordion setting
+[ Add Setting ][ VK Taxonomy Search Pro ] Add multi-layered dropdown
+[ Specification Change ][ VK Filter Search / Pro ] Change to allow specifying the vertical margin
+[ Bug fix ][ Auto Count ] Fixed search result count when using dropdowns and radio buttons
+
+= 2.9.0 =
+[ Specification Change ][ Block Layout Setting ] Unified the block width settings to be configured from the upper panel of the sidebar.
+[ Bug fix ] Fixed the PHP warning on the edit screen of the post type "VK Filter Search."
+[ Design bug fix ][ VK Post Date Search Pro ] Modify it so that the calendar icon is not displayed when the display area is narrow.
+[ Design bug fix ][ VK Taxonomy Search Pro ] Fixed the misalignment of the active position of the radio button.
+[ Design bug fix ][ VK Taxonomy Search Pro ] Fixed the misalignment of the active position of the checkbox.
+[ Design bug fix ][ VK Taxonomy Search Pro ] Added a 0 margin-top specification to the li tags of each item because the margin-top varied depending on the theme, requiring additional CSS.
+
+= 2.8.1 =
+[ Translate ] Text and translate adjustment
+
+= 2.8.0 =
+[ Add Block ] Add Search Result Title Block
+[ Specification Change ][ Search Result Form ] Add Setting to Force search results to be displayed
+[ Bug fix ][ Taxonomy Post Count ] Fixed keyword not being taken into account.
+
+= 2.7.2 =
+[ Bug fix ] Fixed an issue where allowedBlocks could not be modified by wp.hooks.addFilter
+
+= 2.7.1 =
+[ Bug fix ][ Call Filter Search ] Fix search results were not displayed even if "Display form on search results page" was enabled.
+
 = 2.7.0 =
 [ Specification Change ] Change dashboard icon.
-[ Bug fix ][ Call Filter Search ] Fix  search results were displayed on the first search even if "Display form on search results page" was disabled.
+[ Bug fix ][ Call Filter Search ] Fix search results were displayed on the first search even if "Display form on search results page" was disabled.
 [ Bug fix ] Fixed a bug in the title filter.
 [ Bug fix ] Fixed the JavaScript that controls the form
 

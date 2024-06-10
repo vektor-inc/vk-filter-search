@@ -23,5 +23,12 @@ if ( function_exists( 'register_block_type' ) ) {
  * @param html  $content content.
  */
 function vkfs_search_result_form_render_callback( $attributes, $content ) {
-	return VK_Filter_Search::search_result_form_content();
+	$attributes = wp_parse_args(
+		$attributes,
+		array(
+			'forceDisplayResult' => false,
+		)
+	);
+
+	return VK_Filter_Search::search_result_form_content( $attributes['forceDisplayResult'] );
 }

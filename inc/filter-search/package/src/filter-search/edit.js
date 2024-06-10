@@ -62,6 +62,29 @@ export default function FilterSearchEdit( props ) {
 		}
 	}, [ clientId ] );
 
+	let postTypeAlert = '';
+	if (
+		( currentPostType && currentPostType !== 'filter-search' ) ||
+		! currentPostType
+	) {
+		postTypeAlert = (
+			<ul className={ `vkfs__alert vkfs__alert--warning` }>
+				<li>
+					{ __(
+						'Please do not place the VK Filter Search Block directly into the normal post content or the site editor. First, create a form using the Post Type "VK Filter Search".',
+						'vk-filter-search'
+					) }
+				</li>
+				<li>
+					{ __(
+						'After that, please place the "Call Filter Search" Block where you want the form displayed and select the form you created.',
+						'vk-filter-search'
+					) }
+				</li>
+			</ul>
+		);
+	}
+
 	let blockThemeAlert = '';
 	if ( isBlockTheme && DisplayOnResult ) {
 		blockThemeAlert = (
@@ -139,21 +162,11 @@ export default function FilterSearchEdit( props ) {
 		);
 	}
 
-	let allowedBlocks;
 	let hiddenPostTypes;
 
 	if ( TargetPostType === '' ) {
-		allowedBlocks = [
-			'vk-filter-search/keyword-search',
-			'vk-filter-search/post-type-search',
-			'vk-filter-search/taxonomy-search',
-		];
 		hiddenPostTypes = '';
 	} else {
-		allowedBlocks = [
-			'vk-filter-search/keyword-search',
-			'vk-filter-search/taxonomy-search',
-		];
 		hiddenPostTypes = (
 			<input type="hidden" name="post_type" value={ TargetPostType } />
 		);
@@ -179,6 +192,7 @@ export default function FilterSearchEdit( props ) {
 					title={ __( 'Search Form Setting', 'vk-filter-search' ) }
 					initialOpen={ true }
 				>
+					{ postTypeAlert }
 					<BaseControl id={ 'vkfs-search-TargetPostType' }>
 						<SelectControl
 							label={ __(
@@ -260,7 +274,7 @@ export default function FilterSearchEdit( props ) {
 			>
 				<div className={ `vkfs__labels` }>
 					<InnerBlocks
-						allowedBlocks={ allowedBlocks }
+						// allowedBlocks は子ブロックの block.json から parent で指定されている
 						templateLock={ false }
 						template={ [
 							[
