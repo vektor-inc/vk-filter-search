@@ -75,7 +75,7 @@ jobs:
             - name: Setup Node.js (.node-version)
               uses: actions/setup-node@v3
               with:
-                  node-version: '${{ steps.nodenv.outputs.NODEVERSION }}'
+                  node-version: 20.x
             - name: Install NPM Scripts
               run: npm install
             - name: Build
@@ -103,7 +103,7 @@ jobs:
             - name: Setup Node.js (.node-version)
               uses: actions/setup-node@v3
               with:
-                  node-version: '${{ steps.nodenv.outputs.NODEVERSION }}'
+                  node-version: 20.x
             - name: Install NPM Scripts
               run: npm install
             - name: Build
