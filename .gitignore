@@ -3,6 +3,7 @@ languages/*
 node_modules/
 temp/
 vendor/
+dist/
 .phpunit.result.cache
 .wp-env.override.json
 .DS_Store
