@@ -1,6 +1,24 @@
 const path = require( 'path' );
 module.exports = [
 	{
+		entry: {
+			'react-jsx-runtime': {
+				import: 'react/jsx-runtime',
+			},
+		},
+		output: {
+			path: __dirname + '/inc/filter-search/package/build/',
+			filename: 'react-jsx-runtime.js',
+			library: {
+				name: 'ReactJSXRuntime',
+				type: 'window',
+			},
+		},
+		externals: {
+			react: 'React',
+		},
+	},
+	{
 		entry:
 			__dirname +
 			'/inc/filter-search/package/src/common/enque-front-redirect.js',
