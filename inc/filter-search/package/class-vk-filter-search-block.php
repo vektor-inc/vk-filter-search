@@ -228,6 +228,17 @@ class VK_Filter_Search_Block {
 			VKFS_FREE_MODULE_VERSION
 		);
 
+		// WordPress 6.5 以下の対策
+		if ( ! wp_script_is( 'react-jsx-runtime', 'registered' ) ) {
+			wp_register_script(
+				'react-jsx-runtime',
+				plugins_url( '/build/react-jsx-runtime.js', __FILE__ ),
+				array( 'react' ),
+				'18.3.1',
+				true
+			);
+		}
+
 		wp_register_script(
 			'vk-filter-search-block',
 			plugins_url( '/build/block.js', __FILE__ ),
@@ -241,6 +252,7 @@ class VK_Filter_Search_Block {
 			'keyword-search',
 			'post-type-search',
 			'taxonomy-search',
+			'search-result-count',
 			'search-result-form',
 			'search-result-title',
 			'call-filter-search',

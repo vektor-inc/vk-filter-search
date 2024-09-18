@@ -154,7 +154,7 @@ class VK_Filter_Search_Title {
 				} elseif ( ! empty( get_query_var( 'category__in' ) ) ) {
 					$taxnomy_value = get_query_var( 'category__in' );
 					$operator      = $search_title_args['query_element_or'];
-				} elseif ( ! empty( get_query_var( 'category_name' ) ) ) {
+				} elseif ( ! empty( get_query_var( 'category_name' ) ) && ! empty( get_category_by_slug( get_query_var( 'category_name' ) ) ) ) {
 					$taxnomy_value = array( get_category_by_slug( get_query_var( 'category_name' ) )->term_id );
 					$operator      = $search_title_args['query_element_or'];
 				}
@@ -169,11 +169,13 @@ class VK_Filter_Search_Title {
 
 					$count = 0;
 					foreach ( $taxnomy_value as $category_id ) {
-						$search_title .= $search_title_args['query_element_before'];
-						$search_title .= get_term_by( 'id', $category_id, 'category' )->name;
-						$search_title .= $search_title_args['query_element_after'];
-						if ( $count < count( $taxnomy_value ) - 1 ) {
-							$search_title .= $operator;
+						if ( ! empty( get_term_by( 'id', $category_id, 'category' ) ) ) {
+							$search_title .= $search_title_args['query_element_before'];
+							$search_title .= get_term_by( 'id', $category_id, 'category' )->name;
+							$search_title .= $search_title_args['query_element_after'];
+							if ( $count < count( $taxnomy_value ) - 1 ) {
+								$search_title .= $operator;
+							}
 						}
 						++$count;
 					}
@@ -203,16 +205,18 @@ class VK_Filter_Search_Title {
 
 					// query_title_display が true の場合はクエリタイトルを表示
 					if ( $search_title_args['query_title_display'] ) {
-						$search_title .= get_taxonomy('post_tag')->label . $search_title_args['query_title_after'];
+						$search_title .= get_taxonomy( 'post_tag' )->label . $search_title_args['query_title_after'];
 					}
 
 					$count = 0;
 					foreach ( $taxnomy_value as $tag ) {
-						$search_title .= $search_title_args['query_element_before'];
-						$search_title .= get_term_by( 'slug', $tag, 'post_tag' )->name;
-						$search_title .= $search_title_args['query_element_after'];
-						if ( $count < count( $taxnomy_value ) - 1 ) {
-										$search_title .= $operator;
+						if ( ! empty( get_term_by( 'slug', $tag, 'post_tag' ) ) ) {
+							$search_title .= $search_title_args['query_element_before'];
+							$search_title .= get_term_by( 'slug', $tag, 'post_tag' )->name;
+							$search_title .= $search_title_args['query_element_after'];
+							if ( $count < count( $taxnomy_value ) - 1 ) {
+											$search_title .= $operator;
+							}
 						}
 						++$count;
 					}
@@ -250,11 +254,13 @@ class VK_Filter_Search_Title {
 
 					$count         = 0;
 					foreach ( $taxnomy_value as $term_slug ) {
-						$search_title .= $search_title_args['query_element_before'];
-						$search_title .= get_term_by( 'slug', $term_slug, $taxonomy )->name;
-						$search_title .= $search_title_args['query_element_after'];
-						if ( $count < count( $taxnomy_value ) - 1 ) {
-							$search_title .= $operator;
+						if ( ! empty( get_term_by( 'slug', $term_slug, $taxonomy ) ) ) {
+							$search_title .= $search_title_args['query_element_before'];
+							$search_title .= get_term_by( 'slug', $term_slug, $taxonomy )->name;
+							$search_title .= $search_title_args['query_element_after'];
+							if ( $count < count( $taxnomy_value ) - 1 ) {
+								$search_title .= $operator;
+							}
 						}
 						++$count;
 					}

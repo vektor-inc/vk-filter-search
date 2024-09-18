@@ -272,7 +272,7 @@ export default function SearchTitleEdit( props ) {
 							onChange={ ( value ) =>
 								setAttributes( { queryTitleAfter: value } )
 							}
-							help={ __( 'eg) : ', 'vk-filter-search' ) }
+							help={ __( 'eg) :', 'vk-filter-search' ) }
 						/>
 					</BaseControl>
 					{ vkfsIsPro && (
@@ -291,7 +291,7 @@ export default function SearchTitleEdit( props ) {
 											queryElementOR: value,
 										} )
 									}
-									help={ __( 'eg) or ', 'vk-filter-search' ) }
+									help={ __( 'eg) or', 'vk-filter-search' ) }
 								/>
 							</BaseControl>
 							<BaseControl
@@ -308,10 +308,7 @@ export default function SearchTitleEdit( props ) {
 											queryElementAND: value,
 										} )
 									}
-									help={ __(
-										'eg) and ',
-										'vk-filter-search'
-									) }
+									help={ __( 'eg) and', 'vk-filter-search' ) }
 								/>
 							</BaseControl>
 						</>
@@ -352,7 +349,7 @@ export default function SearchTitleEdit( props ) {
 							onChange={ ( value ) =>
 								setAttributes( { queryElementsAfter: value } )
 							}
-							help={ __( 'eg) | ', 'vk-filter-search' ) }
+							help={ __( 'eg) |', 'vk-filter-search' ) }
 						/>
 					</BaseControl>
 					{ vkfsIsPro && (

@@ -95,6 +95,13 @@ More languages will be added in the future. If you would like to help with trans
 
 == Changelog ==
 
+= 2.12.0 =
+[ Add Block ] Add "Search Result Count" block.
+[ Specification Change ][ Search Result Single Order ] So that only one can be installed  ( Pro version ).
+[ Specification Change ][ VK Filter Search / Pro ] Supports color, background, padding, border.
+[ Bug Fix ][ Call Filter Search Form ] Fix the behavior of block when selected post does not exists.
+[ Bug Fix ][ Search Title ] Fix warning when specify term that doesn't exist.
+
 = 2.11.2 =
 [ Bug Fix ][ Taxonomy Search Pro ] Fix the behavior of stage dropdown when selecting "any".
 

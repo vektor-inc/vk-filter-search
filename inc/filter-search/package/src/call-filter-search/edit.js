@@ -3,13 +3,16 @@ import { PanelBody, BaseControl, SelectControl } from '@wordpress/components';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import ServerSideRender from '@wordpress/server-side-render';
 
-export default function CallFilterSearchEdit( { attributes, setAttributes } ) {
+export default function CallFilterSearchEdit( props ) {
+	const { attributes, setAttributes } = props;
 	const { TargetPost } = attributes;
 
 	// eslint-disable-next-line no-undef
 	const adminURL = callFilterSearch.adminURL;
 	// eslint-disable-next-line no-undef
 	const hasFilterSearchPosts = callFilterSearch.hasFilterSearchPosts;
+	// eslint-disable-next-line no-undef
+	const filterSearchPostIDs = callFilterSearch.filterSearchPostIDs;
 	// eslint-disable-next-line no-undef
 	const pagesSelect = callFilterSearch.targetPosts;
 
@@ -52,6 +55,15 @@ export default function CallFilterSearchEdit( { attributes, setAttributes } ) {
 			<div className="vkfs__alert alert text-center">
 				{ __(
 					'Select this block and specify from the settings sidebar which search form to display.',
+					'vk-filter-search'
+				) }
+			</div>
+		);
+	} else if ( ! filterSearchPostIDs.includes( TargetPost ) ) {
+		editContent = (
+			<div className="vkfs__alert alert text-center">
+				{ __(
+					'The selected form is deleted. Please select another form.',
 					'vk-filter-search'
 				) }
 			</div>
