@@ -2,8 +2,8 @@
 Contributors: vektor-inc,kurudrive,rickaddison7634,naoki0h,mimitips,una9,sysbird,chiakikouno,mtdkei
 Donate link:
 Tags: Guternberg, Search
-Requires at least: 6.2
-Tested up to: 6.5
+Requires at least: 6.3
+Tested up to: 6.6
 Requires PHP: 7.4
 Stable tag: 2.12.0.1
 License: GPLv2 or later
@@ -94,6 +94,9 @@ More languages will be added in the future. If you would like to help with trans
 4. Search Results page
 
 == Changelog ==
+
+= 2.13.0 =
+[ Add Setting ][ Search Result Count ] Add font-style / font-weight of number setting.
 
 = 2.12.0 =
 [ Add Block ] Add "Search Result Count" block.

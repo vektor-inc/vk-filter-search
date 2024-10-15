@@ -719,11 +719,13 @@ class VK_Filter_Search {
 
 	public static function get_search_count_html( $options ) {
 		$default = array(
-			'outer'            => true,
-			'before_text'      => __( 'Search Results:', 'vk-filter-search' ),
-			'after_text'       => __( 'articles found.', 'vk-filter-search' ),
-			'number_color'     => '',
-			'number_font_size' => '',
+			'outer'             => true,
+			'before_text'       => __( 'Search Results:', 'vk-filter-search' ),
+			'after_text'        => __( 'articles found.', 'vk-filter-search' ),
+			'number_color'      => '',
+			'number_font_size'  => '',
+			'number_font_style' => '',
+			'number_font_weight' => '',
 		);
 		$options = wp_parse_args( $options, $default );
 
@@ -748,6 +750,16 @@ class VK_Filter_Search {
 			// 数字のフォントサイズ
 			if ( ! empty( $options['number_font_size'] ) ) {
 				$number_style .= 'font-size: ' . $options['number_font_size'] . ';';
+			}
+
+			// 数字のフォントスタイル
+			if ( ! empty( $options['number_font_style'] ) ) {
+				$number_style .= 'font-style: ' . $options['number_font_style'] . ';';
+			}
+
+			// 数字のフォントウェイト
+			if ( ! empty( $options['number_font_weight'] ) ) {
+				$number_style .= 'font-weight: ' . $options['number_font_weight'] . ';';
 			}
 
 			// スタイルの処理

@@ -26,10 +26,12 @@ function vkfs_search_result_count_render_callback( $attributes, $content ) {
 	$attributes = wp_parse_args(
 		$attributes,
 		array(
-			'beforeText'     => '',
-			'afterText'      => '',
-			'numberColor'    => '',
-			'numberFontSize' => '',
+			'beforeText'       => '',
+			'afterText'        => '',
+			'numberColor'      => '',
+			'numberFontSize'   => '',
+			'numberFontStyle'  => '',
+			'numberFontWeight' => '',
 		)
 	);
 
@@ -41,11 +43,13 @@ function vkfs_search_result_count_render_callback( $attributes, $content ) {
 		$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => implode( ' ', $classes ) ) );
 
 		$options = array(
-			'outer'            => false,
-			'before_text'      => $attributes['beforeText'],
-			'after_text'       => $attributes['afterText'],
-			'number_color'     => $attributes['numberColor'],
-			'number_font_size' => $attributes['numberFontSize'],
+			'outer'              => false,
+			'before_text'        => $attributes['beforeText'],
+			'after_text'         => $attributes['afterText'],
+			'number_color'       => $attributes['numberColor'],
+			'number_font_size'   => $attributes['numberFontSize'],
+			'number_font_style'  => $attributes['numberFontStyle'],
+			'number_font_weight' => $attributes['numberFontWeight'],
 		);
 	
 		$content = sprintf(

@@ -20,6 +20,12 @@
 		},
 		"numberFontSize": {
 			"type": "string"
+		},
+		"numberFontStyle": {
+			"type": "string"
+		},
+		"numberFontWeight": {
+			"type": "string"
 		}
 	},
 	"supports": {
