@@ -95,6 +95,8 @@ More languages will be added in the future. If you would like to help with trans
 
 == Changelog ==
 
+[ Other ] change version only ( change WordPress.org banner ).
+
 = 2.13.0 =
 [ Add Setting ][ Search Result Count ] Add font-style / font-weight of number setting.
 
