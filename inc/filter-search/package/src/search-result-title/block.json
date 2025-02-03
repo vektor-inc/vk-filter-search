@@ -1,5 +1,5 @@
 {
-	"apiVersion": "2",
+	"apiVersion": "3",
 	"name": "vk-filter-search/search-result-title",
 	"title": "Search Result Title",
 	"category": "vk-filter-search",

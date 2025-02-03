@@ -2,8 +2,8 @@
 Contributors: vektor-inc,kurudrive,rickaddison7634,naoki0h,mimitips,una9,sysbird,chiakikouno,mtdkei
 Donate link:
 Tags: Guternberg, Search
-Requires at least: 6.3
-Tested up to: 6.6
+Requires at least: 6.4
+Tested up to: 6.7
 Requires PHP: 7.4
 Stable tag: 2.13.0.1
 License: GPLv2 or later
@@ -95,7 +95,10 @@ More languages will be added in the future. If you would like to help with trans
 
 == Changelog ==
 
-[ Other ] change version only ( change WordPress.org banner ).
+= 2.14.0 =
+[ Specification change ] Fixed the zoom-out toggle not always displaying in the editor toolbar (updated blocks.json API version from 2 to 3).
+[ Specification Change ][ VK Filter Search Pro ] Add class "termid-XX" to li tag.
+[ Design Bug Fix ][ Taxonomy Search Pro ] Fixed the position shifting of checkboxes and similar elements caused by a min-height property applied to input tags in the theme's CSS.
 
 = 2.13.0 =
 [ Add Setting ][ Search Result Count ] Add font-style / font-weight of number setting.
