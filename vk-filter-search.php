@@ -25,6 +25,7 @@ if (
 	is_plugin_active( 'vk-filter-search-pro-global-edition/vk-filter-search-pro-global-edition.php' )
 ) {
 	deactivate_plugins( 'vk-filter-search/vk-filter-search.php' );
+	return;
 }
 
 if ( 'vk-filter-search/vk-filter-search.php' === plugin_basename( __FILE__ ) ) {
