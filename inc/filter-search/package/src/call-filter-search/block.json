@@ -10,6 +10,10 @@
 		"TargetPost": {
 			"type": "number",
 			"default": -1
+		},
+		"className": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"supports": {
