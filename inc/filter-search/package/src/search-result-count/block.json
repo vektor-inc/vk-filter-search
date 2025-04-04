@@ -1,0 +1,47 @@
+{
+	"apiVersion": "3",
+	"name": "vk-filter-search/search-result-count",
+	"title": "Search Result Count",
+	"category": "vk-filter-search",
+	"editorScript": "vk-filter-search-block",
+	"editorStyle": "vk-filter-search-editor",
+	"style": "vk-filter-search-style",
+	"attributes": {
+		"beforeText": {
+			"type": "string",
+			"default": "Search results:"
+		},
+		"afterText": {
+			"type": "string",
+			"default": "articles found"
+		},
+		"numberColor": {
+			"type": "string"
+		},
+		"numberFontSize": {
+			"type": "string"
+		},
+		"numberFontStyle": {
+			"type": "string"
+		},
+		"numberFontWeight": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"className": true,
+		"color": {
+			"background": false,
+			"text": true
+		},
+		"typography": {
+			"fontSize": true,
+			"textAlign": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontStyle": true,
+			"__experimentalFontWeight": true,
+			"__experimentalLetterSpacing": true,
+			"lineHeight": true
+		}
+	}
+}

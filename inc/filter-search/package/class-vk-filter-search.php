@@ -319,6 +319,20 @@ class VK_Filter_Search {
 	}
 
 	/**
+	 * is hex color
+	 *
+	 * @param string color color
+	 */
+	public static function is_hex_color( $color ) {
+		$is_hex = false;
+		if ( $color && preg_match( '/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/', $color ) ) {
+			$is_hex = true;
+		}
+		return $is_hex;
+	}
+
+
+	/**
 	 * Get Keyword Filter Form HTML
 	 *
 	 * @param array $options options.
@@ -701,6 +715,77 @@ class VK_Filter_Search {
 		}
 		// プロ版のチェックボックスなどはフィルターで全部差し替え.
 		return apply_filters( 'vk_search_filter_taxonomy_design_html', $taxonomy_design_html, $taxonomy, $options );
+	}
+
+	public static function get_search_count_html( $options ) {
+		$default = array(
+			'outer'             => true,
+			'before_text'       => __( 'Search Results:', 'vk-filter-search' ),
+			'after_text'        => __( 'articles found.', 'vk-filter-search' ),
+			'number_color'      => '',
+			'number_font_size'  => '',
+			'number_font_style' => '',
+			'number_font_weight' => '',
+		);
+		$options = wp_parse_args( $options, $default );
+
+		global $wp_query;
+
+		$content = '';
+
+		if ( is_search() ) {
+
+			$number_style = '';
+			$number_class = '';
+
+			// 数字の色の処理
+			if ( ! empty( $options['number_color'] ) ) {
+				if ( self::is_hex_color( $options['number_color'] ) ) {
+					$number_style .= 'color: ' . $options['number_color'] . ';';
+				} else {
+					$number_class .= 'has-text-color has-' . $options['number_color'] . '-color';
+				}
+			}
+
+			// 数字のフォントサイズ
+			if ( ! empty( $options['number_font_size'] ) ) {
+				$number_style .= 'font-size: ' . $options['number_font_size'] . ';';
+			}
+
+			// 数字のフォントスタイル
+			if ( ! empty( $options['number_font_style'] ) ) {
+				$number_style .= 'font-style: ' . $options['number_font_style'] . ';';
+			}
+
+			// 数字のフォントウェイト
+			if ( ! empty( $options['number_font_weight'] ) ) {
+				$number_style .= 'font-weight: ' . $options['number_font_weight'] . ';';
+			}
+
+			// スタイルの処理
+			if ( ! empty( $number_style ) ) {
+				$number_style = ' style="' . $number_style . '"';
+			}
+
+			// クラスの処理
+			if ( ! empty( $number_class ) ) {
+				$number_class = ' class="' . $number_class . '"';
+			}
+
+			if ( ! empty( $options['outer'] ) ) {
+				$content .= '<div class="vkfs__search-result-count">';
+			}
+
+			$content .= $options['before_text'];
+			$content .= ' <span' . $number_style . $number_class . '>' . $wp_query->found_posts . '</span> ';
+			$content .= $options['after_text'];
+
+			if ( ! empty( $options['outer'] ) ) {
+				$content .= '</div>';
+			}
+		}
+
+		return $content;
 	}
 
 	/**

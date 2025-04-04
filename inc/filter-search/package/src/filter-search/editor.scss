@@ -48,15 +48,16 @@ html :where(.editor-styles-wrapper) {
 	.vkfs {
 
 		&__input-wrap {
+			//ulタグの横に余白ができるので追加
+			padding-left: 0;
+			margin: 0;
 
 			label {
 				//これがないとラベル内が崩れる
 				display: block;
 				margin-bottom: 0; // .editor-styles-wrapper label { .5rem 打ち消し
 			}
-			//ulタグの横に余白ができるので追加
-			padding-left: 0;
-			margin: 0;
+
 		}
 
 		&__labels {
@@ -171,7 +172,7 @@ html :where(.editor-styles-wrapper) {
  */
 
 .vkfs__alert {
-
+	border-radius: 3px;
 	.editor-styles-wrapper & {
 		padding: 1.5em;
 	}
@@ -179,7 +180,7 @@ html :where(.editor-styles-wrapper) {
 	.components-panel__body & {
 		padding: 1em;
 	}
-	border-radius: 3px;
+	
 
 	&--danger {
 		background-color: #f2dede;

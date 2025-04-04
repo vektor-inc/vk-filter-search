@@ -4,7 +4,7 @@
 		--wp-components-color-accent : #cc1818;
 		padding: 2em;
 		color:var(--wp-components-color-accent);
-
+		border:1px solid var(--wp-components-color-accent);
 		// ※ 公開画面と違ってユーザーに上書きしやすさは気にしなくて良いので、
 		// readme.md の命名規則ではなく強めの指定をしています。
 		.vkfs__alert-title {
@@ -16,7 +16,7 @@
 		p:last-child {
 			margin-bottom:0;
 		}
-		border:1px solid var(--wp-components-color-accent);
+		
 	}
 }
 

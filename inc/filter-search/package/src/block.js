@@ -16,6 +16,7 @@ import { vkfsCategoryIcon } from './block-category';
 import * as callFilterSearch from './call-filter-search';
 import * as filterSearch from './filter-search';
 import * as keywordSearch from './keyword-search';
+import * as searchResultCount from './search-result-count';
 import * as searchResultForm from './search-result-form';
 import * as searchResultTitle from './search-result-title';
 import * as postTypeSearch from './post-type-search';
@@ -27,6 +28,7 @@ import * as taxonomySearch from './taxonomy-search';
 export const __getVKFilterSearchBlocks = () => [
 	callFilterSearch,
 	filterSearch,
+	searchResultCount,
 	searchResultForm,
 	searchResultTitle,
 	keywordSearch,

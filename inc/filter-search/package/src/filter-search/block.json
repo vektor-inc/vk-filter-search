@@ -1,5 +1,5 @@
 {
-	"apiVersion": "2",
+	"apiVersion": "3",
 	"name": "vk-filter-search/filter-search",
 	"title": "VK Filter Search",
 	"category": "vk-filter-search",
@@ -42,9 +42,36 @@
 	"supports": {
 		"className": true,
 		"spacing": {
-			"margin": {
-				"top": true,
-				"bottom": true
+			"margin": true,
+			"padding": true
+		},
+		"background": {
+			"backgroundImage": true,
+			"backgroundSize": true,
+			"__experimentalDefaultControls": {
+				"backgroundImage": true
+			}
+		},
+		"color": {
+			"gradients": true,
+			"heading": false,
+			"button": false,
+			"link": false,
+			"__experimentalDefaultControls": {
+				"background": true,
+				"text": false
+			}
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true,
+			"__experimentalDefaultControls": {
+				"color": true,
+				"radius": true,
+				"style": true,
+				"width": true
 			}
 		}
 	}

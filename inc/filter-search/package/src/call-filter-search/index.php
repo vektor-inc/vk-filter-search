@@ -32,8 +32,13 @@ function vkfs_set_call_filteer_search_data() {
 		)
 	);
 
+	$post_ids = array();
+
 	if ( ! empty( $posts ) ) {
 		$has_filter_search_posts = true;
+		foreach ( $posts as $post ) {
+			$post_ids[] = $post->ID;
+		}
 	} else {
 		$has_filter_search_posts = false;
 	}
@@ -59,6 +64,7 @@ function vkfs_set_call_filteer_search_data() {
 		array(
 			'adminURL'             => admin_url(),
 			'hasFilterSearchPosts' => $has_filter_search_posts,
+			'filterSearchPostIDs'  => $post_ids,
 			'targetPosts'          => $post_selection,
 		)
 	);
@@ -75,7 +81,7 @@ function vkfs_call_filteer_search_render_callback( $attributes ) {
 	// 投稿タイプ VK Filter Search で作った投稿のID
 	$target_id = ! empty( $attributes['TargetPost'] ) ? $attributes['TargetPost'] : -1;
 	// 投稿タイプ VK Filter Search で作成した投稿（フォーム）コンテンツを取得
-	$target_content = -1 !== $target_id ? get_post( $target_id )->post_content : '';
+	$target_content = -1 !== $target_id && ! empty( get_post( $target_id ) ) ? get_post( $target_id )->post_content : '';
 	// 検索結果ページに表示するかどうか
 	$display_result = get_post_meta( $target_id, 'vkfs_display_result', true );
 

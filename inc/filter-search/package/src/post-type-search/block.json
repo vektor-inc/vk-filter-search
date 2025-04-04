@@ -1,5 +1,5 @@
 {
-	"apiVersion": "2",
+	"apiVersion": "3",
 	"name": "vk-filter-search/post-type-search",
 	"title": "VK Post Type Search",
 	"category": "vk-filter-search",

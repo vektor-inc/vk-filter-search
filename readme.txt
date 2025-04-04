@@ -2,10 +2,10 @@
 Contributors: vektor-inc,kurudrive,rickaddison7634,naoki0h,mimitips,una9,sysbird,chiakikouno,mtdkei
 Donate link:
 Tags: Guternberg, Search
-Requires at least: 6.2
-Tested up to: 6.5
+Requires at least: 6.4
+Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 2.11.2.1
+Stable tag: 2.14.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -94,6 +94,24 @@ More languages will be added in the future. If you would like to help with trans
 4. Search Results page
 
 == Changelog ==
+
+= 2.14.1 =
+[ Bug Fix ][ Call Filter Search ] Fixed an error when entering additional CSS classes.
+
+= 2.14.0 =
+[ Specification change ] Fixed the zoom-out toggle not always displaying in the editor toolbar (updated blocks.json API version from 2 to 3).
+[ Specification Change ][ VK Filter Search Pro ] Add class "termid-XX" to li tag.
+[ Design Bug Fix ][ Taxonomy Search Pro ] Fixed the position shifting of checkboxes and similar elements caused by a min-height property applied to input tags in the theme's CSS.
+
+= 2.13.0 =
+[ Add Setting ][ Search Result Count ] Add font-style / font-weight of number setting.
+
+= 2.12.0 =
+[ Add Block ] Add "Search Result Count" block.
+[ Specification Change ][ Search Result Single Order ] So that only one can be installed  ( Pro version ).
+[ Specification Change ][ VK Filter Search / Pro ] Supports color, background, padding, border.
+[ Bug Fix ][ Call Filter Search Form ] Fix the behavior of block when selected post does not exists.
+[ Bug Fix ][ Search Title ] Fix warning when specify term that doesn't exist.
 
 = 2.11.2 =
 [ Bug Fix ][ Taxonomy Search Pro ] Fix the behavior of stage dropdown when selecting "any".

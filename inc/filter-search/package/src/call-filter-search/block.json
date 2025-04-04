@@ -1,5 +1,5 @@
 {
-	"apiVersion": 2,
+	"apiVersion": "3",
 	"name": "vk-filter-search/call-filter-search",
 	"title": "Call Filter Search Form",
 	"category": "vk-filter-search",
@@ -10,6 +10,10 @@
 		"TargetPost": {
 			"type": "number",
 			"default": -1
+		},
+		"className": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"supports": {
