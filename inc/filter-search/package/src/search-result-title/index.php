@@ -48,7 +48,7 @@ function vkfs_search_result_title_render_callback( $attributes, $content ) {
 		array(
 			'outerTagName'          => 'div',
 			'queriesFormat'         => __( 'Search Result for %s', 'vk-filter-search' ),
-			'queryTitleDisplay'     => true,
+			'queryTitleDisplay'     => 'display',
 			'queryTitleAfter'       => ': ',
 			'queryElementOR'        => 'or',
 			'queryElementAND'       => 'and',

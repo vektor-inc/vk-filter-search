@@ -62,6 +62,65 @@ export default function FilterSearchEdit( props ) {
 		}
 	}, [ clientId ] );
 
+	useEffect( () => {
+		const iframe = document.querySelector(
+			'.block-editor__container iframe'
+		);
+		const iframeDoc = iframe?.contentWindow?.document;
+		const targetDoc = iframeDoc || document;
+
+		// eslint-disable-next-line no-undef
+		const observer = new MutationObserver( () => {
+			const editorRoot = targetDoc.querySelector(
+				'.block-editor-block-list__layout'
+			);
+			if ( ! editorRoot ) {
+				return;
+			}
+
+			const filterSearchSubmit = editorRoot.querySelectorAll(
+				'.vk-filter-search .vkfs_submit'
+			);
+			if ( filterSearchSubmit.length === 0 ) {
+				return;
+			}
+
+			filterSearchSubmit.forEach( ( link ) => {
+				if ( link.dataset.prevented ) {
+					return;
+				} // 二重適用防止
+
+				link.dataset.prevented = 'true';
+				link.addEventListener( 'click', function ( event ) {
+					event.preventDefault();
+					link.style.cursor = 'default';
+					link.style.boxShadow = 'unset';
+					link.style.pointerEvents = 'none';
+				} );
+				link.addEventListener( 'mouseover', function ( event ) {
+					event.preventDefault();
+					link.style.cursor = 'default';
+					link.style.boxShadow = 'unset';
+					link.style.pointerEvents = 'none';
+				} );
+			} );
+		} );
+		const observeTarget =
+			targetDoc.querySelector( '.block-editor-block-list__layout' ) ||
+			targetDoc.body;
+		if ( observeTarget ) {
+			observer.observe( observeTarget, {
+				childList: true,
+				subtree: true,
+			} );
+		}
+
+		// クリーンアップ
+		return () => {
+			observer.disconnect();
+		};
+	}, [] );
+
 	let postTypeAlert = '';
 	if (
 		( currentPostType && currentPostType !== 'filter-search' ) ||
@@ -296,7 +355,10 @@ export default function FilterSearchEdit( props ) {
 				{ hiddenPostTypes }
 				{ hiddenResult }
 				<input type="hidden" name="vkfs_submitted" value="true" />
-				<button className={ `btn btn-primary` } type={ `submit` }>
+				<button
+					className={ `vkfs_submit btn btn-primary` }
+					type={ `submit` }
+				>
 					{ __( 'Search', 'vk-filter-search' ) }
 				</button>
 			</form>

@@ -20,7 +20,7 @@ class VK_Filter_Search_Title {
 	public static function get_default_search_title_args() {
 		$search_title_args = array(
 			'queries_format'          => __( 'Search Result for %s', 'vk-filter-search' ),
-			'query_title_display'     => true,
+			'query_title_display'     => 'display',
 			'query_title_after'       => ': ',
 			'query_element_or'        => ' or ',
 			'query_element_and'       => ' and ',
@@ -82,8 +82,8 @@ class VK_Filter_Search_Title {
 
 			$count = 0;
 
-			// query_title_display が true の場合はクエリタイトルを表示
-			if ( $search_title_args['query_title_display'] ) {
+			// query_title_display が display の場合はクエリタイトルを表示
+			if ( 'display' === $search_title_args['query_title_display'] ) {
 				$search_title .= __( 'Post Type', 'vk-filter-search' ) . $search_title_args['query_title_after'];
 			}
 
@@ -162,8 +162,8 @@ class VK_Filter_Search_Title {
 				// カテゴリのタイトルを作成
 				if ( ! empty( $taxnomy_value ) ) {
 
-					// query_title_display が true の場合はクエリタイトルを表示
-					if ( $search_title_args['query_title_display'] ) {
+					// query_title_display が display の場合はクエリタイトルを表示
+					if ( 'display' === $search_title_args['query_title_display'] ) {
 						$search_title .= get_taxonomy('category')->label . $search_title_args['query_title_after'];
 					}
 
@@ -203,8 +203,8 @@ class VK_Filter_Search_Title {
 				// タグのタイトルを作成
 				if ( ! empty( $taxnomy_value ) ) {
 
-					// query_title_display が true の場合はクエリタイトルを表示
-					if ( $search_title_args['query_title_display'] ) {
+					// query_title_display が display の場合はクエリタイトルを表示
+					if ( 'display' === $search_title_args['query_title_display'] ) {
 						$search_title .= get_taxonomy( 'post_tag' )->label . $search_title_args['query_title_after'];
 					}
 
@@ -247,8 +247,8 @@ class VK_Filter_Search_Title {
 				// タクソノミーのタイトルを作成
 				if ( ! empty( $taxnomy_value ) ) {
 					
-					// query_title_display が true の場合はクエリタイトルを表示
-					if ( $search_title_args['query_title_display'] ) {
+					// query_title_display が display の場合はクエリタイトルを表示
+					if ( 'display' === $search_title_args['query_title_display'] ) {
 						$search_title .= $taxonomy_label_array[ $taxonomy ] . $search_title_args['query_title_after'];
 					}
 
@@ -307,7 +307,8 @@ class VK_Filter_Search_Title {
 
 		// キーワードのタイトルを作成
 		if ( ! empty( $keyword_array ) ) {
-			if ( $search_title_args['query_title_display'] ) {
+			// query_title_display が display の場合はクエリタイトルを表示
+			if ( 'display' === $search_title_args['query_title_display'] ) {
 				$search_title .= __( 'Keyword', 'vk-filter-search' ) . $search_title_args['query_title_after'];
 			}
 			$count = 0;

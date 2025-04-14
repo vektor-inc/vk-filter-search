@@ -4,8 +4,8 @@ import {
 	BaseControl,
 	TextControl,
 	SelectControl,
-	Button,
-	ButtonGroup,
+	__experimentalToggleGroupControl as ToggleGroupControl,
+	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components';
 import {
 	InspectorControls,
@@ -65,37 +65,37 @@ export default function SearchTitleEdit( props ) {
 	} else {
 		// 投稿タイプのクエリタイトル
 		const postTypeQueryTitle =
-			queryTitleDisplay === true
+			queryTitleDisplay === 'display'
 				? __( 'Post Type', 'vk-filter-search' ) + queryTitleAfter
 				: '';
 
 		// ジャンルのクエリタイトル
 		const genreQueryTitle =
-			queryTitleDisplay === true
+			queryTitleDisplay === 'display'
 				? __( 'Genre', 'vk-filter-search' ) + queryTitleAfter
 				: '';
 
 		// エリアのクエリタイトル
 		const areaQueryTitle =
-			queryTitleDisplay === true
+			queryTitleDisplay === 'display'
 				? __( 'Area', 'vk-filter-search' ) + queryTitleAfter
 				: '';
 
 		// 投稿日のクエリタイトル
 		const postDateQueryTitle =
-			queryTitleDisplay === true
+			queryTitleDisplay === 'display'
 				? __( 'Post Date', 'vk-filter-search' ) + queryTitleAfter
 				: '';
 
 		// 更新日のクエリタイトル
 		const postModifiedaQueryTitle =
-			queryTitleDisplay === true
+			queryTitleDisplay === 'display'
 				? __( 'Post Modified', 'vk-filter-search' ) + queryTitleAfter
 				: '';
 
 		// キーワードのクエリタイトル
 		const keywordQueryTitle =
-			queryTitleDisplay === true
+			queryTitleDisplay === 'display'
 				? __( 'Keyword', 'vk-filter-search' ) + queryTitleAfter
 				: '';
 
@@ -233,34 +233,26 @@ export default function SearchTitleEdit( props ) {
 							'vk-filter-search'
 						) }
 					>
-						<ButtonGroup>
-							<Button
-								variant={
-									queryTitleDisplay === true
-										? 'primary'
-										: 'secondary'
-								}
-								onClick={ () =>
-									setAttributes( { queryTitleDisplay: true } )
-								}
-							>
-								{ __( 'Display', 'vk-filter-search' ) }
-							</Button>
-							<Button
-								variant={
-									queryTitleDisplay === false
-										? 'primary'
-										: 'secondary'
-								}
-								onClick={ () =>
-									setAttributes( {
-										queryTitleDisplay: false,
-									} )
-								}
-							>
-								{ __( 'Hide', 'vk-filter-search' ) }
-							</Button>
-						</ButtonGroup>
+						<ToggleGroupControl
+							label={ __(
+								'Query Title Display',
+								'vk-filter-search'
+							) }
+							value={ queryTitleDisplay }
+							onChange={ ( value ) => {
+								setAttributes( { queryTitleDisplay: value } );
+							} }
+							isBlock
+						>
+							<ToggleGroupControlOption
+								value="display"
+								label={ __( 'Display', 'vk-filter-search' ) }
+							/>
+							<ToggleGroupControlOption
+								value="hide"
+								label={ __( 'Hide', 'vk-filter-search' ) }
+							/>
+						</ToggleGroupControl>
 					</BaseControl>
 					<BaseControl id={ 'vkfs_searchTitle_queryTitleAfter' }>
 						<TextControl

@@ -2,6 +2,7 @@ import { __ } from '@wordpress/i18n';
 import { PanelBody, BaseControl, SelectControl } from '@wordpress/components';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import ServerSideRender from '@wordpress/server-side-render';
+import { useEffect } from '@wordpress/element';
 
 export default function CallFilterSearchEdit( props ) {
 	const { attributes, setAttributes } = props;
@@ -15,6 +16,65 @@ export default function CallFilterSearchEdit( props ) {
 	const filterSearchPostIDs = callFilterSearch.filterSearchPostIDs;
 	// eslint-disable-next-line no-undef
 	const pagesSelect = callFilterSearch.targetPosts;
+
+	useEffect( () => {
+		const iframe = document.querySelector(
+			'.block-editor__container iframe'
+		);
+		const iframeDoc = iframe?.contentWindow?.document;
+		const targetDoc = iframeDoc || document;
+
+		// eslint-disable-next-line no-undef
+		const observer = new MutationObserver( () => {
+			const editorRoot = targetDoc.querySelector(
+				'.block-editor-block-list__layout'
+			);
+			if ( ! editorRoot ) {
+				return;
+			}
+
+			const filterSearchSubmit = editorRoot.querySelectorAll(
+				'.vk-filter-search .vkfs_submit'
+			);
+			if ( filterSearchSubmit.length === 0 ) {
+				return;
+			}
+
+			filterSearchSubmit.forEach( ( link ) => {
+				if ( link.dataset.prevented ) {
+					return;
+				} // 二重適用防止
+
+				link.dataset.prevented = 'true';
+				link.addEventListener( 'click', function ( event ) {
+					event.preventDefault();
+					link.style.cursor = 'default';
+					link.style.boxShadow = 'unset';
+					link.style.pointerEvents = 'none';
+				} );
+				link.addEventListener( 'mouseover', function ( event ) {
+					event.preventDefault();
+					link.style.cursor = 'default';
+					link.style.boxShadow = 'unset';
+					link.style.pointerEvents = 'none';
+				} );
+			} );
+		} );
+		const observeTarget =
+			targetDoc.querySelector( '.block-editor-block-list__layout' ) ||
+			targetDoc.body;
+		if ( observeTarget ) {
+			observer.observe( observeTarget, {
+				childList: true,
+				subtree: true,
+			} );
+		}
+
+		// クリーンアップ
+		return () => {
+			observer.disconnect();
+		};
+	}, [] );
 
 	let editContent;
 	if ( ! hasFilterSearchPosts ) {
@@ -40,14 +100,18 @@ export default function CallFilterSearchEdit( props ) {
 						) }
 					</li>
 				</ol>
-				<a
-					href={ adminURL + 'edit.php?post_type=filter-search' }
-					target="_blank"
-					rel="noopener noreferrer"
+				<button
+					onClick={ () =>
+						window.open(
+							adminURL + 'edit.php?post_type=filter-search',
+							'_blank',
+							'noopener,noreferrer'
+						)
+					}
 					className="components-button is-primary"
 				>
 					{ __( 'Register Filter Search Form', 'vk-filter-search' ) }
-				</a>
+				</button>
 			</div>
 		);
 	} else if ( TargetPost === -1 ) {

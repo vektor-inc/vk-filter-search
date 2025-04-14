@@ -18,8 +18,8 @@
 			"type": "string"
 		},
 		"queryTitleDisplay": {
-			"type": "boolean",
-			"default": true
+			"type": "string",
+			"default": "display"
 		},
 		"queryTitleAfter": {
 			"type": "string",

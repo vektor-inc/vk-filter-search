@@ -14,7 +14,10 @@ const set_redirect_url = () => {
 	const search_query = {};
 	Object.keys( url_queries ).forEach( ( key ) => {
 		if ( key === 's' ) {
-			search_query.s = `s=${ url_queries[ key ] }`;
+			let keyword = decodeURIComponent( url_queries[ key ] );
+			keyword = keyword.replace( /　/g, '+' ); // eslint-disable-line no-irregular-whitespace
+			keyword = encodeURIComponent( keyword );
+			search_query.s = `s=${ keyword }`;
 		} else if ( key === 'vkfs_post_type' ) {
 			search_query.post_type = `post_type=${ url_queries[ key ] }`;
 		} else if ( key === 'vkfs_category' ) {

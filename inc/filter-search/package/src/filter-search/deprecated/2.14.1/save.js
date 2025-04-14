@@ -38,10 +38,7 @@ export default function save( props ) {
 			{ hiddenPostTypes }
 			[filter_search_result_input]
 			<input type="hidden" name="vkfs_submitted" value="true" />
-			<button
-				className={ `vkfs_submit btn btn-primary` }
-				type={ `submit` }
-			>
+			<button className={ `btn btn-primary` } type={ `submit` }>
 				{ __( 'Search', 'vk-filter-search' ) }
 			</button>
 		</form>

@@ -109,7 +109,7 @@ function vkfs_call_filteer_search_render_callback( $attributes ) {
 		$page_html .= apply_filters( 'filter_search_content', $target_content );
 		$url        = get_edit_post_link( $target_id );
 		if ( $url ) {
-			$page_html .= '<a href="' . esc_url( $url ) . '" class="vkfs__call-filter-search_editBtn btn btn-outline-primary btn-sm veu_adminEdit" target="_blank">' . __( 'Edit Search Form', 'vk-filter-search' ) . '</a>';
+			$page_html .= '<button type="button" onClick="window.open(\'' . esc_url( $url ) . '\', \'_blank\', \'noopener,noreferrer\')" class="vkfs__call-filter-search_editBtn btn btn-outline-primary btn-sm veu_adminEdit">' . __( 'Edit Search Form', 'vk-filter-search' ) . '</button>';
 		}
 		$page_html .= '</div>';
 	}
