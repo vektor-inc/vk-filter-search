@@ -10,7 +10,10 @@ on:
             - master
             - develop
             - ^feature/.+
-
+env:
+    GIT_REPOSITORY_USER: ${{ secrets.GIT_REPOSITORY_USER }}
+    GIT_REPOSITORY_PRO: ${{ secrets.GIT_REPOSITORY_PRO }}
+    GIT_REPOSITORY_GLOBAL: ${{ secrets.GIT_REPOSITORY_GLOBAL }}
 jobs:
     php_unit:
         runs-on: ubuntu-latest
