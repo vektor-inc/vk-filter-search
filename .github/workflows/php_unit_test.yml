@@ -59,6 +59,22 @@ jobs:
               run: npm run wp-env run cli wp core version
             - name: Install Themes
               run: bash bin/install-theme.sh
+            - name: Setup SSH Key for Pro
+              uses: MrSquaare/ssh-setup-action@v3
+              with:
+                  host: github.com
+                  private-key: ${{ secrets.DEPLOY_KEY_PRO }}
+                  private-key-name: deploy-key-pro
+            - name: Clone Pro
+              run: git clone git@github.com:${GIT_REPOSITORY_USER}/${GIT_REPOSITORY_PRO}.git ./temp/plugins/${GIT_REPOSITORY_PRO}
+            - name: Setup SSH Key for GLOBAL
+              uses: MrSquaare/ssh-setup-action@v3
+              with:
+                  host: github.com
+                  private-key: ${{ secrets.DEPLOY_KEY_GLOBAL }}
+                  private-key-name: deploy-key-global
+            - name: Clone GLOBAL
+              run: git clone git@github.com:${GIT_REPOSITORY_USER}/${GIT_REPOSITORY_GLOBAL}.git ./temp/plugins/${GIT_REPOSITORY_GLOBAL}
             - name: Build
               run: npm run build
             - name: Start Environment
