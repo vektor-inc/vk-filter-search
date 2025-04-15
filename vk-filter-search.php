@@ -20,53 +20,48 @@ require_once ABSPATH . 'wp-admin/includes/plugin.php';
  * Deactive VK Filter Search
  * ( Attend to Deactive Plugin VK Filter Search ( free ) when Pro version is activated
  */
-function vkfs_deactive_plugin() {
-	// Deactive Plugin VK Filter Search ( free )
-	if ( is_plugin_active( 'vk-filter-search-pro/vk-filter-search-pro.php' ) ||
-		is_plugin_active( 'vk-filter-search-pro-global-edition/vk-filter-search-pro-global-edition.php' )
-	) {
-		deactivate_plugins( 'vk-filter-search/vk-filter-search.php' );
-	}
-}
-add_action( 'admin_init', 'vkfs_deactive_plugin' );
-
-// 無料版等が有効化されている場合は以下の処理をスキップ
-if ( is_plugin_active( 'vk-filter-search-pro/vk-filter-search-pro.php' ) ||
+if (
+	is_plugin_active( 'vk-filter-search-pro/vk-filter-search-pro.php' ) ||
 	is_plugin_active( 'vk-filter-search-pro-global-edition/vk-filter-search-pro-global-edition.php' )
 ) {
+	deactivate_plugins( 'vk-filter-search/vk-filter-search.php' );
 	return;
 }
 
-// Define Plugin Root Path
-if ( ! defined( 'VKFS_PLUGIN_ROOT_PATH' ) ) {
-	define( 'VKFS_PLUGIN_ROOT_PATH', plugin_dir_path( __FILE__ ) );
+if ( 'vk-filter-search/vk-filter-search.php' === plugin_basename( __FILE__ ) ) {
+		
+	// Define Plugin Root Path
+	if ( ! defined( 'VKFS_PLUGIN_ROOT_PATH' ) ) {
+		define( 'VKFS_PLUGIN_ROOT_PATH', plugin_dir_path( __FILE__ ) );
+	}
+
+	// Define Plugin Root URL
+	if ( ! defined( 'VKFS_PLUGIN_ROOT_URL' ) ) {
+		define( 'VKFS_PLUGIN_ROOT_URL', plugin_dir_path( __FILE__ ) );
+	}
+
+	// Define Plugin Version
+	if ( ! defined( 'VKFS_PLUGIN_VERSION' ) ) {
+		$plugin_data = get_file_data( __FILE__, array( 'version' => 'Version' ) );
+		define( 'VKFS_PLUGIN_VERSION', $plugin_data['version'] );
+	}
+
+	// Plugin Version
+	global $vkfs_prefix;
+	$vkfs_prefix = apply_filters( 'vkfs_prefix', 'VK ' );
+
+	// Load Modules
+	require_once plugin_dir_path( __FILE__ ) . 'inc/patches/config.php';
+	require_once plugin_dir_path( __FILE__ ) . 'inc/dropdown-categories/dropdown-categories.php';
+	require_once plugin_dir_path( __FILE__ ) . 'inc/filter-search/config.php';
+
+	// Add a link to this plugin's settings page
+	function vkfs_free_set_plugin_meta( $links ) {
+		$link_url      = __( 'https://vk-filter-search.com/', 'vk-filter-search' );
+		$settings_link = '<a href="' . $link_url . '?ref=admin-plugin-list"  target="_blank" rel="noopener noreferrer">' . __( 'Buy Pro', 'vk-filter-search' ) . '</a>';
+		array_push( $links, $settings_link );
+		return $links;
+	}
+	add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'vkfs_free_set_plugin_meta', 10, 1 );
+
 }
-
-// Define Plugin Root URL
-if ( ! defined( 'VKFS_PLUGIN_ROOT_URL' ) ) {
-	define( 'VKFS_PLUGIN_ROOT_URL', plugin_dir_path( __FILE__ ) );
-}
-
-// Define Plugin Version
-if ( ! defined( 'VKFS_PLUGIN_VERSION' ) ) {
-	$plugin_data = get_file_data( __FILE__, array( 'version' => 'Version' ) );
-	define( 'VKFS_PLUGIN_VERSION', $plugin_data['version'] );
-}
-
-// Plugin Version
-global $vkfs_prefix;
-$vkfs_prefix = apply_filters( 'vkfs_prefix', 'VK ' );
-
-// Load Modules
-require_once plugin_dir_path( __FILE__ ) . 'inc/patches/config.php';
-require_once plugin_dir_path( __FILE__ ) . 'inc/dropdown-categories/dropdown-categories.php';
-require_once plugin_dir_path( __FILE__ ) . 'inc/filter-search/config.php';
-
-// Add a link to this plugin's settings page
-function vkfs_free_set_plugin_meta( $links ) {
-	$link_url      = __( 'https://vk-filter-search.com/', 'vk-filter-search' );
-	$settings_link = '<a href="' . $link_url . '?ref=admin-plugin-list"  target="_blank" rel="noopener noreferrer">' . __( 'Buy Pro', 'vk-filter-search' ) . '</a>';
-	array_push( $links, $settings_link );
-	return $links;
-}
-add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'vkfs_free_set_plugin_meta', 10, 1 );
