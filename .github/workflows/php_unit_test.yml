@@ -65,10 +65,14 @@ jobs:
                   done
             - name: Check WordPress Version
               run: npm run wp-env run cli wp core version
-            - name: Install Themes
-              run: bash bin/install-theme.sh
             - name: Build
               run: npm run build
+            - name: Install Themes
+              run: bash bin/install-theme.sh
+            - name: Install and Activate Plugins
+              run: |
+                  npx wp-env run tests-cli --env-cwd='wp-content/plugins/vk-filter-search' wp plugin install ${{secrets.PRO_URL}}
+                  npx wp-env run tests-cli --env-cwd='wp-content/plugins/vk-filter-search' wp plugin install ${{secrets.GLOBAL_URL}}
             - name: Start Environment
               run: npx wp-env start && sudo chmod -R 777 ~/wp-env
             - name: Run PHP Unit Test
