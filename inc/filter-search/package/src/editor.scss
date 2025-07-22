@@ -1,22 +1,26 @@
-@import "./filter-search/editor.scss";
+@use "./filter-search/editor.scss";
+
 .editor-styles-wrapper {
 	.vkfs__alert {
-		--wp-components-color-accent : #cc1818;
+		--wp-components-color-accent: #cc1818;
 		padding: 2em;
-		color:var(--wp-components-color-accent);
-		border:1px solid var(--wp-components-color-accent);
+		color: var(--wp-components-color-accent);
+		border: 1px solid var(--wp-components-color-accent);
+
 		// ※ 公開画面と違ってユーザーに上書きしやすさは気にしなくて良いので、
 		// readme.md の命名規則ではなく強めの指定をしています。
 		.vkfs__alert-title {
-			margin-bottom:0.5em;
+			margin-bottom: 0.5em;
 		}
+
 		li {
-			margin:0.5rem 0;
+			margin: 0.5rem 0;
 		}
+
 		p:last-child {
-			margin-bottom:0;
+			margin-bottom: 0;
 		}
-		
+
 	}
 }
 
@@ -24,14 +28,17 @@
 .text-left {
 	text-align: left;
 }
-a.components-button{
+
+a.components-button {
 	text-decoration: none !important;
 }
+
 .components-panel__vkfs-panel-body {
 	dt {
-		margin-bottom:1em;
+		margin-bottom: 1em;
 	}
+
 	dd {
-		margin-inline-start:1em;
+		margin-inline-start: 1em;
 	}
 }

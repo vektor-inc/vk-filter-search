@@ -9,6 +9,7 @@ import { kebabCase } from 'lodash';
 import { CheckboxControl } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import { select } from '@wordpress/data';
+import DOMPurify from 'dompurify';
 
 // @wordpress/block-editor から必要なものをインポート
 import {
@@ -135,5 +136,8 @@ export const sanitizeSlug = ( slug ) => {
 
 export const sanitizeIconHTML = ( html ) => {
 	// Remove all tags except <i> and </i>
-	return html.replace( /<(?!\/?i\b)[^>]+>/g, '' );
+	return DOMPurify.sanitize( html, {
+		ALLOWED_TAGS: [ 'span', 'i' ],
+		ALLOWED_ATTR: [ 'class', 'style' ],
+	} );
 };

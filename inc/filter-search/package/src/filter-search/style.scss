@@ -1,5 +1,5 @@
 // editor and front styles
-@import 'variable';
+@use 'variable';
 
 // Fall back for theme editor
 html :where(.editor-styles-wrapper) {
@@ -8,15 +8,18 @@ html :where(.editor-styles-wrapper) {
 
 // カラム指定（最小幅指定ではない）の場合
 .vkfs:where(:not(.vkfs__layout--min)) {
+
 	// マージンを付与する
-	.vkfs__outer-wrap{
+	.vkfs__outer-wrap {
 		margin-bottom: calc(var(--vk-size-text) * 1);
 		margin-right: var(--vkfs-outer-margin-left-right);
 		margin-left: var(--vkfs-outer-margin-left-right);
 	}
-	.vkfs__outer-wrap:not([class*="vkfs__outer-wrap--col"]){
+
+	.vkfs__outer-wrap:not([class*="vkfs__outer-wrap--col"]) {
 		flex-basis: calc(50% - 0.8rem);
 	}
+
 	.btn[type='submit'] {
 		width: calc(100% - 0.8rem);
 		margin-left: auto;
@@ -28,6 +31,7 @@ html :where(.editor-styles-wrapper) {
 .vkfs {
 	font-size: 0.88rem;
 	margin-bottom: var(--vk-margin-section-bottom, 2em);
+
 	&__labels {
 		display: flex;
 		flex-wrap: wrap;
@@ -36,7 +40,7 @@ html :where(.editor-styles-wrapper) {
 		.wp-block-vk-filter-search-filter-search & {
 			//無料版のみ固定幅のため追加
 
-			@media (max-width: $sm-max) {
+			@media (max-width: variable.$sm-max) {
 				display: block;
 			}
 		}
@@ -54,8 +58,38 @@ html :where(.editor-styles-wrapper) {
 		white-space: nowrap;
 		font-weight: 700;
 		margin-bottom: calc(var(--vk-size-text) * 0.5);
+
+		&--open,
+		&--close {
+			cursor: pointer;
+			transition: all 0.3s ease;
+
+			&::before {
+				content: '+';
+				margin-right: .5em;
+				display: inline-block;
+				line-height: 0;
+				transition: transform 0.3s ease;
+			}
+		}
+
+		&--open::before {
+			content: '-';
+			font-size: 1.12rem;
+			font-weight: initial;
+		}
+
+		&:hover {
+			background-color: rdga(0, 0, 0, 0.05);
+		}
+
+		&:active::before {
+			transform: scale(0.8) rotate(90deg);
+			transition: transform 0.1s ease;
+		}
+
 		i {
-			margin-right:0.5em;
+			margin-right: 0.5em;
 		}
 	}
 
@@ -65,14 +99,16 @@ html :where(.editor-styles-wrapper) {
 		flex-wrap を wrap にしておかないと AND OR をユーザーに選択させてる場合に
 		サイドバーが狭いときに AND OR が潰れるてしまう
 		 */
-		flex-wrap: wrap; 
+		flex-wrap: wrap;
 		justify-content: space-between;
 		align-items: center;
 
 		row-gap: 5px;
-		input[name="vkfs_category_operator"]{
-			top:3px;
+
+		input[name="vkfs_category_operator"] {
+			top: 3px;
 		}
+
 		.vkfs__operator-wrap {
 			gap: 1em;
 			margin-right: 10px;
@@ -109,12 +145,9 @@ html :where(.editor-styles-wrapper) {
 
 	// Bootstrap .form-control と基本同じだが、
 	// 記事編集画面やLightning以外のテーマでは .form-control が当然自動ではつかないので追加指定
-	:is(
-		input[type='text'],
+	:is(input[type='text'],
 		input[type='number'],
-		select
-	)
- 	{
+		select) {
 		display: block;
 		width: 100%;
 		max-width: 100%;
@@ -158,26 +191,30 @@ html :where(.editor-styles-wrapper) {
 .vkfs__call-filter-search {
 	position: relative;
 }
+
 .vkfs__call-filter-search_editBtn {
 	position: absolute;
 	top: 0;
 	right: 0;
 	display: none;
 	opacity: 0;
-	font-size:12px;
+	font-size: 12px;
 	transition: all 0.5s ease-out;
+
 	&.btn {
-		background-color:  var(--wp--preset--color--primary, #3858e9); // .btn がないと負ける
+		background-color: var(--wp--preset--color--primary, #3858e9); // .btn がないと負ける
 		border-color: var(--wp--preset--color--primary, #3858e9);
 		border-radius: 0;
 		padding: 0.3rem 1rem 0.25rem;
-		margin-top:0;
+		margin-top: 0;
 		text-decoration: none;
-		color:#fff;
+		color: #fff;
+
 		&:hover {
-			color:#fff;
+			color: #fff;
 		}
 	}
+
 	// call filter search 全体がホバーされたら
 	.vkfs__call-filter-search:hover & {
 		display: inline-block;

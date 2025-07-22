@@ -10,7 +10,7 @@ $lg-min: 992px;
 $xl-min: 1200px;
 $xxl-min: 1400px;
 
-$mark-color:#3582c4;
+$mark-color: #3582c4;
 
 
 :root {
@@ -31,13 +31,13 @@ $mark-color:#3582c4;
 }
 
 //インサーターの共通デザイン
-@mixin editor-inserter-design( ) {
+@mixin editor-inserter-design() {
 	border: 1px dashed #ccc;
 	height: 80px;
 	position: relative;
 }
 
-@mixin editor-button-block-appender( ) {
+@mixin editor-button-block-appender() {
 	position: absolute;
 	top: 50%;
 	right: 0;

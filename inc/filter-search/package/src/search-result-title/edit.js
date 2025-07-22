@@ -220,10 +220,13 @@ export default function SearchTitleEdit( props ) {
 							onChange={ ( value ) =>
 								setAttributes( { queriesFormat: value } )
 							}
-							help={ __(
-								'eg) Search Result for %s',
-								'vk-filter-search'
-							) }
+							help={
+								// translators: %s is replaced with the search result
+								__(
+									'eg) Search Result for %s',
+									'vk-filter-search'
+								)
+							}
 						/>
 					</BaseControl>
 					<BaseControl
@@ -360,10 +363,10 @@ export default function SearchTitleEdit( props ) {
 											queryDateMinFormat: value,
 										} )
 									}
-									help={ __(
-										'eg) From %s',
-										'vk-filter-search'
-									) }
+									help={
+										// translators: %s is replaced with the date
+										__( 'eg) From %s', 'vk-filter-search' )
+									}
 								/>
 							</BaseControl>
 							<BaseControl
@@ -380,10 +383,10 @@ export default function SearchTitleEdit( props ) {
 											queryDateMaxFormat: value,
 										} )
 									}
-									help={ __(
-										'eg) To %s',
-										'vk-filter-search'
-									) }
+									help={
+										// translators: %s is replaced with the date
+										__( 'eg) To %s', 'vk-filter-search' )
+									}
 								/>
 							</BaseControl>
 							<BaseControl
@@ -400,10 +403,13 @@ export default function SearchTitleEdit( props ) {
 											queryDaterRangeFormat: value,
 										} )
 									}
-									help={ __(
-										'eg) From %s to %s',
-										'vk-filter-search'
-									) }
+									help={
+										// translators: %1$s is replaced with the date, %2$s is replaced with the date
+										__(
+											'eg) From %1$s to %2$s',
+											'vk-filter-search'
+										)
+									}
 								/>
 							</BaseControl>
 						</>
