@@ -269,6 +269,10 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 						'class' => array(),
 						'style' => array(),
 					),
+					'br'    => array(
+						'class' => array(),
+						'style' => array(),
+					),
 				)
 			);
 			return $label;
@@ -380,7 +384,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 			$outer_classes .= ! empty( $options['class_name'] ) ? ' ' . $options['class_name'] : '';
 
 			$keyword_form_html  = '<div class="vkfs__outer-wrap vkfs__keyword' . $outer_classes . '">';
-			$keyword_form_html .= '<div class="vkfs__label-name">' . self::label_sanitize( $options['label'] ) . '</div>';
+			$keyword_form_html .= '<div class="vkfs__label-name"><div class="vkfs__label-name-inner">' . self::label_sanitize( $options['label'] ) . '</div></div>';
 			$keyword_form_html .= '<div class="vkfs__input-form vkfs__input-wrap vkfs__input-wrap--text vkfs__input-wrap--keyword">';
 			$keyword_form_html .= '<input type="text" name="' . $keyword_name . '" id="s" placeholder="' . esc_attr( $options['placeholder'] ) . '" />';
 			$keyword_form_html .= '</div>';
@@ -433,7 +437,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 			// 描画開始.
 			if ( ! empty( $post_types ) ) {
 				$post_type_form_html .= '<div class="vkfs__outer-wrap vkfs__post-type' . $outer_classes . '">';
-				$post_type_form_html .= '<div class="vkfs__label-name">' . self::label_sanitize( $options['label'] ) . '</div>';
+				$post_type_form_html .= '<div class="vkfs__label-name"><div class="vkfs__label-name-inner">' . self::label_sanitize( $options['label'] ) . '</div></div>';
 				$post_type_form_html .= self::get_post_type_design_html( $post_types, $options );
 				$post_type_form_html .= '</div>';
 			}
@@ -606,7 +610,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 
 				$taxonomy_form_html .= '<div class="vkfs__label-name">';
 				if ( 'user' !== $options['operator'] ) {
-					$taxonomy_form_html .= self::label_sanitize( $options['label'] );
+					$taxonomy_form_html .= '<div class="vkfs__label-name-inner">' . self::label_sanitize( $options['label'] ) . '</div>';
 				} elseif ( 'user' === $options['operator'] ) {
 					$taxonomy_form_html .= '<div class="vkfs__label-name-wrap">';
 					$taxonomy_form_html .= '<span class="vkfs__label-name-item">';

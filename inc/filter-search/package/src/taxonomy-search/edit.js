@@ -38,7 +38,9 @@ export default function TaxonomySearchEdit( props ) {
 			<div>
 				<div className="vkfs__warning">
 					<div className="vkfs__label-name">
-						{ __( 'Taxonomy', 'vk-filter-search' ) }
+						<div className="vkfs__label-name-inner">
+							{ __( 'Taxonomy', 'vk-filter-search' ) }
+						</div>
 					</div>
 					<div className="vkfs__warning-text">
 						{ __(
@@ -56,7 +58,9 @@ export default function TaxonomySearchEdit( props ) {
 		editContent = (
 			<div className="vkfs__warning">
 				<div className="vkfs__label-name">
-					{ selectedTaxonomy.label }
+					<div className="vkfs__label-name-inner">
+						{ selectedTaxonomy.label }
+					</div>
 				</div>
 				<div className="vkfs__warning-text">
 					{ __(
@@ -70,10 +74,12 @@ export default function TaxonomySearchEdit( props ) {
 		editContent = (
 			<div className="vkfs__warning">
 				<div className="vkfs__label-name">
-					{ __(
-						'Specified taxonomy does not exist',
-						'vk-filter-search'
-					) }
+					<div className="vkfs__label-name-inner">
+						{ __(
+							'Specified taxonomy does not exist',
+							'vk-filter-search'
+						) }
+					</div>
 				</div>
 				<div className="vkfs__warning-text">
 					{ __(

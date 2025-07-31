@@ -137,7 +137,7 @@ export const sanitizeSlug = ( slug ) => {
 export const sanitizeIconHTML = ( html ) => {
 	// Remove all tags except <i> and </i>
 	return DOMPurify.sanitize( html, {
-		ALLOWED_TAGS: [ 'span', 'i' ],
+		ALLOWED_TAGS: [ 'span', 'i', 'br' ],
 		ALLOWED_ATTR: [ 'class', 'style' ],
 	} );
 };
