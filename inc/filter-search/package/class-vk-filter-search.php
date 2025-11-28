@@ -138,6 +138,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 					'style'  => array(),
 					'method' => array(),
 					'action' => array(),
+					'data-vkfs-label-accordion' => array(),
 				),
 				'div'    => array(
 					'id'                           => array(),
