@@ -19,14 +19,14 @@ module.exports = [
 		},
 	},
 	{
+		mode: 'production',
 		entry:
 			__dirname +
-			'/inc/filter-search/package/src/common/enque-front-redirect.js',
+			'/inc/filter-search/package/src/filter-search/enqueue-front-redirect.js',
 		output: {
 			path: __dirname + '/inc/filter-search/package/build/',
 			filename: 'vk-filter-search-redirect.min.js',
 		},
-		mode: 'production',
 		resolve: {
 			alias: {
 				'@vk-filter-search': path.resolve(
@@ -50,7 +50,7 @@ module.exports = [
 	{
 		entry:
 			__dirname +
-			'/inc/filter-search/package/src/filter-search/enque-front-result.js',
+			'/inc/filter-search/package/src/filter-search/enqueue-front-result.js',
 		output: {
 			path: __dirname + '/inc/filter-search/package/build/',
 			filename: 'vk-filter-search-result.min.js',
