@@ -181,7 +181,24 @@ export const SearchResultPageSettingPanel = ( props ) => {
 				</li>
 				<li>
 					{ __(
-						'Then, select that page from the list below.',
+						'Please set the Query Type of the Query Loop Block to "Custom."',
+						'vk-filter-search'
+					) }
+					<br />
+					{ __(
+						'Most of the other settings will be overridden by the search parameters.',
+						'vk-filter-search'
+					) }
+					<br />
+					{ __(
+						'Note that if you set the Query Type of the Query Loop Block to "Default," the search results will not be reflected.',
+						'vk-filter-search'
+					) }
+				</li>
+				<li>{ __( 'Reload this page.', 'vk-filter-search' ) }</li>
+				<li>
+					{ __(
+						'Select the page from the list below.',
 						'vk-filter-search'
 					) }
 				</li>
