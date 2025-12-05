@@ -6,9 +6,14 @@
 /* eslint no-shadow: 0 */
 
 import { kebabCase } from 'lodash';
-import { CheckboxControl } from '@wordpress/components';
+import {
+	CheckboxControl,
+	PanelBody,
+	SelectControl,
+} from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import { select } from '@wordpress/data';
+import { __ } from '@wordpress/i18n';
 import DOMPurify from 'dompurify';
 
 // @wordpress/block-editor から必要なものをインポート
@@ -140,4 +145,55 @@ export const sanitizeIconHTML = ( html ) => {
 		ALLOWED_TAGS: [ 'span', 'i', 'br' ],
 		ALLOWED_ATTR: [ 'class', 'style' ],
 	} );
+};
+
+export const SearchResultPageSettingPanel = ( props ) => {
+	const { currentPostType, SearchResultPageID, setAttributes, pageList } =
+		props;
+
+	if ( currentPostType !== 'filter-search' ) {
+		return null;
+	}
+
+	const options =
+		pageList ||
+		( typeof vk_filter_search_params !== 'undefined'
+			? vk_filter_search_params.page_list // eslint-disable-line camelcase,no-undef
+			: [] );
+
+	return (
+		<PanelBody
+			title={ __( 'Search Result Page Setting', 'vk-filter-search' ) }
+			initialOpen={ true }
+		>
+			<p>
+				{ __(
+					"By default, search results are displayed on the site's search results page, but they can also be shown on a specific page.",
+					'vk-filter-search'
+				) }
+			</p>
+			<ol>
+				<li>
+					{ __(
+						'Put the Search Result Form block and the Query Loop block on a page.',
+						'vk-filter-search'
+					) }
+				</li>
+				<li>
+					{ __(
+						'Then, select that page from the list below.',
+						'vk-filter-search'
+					) }
+				</li>
+			</ol>
+			<SelectControl
+				label={ __( 'Page for Search Results', 'vk-filter-search' ) }
+				value={ SearchResultPageID }
+				onChange={ ( value ) =>
+					setAttributes( { SearchResultPageID: value } )
+				}
+				options={ options }
+			/>
+		</PanelBody>
+	);
 };

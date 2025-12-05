@@ -20,13 +20,17 @@
 			"type": "string",
 			"default": "[]"
 		},
+		"SearchResultPageID": {
+			"type": "string",
+			"default": ""
+		},
 		"FormID": {
 			"type": "string",
-			"default": null
+			"default": ""
 		},
 		"PostID": {
-			"type": "number",
-			"default": null
+			"type": "string",
+			"default": ""
 		},
 		"style": {
 			"type": "object",

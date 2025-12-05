@@ -67,6 +67,12 @@ if ( ! class_exists( 'VK_Filter_Search_Block' ) ) {
 						'value' => '',
 					),
 				),
+				'page_list'                  => array(
+					array(
+						'label' => __( 'Use Default Search Page', 'vk-filter-search' ),
+						'value' => '',
+					)
+				),
 			);
 
 			// 投稿タイプのリスト
@@ -179,6 +185,28 @@ if ( ! class_exists( 'VK_Filter_Search_Block' ) ) {
 					);
 				}
 			}
+
+			/**
+			 * ページリスト			
+			 */
+			$pages = get_posts(
+				array(
+					'post_type'      => 'page',
+					'post_status'    => array( 'publish' ),
+					'posts_per_page' => -1,
+					'orderby'        => 'title',
+					'order'          => 'ASC',
+				)
+			);
+			foreach ( $pages as $page ) {
+				if ( has_block( 'core/query', $page->ID ) ) {
+					$data['page_list'][] = array(
+						'label' => esc_html( get_the_title( $page->ID ) ),
+						'value' => absint( $page->ID ),
+					);
+				}
+			}
+
 			$data = apply_filters( 'vkfs_block_data', $data );
 
 			return $data;
@@ -286,6 +314,7 @@ if ( ! class_exists( 'VK_Filter_Search_Block' ) ) {
 					'post_type_archive_checkbox' => $block_data['post_type_archive_checkbox'],
 					'taxonomy_list'              => $block_data['taxonomy_list'],
 					'taxonomy_option'            => $block_data['taxonomy_option'],
+					'page_list'                  => $block_data['page_list'],
 					'isBlockTheme'               => self::is_block_theme(),
 				)
 			);

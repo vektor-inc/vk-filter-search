@@ -1,4 +1,7 @@
-import { AdvancedCheckboxControl } from '@vk-filter-search/common/component';
+import {
+	AdvancedCheckboxControl,
+	SearchResultPageSettingPanel,
+} from '@vk-filter-search/common/component';
 
 import { __ } from '@wordpress/i18n';
 import {
@@ -22,6 +25,7 @@ export default function FilterSearchEdit( props ) {
 		TargetPostType,
 		DisplayOnResult,
 		DisplayOnPosttypeArchive,
+		SearchResultPageID,
 		FormID,
 	} = attributes;
 
@@ -247,6 +251,15 @@ export default function FilterSearchEdit( props ) {
 	return (
 		<>
 			<InspectorControls>
+				{ currentPostType === 'filter-search' && (
+					<SearchResultPageSettingPanel
+						currentPostType={ currentPostType }
+						SearchResultPageID={ SearchResultPageID }
+						setAttributes={ setAttributes }
+						//eslint-disable-next-line camelcase,no-undef
+						pageList={ vk_filter_search_params.page_list }
+					/>
+				) }
 				<PanelBody
 					title={ __( 'Search Form Setting', 'vk-filter-search' ) }
 					initialOpen={ true }

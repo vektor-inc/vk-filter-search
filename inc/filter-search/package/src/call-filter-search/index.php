@@ -14,7 +14,7 @@ function vkfs_register_block_call_filter_search() {
 	register_block_type(
 		__DIR__,
 		array(
-			'render_callback' => 'vkfs_call_filteer_search_render_callback',
+			'render_callback' => 'vkfs_call_filter_search_render_callback',
 		)
 	);
 }
@@ -23,7 +23,7 @@ add_action( 'init', 'vkfs_register_block_call_filter_search', 9999 );
 /**
  * Set the data of `vk-filter-search/call-filter-search` block
  */
-function vkfs_set_call_filteer_search_data() {
+function vkfs_set_call_filter_search_data() {
 	$posts = get_posts(
 		array(
 			'posts_per_page' => -1,
@@ -69,7 +69,7 @@ function vkfs_set_call_filteer_search_data() {
 		)
 	);
 }
-add_action( 'enqueue_block_editor_assets', 'vkfs_set_call_filteer_search_data' );
+add_action( 'enqueue_block_editor_assets', 'vkfs_set_call_filter_search_data' );
 
 /**
  * Render Callback of Page Content Block
@@ -77,7 +77,7 @@ add_action( 'enqueue_block_editor_assets', 'vkfs_set_call_filteer_search_data' )
  * @param array $attributes attributes.
  * @return string
  */
-function vkfs_call_filteer_search_render_callback( $attributes ) {
+function vkfs_call_filter_search_render_callback( $attributes ) {
 	// 投稿タイプ VK Filter Search で作った投稿のID
 	$target_id = ! empty( $attributes['TargetPost'] ) ? $attributes['TargetPost'] : -1;
 	// 投稿タイプ VK Filter Search で作成した投稿（フォーム）コンテンツを取得

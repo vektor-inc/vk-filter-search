@@ -10,21 +10,64 @@ import {
 
 const form_html = document.getElementsByClassName( `vk-filter-search` );
 const url_queries = get_url_queries();
+const normalized_query_keys = [
+	...new Set(
+		Object.keys( url_queries )
+			.map( ( key ) => {
+				let normalized = key.replace( /^vkfs_/, '' );
+				if ( normalized === 'keyword' ) {
+					normalized = 's';
+				}
+				return normalized;
+			} )
+			.filter( ( key ) => {
+				if ( key === '' ) {
+					return false;
+				}
+				if ( key === 'submitted' ) {
+					return false;
+				}
+				if ( key === 'form_id' ) {
+					return false;
+				}
+				return true;
+			} )
+	),
+];
+
+const get_query_value = ( key ) => {
+	if ( key === 's' ) {
+		if ( url_queries.s !== undefined ) {
+			return url_queries.s;
+		}
+		if ( url_queries.keyword !== undefined ) {
+			return url_queries.keyword;
+		}
+	}
+	if ( url_queries[ key ] !== undefined ) {
+		return url_queries[ key ];
+	}
+	return url_queries[ `vkfs_${ key }` ];
+};
 
 const set_query_value = ( i ) => {
-	Object.keys( url_queries ).forEach( ( key ) => {
+	normalized_query_keys.forEach( ( key ) => {
+		const query_value = get_query_value( key );
+		if ( query_value === undefined ) {
+			return;
+		}
 		let value_array;
-		if ( url_queries[ key ].indexOf( ',' ) !== -1 ) {
-			value_array = url_queries[ key ].split( ',' );
+		if ( query_value.indexOf( ',' ) !== -1 ) {
+			value_array = query_value.split( ',' );
 		} else {
-			value_array = [ url_queries[ key ] ];
+			value_array = [ query_value ];
 		}
 		if ( key === 's' ) {
 			const keyword_selector = form_html[ i ].querySelector(
 				'.vkfs__keyword input[name="s"]'
 			);
 			if ( keyword_selector !== null ) {
-				keyword_selector.value = decodeURI( url_queries[ key ] );
+				keyword_selector.value = decodeURI( query_value );
 			}
 		} else if ( key === 'post_type' ) {
 			const post_type_select_selector = form_html[ i ].querySelectorAll(
@@ -62,7 +105,7 @@ const set_query_value = ( i ) => {
 					}
 				}
 			}
-		} else if ( key !== 'vkfs_form_id' ) {
+		} else {
 			const taxonomy_select_selector = form_html[ i ].querySelectorAll(
 				`.vkfs__input-wrap--select.vkfs__input-wrap--${ key }`
 			);

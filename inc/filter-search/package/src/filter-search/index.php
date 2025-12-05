@@ -29,6 +29,7 @@ function vkfs_filter_search_render_callback( $attributes, $content ) {
 			'TargetPostType'           => '',
 			'DisplayOnResult'          => false,
 			'DisplayOnPosttypeArchive' => '[]',
+			'SearchResultPageID'       => '',
 			'FormID'                   => null,
 			'PostID'                   => null,
 		)
@@ -71,16 +72,16 @@ function vkfs_filter_search_render_callback( $attributes, $content ) {
 	// 該当の投稿の投稿タイプが 'filter-search' の場合は post_meta に情報を保存
 	if ( ! empty( $target_post ) && ! empty( $target_post->post_type ) && 'filter-search' === $target_post->post_type ) {
 		// POST された値を取得後処理
-		$display_result  = ! empty( $attributes['DisplayOnResult'] ) ? true : false;
-		$display_archive = ! empty( $attributes['DisplayOnPosttypeArchive'] ) ? $attributes['DisplayOnPosttypeArchive'] : '';
+		$display_result        = ! empty( $attributes['DisplayOnResult'] ) ? true : false;
+		$display_archive       = ! empty( $attributes['DisplayOnPosttypeArchive'] ) ? $attributes['DisplayOnPosttypeArchive'] : '';
+		$search_result_page_id = ! empty( $attributes['SearchResultPageID'] ) ? absint( $attributes['SearchResultPageID'] ) : 0;
+
 
 		// 値を保存
 		update_post_meta( $target_post->ID, 'vkfs_display_result', $display_result );
 		update_post_meta( $target_post->ID, 'vkfs_display_archive', $display_archive );
-	} else {
-		// 該当の投稿の情報を取得
-		$target_post = get_post( $attributes['PostID'] );
-
+		update_post_meta( $target_post->ID, 'vkfs_search_result_page_id', $search_result_page_id );
+	} elseif ( ! empty( $target_post ) ) {
 		// 公開済み or 非公開の場合はオプションを処理、それ以外の場合は除去
 		if ( 'publish' === $target_post->post_status || 'private' === $target_post->post_status ) {
 			// 検索結果ページにフォームを表示する場合

@@ -21,6 +21,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 		public function __construct() {
 			add_action( 'init', array( __CLASS__, 'register_post_type' ), 0 );
 			add_action( 'pre_get_posts', array( __CLASS__, 'pre_get_posts' ) );
+			add_filter( 'query_loop_block_query_vars', array( __CLASS__, 'adjust_query_loop_query_vars' ), 10, 2 );
 			add_action( 'dynamic_sidebar_before', array( __CLASS__, 'dynamic_sidebar_before' ) );
 			add_action( 'dynamic_sidebar_after', array( __CLASS__, 'dynamic_sidebar_after' ) );
 			add_action( 'after_setup_theme', array( __CLASS__, 'content_filter' ) );
@@ -886,6 +887,207 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 		}
 
 		/**
+		 * Adjust Query Loop block query vars based on Filter Search parameters.
+		 *
+		 * @param array $query_vars Query vars generated for the Query Loop block.
+		 * @param array $block Block settings.
+		 * @return array
+		 */
+		public static function adjust_query_loop_query_vars( $query_vars, $block ) {
+			if ( empty( $_GET['vkfs_form_id'] ) ) {
+				return $query_vars;
+			}
+
+			$keyword = self::get_request_param( 'keyword' );
+			if ( '' === $keyword ) {
+				$keyword = self::get_request_param( 's' );
+			}
+			if ( '' !== $keyword ) {
+				$query_vars['s'] = $keyword;
+			}
+
+			$post_types = self::get_request_keys( 'vkfs_post_type' );
+			if ( empty( $post_types ) ) {
+				$post_types = self::get_request_keys( 'post_type' );
+			}
+			if ( ! empty( $post_types ) ) {
+				$query_vars['post_type'] = ( 1 === count( $post_types ) ) ? reset( $post_types ) : $post_types;
+			}
+
+			$category_name = self::get_request_param( 'category_name' );
+			if ( '' !== $category_name ) {
+				if ( false !== strpos( $category_name, ' ' ) ) {
+					$term_array     = array_filter( array_map( 'trim', explode( ' ', $category_name ) ) );
+					$category_array = self::convert_slugs_to_ids( $term_array, 'category' );
+					if ( ! empty( $category_array ) ) {
+						$query_vars['category__and'] = $category_array;
+					}
+				} elseif ( false !== strpos( $category_name, ',' ) ) {
+					$term_array     = array_filter( array_map( 'trim', explode( ',', $category_name ) ) );
+					$category_array = self::convert_slugs_to_ids( $term_array, 'category' );
+					if ( ! empty( $category_array ) ) {
+						$query_vars['category__in'] = $category_array;
+					}
+				} else {
+					$query_vars['category_name'] = $category_name;
+				}
+			}
+
+			$tag = self::get_request_param( 'tag' );
+			if ( '' !== $tag ) {
+				if ( false !== strpos( $tag, ' ' ) ) {
+					$term_array = array_filter( array_map( 'trim', explode( ' ', $tag ) ) );
+					$tag_array  = self::convert_slugs_to_ids( $term_array, 'post_tag' );
+					if ( ! empty( $tag_array ) ) {
+						$query_vars['tag__and'] = $tag_array;
+					}
+				} elseif ( false !== strpos( $tag, ',' ) ) {
+					$term_array = array_filter( array_map( 'trim', explode( ',', $tag ) ) );
+					$tag_array  = self::convert_slugs_to_ids( $term_array, 'post_tag' );
+					if ( ! empty( $tag_array ) ) {
+						$query_vars['tag__in'] = $tag_array;
+					}
+				} else {
+					$query_vars['tag'] = $tag;
+				}
+			}
+
+			// その他の公開タクソノミー（カテゴリ・タグを除く）を GET パラメータから tax_query に反映.
+			$taxonomies = get_taxonomies(
+				array(
+					'public' => true,
+				),
+				'objects'
+			);
+			if ( ! empty( $taxonomies ) ) {
+				$tax_query = isset( $query_vars['tax_query'] ) ? $query_vars['tax_query'] : array();
+				foreach ( $taxonomies as $taxonomy_slug => $taxonomy_object ) {
+					if ( 'category' === $taxonomy_slug || 'post_tag' === $taxonomy_slug ) {
+						continue;
+					}
+					$query_var = $taxonomy_object->query_var ? $taxonomy_object->query_var : $taxonomy_slug;
+					$terms     = self::get_request_terms( $query_var );
+					if ( empty( $terms ) ) {
+						continue;
+					}
+					$operator_param = self::get_request_param( $query_var . '_operator' );
+					$operator       = ( 'and' === strtolower( $operator_param ) ) ? 'AND' : 'IN';
+
+					$tax_query[] = array(
+						'taxonomy' => $taxonomy_slug,
+						'field'    => 'slug',
+						'terms'    => $terms,
+						'operator' => $operator,
+					);
+				}
+
+				if ( ! empty( $tax_query ) ) {
+					if ( ! isset( $tax_query['relation'] ) ) {
+						$tax_query = array_merge( array( 'relation' => 'AND' ), $tax_query );
+					}
+					$query_vars['tax_query'] = $tax_query;
+				}
+			}
+
+			$query_vars['ignore_sticky_posts'] = true;
+
+			return apply_filters( 'vkfs_query_loop_query_vars', $query_vars, $block );
+		}
+
+		/**
+		 * Get sanitized request parameter.
+		 *
+		 * @param string $key Parameter key.
+		 * @return string
+		 */
+		protected static function get_request_param( $key ) {
+			if ( ! isset( $_GET[ $key ] ) ) {
+				return '';
+			}
+			$value = $_GET[ $key ];
+			if ( is_array( $value ) ) {
+				$value = reset( $value );
+			}
+			return sanitize_text_field( wp_unslash( $value ) );
+		}
+
+		/**
+		 * Get sanitized request terms as array (supports array / space / comma separated).
+		 *
+		 * @param string $key Parameter key.
+		 * @return array
+		 */
+		protected static function get_request_terms( $key ) {
+			if ( ! isset( $_GET[ $key ] ) ) {
+				return array();
+			}
+			$value = wp_unslash( $_GET[ $key ] );
+			$terms = array();
+			if ( is_array( $value ) ) {
+				$terms = $value;
+			} else {
+				$terms = preg_split( '/[\\s,]+/', $value );
+			}
+
+			return array_filter(
+				array_map(
+					'sanitize_title',
+					(array) $terms
+				)
+			);
+		}
+
+		/**
+		 * Get sanitized request parameter as array of keys (supports array / space / comma separated).
+		 *
+		 * @param string $key Parameter key.
+		 * @return array
+		 */
+		protected static function get_request_keys( $key ) {
+			if ( ! isset( $_GET[ $key ] ) ) {
+				return array();
+			}
+			$value = wp_unslash( $_GET[ $key ] );
+			if ( is_array( $value ) ) {
+				$keys = $value;
+			} else {
+				$keys = preg_split( '/[\\s,]+/', $value );
+			}
+
+			return array_filter(
+				array_map(
+					'sanitize_key',
+					(array) $keys
+				)
+			);
+		}
+
+		/**
+		 * Convert term slugs to IDs.
+		 *
+		 * @param array  $slugs    Slug list.
+		 * @param string $taxonomy Taxonomy name.
+		 * @return array
+		 */
+		protected static function convert_slugs_to_ids( $slugs, $taxonomy ) {
+			$ids = array();
+			if ( empty( $slugs ) || ! is_array( $slugs ) ) {
+				return $ids;
+			}
+			foreach ( $slugs as $slug ) {
+				$slug = sanitize_title( $slug );
+				if ( '' === $slug ) {
+					continue;
+				}
+				$term = get_term_by( 'slug', $slug, $taxonomy );
+				if ( $term && ! is_wp_error( $term ) ) {
+					$ids[] = $term->term_id;
+				}
+			}
+			return $ids;
+		}
+
+		/**
 		 * Dynamic Sidebar Before
 		 */
 		public static function dynamic_sidebar_before() {
@@ -1036,9 +1238,19 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 				'post_type_archive' => false,
 			);
 
+			$target_id = isset( $_GET['vkfs_form_id'] ) ? sanitize_text_field( wp_unslash( $_GET['vkfs_form_id'] ) ) : '';
+
 			// 検索結果画面かつフォーム ID がある場合は検索結果用のフォームを表示する
-			if ( is_search() && isset( $_GET['vkfs_form_id'] ) ) {
+			if ( is_search() && ! empty( $target_id ) ) {
 				$display_result['search_result'] = true;
+			}
+
+			if ( ! empty( $target_id ) && is_numeric( $target_id ) ) {
+				$target_id              = absint( $target_id );
+				$search_result_page_id = get_post_meta( $target_id, 'vkfs_search_result_page_id', true );
+				if ( ! empty( $search_result_page_id ) && is_page( $search_result_page_id ) ) {
+					$display_result['search_result'] = true;
+				}
 			}
 
 			// 検索結果画面でなく投稿タイプのアーカイブの場合は投稿タイプアーカイブ用のフォームを表示する
@@ -1066,9 +1278,9 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 					$edit_content .= '<div class="vkfs_old-form-alert--text">';
 					$edit_content .= __( 'This form is obsolete and may eventually be deleted.', 'vk-filter-search' );
 					$edit_content .= '<br>';
-					$edit_content .= __( 'We recommend creating a form with the post type "VK Filteer Search".', 'vk-filter-search' );
+					$edit_content .= __( 'We recommend creating a form with the post type "VK Filter Search".', 'vk-filter-search' );
 					$edit_content .= '<br>';
-					$edit_content .= __( 'The post of "VK Filter Search" can be called by the "Call Filter Search" block.', 'vk-filter-search' );
+					$edit_content .= __( 'Posts of the "VK Filter Search" post type can be used via the "Call Filter Search" block.', 'vk-filter-search' );
 					$edit_content .= '</div>';
 					$edit_content .= '</div>';
 				}
@@ -1235,8 +1447,15 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 		 */
 		public static function header_scripts() {
 			if ( isset( $_GET['vkfs_submitted'] ) ) {
+				$target_id             = ! empty( $_GET['vkfs_form_id'] ) ? sanitize_text_field( wp_unslash( $_GET['vkfs_form_id'] ) ) : '';
+				$search_result_page_id = ( ! empty( $target_id ) && is_numeric( $target_id ) )
+					? get_post_meta( absint( $target_id ), 'vkfs_search_result_page_id', true )
+					: '';
+				$search_result_url     = ! empty( $search_result_page_id ) ? get_permalink( $search_result_page_id ) : '';
+
 				$header_script_params = array(
-					'home_url' => self::get_search_root_url(),
+					'home_url'          => self::get_search_root_url(),
+					'search_result_url' => $search_result_url,
 				);
 
 				$header_scripts  = '<script type="text/javascript" id="vk-filter-search-redirct-js-extra">/* <![CDATA[ */ var vk_filter_search_params = ' . json_encode( $header_script_params ) . '; /* ]]> */</script>';
