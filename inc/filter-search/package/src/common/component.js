@@ -175,6 +175,12 @@ export const SearchResultPageSettingPanel = ( props ) => {
 			<ol>
 				<li>
 					{ __(
+						'Please create a new page to use as the search results page.',
+						'vk-filter-search'
+					) }
+				</li>
+				<li>
+					{ __(
 						'Put the Search Result Form block and the Query Loop block on a page.',
 						'vk-filter-search'
 					) }
