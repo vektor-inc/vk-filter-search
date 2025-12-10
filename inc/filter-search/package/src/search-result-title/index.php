@@ -63,7 +63,7 @@ function vkfs_search_result_title_render_callback( $attributes, $content ) {
 
 	$content = '';
 
-	if ( is_search() ) {
+	if ( VK_Filter_Search::has_search_query() ) {
 		$tag_name = $attributes['outerTagName'];
 
 		$options = array(

@@ -63,7 +63,13 @@ if ( ! class_exists( 'VK_Filter_Search_Title' ) ) {
 			$search_title = '';
 			// 投稿タイプを取得
 			$post_type_value = get_query_var( 'post_type' );
-			if ( ! empty( $post_type_value ) && $post_type_value !== 'any' ) {
+			if ( empty( $post_type_value ) || 'any' === $post_type_value ) {
+				$post_type_value = VK_Filter_Search::get_request_keys( 'vkfs_post_type' );
+			}
+			if ( empty( $post_type_value ) || 'any' === $post_type_value ) {
+				$post_type_value = VK_Filter_Search::get_request_keys( 'post_type' );
+			}
+			if ( ! empty( $post_type_value ) && 'any' !== $post_type_value ) {
 
 				// 演算子を初期化
 				$operator = $search_title_args['query_element_or'];
@@ -71,6 +77,17 @@ if ( ! class_exists( 'VK_Filter_Search_Title' ) ) {
 				// 一旦配列に統一
 				if ( ! is_array( $post_type_value ) ) {
 					$post_type_value = array( $post_type_value );
+				}
+
+				$post_type_value = array_filter(
+					$post_type_value,
+					function( $post_type ) {
+						return 'any' !== $post_type;
+					}
+				);
+
+				if ( empty( $post_type_value ) ) {
+					return '';
 				}
 
 				// 投稿タイプのラベルの配列を作成
@@ -297,6 +314,14 @@ if ( ! class_exists( 'VK_Filter_Search_Title' ) ) {
 			// キーワードの配列を取得
 			$keyword_value = get_query_var( 's' );
 
+			if ( empty( $keyword_value ) ) {
+				$keyword_value = VK_Filter_Search::get_request_param( 'keyword' );
+			}
+
+			if ( empty( $keyword_value ) ) {
+				$keyword_value = VK_Filter_Search::get_request_param( 's' );
+			}
+
 			if ( ! empty( $keyword_value ) ) {
 				if ( strpos( $keyword_value, ' ' ) !== false ) {
 					$keyword_array = explode( ' ', $keyword_value );
@@ -338,7 +363,7 @@ if ( ! class_exists( 'VK_Filter_Search_Title' ) ) {
 		 * @return string
 		 */
 		public static function get_search_title_filter( $title ){
-			if ( ! is_search() ) {
+			if ( ! VK_Filter_Search::has_search_query() ) {
 				// 検索結果ページ以外はそのまま返す
 				return $title;
 			} else {
@@ -356,7 +381,7 @@ if ( ! class_exists( 'VK_Filter_Search_Title' ) ) {
 		 */
 		public static function get_search_title( $search_title_args = array() ) {
 
-			if ( ! is_search() ) {
+			if ( ! VK_Filter_Search::has_search_query() ) {
 				// 検索結果ページ以外は '' を返す
 				return '';
 			}

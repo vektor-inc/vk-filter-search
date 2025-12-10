@@ -41,6 +41,23 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 		}
 
 		/**
+		 * Determine whether the current request contains filter search parameters.
+		 *
+		 * @return bool
+		 */
+		public static function has_search_query() {
+			if ( is_search() ) {
+				return true;
+			}
+
+			if ( ! empty( $_GET['vkfs_form_id'] ) || ! empty( $_GET['keyword'] ) || ! empty( $_GET['vkfs_post_type'] ) || ! empty( $_GET['post_type'] ) ) {
+				return true;
+			}
+
+			return false;
+		}
+
+		/**
 		 * 投稿タイプを追加
 		 */
 		public static function register_post_type() {
@@ -760,9 +777,16 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 
 			global $wp_query;
 
+			$target_query = $wp_query;
+			if ( ! is_search() && self::has_search_query() ) {
+				// Build base query vars and then let Query Loop filters add conditions (e.g. custom fields).
+				$query_vars   = self::adjust_query_loop_query_vars( array(), array() );
+				$target_query = new WP_Query( $query_vars );
+			}
+
 			$content = '';
 
-			if ( is_search() ) {
+			if ( self::has_search_query() ) {
 
 				$number_style = '';
 				$number_class = '';
@@ -806,7 +830,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 				}
 
 				$content .= $options['before_text'];
-				$content .= ' <span' . $number_style . $number_class . '>' . $wp_query->found_posts . '</span> ';
+				$content .= ' <span' . $number_style . $number_class . '>' . $target_query->found_posts . '</span> ';
 				$content .= $options['after_text'];
 
 				if ( ! empty( $options['outer'] ) ) {
@@ -1000,7 +1024,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 		 * @param string $key Parameter key.
 		 * @return string
 		 */
-		protected static function get_request_param( $key ) {
+		public static function get_request_param( $key ) {
 			if ( ! isset( $_GET[ $key ] ) ) {
 				return '';
 			}
@@ -1017,7 +1041,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 		 * @param string $key Parameter key.
 		 * @return array
 		 */
-		protected static function get_request_terms( $key ) {
+		public static function get_request_terms( $key ) {
 			if ( ! isset( $_GET[ $key ] ) ) {
 				return array();
 			}
@@ -1043,7 +1067,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 		 * @param string $key Parameter key.
 		 * @return array
 		 */
-		protected static function get_request_keys( $key ) {
+		public static function get_request_keys( $key ) {
 			if ( ! isset( $_GET[ $key ] ) ) {
 				return array();
 			}

@@ -37,7 +37,7 @@ function vkfs_search_result_count_render_callback( $attributes, $content ) {
 
 	$content = '';
 	
-	if ( is_search() ) {
+	if ( VK_Filter_Search::has_search_query() ) {
 		$classes = array( 'vkfs__search-result-count' );
 
 		$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => implode( ' ', $classes ) ) );
@@ -62,5 +62,4 @@ function vkfs_search_result_count_render_callback( $attributes, $content ) {
 
 	return $content;
 }
-
 
