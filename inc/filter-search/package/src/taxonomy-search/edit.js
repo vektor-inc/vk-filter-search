@@ -87,7 +87,7 @@ export default function TaxonomySearchEdit( props ) {
 						'vk-filter-search'
 					) }
 					{ __(
-						'Please reselect the taxonomy or remove this block..',
+						'Please reselect the taxonomy or remove this block.',
 						'vk-filter-search'
 					) }
 				</div>

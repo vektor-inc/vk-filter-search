@@ -67,6 +67,7 @@ function vkfs_filter_search_render_callback( $attributes, $content ) {
 	$post_types = ! empty( $attributes['DisplayOnPosttypeArchive'] ) ? explode( ',', $attributes['DisplayOnPosttypeArchive'] ) : array();
 
 	$options = VK_Filter_Search::get_options();
+	$options = ! empty( $options ) ? $options : array();
 
 	$target_post = get_post( $attributes['PostID'] );
 	// 該当の投稿の投稿タイプが 'filter-search' の場合は post_meta に情報を保存

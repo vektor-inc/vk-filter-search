@@ -649,7 +649,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 				}
 				$taxonomy_form_html .= '</div>';
 				$taxonomy_form_html .= self::get_taxonomy_design_html( $taxonomy, $options );
-				if ( 'user' !== $options['operator'] ) {
+				if ( 'user' !== $options['operator'] && 'not' !== $options['operator'] ) {
 					$taxonomy_form_html .= '<input type="hidden" name="vkfs_' . $taxonomy . '_operator" value="' . $options['operator'] . '" />';
 				}
 				$taxonomy_form_html .= '</div>';
@@ -885,6 +885,16 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 					}
 				}
 
+				// 除外カテゴリー.
+				if ( isset( $_GET['category_name_not'] ) ) {
+					$terms = sanitize_text_field( wp_unslash( $_GET['category_name_not'] ) );
+					$term_array     = array_filter( array_map( 'trim', preg_split( '/[\\s,]+/', $terms ) ) );
+					$category_array = self::convert_slugs_to_ids( $term_array, 'category' );
+					if ( ! empty( $category_array ) ) {
+						$query->set( 'category__not_in', $category_array );
+					}
+				}
+
 				// タグ.
 				if ( isset( $_GET['tag'] ) ) {
 					$terms = sanitize_text_field( wp_unslash( $_GET['tag'] ) );
@@ -905,6 +915,53 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 						$query->set( 'tag__in', $tag_array );
 					} else {
 						$query->set( 'tag', $terms );
+					}
+				}
+
+				// 除外タグ.
+				if ( isset( $_GET['tag_not'] ) ) {
+					$terms = sanitize_text_field( wp_unslash( $_GET['tag_not'] ) );
+					$term_array = array_filter( array_map( 'trim', preg_split( '/[\\s,]+/', $terms ) ) );
+					$tag_array  = self::convert_slugs_to_ids( $term_array, 'post_tag' );
+					if ( ! empty( $tag_array ) ) {
+						$query->set( 'tag__not_in', $tag_array );
+					}
+				}
+
+				// その他の公開タクソノミー（カテゴリ・タグを除く）の除外条件.
+				$taxonomies = get_taxonomies(
+					array(
+						'public' => true,
+					),
+					'objects'
+				);
+				if ( ! empty( $taxonomies ) ) {
+					$tax_query = $query->get( 'tax_query' );
+					if ( empty( $tax_query ) || ! is_array( $tax_query ) ) {
+						$tax_query = array();
+					}
+					foreach ( $taxonomies as $taxonomy_slug => $taxonomy_object ) {
+						if ( 'category' === $taxonomy_slug || 'post_tag' === $taxonomy_slug ) {
+							continue;
+						}
+						$query_var = $taxonomy_object->query_var ? $taxonomy_object->query_var : $taxonomy_slug;
+						$terms     = self::get_request_terms( $query_var . '_not' );
+						if ( empty( $terms ) ) {
+							continue;
+						}
+						$tax_query[] = array(
+							'taxonomy' => $taxonomy_slug,
+							'field'    => 'slug',
+							'terms'    => $terms,
+							'operator' => 'NOT IN',
+						);
+					}
+
+					if ( ! empty( $tax_query ) ) {
+						if ( ! isset( $tax_query['relation'] ) ) {
+							$tax_query = array_merge( array( 'relation' => 'AND' ), $tax_query );
+						}
+						$query->set( 'tax_query', $tax_query );
 					}
 				}
 			}
@@ -957,6 +1014,15 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 				}
 			}
 
+			$category_name_not = self::get_request_param( 'category_name_not' );
+			if ( '' !== $category_name_not ) {
+				$term_array     = array_filter( array_map( 'trim', preg_split( '/[\\s,]+/', $category_name_not ) ) );
+				$category_array = self::convert_slugs_to_ids( $term_array, 'category' );
+				if ( ! empty( $category_array ) ) {
+					$query_vars['category__not_in'] = $category_array;
+				}
+			}
+
 			$tag = self::get_request_param( 'tag' );
 			if ( '' !== $tag ) {
 				if ( false !== strpos( $tag, ' ' ) ) {
@@ -973,6 +1039,15 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 					}
 				} else {
 					$query_vars['tag'] = $tag;
+				}
+			}
+
+			$tag_not = self::get_request_param( 'tag_not' );
+			if ( '' !== $tag_not ) {
+				$term_array = array_filter( array_map( 'trim', preg_split( '/[\\s,]+/', $tag_not ) ) );
+				$tag_array  = self::convert_slugs_to_ids( $term_array, 'post_tag' );
+				if ( ! empty( $tag_array ) ) {
+					$query_vars['tag__not_in'] = $tag_array;
 				}
 			}
 
@@ -1002,6 +1077,23 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 						'field'    => 'slug',
 						'terms'    => $terms,
 						'operator' => $operator,
+					);
+				}
+
+				foreach ( $taxonomies as $taxonomy_slug => $taxonomy_object ) {
+					if ( 'category' === $taxonomy_slug || 'post_tag' === $taxonomy_slug ) {
+						continue;
+					}
+					$query_var = $taxonomy_object->query_var ? $taxonomy_object->query_var : $taxonomy_slug;
+					$not_terms = self::get_request_terms( $query_var . '_not' );
+					if ( empty( $not_terms ) ) {
+						continue;
+					}
+					$tax_query[] = array(
+						'taxonomy' => $taxonomy_slug,
+						'field'    => 'slug',
+						'terms'    => $not_terms,
+						'operator' => 'NOT IN',
 					);
 				}
 
