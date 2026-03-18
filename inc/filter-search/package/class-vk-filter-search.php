@@ -28,8 +28,8 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 			add_action( 'after_setup_theme', array( __CLASS__, 'insert_theme_hook' ) );
 			add_action( 'wp_head', array( __CLASS__, 'header_scripts' ), 0 );
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
-			// Fallback for theme editor
-			add_action( 'admin_init', array( __CLASS__, 'enqueue_style_on_theme_editor' ) );
+			// Fallback for theme editor (use enqueue_block_assets so styles load correctly in block editor iframe)
+			add_action( 'enqueue_block_assets', array( __CLASS__, 'enqueue_style_on_theme_editor' ) );
 		}
 
 		/**
@@ -84,6 +84,9 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 		 * @return void
 		 */
 		public static function enqueue_style_on_theme_editor() {
+			if ( ! is_admin() ) {
+				return;
+			}
 			wp_enqueue_style(
 				'vk-filter-search-theme-editor-style',
 				VKFS_FREE_MODULE_ROOT_URL . 'build/style.css',
@@ -580,6 +583,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 				'outer_columns'         => array(),
 				'inner_columns'         => array(),
 				'accordion_type'        => 'none',
+				'exclude'               => array(),
 			);
 			$options = wp_parse_args( $options, $default );
 
@@ -686,6 +690,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 				'hide_empty'         => true,
 				'outer_columns'      => array(),
 				'inner_columns'      => array(),
+				'exclude'            => array(),
 			);
 			$options = wp_parse_args( $options, $default );
 
@@ -706,6 +711,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 				'show_count'        => $options['show_count'],
 				'auto_count'        => $options['auto_count'],
 				'hide_empty'        => $options['hide_empty'],
+				'exclude'           => ! empty( $options['exclude'] ) ? $options['exclude'] : array(),
 				'echo'              => false,
 				'taxonomy'          => $taxonomy,
 				'value_field'       => 'slug',

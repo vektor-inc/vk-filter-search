@@ -5,7 +5,6 @@ Tags: Guternberg, Search
 Requires at least: 6.6
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.19.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -92,6 +91,10 @@ More languages will be added in the future. If you would like to help with trans
 4. Search Results page
 
 == Changelog ==
+
+= 2.20.0 =
+[ Add Function ][ Taxonomy Search Pro ] Added Exclude Terms Setting to hide specific terms from filter choices (dropdown / checkbox / radio button).
+[ Other ] Fix editor CSS loading method.
 
 = 2.19.0 =
 [ Add Function ][ Taxonomy Search Pro ] Support exclude taxonomy queries ( category / tag / taxonomy )
