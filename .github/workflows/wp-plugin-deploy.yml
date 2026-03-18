@@ -25,7 +25,8 @@ jobs:
             - name: Start wp-env
               run: npx wp-env start
             - name: Smoke test
-              uses: vektor-inc/wp-actions/smoke-test@main
+              # vektor-inc/wp-actions main as of 2026-03-18
+              uses: vektor-inc/wp-actions/smoke-test@90f5a231bc956543bf235f36be4928d57af2edab
     php_unit:
         runs-on: ubuntu-latest
         strategy:
@@ -102,7 +103,8 @@ jobs:
             - name: Create dist
               run: npm run dist
             - name: WordPress Plugin Deploy
-              uses: 10up/action-wordpress-plugin-deploy@stable
+              # 10up/action-wordpress-plugin-deploy 2.3.0 / stable
+              uses: 10up/action-wordpress-plugin-deploy@54bd289b8525fd23a5c365ec369185f2966529c2
               env:
                   BUILD_DIR: dist/${{ env.plugin_name }}
                   SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
@@ -122,7 +124,8 @@ jobs:
             - name: Create dist
               run: npm run dist
             - name: Create Release
-              uses: softprops/action-gh-release@v2
+              # softprops/action-gh-release v2.6.1 / v2
+              uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe
               with:
                   generate_release_notes: true
                   files: dist/${{ env.plugin_name }}.zip
