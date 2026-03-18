@@ -16,9 +16,13 @@ vendor/
 .phpunit.result.cache
 .phpunit.xml
 .prettierignore
+.coderabbit.yaml
 .stylelintignore
+.stylelintrc.js
 .travis.yml
 .wp-env.json
+.wp-env.override.json
+browserlist
 babel.config.js
 composer.json
 composer.lock
