@@ -19,7 +19,8 @@
 		"check-licenses": "wp-scripts check-licenses",
 		"lint:css": "wp-scripts lint-style --fix",
 		"lint:js": "wp-scripts format && wp-scripts lint-js --fix",
-		"phpunit": "wp-env run tests-cli --env-cwd='wp-content/plugins/vk-filter-search' vendor/bin/phpunit -c .phpunit.xml --testsuite default"
+		"phpunit": "wp-env run tests-cli --env-cwd='wp-content/plugins/vk-filter-search' vendor/bin/phpunit -c .phpunit.xml --testsuite default",
+		"dist": "npm run build && bash bin/dist.sh"
 	},
 	"repository": {
 		"type": "git",
