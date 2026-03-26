@@ -16,8 +16,4 @@ DISTIGNORE="${PLUGIN_DIR}/.distignore"
 
 rsync -av "${PLUGIN_DIR}/" "${src_dir}/" --exclude="dist/" --exclude-from="${DISTIGNORE}"
 
-cd "${dist_dir}"
-
-zip -r "${ZIPBALL}" "${PLUGIN_NAME}/"
-
 exit 0
