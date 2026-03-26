@@ -3,6 +3,10 @@ on:
     push:
         tags:
             - '[0-9]+.[0-9]+.[0-9]+'
+
+permissions:
+    contents: write
+
 env:
     plugin_name: vk-filter-search
 jobs:
@@ -23,12 +27,19 @@ jobs:
               run: |
                   echo '{"plugins":["./dist/${{ env.plugin_name }}"]}' > wp-env.override.json
             - name: Start wp-env
-              run: npx wp-env start
+              run: |
+                  for n in 1 2 3; do npx wp-env start --update && break || [ "$n" -lt 3 ] || exit 1; done
             - name: Smoke test
               # vektor-inc/wp-actions main as of 2026-03-18
               uses: vektor-inc/wp-actions/smoke-test@90f5a231bc956543bf235f36be4928d57af2edab
+            - name: Upload dist artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: dist
+                  path: dist/
     php_unit:
         runs-on: ubuntu-latest
+        needs: [smoke_test]
         strategy:
             matrix:
                 php-versions: ['7.4', '8.0', '8.1']
@@ -68,24 +79,40 @@ jobs:
                   curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
                   chmod +x wp-cli.phar
                   mv wp-cli.phar /usr/local/bin/wp
+            - name: Download dist artifact
+              uses: actions/download-artifact@v4
+              with:
+                  name: dist
+                  path: dist/
+            - name: Copy test dependencies into dist for phpunit
+              run: |
+                  cp -r vendor dist/${{ env.plugin_name }}/vendor
+                  for f in .phpunit.xml phpunit.xml phpunit.xml.dist; do
+                    [ -f "$f" ] && cp "$f" "dist/${{ env.plugin_name }}/$f" || true
+                  done
+                  [ -d tests ] && cp -r tests "dist/${{ env.plugin_name }}/tests" || true
+            - name: Create wp-env.override.json for dist
+              run: |
+                  cat > wp-env.override.json << 'EOF'
+                  {
+                    "plugins": ["./dist/${{ env.plugin_name }}"]
+                  }
+                  EOF
             - name: Install several WordPress version by wp-env.override.json
               run: |
                   n=0
                   until [ $n -ge 5 ]
                   do
                       WP_ENV_CORE=WordPress/WordPress#${{ matrix.wp-versions }} WP_ENV_PHP_VERSION=${{ matrix.php-versions }} npm run wp-env start --update && break
-                      n=$[$n+1]
+                      n=$((n+1))
                       echo "Retrying wp-env start --update ($n)..."
                       sleep 15
                   done
+                  [ $n -lt 5 ] || exit 1
             - name: Check WordPress Version
               run: npm run wp-env run cli wp core version
             - name: Install Themes
               run: bash bin/install-theme.sh
-            - name: Build
-              run: npm run build
-            - name: Start Environment
-              run: npx wp-env start && sudo chmod -R 777 ~/wp-env
             - name: Run PHP Unit Test
               run: npm run phpunit
     deploy:
@@ -94,14 +121,11 @@ jobs:
         needs: [smoke_test, php_unit]
         steps:
             - uses: actions/checkout@v4
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
+            - name: Download dist artifact
+              uses: actions/download-artifact@v4
               with:
-                  node-version: 20.x
-            - name: Install NPM Scripts
-              run: npm install
-            - name: Create dist
-              run: npm run dist
+                  name: dist
+                  path: dist/
             - name: WordPress Plugin Deploy
               # 10up/action-wordpress-plugin-deploy 2.3.0 / stable
               uses: 10up/action-wordpress-plugin-deploy@54bd289b8525fd23a5c365ec369185f2966529c2
@@ -115,14 +139,11 @@ jobs:
         needs: [smoke_test, php_unit]
         steps:
             - uses: actions/checkout@v4
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
+            - name: Download dist artifact
+              uses: actions/download-artifact@v4
               with:
-                  node-version: 20.x
-            - name: Install NPM Scripts
-              run: npm install
-            - name: Create dist
-              run: npm run dist
+                  name: dist
+                  path: dist/
             - name: Create Release
               # softprops/action-gh-release v2.6.1 / v2
               uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe
