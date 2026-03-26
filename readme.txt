@@ -92,6 +92,9 @@ More languages will be added in the future. If you would like to help with trans
 
 == Changelog ==
 
+= 2.20.1 =
+[ Bug Fix ] Fixed a TypeError in PHP 8+ caused by passing an array to strpos() when get_query_var() returns an array for taxonomy query variables.
+
 = 2.20.0 =
 [ Add Function ][ Taxonomy Search Pro ] Added Exclude Terms Setting to hide specific terms from filter choices (dropdown / checkbox / radio button).
 [ Other ] Fix editor CSS loading method.

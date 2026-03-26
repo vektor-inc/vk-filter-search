@@ -254,7 +254,12 @@ if ( ! class_exists( 'VK_Filter_Search_Title' ) ) {
 					// タクソノミーの 配列を取得
 					if ( ! empty( get_query_var( $taxonomy ) ) ) {
 						$taxnomy_value = get_query_var( $taxonomy );
-						if ( strpos( $taxnomy_value, '+' ) !== false ) {
+						// get_query_var() は配列を返す場合があるため、is_array() でチェックする。
+						// PHP 8以降では strpos() の第1引数に配列を渡すと TypeError が発生するため、
+						// 配列の場合は strpos() を呼び出さずにそのまま使用する。
+						if ( is_array( $taxnomy_value ) ) {
+							$operator = $search_title_args['query_element_or'];
+						} elseif ( strpos( $taxnomy_value, '+' ) !== false ) {
 							$taxnomy_value = explode( '+', $taxnomy_value );
 							$operator      = $search_title_args['query_element_and'];
 						} elseif ( strpos( $taxnomy_value, ',' ) !== false ) {
