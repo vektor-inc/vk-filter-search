@@ -20,7 +20,8 @@
 		"lint:css": "wp-scripts lint-style --fix",
 		"lint:js": "wp-scripts format && wp-scripts lint-js --fix",
 		"phpunit": "wp-env run tests-cli --env-cwd='wp-content/plugins/vk-filter-search' vendor/bin/phpunit -c .phpunit.xml --testsuite default",
-		"dist": "npm run build && bash bin/dist.sh"
+		"dist": "npm run build && bash bin/dist.sh",
+		"zip": "cd dist && zip -r vk-filter-search.zip vk-filter-search/"
 	},
 	"repository": {
 		"type": "git",
