@@ -54,7 +54,7 @@ function vkfs_search_result_title_render_callback( $attributes, $content ) {
 			'queryElementAND'       => 'and',
 			'queryElementBefore'    => '"',
 			'queryElementAfter'     => '"',
-			'queryElementsAfter'    => ' , ',
+			'queryElementsAfter'    => ' | ',
 			'queryDateMinFormat'    => __( 'From %s', 'vk-filter-search' ),
 			'queryDateMaxFormat'    => __( 'To %s', 'vk-filter-search' ),
 			'queryDaterRangeFormat' => __( 'From %1$s to %2$s', 'vk-filter-search' ),

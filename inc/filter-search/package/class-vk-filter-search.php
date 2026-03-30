@@ -54,6 +54,26 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 				return true;
 			}
 
+			// 除外パラメータのみの場合も検索クエリとして検知する。
+			if ( ! empty( $_GET['category_name_not'] ) || ! empty( $_GET['tag_not'] ) ) {
+				return true;
+			}
+
+			// カスタムタクソノミーの除外パラメータを検知する。
+			$taxonomies = get_taxonomies(
+				array(
+					'public'   => true,
+					'_builtin' => false,
+				),
+				'objects'
+			);
+			foreach ( $taxonomies as $taxonomy_slug => $taxonomy_object ) {
+				$query_var = $taxonomy_object->query_var ? $taxonomy_object->query_var : $taxonomy_slug;
+				if ( ! empty( $_GET[ $query_var . '_not' ] ) ) {
+					return true;
+				}
+			}
+
 			return false;
 		}
 

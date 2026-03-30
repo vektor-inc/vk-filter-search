@@ -32,6 +32,9 @@ if ( ! class_exists( 'VK_Filter_Search_Title' ) ) {
 				'query_element_before'    => '"',
 				'query_element_after'     => '"',
 				'query_elements_after'    => ' | ',
+				/* translators: %s: taxonomy label (e.g. "Categories") */
+				'query_exclude_format'    => __( 'Exclude %s', 'vk-filter-search' ),
+				'query_exclude_separator' => ', ',
 				'query_date_min_format'   => __( 'From %s', 'vk-filter-search' ),
 				'query_date_max_format'   => __( 'To %s', 'vk-filter-search' ),
 				'query_date_range_format' => __( 'From %1$s to %2$s', 'vk-filter-search' ),
@@ -203,6 +206,18 @@ if ( ! class_exists( 'VK_Filter_Search_Title' ) ) {
 						}
 						$search_title .= $search_title_args['query_elements_after'];
 					}
+
+					// 除外カテゴリのタイトルを作成（$_GET から直接読み取る）
+					$exclude_title = self::get_exclude_terms_title_by_slugs(
+						VK_Filter_Search::get_request_terms( 'category_name_not' ),
+						'category',
+						get_taxonomy( 'category' )->label,
+						$search_title_args
+					);
+					if ( '' !== $exclude_title ) {
+						$search_title .= $exclude_title;
+					}
+
 				} elseif ( 'tag' === $taxonomy ) {
 
 					// タグのの配列を初期化
@@ -244,6 +259,18 @@ if ( ! class_exists( 'VK_Filter_Search_Title' ) ) {
 						}
 						$search_title .= $search_title_args['query_elements_after'];
 					}
+
+					// 除外タグのタイトルを作成（$_GET から直接読み取る）
+					$exclude_title = self::get_exclude_terms_title_by_slugs(
+						VK_Filter_Search::get_request_terms( 'tag_not' ),
+						'post_tag',
+						get_taxonomy( 'post_tag' )->label,
+						$search_title_args
+					);
+					if ( '' !== $exclude_title ) {
+						$search_title .= $exclude_title;
+					}
+
 				} else {
 
 					// タクソノミーの ID の配列を初期化
@@ -273,7 +300,7 @@ if ( ! class_exists( 'VK_Filter_Search_Title' ) ) {
 
 					// タクソノミーのタイトルを作成
 					if ( ! empty( $taxnomy_value ) ) {
-						
+
 						// query_title_display が display の場合はクエリタイトルを表示
 						if ( 'display' === $search_title_args['query_title_display'] ) {
 							$search_title .= $taxonomy_label_array[ $taxonomy ] . $search_title_args['query_title_after'];
@@ -293,10 +320,77 @@ if ( ! class_exists( 'VK_Filter_Search_Title' ) ) {
 						}
 						$search_title .= $search_title_args['query_elements_after'];
 					}
+
+					// 除外カスタムタクソノミーのタイトルを作成
+					$exclude_title = self::get_exclude_terms_title_by_slugs(
+						VK_Filter_Search::get_request_terms( $taxonomy . '_not' ),
+						$taxonomy,
+						$taxonomy_label_array[ $taxonomy ],
+						$search_title_args
+					);
+					if ( '' !== $exclude_title ) {
+						$search_title .= $exclude_title;
+					}
 				}
 			}
 
 			return $search_title;
+		}
+
+		/**
+		 * 除外ターム（スラッグ指定）のタイトル文字列を生成する。
+		 *
+		 * カスタムタクソノミーなど、除外条件がスラッグの配列で渡されるタクソノミー用。
+		 *
+		 * @param array  $term_slugs        除外タームスラッグの配列。
+		 * @param string $taxonomy_slug     タクソノミーのスラッグ。
+		 * @param string $taxonomy_label    タクソノミーの表示ラベル。
+		 * @param array  $search_title_args 区切り文字など設定項目の配列。
+		 * @return string 除外タイトル文字列。除外タームがない場合は空文字。
+		 */
+		public static function get_exclude_terms_title_by_slugs( $term_slugs, $taxonomy_slug, $taxonomy_label, $search_title_args ) {
+			if ( empty( $term_slugs ) || ! is_array( $term_slugs ) ) {
+				return '';
+			}
+
+			// ターム名の一覧を作成
+			$term_names = array();
+			foreach ( $term_slugs as $term_slug ) {
+				$term = get_term_by( 'slug', $term_slug, $taxonomy_slug );
+				if ( ! empty( $term ) ) {
+					$term_names[] = $search_title_args['query_element_before'] . $term->name . $search_title_args['query_element_after'];
+				}
+			}
+
+			if ( empty( $term_names ) ) {
+				return '';
+			}
+
+			return self::build_exclude_title( $term_names, $taxonomy_label, $search_title_args );
+		}
+
+		/**
+		 * 除外タイトル文字列を組み立てる。
+		 *
+		 * @param array  $term_names        装飾済みターム名の配列。
+		 * @param string $taxonomy_label    タクソノミーの表示ラベル。
+		 * @param array  $search_title_args 区切り文字など設定項目の配列。
+		 * @return string 除外タイトル文字列。
+		 */
+		public static function build_exclude_title( $term_names, $taxonomy_label, $search_title_args ) {
+			$title = '';
+
+			// query_title_display が display の場合は「除外{タクソノミーラベル}」を表示
+			if ( 'display' === $search_title_args['query_title_display'] ) {
+				$exclude_label = sprintf( $search_title_args['query_exclude_format'], $taxonomy_label );
+				$title        .= $exclude_label . $search_title_args['query_title_after'];
+			}
+
+			// ターム名をカンマ区切りで結合
+			$title .= implode( $search_title_args['query_exclude_separator'], $term_names );
+			$title .= $search_title_args['query_elements_after'];
+
+			return $title;
 		}
 
 		/**

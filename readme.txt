@@ -5,7 +5,7 @@ Tags: Guternberg, Search
 Requires at least: 6.6
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.20.0
+Stable tag: 2.20.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -92,6 +92,9 @@ More languages will be added in the future. If you would like to help with trans
 4. Search Results page
 
 == Changelog ==
+
+= 2.20.2 =
+[ Bug Fix ][ Search Result Title ] Fixed search result title being empty when only taxonomy exclude terms are specified.
 
 = 2.20.1 =
 [ Bug Fix ] Fixed a TypeError in PHP 8+ caused by passing an array to strpos() when get_query_var() returns an array for taxonomy query variables.

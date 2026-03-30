@@ -43,7 +43,7 @@
 		},
 		"queryElementsAfter": {
 			"type": "string",
-			"default": " , "
+			"default": " | "
 		},
 		"queryDateMinFormat": {
 			"type": "string"
