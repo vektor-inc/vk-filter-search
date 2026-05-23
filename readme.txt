@@ -5,7 +5,7 @@ Tags: Guternberg, Search
 Requires at least: 6.6
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.20.3
+Stable tag: 2.20.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -92,6 +92,10 @@ More languages will be added in the future. If you would like to help with trans
 4. Search Results page
 
 == Changelog ==
+
+= 2.20.4 =
+[ Security Fix ][ Call Filter Search ] Applied esc_attr() to the value attribute of the hidden vkfs_form_id input as defense-in-depth.
+[ Security Fix ][ Call Filter Search ] Fixed Stored XSS via className block attribute by applying esc_attr() to the class output.
 
 = 2.20.3 =
 [ Other ][ VK Filter Search / Pro ] Enable editing of filter search blocks when inserted from an unsynced pattern (WordPress 7.0 contentOnly support).

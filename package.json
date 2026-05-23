@@ -52,7 +52,7 @@
 		"gulp-replace": "^1.1.4",
 		"gulp-sass": "^6.0.1",
 		"npm-check-updates": "^19.6.6",
-		"sass": "^1.99.0"
+		"sass": "^1.100.0"
 	},
 	"volta": {
 		"node": "20.14.0"
