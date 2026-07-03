@@ -37,6 +37,23 @@ function vkfs_search_result_title_block_enqueue_block_editor_assets() {
 add_action( 'enqueue_block_editor_assets', 'vkfs_search_result_title_block_enqueue_block_editor_assets' );
 
 /**
+ * Allowed HTML tag names for the `outerTagName` block attribute.
+ *
+ * The value is used directly as an HTML tag name when rendering the block,
+ * so it must be restricted to a safe allow list. Any value outside this
+ * list falls back to `div` (issue #526 / Stored XSS).
+ *
+ * `outerTagName` ブロック属性はブロック描画時に HTML タグ名としてそのまま使われるため、
+ * 安全な許可リストに制限する必要がある。リスト外の値は `div` にフォールバックする
+ * （issue #526 / Stored XSS 対策）。
+ *
+ * @return string[] Allowed tag names.
+ */
+function vkfs_search_result_title_get_allowed_outer_tag_names() {
+	return array( 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span' );
+}
+
+/**
  * Rendering Search Result Title Block
  *
  * @param array $attributes attributes.
@@ -64,7 +81,12 @@ function vkfs_search_result_title_render_callback( $attributes, $content ) {
 	$content = '';
 
 	if ( VK_Filter_Search::has_search_query() ) {
+		// Restrict outerTagName to the allow list to prevent Stored XSS via attribute/tag injection (issue #526).
+		// outerTagName を許可リストに制限し、属性・タグインジェクションによる Stored XSS を防ぐ（issue #526）.
 		$tag_name = $attributes['outerTagName'];
+		if ( ! in_array( $tag_name, vkfs_search_result_title_get_allowed_outer_tag_names(), true ) ) {
+			$tag_name = 'div';
+		}
 
 		$options = array(
 			'queries_format'          => ! empty( $attributes['queriesFormat'] ) ? $attributes['queriesFormat'] : __( 'Search Result for %s', 'vk-filter-search' ),

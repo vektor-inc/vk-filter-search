@@ -842,22 +842,38 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 				}
 
 				// スタイルの処理
+				// esc_attr() to prevent Stored XSS via number_font_size/number_font_style/number_font_weight block attributes (issue #526).
+				// number_font_size・number_font_style・number_font_weight ブロック属性経由の Stored XSS を防ぐため esc_attr() を適用（issue #526）.
 				if ( ! empty( $number_style ) ) {
-					$number_style = ' style="' . $number_style . '"';
+					$number_style = ' style="' . esc_attr( $number_style ) . '"';
 				}
 
 				// クラスの処理
+				// esc_attr() to prevent Stored XSS via the non-HEX number_color block attribute (issue #526).
+				// 非HEXの number_color ブロック属性経由の Stored XSS を防ぐため esc_attr() を適用（issue #526）.
 				if ( ! empty( $number_class ) ) {
-					$number_class = ' class="' . $number_class . '"';
+					$number_class = ' class="' . esc_attr( $number_class ) . '"';
 				}
 
 				if ( ! empty( $options['outer'] ) ) {
 					$content .= '<div class="vkfs__search-result-count">';
 				}
 
-				$content .= $options['before_text'];
+				// Allow span class / style and bare strong / em for decoration (same policy as the title block's get_search_title()).
+				// wp_kses strips <script>, event-handler attributes and javascript:, and style is filtered by safecss_filter_attr, preventing Stored XSS (issue #526).
+				// 装飾用に span は class / style を、strong / em は裸のタグとして許可（title ブロックの get_search_title() と同方針）。
+				// wp_kses が <script>・イベントハンドラ属性・javascript: 等を除去し、style は safecss_filter_attr でフィルタされるため Stored XSS を防ぐ（issue #526）.
+				$allowed_html = array(
+					'span'   => array(
+						'class' => array(),
+						'style' => array(),
+					),
+					'strong' => array(),
+					'em'     => array(),
+				);
+				$content .= wp_kses( $options['before_text'], $allowed_html );
 				$content .= ' <span' . $number_style . $number_class . '>' . $target_query->found_posts . '</span> ';
-				$content .= $options['after_text'];
+				$content .= wp_kses( $options['after_text'], $allowed_html );
 
 				if ( ! empty( $options['outer'] ) ) {
 					$content .= '</div>';

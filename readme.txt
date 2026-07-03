@@ -5,7 +5,7 @@ Tags: Guternberg, Search
 Requires at least: 6.6
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.20.4
+Stable tag: 2.20.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -92,6 +92,14 @@ More languages will be added in the future. If you would like to help with trans
 4. Search Results page
 
 == Changelog ==
+
+= 2.20.5 =
+[ Bug Fix ][ Taxonomy Search Pro ] Fixed PHP 8 warnings when child category AJAX request omits POST parameters.
+[ Bug Fix ][ Custom Field Search Pro ] Fixed issue where 0 values did not narrow search results.
+[ Bug Fix ][ Search Result Title ] Fixed a TypeError in PHP 8+ caused by passing an array to strpos() when get_query_var('s') returns an array during keyword search.
+[ Design Bug Fix ][ VK Filter Search Pro ] Added a focus outline so the focused checkbox / radio button is visible during keyboard navigation.
+[ Security Fix ][ Search Result Count ] Fixed Stored XSS via the before/after text and number style block attributes by sanitizing the render output.
+[ Security Fix ][ Search Result Title ] Fixed Stored XSS via the HTML element (outerTagName) block attribute by restricting it to an allowed tag list.
 
 = 2.20.4 =
 [ Security Fix ][ Call Filter Search ] Applied esc_attr() to the value attribute of the hidden vkfs_form_id input as defense-in-depth.

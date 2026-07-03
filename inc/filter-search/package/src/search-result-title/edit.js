@@ -15,6 +15,34 @@ import {
 } from '@wordpress/block-editor';
 import ServerSideRender from '@wordpress/server-side-render';
 
+/**
+ * Allowed HTML tag names for the `outerTagName` attribute.
+ * Must be kept in sync with the PHP allow list in
+ * `vkfs_search_result_title_get_allowed_outer_tag_names()`
+ * (inc/filter-search/package/src/search-result-title/index.php).
+ * The value is used directly as a JSX element type below, so an
+ * unrestricted value would allow Stored XSS in the editor context
+ * (issue #526). Any value outside this list falls back to `div`.
+ *
+ * `outerTagName` 属性で許可する HTML タグ名。
+ * PHP 側の許可リスト `vkfs_search_result_title_get_allowed_outer_tag_names()`
+ * （inc/filter-search/package/src/search-result-title/index.php）と必ず揃えること。
+ * 下記でこの値を JSX 要素タイプとしてそのまま使うため、制限しないと
+ * エディタ文脈での Stored XSS を許してしまう（issue #526）。
+ * リスト外の値は `div` にフォールバックする。
+ */
+const ALLOWED_OUTER_TAG_NAMES = [
+	'div',
+	'h1',
+	'h2',
+	'h3',
+	'h4',
+	'h5',
+	'h6',
+	'p',
+	'span',
+];
+
 /* eslint-disable @wordpress/i18n-translator-comments */
 export default function SearchTitleEdit( props ) {
 	const { attributes, setAttributes } = props;
@@ -177,7 +205,11 @@ export default function SearchTitleEdit( props ) {
 					postTypeTitle + genreTitle + areaTitle + keywordTitle
 			  );
 		searchTitle = searchTitle.slice( 0, searchTitle.length - 3 );
-		const Tag = outerTagName;
+		// Restrict outerTagName to the allow list to prevent Stored XSS via attribute/tag injection in the editor (issue #526).
+		// outerTagName を許可リストに制限し、エディタ文脈での属性・タグインジェクションによる Stored XSS を防ぐ（issue #526）.
+		const Tag = ALLOWED_OUTER_TAG_NAMES.includes( outerTagName )
+			? outerTagName
+			: 'div';
 		editContent = <Tag { ...blockProps }>{ searchTitle }</Tag>;
 	}
 

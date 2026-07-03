@@ -422,7 +422,20 @@ if ( ! class_exists( 'VK_Filter_Search_Title' ) ) {
 			}
 
 			if ( ! empty( $keyword_value ) ) {
-				if ( strpos( $keyword_value, ' ' ) !== false ) {
+				// get_query_var() は配列を返す場合があるため、is_array() でチェックする。
+				// PHP 8以降では strpos() の第1引数に配列を渡すと TypeError が発生するため、
+				// 配列の場合は strpos() を呼び出さずにそのまま使用する。
+				// get_query_var() may return an array, so check it with is_array().
+				// In PHP 8+, passing an array as the first argument of strpos() raises a TypeError,
+				// so use the value as-is without calling strpos() when it is an array.
+				if ( is_array( $keyword_value ) ) {
+					// 配列要素がさらに配列や null だと後続の urldecode() で TypeError / 非推奨警告になるため、
+					// スカラー要素のみに絞って文字列化し、空文字要素を除去してから処理する。
+					// Keep only scalar elements (drop nested arrays / objects / null), cast to string,
+					// then remove empty strings so urldecode() never receives a non-string value.
+					$keyword_array = array_values( array_filter( array_map( 'strval', array_filter( $keyword_value, 'is_scalar' ) ), 'strlen' ) );
+					$operator      = $search_title_args['query_element_or'];
+				} elseif ( strpos( $keyword_value, ' ' ) !== false ) {
 					$keyword_array = explode( ' ', $keyword_value );
 					$operator      = $search_title_args['query_element_and'];
 				} elseif ( strpos( $keyword_value, ',' ) !== false ) {

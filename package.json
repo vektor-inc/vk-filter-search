@@ -33,8 +33,8 @@
 	},
 	"homepage": "https://github.com/vektor-inc/vk-filter-search#readme",
 	"devDependencies": {
-		"@babel/plugin-transform-react-jsx": "^7.28.6",
-		"@babel/preset-env": "^7.29.5",
+		"@babel/plugin-transform-react-jsx": "^7.29.7",
+		"@babel/preset-env": "^7.29.7",
 		"@emotion/babel-plugin": "^11.13.5",
 		"@wordpress/env": "10.39.0",
 		"@wordpress/icons": "^11.8.0",
@@ -42,7 +42,7 @@
 		"babel-loader": "^10.1.1",
 		"babel-plugin-inline-json-import": "^0.3.2",
 		"babel-plugin-module-resolver": "^5.0.3",
-		"dompurify": "^3.4.5",
+		"dompurify": "^3.4.11",
 		"gulp": "^5.0.1",
 		"gulp-autoprefixer": "^8.0.0",
 		"gulp-clean-css": "^4.3.0",
@@ -52,7 +52,7 @@
 		"gulp-replace": "^1.1.4",
 		"gulp-sass": "^6.0.1",
 		"npm-check-updates": "^19.6.6",
-		"sass": "^1.100.0"
+		"sass": "^1.101.0"
 	},
 	"volta": {
 		"node": "20.14.0"
