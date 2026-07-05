@@ -1,11 +1,11 @@
 === VK Filter Search ===
-Contributors: vektor-inc,kurudrive,rickaddison7634,naoki0h,mimitips,una9,sysbird,chiakikouno,mtdkei
+Contributors: vektor-inc,kurudrive,rickaddison7634,naoki0h,mimitips,una9,sysbird,chiakikouno,mtdkei,next-season,beetrio189
 Donate link:
 Tags: Guternberg, Search
 Requires at least: 6.6
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.20.5
+Stable tag: 2.20.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -92,6 +92,9 @@ More languages will be added in the future. If you would like to help with trans
 4. Search Results page
 
 == Changelog ==
+
+= 2.20.6 =
+[ Other ] Added new contributors to the plugin credits.
 
 = 2.20.5 =
 [ Bug Fix ][ Taxonomy Search Pro ] Fixed PHP 8 warnings when child category AJAX request omits POST parameters.
