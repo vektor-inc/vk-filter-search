@@ -3,6 +3,7 @@ on:
     push:
         tags:
             - '[0-9]+.[0-9]+.[0-9]+'
+            - '[0-9]+.[0-9]+.[0-9]+.[0-9]+'
 
 permissions:
     contents: write
@@ -25,7 +26,7 @@ jobs:
               run: npm run dist
             - name: Setup wp-env override for dist
               run: |
-                  echo '{"plugins":["./dist/${{ env.plugin_name }}"]}' > wp-env.override.json
+                  echo '{"plugins":["./dist/${{ env.plugin_name }}"]}' > .wp-env.override.json
             - name: Start wp-env
               run: |
                   for n in 1 2 3; do npx wp-env start --update && break || [ "$n" -lt 3 ] || exit 1; done
@@ -91,14 +92,14 @@ jobs:
                     [ -f "$f" ] && cp "$f" "dist/${{ env.plugin_name }}/$f" || true
                   done
                   [ -d tests ] && cp -r tests "dist/${{ env.plugin_name }}/tests" || true
-            - name: Create wp-env.override.json for dist
+            - name: Create .wp-env.override.json for dist
               run: |
-                  cat > wp-env.override.json << 'EOF'
+                  cat > .wp-env.override.json << 'EOF'
                   {
                     "plugins": ["./dist/${{ env.plugin_name }}"]
                   }
                   EOF
-            - name: Install several WordPress version by wp-env.override.json
+            - name: Install several WordPress version by .wp-env.override.json
               run: |
                   n=0
                   until [ $n -ge 5 ]
