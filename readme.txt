@@ -5,7 +5,7 @@ Tags: Guternberg, Search
 Requires at least: 6.6
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.20.6
+Stable tag: 2.20.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -92,6 +92,10 @@ More languages will be added in the future. If you would like to help with trans
 4. Search Results page
 
 == Changelog ==
+
+= 2.20.7 =
+[ Spec Change ][ VK Filter Search / Pro ] Changed the SCSS breakpoints to max-value variables (576 / 768 / 992 / 1200 / 1400px) and rewrote the media queries with the range syntax instead of min-width / max-width.
+[ Bug Fix ][ VK Filter Search Pro ] Fixed an issue where a PHP warning could be logged to the error log on PHP 8.0 and later in certain environments.
 
 = 2.20.6 =
 [ Other ] Added new contributors to the plugin credits.

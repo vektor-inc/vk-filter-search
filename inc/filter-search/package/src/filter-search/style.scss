@@ -40,7 +40,7 @@ html :where(.editor-styles-wrapper) {
 		.wp-block-vk-filter-search-filter-search & {
 			//無料版のみ固定幅のため追加
 
-			@media (max-width: variable.$sm-max) {
+			@media (width <= variable.$sm-max) {
 				display: block;
 			}
 		}
