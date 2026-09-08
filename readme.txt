@@ -3,9 +3,9 @@ Contributors: vektor-inc,kurudrive,rickaddison7634,naoki0h,mimitips,una9,sysbird
 Donate link:
 Tags: Guternberg, Search
 Requires at least: 6.6
-Tested up to: 6.9
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.20.7
+Stable tag: 2.21.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -92,6 +92,14 @@ More languages will be added in the future. If you would like to help with trans
 4. Search Results page
 
 == Changelog ==
+
+= 2.21.0 =
+[ New Feature ][ VK Filter Search Pro ] Added an accordion option "Open items with search conditions" that keeps the items the user searched with open on the search result page.
+[ Bug Fix ][ VK Filter Search Pro ] Fixed an issue where a taxonomy term with the slug "any" or "and" was incorrectly pre-selected as "no filter" in radio button search forms.
+[ Bug Fix ][ Taxonomy Search Pro ] Fixed an issue where the hierarchical accordion kept checked child terms hidden on the search result page.
+[ Bug Fix ][ Taxonomy Search Pro ] Fixed an issue where opening a term in the collapse accordion also closed the accordions nested inside it, not only the sibling terms on the same level.
+[ Bug Fix ][ VK Filter Search Pro ] Fixed an issue where the label accordion animated its label rows and panels on every page load while the initial open / closed state was being applied.
+[ Bug Fix ][ VK Filter Search Pro ] Fixed an issue where clicking the AND / OR search method inside a label opened or closed the accordion.
 
 = 2.20.7 =
 [ Spec Change ][ VK Filter Search / Pro ] Changed the SCSS breakpoints to max-value variables (576 / 768 / 992 / 1200 / 1400px) and rewrote the media queries with the range syntax instead of min-width / max-width.
