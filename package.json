@@ -54,8 +54,5 @@
 		"npm-check-updates": "^19.6.6",
 		"sass": "^1.104.0",
 		"typescript": "^5.9.3"
-	},
-	"volta": {
-		"node": "24.22.1"
 	}
 }
