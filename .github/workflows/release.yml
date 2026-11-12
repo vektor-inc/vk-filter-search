@@ -43,8 +43,8 @@ jobs:
         needs: [smoke_test]
         strategy:
             matrix:
-                php-versions: ['7.4', '8.0', '8.1']
-                wp-versions: ['6.3', '6.4', '6.5']
+                php-versions: ['7.4', '8.2', '8.3']
+                wp-versions: ['6.9', '7.0', '7.1']
         name: PHP Unit Test on PHP ${{ matrix.php-versions }} / WP ${{ matrix.wp-versions }} Test
         services:
             mysql:
@@ -73,6 +73,8 @@ jobs:
                   php-version: ${{ matrix.php-versions }}
             - name: Install NPM Scripts
               run: npm install
+            - name: Allow apt to use the archived Debian repository (bullseye images only)
+              run: bash bin/ci/allow-expired-debian-release.sh ${{ matrix.php-versions }}
             - name: Install Composer Packages
               run: composer install
             - name: Install WP-CLI
@@ -100,18 +102,12 @@ jobs:
                   }
                   EOF
             - name: Install several WordPress version by .wp-env.override.json
-              run: |
-                  n=0
-                  until [ $n -ge 5 ]
-                  do
-                      WP_ENV_CORE=WordPress/WordPress#${{ matrix.wp-versions }} WP_ENV_PHP_VERSION=${{ matrix.php-versions }} npm run wp-env start --update && break
-                      n=$((n+1))
-                      echo "Retrying wp-env start --update ($n)..."
-                      sleep 15
-                  done
-                  [ $n -lt 5 ] || exit 1
+              env:
+                  WP_ENV_CORE: WordPress/WordPress#${{ matrix.wp-versions }}
+                  WP_ENV_PHP_VERSION: ${{ matrix.php-versions }}
+              run: bash bin/ci/wp-env-start.sh
             - name: Check WordPress Version
-              run: npm run wp-env run cli wp core version
+              run: npm run wp-env -- run cli wp core version
             - name: Install Themes
               run: bash bin/install-theme.sh
             - name: Run PHP Unit Test
