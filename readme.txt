@@ -5,7 +5,7 @@ Tags: Guternberg, Search
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.22.1
+Stable tag: 2.22.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
