@@ -50,84 +50,13 @@ function vkfs_filter_search_render_callback( $attributes, $content ) {
 
 	// 検索結果の移動先を設置
 	if ( true === $attributes['DisplayOnResult'] ) {
-		$content = str_replace( '[filter_search_result_input]', '<input type="hidden" name="vkfs_form_id" value="' . $attributes['FormID'] . '" />', $content );
+		$content = str_replace( '[filter_search_result_input]', '<input type="hidden" name="vkfs_form_id" value="' . esc_attr( $attributes['FormID'] ) . '" />', $content );
 	} else {
 		$content = str_replace( '[filter_search_result_input]', '', $content );
 	}
 
-	// 投稿タイプアーカイブにもフォームを追加する場合
-	// ["post","event"] のような形で保存されているので、 [] と "" を削除して , 区切りだけの文字列に変換
-	if ( ! empty( $attributes['DisplayOnPosttypeArchive'] ) ) {
-		$attributes['DisplayOnPosttypeArchive'] = str_replace( '[', '', $attributes['DisplayOnPosttypeArchive'] );
-		$attributes['DisplayOnPosttypeArchive'] = str_replace( ']', '', $attributes['DisplayOnPosttypeArchive'] );
-		$attributes['DisplayOnPosttypeArchive'] = str_replace( '"', '', $attributes['DisplayOnPosttypeArchive'] );
-	}
-
-	// ,区切りの文字列に返還してあった投稿タイプ情報を並列に変換
-	$post_types = ! empty( $attributes['DisplayOnPosttypeArchive'] ) ? explode( ',', $attributes['DisplayOnPosttypeArchive'] ) : array();
-
-	$options = VK_Filter_Search::get_options();
-	$options = ! empty( $options ) ? $options : array();
-
-	$target_post = get_post( $attributes['PostID'] );
-	// 該当の投稿の投稿タイプが 'filter-search' の場合は post_meta に情報を保存
-	if ( ! empty( $target_post ) && ! empty( $target_post->post_type ) && 'filter-search' === $target_post->post_type ) {
-		// POST された値を取得後処理
-		$display_result        = ! empty( $attributes['DisplayOnResult'] ) ? true : false;
-		$display_archive       = ! empty( $attributes['DisplayOnPosttypeArchive'] ) ? $attributes['DisplayOnPosttypeArchive'] : '';
-		$search_result_page_id = ! empty( $attributes['SearchResultPageID'] ) ? absint( $attributes['SearchResultPageID'] ) : 0;
-
-
-		// 値を保存
-		update_post_meta( $target_post->ID, 'vkfs_display_result', $display_result );
-		update_post_meta( $target_post->ID, 'vkfs_display_archive', $display_archive );
-		update_post_meta( $target_post->ID, 'vkfs_search_result_page_id', $search_result_page_id );
-	} elseif ( ! empty( $target_post ) ) {
-		// 公開済み or 非公開の場合はオプションを処理、それ以外の場合は除去
-		if ( 'publish' === $target_post->post_status || 'private' === $target_post->post_status ) {
-			// 検索結果ページにフォームを表示する場合
-			// フォームのデータを option 値に保存しおき、それを検索結果ページで読み込むようにしている
-			if ( ! empty( $attributes['DisplayOnResult'] ) ) {
-				// フォームが設置してある投稿IDとコンテンツの情報を option に追加
-				$options['display_on_result'][ $attributes['FormID'] ] = array(
-					// フォームが配置してある投稿ID
-					'form_post_id' => $attributes['PostID'], 
-					 // フォームDOM
-					'form_content' => $content,
-				);
-			} else {
-				// フォームを検索結果に表示しない場合は opton からフォームの情報を削除
-				if ( ! empty( $options['display_on_result'][ $attributes['FormID'] ] ) ) {
-					unset( $options['display_on_result'][ $attributes['FormID'] ] );
-				}
-			}
-
-			// 投稿タイプアーカイブにフォームを表示する場合
-			if ( ! empty( $post_types ) ) {
-				// 表示するフォームの情報を option に追加
-				$options['display_on_post_type_archive'][ $attributes['FormID'] ] = array(
-					'display_post_type' => $post_types,
-					'form_post_id'      => $attributes['PostID'],
-					'form_content'      => $content,
-				);
-			} else {
-				// フォームを投稿タイプアーカイブに表示しない場合は opton からフォームの情報を削除
-				if ( ! empty( $options['display_on_post_type_archive'][ $attributes['FormID'] ] ) ) {
-					unset( $options['display_on_post_type_archive'][ $attributes['FormID'] ] );
-				}
-			}
-		} else {
-			if ( ! empty( $options['display_on_result'][ $attributes['FormID'] ] ) ) {
-				unset( $options['display_on_result'][ $attributes['FormID'] ] );
-			}
-			if ( ! empty( $options['display_on_post_type_archive'][ $attributes['FormID'] ] ) ) {
-				unset( $options['display_on_post_type_archive'][ $attributes['FormID'] ] );
-			}
-		}
-
-		// オプション値を更新
-		update_option( 'vk_filter_search', $options );
-	}
+	// 検索結果ページ・アーカイブに出す設定は、投稿を保存したときに書き込む（VK_Filter_Search_Form_Display_Settings）
+	// 描画は閲覧のたびに動くため、ここでは書き込まない
 
 	return $content;
 }

@@ -9,6 +9,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+require_once __DIR__ . '/class-vk-filter-search-form-display-settings.php';
+require_once __DIR__ . '/class-vk-filter-search-html-id.php';
+
 if ( ! class_exists( 'VK_Filter_Search' ) ) {
 	/**
 	 * VK Filter Search
@@ -293,8 +296,17 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 					'style' => array(),
 					'href'  => array(),
 				),
-				'style'  => array(),
-				'br'     => array(),
+				// The column min-width style of each block is output as <style type="text/css">.
+				// 各ブロックのカラム最小幅のスタイルは <style type="text/css"> として出力される.
+				'style'  => array(
+					'type' => array(),
+				),
+				// Allow the same attributes as label_sanitize() so that <br> in labels is kept as is.
+				// ラベル内の <br> をそのまま残せるよう label_sanitize() と同じ属性を許可する.
+				'br'     => array(
+					'class' => array(),
+					'style' => array(),
+				),
 			);
 		}
 
@@ -318,6 +330,107 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 				)
 			);
 			return $label;
+		}
+
+		/**
+		 * 保存済みのフォームの HTML を出力前に無害化する。
+		 *
+		 * 検索結果ページ・投稿タイプアーカイブに出す旧版のフォームは、置き場所の投稿に保存されたブロックを描画して出す。
+		 * 置き場所の投稿は、設定を承認した編集者以上のほかに作成者も中身を変えられるため、出力の直前に許可リスト（kses_allowed()）で無害化する。
+		 *
+		 * @param string $form_content 描画したフォームの HTML.
+		 * @return string 無害化したフォームの HTML.
+		 */
+		public static function sanitize_saved_form_content( $form_content ) {
+			if ( ! is_string( $form_content ) || '' === $form_content ) {
+				return '';
+			}
+
+			$form_content = wp_kses( $form_content, self::kses_allowed() );
+
+			// wp_kses converts ">" outside of tags into "&gt;", which breaks the child combinator ">"
+			// in the <style> output for the column min-width setting. Any "<" has already been handled
+			// by wp_kses, so restoring "&gt;" to ">" only inside <style> cannot form a new tag.
+			// wp_kses はタグの外にある > を &gt; に変えるため、カラム最小幅の指定で出力する <style> 内の
+			// 子セレクタの > が壊れる。< は wp_kses が処理済みなので、<style> の中だけ &gt; を > に戻しても
+			// 新しいタグにはならない.
+			$form_content = preg_replace_callback(
+				'#(<style\b[^>]*>)(.*?)(?:(</style>)|\z)#is',
+				/**
+				 * Restore ">" inside a <style> element, and drop the element unless its CSS has the shape this plugin generates.
+				 * <style> 要素の中の > を元に戻し、CSS がこのプラグインが生成する形でなければ要素ごと取り除く。
+				 *
+				 * @param array $matches [ 1 => opening tag, 2 => CSS, 3 => closing tag ( unset if missing ) ]. [ 1 => 開始タグ, 2 => CSS, 3 => 終了タグ（無い場合は未設定） ].
+				 * @return string The <style> element, or an empty string. <style> 要素。または空文字.
+				 */
+				function ( $matches ) {
+					if ( empty( $matches[3] ) ) {
+						return '';
+					}
+					$css = str_replace( '&gt;', '>', $matches[2] );
+					if ( ! self::is_safe_generated_css( $css ) ) {
+						return '';
+					}
+					return $matches[1] . $css . $matches[3];
+				},
+				$form_content
+			);
+
+			// preg_replace_callback() returns null on a PCRE error, so output nothing in that case ( fail-closed ).
+			// preg_replace_callback() は PCRE のエラー時に null を返すため、その場合は何も出力しない（fail-closed）.
+			return $form_content ?? '';
+		}
+
+		/**
+		 * Check that the CSS in a saved <style> element has the shape this plugin generates.
+		 * 保存済みの <style> 要素の CSS が、このプラグインが生成する形かを判定する。
+		 *
+		 * Only rules whose selector starts with .vkfs or .vk-filter-search, of the form "selector { flex-basis / min-width / gap / margin-top : value; }" are accepted.
+		 * The selector and the value cannot contain { } ; @ backslash or quotes, so the CSS cannot leave its rule or add at-rules, and only calc / var / min / max / clamp are accepted as functions ( no url / expression ).
+		 * 「セレクタ { flex-basis / min-width / gap / margin-top : 値; }」の規則だけを許可する。
+		 * セレクタと値には { } ; @ バックスラッシュ・引用符を含められないため規則の外に出られず、@ ルールも足せない。関数は calc / var / min / max / clamp のみ（url / expression は不可）.
+		 *
+		 * @param string $css CSS. CSS.
+		 * @return bool True if the CSS is of the generated shape. 生成される形なら true.
+		 */
+		public static function is_safe_generated_css( $css ) {
+			if ( ! is_string( $css ) || false !== strpos( $css, '/*' ) ) {
+				return false;
+			}
+			$selector = '\.(?:vkfs|vk-filter-search)[A-Za-z0-9_.\-:()\[\]=>\s]*+';
+			$value    = '[A-Za-z0-9_.%()+\-*\/,\s]++';
+			$decl     = '(?:flex-basis|min-width|gap|margin-top)\s*:' . $value;
+			$rule     = $selector . '\{\s*' . $decl . '(?:;\s*' . $decl . ')*+;?\s*\}\s*';
+			if ( 1 !== preg_match( '#\A\s*(?:' . $rule . ')++\z#', $css ) ) {
+				return false;
+			}
+			// Functions other than the allowed ones are rejected. 許可した関数以外は不可.
+			$count = preg_match_all( '#(?<![A-Za-z0-9_-])([A-Za-z0-9_-]++)\s*\(#', $css, $functions );
+			if ( false === $count ) {
+				return false;
+			}
+			foreach ( $functions[1] as $name ) {
+				if ( ! in_array( strtolower( $name ), array( 'calc', 'var', 'min', 'max', 'clamp', 'where', 'not' ), true ) ) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		/**
+		 * Check whether the key ( FormID ) of a saved form can be output.
+		 * 保存済みフォームのキー（FormID）が出力してよいものかを判定する。
+		 *
+		 * A regular FormID is the post ID of the post type VK Filter Search ( digits ) or the clientId of the block ( hexadecimal digits and hyphens ),
+		 * so it never contains any of the HTML special characters < > " '. A key containing one of them is treated as crafted and is not output.
+		 * 正規の FormID は投稿タイプ VK Filter Search の投稿 ID（数字）かブロックの clientId（16進数とハイフン）で、
+		 * HTML の特殊文字 < > " ' を含むことはない。いずれかを含むキーは細工されたものとみなして出力しない。
+		 *
+		 * @param string|int $form_id Key of the saved form in the option. option に保存されたフォームのキー.
+		 * @return bool True if the key contains none of < > " '. < > " ' のいずれも含まなければ true.
+		 */
+		public static function is_safe_saved_form_id( $form_id ) {
+			return false === strpbrk( (string) $form_id, '<>"\'' );
 		}
 
 		public static function get_outer_column_width_method( $options = array() ) {
@@ -346,8 +459,43 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 			}
 
 			// ブロックIDの追加.
-			$outer_classes .= ! empty( $options['blockId'] ) ? ' vkfs__block-id--' . $options['blockId'] : '';
+			if ( isset( $options['blockId'] ) && self::is_valid_block_id( $options['blockId'] ) ) {
+				$outer_classes .= ' vkfs__block-id--' . $options['blockId'];
+			}
 			return $outer_classes;
+		}
+
+		/**
+		 * 列の最小幅として出力してよい値かを判定する
+		 *
+		 * 0 以上の数値と、許可した単位（px / % / em / rem / vw / vh）の組み合わせだけを受け付ける。
+		 * エディタのプレビュー（inc/filter-search-pro/package/src/common/column-style-validation.js の isValidColumnWidth）と同じ規則にそろえること。
+		 *
+		 * @param mixed $width 判定する幅の値.
+		 * @return bool 出力してよい形なら true.
+		 */
+		public static function is_valid_column_width( $width ) {
+			if ( ! is_string( $width ) ) {
+				return false;
+			}
+			// D 修飾子が無いと末尾の改行も通るため外さないこと（JS 側の判定とずれる）.
+			return 1 === preg_match( '/^(?:\d+(?:\.\d+)?|\.\d+)(?:px|%|em|rem|vw|vh)$/D', $width );
+		}
+
+		/**
+		 * ブロックの識別子（blockId）として出力してよい値かを判定する
+		 *
+		 * 英数字・アンダースコア・ハイフンだけで構成された値を受け付ける。
+		 *
+		 * @param mixed $block_id 判定するブロックの識別子.
+		 * @return bool 出力してよい形なら true.
+		 */
+		public static function is_valid_block_id( $block_id ) {
+			if ( ! is_string( $block_id ) ) {
+				return false;
+			}
+			// D 修飾子が無いと末尾の改行も通るため外さないこと.
+			return 1 === preg_match( '/^[A-Za-z0-9_-]+$/D', $block_id );
 		}
 
 		/**
@@ -359,14 +507,21 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 		 */
 		public static function get_column_dynamic_style( $options = array() ) {
 			$column_dynamic_style = '';
+
+			// blockId が出力できない形なら、セレクタを組み立てられないため何も出さない.
+			if ( ! isset( $options['blockId'] ) || ! self::is_valid_block_id( $options['blockId'] ) ) {
+				return $column_dynamic_style;
+			}
+			$block_id = $options['blockId'];
+
 			// Outerカラムが最小幅指定の場合はCSSを追加.
 			if ( isset( $options['outerColumnWidthMethod'] ) &&
-				isset( $options['blockId'] ) &&
 				'minimum' === $options['outerColumnWidthMethod'] &&
-				! empty( $options['outerColumnWidthMin'] )
+				isset( $options['outerColumnWidthMin'] ) &&
+				self::is_valid_column_width( $options['outerColumnWidthMin'] )
 				) {
 				$column_dynamic_style .= "<style type='text/css'>";
-				$column_dynamic_style .= '.vk-filter-search.vkfs__layout--min .vkfs__outer-wrap.vkfs__block-id--' . $options['blockId'] . '{
+				$column_dynamic_style .= '.vk-filter-search.vkfs__layout--min .vkfs__outer-wrap.vkfs__block-id--' . $block_id . '{
 					flex-basis:' . $options['outerColumnWidthMin'] . ';
 					min-width:' . $options['outerColumnWidthMin'] . ';
 				}';
@@ -375,9 +530,12 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 
 			// インナーブロックで最小幅指定の場合はCSSを追加.
 			if ( method_exists( 'VK_Filter_Search_Pro', 'get_inner_column_width_method' ) ) {
-				if ( 'minimum' === VK_Filter_Search_Pro::get_inner_column_width_method( $options ) ) {
+				if ( 'minimum' === VK_Filter_Search_Pro::get_inner_column_width_method( $options ) &&
+					isset( $options['innerColumnWidthMin'] ) &&
+					self::is_valid_column_width( $options['innerColumnWidthMin'] )
+				) {
 					$column_dynamic_style .= "<style type='text/css'>";
-					$column_dynamic_style .= '.vkfs__block-id--' . $options['blockId'] . ' > ul.vkfs__input-wrap > li:where(:not(.vkfs__has-children )){
+					$column_dynamic_style .= '.vkfs__block-id--' . $block_id . ' > ul.vkfs__input-wrap > li:where(:not(.vkfs__has-children )){
 						flex-basis:' . $options['innerColumnWidthMin'] . ';
 						min-width:' . $options['innerColumnWidthMin'] . ';
 					}';
@@ -385,6 +543,95 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 				}
 			}
 			return $column_dynamic_style;
+		}
+
+		/**
+		 * タクソノミー検索で受け付ける検索方式の一覧を取得する
+		 *
+		 * @return string[] 検索方式（and / or / not / user）の配列.
+		 */
+		public static function get_allowed_taxonomy_operators() {
+			return array( 'and', 'or', 'not', 'user' );
+		}
+
+		/**
+		 * 子タームのドロップダウンで件数に関わる設定を、真偽値にそろえて取り出す
+		 *
+		 * 署名の作成と照合で同じ形にそろえるために使う。値の真偽は、描画側（vk_dropdown_categories）の判定と同じく空かどうかで決める.
+		 *
+		 * @param array $settings show_count / auto_count / hide_empty を含む設定.
+		 * @return array{show_count: bool, auto_count: bool, hide_empty: bool} 真偽値にそろえた設定.
+		 */
+		public static function get_dropdown_count_settings( $settings ) {
+			$settings = is_array( $settings ) ? $settings : array();
+			return array(
+				'show_count' => ! empty( $settings['show_count'] ),
+				'auto_count' => ! empty( $settings['auto_count'] ),
+				'hide_empty' => ! empty( $settings['hide_empty'] ),
+			);
+		}
+
+		/**
+		 * 子タームのドロップダウンで件数に関わる設定の署名を作る
+		 *
+		 * サイトの秘密鍵から作る wp_hash() を使うため、画面からは作れない。
+		 * 署名に含めるのはタクソノミーと show_count / auto_count / hide_empty だけ.
+		 *
+		 * @param string $taxonomy タクソノミー名.
+		 * @param array  $settings show_count / auto_count / hide_empty を含む設定.
+		 * @return string 署名.
+		 */
+		public static function get_dropdown_count_signature( $taxonomy, $settings ) {
+			$count_settings = self::get_dropdown_count_settings( $settings );
+			$data           = implode(
+				'|',
+				array(
+					'vkfs_dropdown_count',
+					(string) $taxonomy,
+					$count_settings['show_count'] ? '1' : '0',
+					$count_settings['auto_count'] ? '1' : '0',
+					$count_settings['hide_empty'] ? '1' : '0',
+				)
+			);
+			return wp_hash( $data );
+		}
+
+		/**
+		 * 子タームのドロップダウンで件数に関わる設定の署名を照合する
+		 *
+		 * @param string $taxonomy  タクソノミー名.
+		 * @param array  $settings  show_count / auto_count / hide_empty を含む設定.
+		 * @param mixed  $signature 画面から送られた署名.
+		 * @return bool 照合できたら true.
+		 */
+		public static function is_valid_dropdown_count_signature( $taxonomy, $settings, $signature ) {
+			if ( ! is_string( $signature ) || '' === $signature ) {
+				return false;
+			}
+			return hash_equals( self::get_dropdown_count_signature( $taxonomy, $settings ), $signature );
+		}
+
+		/**
+		 * 追加 CSS クラスを、class 属性に出力してよい形にそろえる
+		 *
+		 * 空白で区切ったクラス名を1つずつ sanitize_html_class() に通し、空になったものを除いて空白でつなぐ。
+		 *
+		 * @param mixed $class_names 空白区切りのクラス名.
+		 * @return string 空白区切りのクラス名（先頭・末尾に空白は付けない）.
+		 */
+		public static function sanitize_class_names( $class_names ) {
+			if ( ! is_string( $class_names ) ) {
+				return '';
+			}
+
+			$sanitized_classes = array();
+			foreach ( preg_split( '/\s+/', $class_names, -1, PREG_SPLIT_NO_EMPTY ) as $class_name ) {
+				$sanitized_class = sanitize_html_class( $class_name );
+				if ( '' !== $sanitized_class ) {
+					$sanitized_classes[] = $sanitized_class;
+				}
+			}
+			return implode( ' ', $sanitized_classes );
 		}
 
 		/**
@@ -423,7 +670,8 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 			// カラム制御関連クラスの追加.
 			$outer_classes .= self::get_outer_column_class( $options );
 
-			$outer_classes .= ! empty( $options['class_name'] ) ? ' ' . $options['class_name'] : '';
+			$additional_classes = ! empty( $options['class_name'] ) ? self::sanitize_class_names( $options['class_name'] ) : '';
+			$outer_classes     .= '' !== $additional_classes ? ' ' . $additional_classes : '';
 
 			$keyword_form_html  = '<div class="vkfs__outer-wrap vkfs__keyword' . $outer_classes . '">';
 			$keyword_form_html .= '<div class="vkfs__label-name"><div class="vkfs__label-name-inner">' . self::label_sanitize( $options['label'] ) . '</div></div>';
@@ -471,7 +719,8 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 			$outer_classes .= self::get_outer_column_class( $options );
 
 			// 追加クラスの調整.
-			$outer_classes .= ! empty( $options['class_name'] ) ? ' ' . $options['class_name'] : '';
+			$additional_classes = ! empty( $options['class_name'] ) ? self::sanitize_class_names( $options['class_name'] ) : '';
+			$outer_classes     .= '' !== $additional_classes ? ' ' . $additional_classes : '';
 
 			// 変数の初期化.
 			$post_type_form_html = '';
@@ -607,6 +856,13 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 			);
 			$options = wp_parse_args( $options, $default );
 
+			// 検索方式は hidden の value 属性などにそのまま出力するため、決まった値だけを受け付ける.
+			// 検索時の判定は大文字小文字を区別しないため、ショートコードの operator="AND" なども受け付けられるよう小文字にそろえる.
+			$options['operator'] = is_string( $options['operator'] ) ? strtolower( $options['operator'] ) : '';
+			if ( ! in_array( $options['operator'], self::get_allowed_taxonomy_operators(), true ) ) {
+				$options['operator'] = 'or';
+			}
+
 			// デザインの調整.
 			$form_style_option = self::form_style_option();
 			$form_design       = ! empty( $options['form_design'] ) && in_array( $options['form_design'], $form_style_option, true ) ? $options['form_design'] : 'select';
@@ -617,20 +873,23 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 			$outer_classes .= self::get_outer_column_class( $options );
 
 			// 追加クラスの調整.
-			$outer_classes .= ! empty( $options['class_name'] ) ? ' ' . $options['class_name'] : '';
+			$additional_classes = ! empty( $options['class_name'] ) ? self::sanitize_class_names( $options['class_name'] ) : '';
+			$outer_classes     .= '' !== $additional_classes ? ' ' . $additional_classes : '';
 
 			$dropdown_options      = array();
 			$data_dropdown_options = '';
 			if ( ! empty( $options['enable_child_dropdown'] ) ) {
-				$outer_classes        .= ' vkfs__child-dropdown';
-				$dropdown_options      = array(
+				$outer_classes   .= ' vkfs__child-dropdown';
+				$dropdown_options = array(
 					'post_type'  => $options['post_type'],
 					'operator'   => $options['operator'],
 					'show_count' => $options['show_count'],
 					'auto_count' => $options['auto_count'],
 					'hide_empty' => $options['hide_empty'],
 				);
-				$data_dropdown_options = ' data-vkfs-dropdown-options="' . esc_html( wp_json_encode( $dropdown_options, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT ) ) . '"';
+				// 子タームの AJAX は件数の設定をこの署名と照合してから使う（画面から書き換えた設定を受け付けないため）.
+				$dropdown_options['count_signature'] = self::get_dropdown_count_signature( $taxonomy, $dropdown_options );
+				$data_dropdown_options               = ' data-vkfs-dropdown-options="' . esc_html( wp_json_encode( $dropdown_options, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT ) ) . '"';
 			}
 
 			// 変数を初期化.
@@ -786,7 +1045,11 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 				}
 			}
 			// プロ版のチェックボックスなどはフィルターで全部差し替え.
-			return apply_filters( 'vk_search_filter_taxonomy_design_html', $taxonomy_design_html, $taxonomy, $options );
+			$taxonomy_design_html = apply_filters( 'vk_search_filter_taxonomy_design_html', $taxonomy_design_html, $taxonomy, $options );
+
+			// 同じタクソノミーの検索フォームを1ページに複数置いたときに id が重複しないよう、2つ目以降に番号を付ける.
+			// 差し替え前の HTML で番号を進めないよう、フィルターの後で付けること.
+			return VK_Filter_Search_Html_Id::make_wrapper_id_unique( $taxonomy_design_html );
 		}
 
 		public static function get_search_count_html( $options ) {
@@ -895,10 +1158,11 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 				if ( isset( $_GET['post_type'] ) ) {
 					$post_types = sanitize_text_field( wp_unslash( $_GET['post_type'] ) );
 					if ( ! empty( $post_types ) ) {
-						if ( false !== strpos( $post_types, ',' ) ) {
-							$query->set( 'post_type', explode( ',', $post_types ) );
-						} else {
-							$query->set( 'post_type', $post_types );
+						// Use only the post types allowed for the search (if none remain, post_type is not set).
+						// 検索対象にしてよい種類だけを使う（残りが無ければ post_type は設定しない）.
+						$allowed_post_types = self::filter_allowed_post_types( explode( ',', $post_types ) );
+						if ( ! empty( $allowed_post_types ) ) {
+							$query->set( 'post_type', ( 1 === count( $allowed_post_types ) ) ? reset( $allowed_post_types ) : $allowed_post_types );
 						}
 					} else {
 						$query->set( 'post_type', 'any' );
@@ -1029,10 +1293,9 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 				$query_vars['s'] = $keyword;
 			}
 
-			$post_types = self::get_request_keys( 'vkfs_post_type' );
-			if ( empty( $post_types ) ) {
-				$post_types = self::get_request_keys( 'post_type' );
-			}
+			// Use only the post types allowed for the search (if none remain, the post_type of the block is kept).
+			// 検索対象にしてよい種類だけを使う（残りが無ければ、ブロック側の post_type のまま）.
+			$post_types = self::get_request_post_types();
 			if ( ! empty( $post_types ) ) {
 				$query_vars['post_type'] = ( 1 === count( $post_types ) ) ? reset( $post_types ) : $post_types;
 			}
@@ -1221,6 +1484,86 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 		}
 
 		/**
+		 * Get the slugs of the post types allowed for the search by the URL.
+		 * URL の指定で検索対象にしてよい投稿タイプのスラッグを取得する.
+		 *
+		 * The targets are public post types (public is true) and post types that may be queried through the URL (publicly_queryable is true).
+		 * 一般公開している種類（public が true）と、URL での検索を許している種類（publicly_queryable が true）が対象.
+		 * To allow a post type that is not public, use the filter vkfs_allowed_post_types.
+		 * 一般公開していない種類を足したい場合は、フィルター vkfs_allowed_post_types を使う.
+		 *
+		 * @return string[] Post type slugs allowed for the search. 検索対象にしてよい投稿タイプのスラッグの配列.
+		 */
+		public static function get_allowed_post_types() {
+			// Gather the public post types and the post types that may be queried through the URL.
+			// 一般公開している種類と、URL での検索を許している種類をまとめる.
+			$allowed_post_types = array_values(
+				array_unique(
+					array_merge(
+						array_values( get_post_types( array( 'public' => true ) ) ),
+						array_values( get_post_types( array( 'publicly_queryable' => true ) ) )
+					)
+				)
+			);
+
+			/**
+			 * Filter that adds or removes the post types allowed for the search by the URL.
+			 * URL の指定で検索対象にしてよい投稿タイプを、足したり減らしたりするフィルター.
+			 *
+			 * @param string[] $allowed_post_types Post type slugs allowed for the search. 検索対象にしてよい投稿タイプのスラッグの配列.
+			 */
+			$filtered_post_types = apply_filters( 'vkfs_allowed_post_types', $allowed_post_types );
+
+			// If the filter returns something other than an array, use the original list without widening the allowance.
+			// フィルターが配列以外を返した場合は、許可を広げずに元の一覧を使う.
+			if ( ! is_array( $filtered_post_types ) ) {
+				return $allowed_post_types;
+			}
+
+			return array_values( array_filter( $filtered_post_types, 'is_string' ) );
+		}
+
+		/**
+		 * Keep only the post types allowed for the search among those specified in the URL.
+		 * URL で指定された投稿タイプから、検索対象にしてよい種類だけを残す.
+		 *
+		 * Keep 'any' (all types) as it is, and remove the post types that are not allowed.
+		 * 'any'（すべての種類）はそのまま残す. 許可されない種類は取り除く.
+		 *
+		 * @param string[]|string $post_types Post type slug(s) specified in the URL (an array or a single string). URL で指定された投稿タイプのスラッグ（配列または1つの文字列）.
+		 * @return string[] Remaining post type slugs (no duplicates, in the specified order). An empty array if none remain. 残った投稿タイプのスラッグの配列（重複なし・指定順）. 残りが無ければ空配列.
+		 */
+		public static function filter_allowed_post_types( $post_types ) {
+			$allowed_post_types = self::get_allowed_post_types();
+
+			// Collect only the allowed ones among the specified post types.
+			// 指定された種類のうち、許可されたものだけを集める.
+			$result = array();
+			foreach ( (array) $post_types as $post_type ) {
+				if ( is_string( $post_type ) && ( 'any' === $post_type || in_array( $post_type, $allowed_post_types, true ) ) ) {
+					$result[] = $post_type;
+				}
+			}
+
+			return array_values( array_unique( $result ) );
+		}
+
+		/**
+		 * Get the slugs of the post types allowed for the search that are specified by vkfs_post_type (or post_type if absent) in the URL.
+		 * URL の vkfs_post_type（なければ post_type）で指定された、検索対象にしてよい投稿タイプのスラッグを取得する.
+		 *
+		 * @return string[] Post type slugs allowed for the search. An empty array if none is specified or none is allowed. 検索対象にしてよい投稿タイプのスラッグの配列. 指定が無い、またはすべて許可されない場合は空配列.
+		 */
+		public static function get_request_post_types() {
+			$post_types = self::filter_allowed_post_types( self::get_request_keys( 'vkfs_post_type' ) );
+			if ( empty( $post_types ) ) {
+				$post_types = self::filter_allowed_post_types( self::get_request_keys( 'post_type' ) );
+			}
+
+			return $post_types;
+		}
+
+		/**
 		 * Convert term slugs to IDs.
 		 *
 		 * @param array  $slugs    Slug list.
@@ -1270,103 +1613,46 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 		}
 
 		/**
-		 * Get Option
+		 * option vk_filter_search を取得する
+		 *
+		 * 取得だけを行い、書き込みはしない。古い項目の整理は、移行（VK_Filter_Search_Form_Display_Settings::migrate()）と投稿の保存時に行う。
+		 *
+		 * @return array option の値。未保存・配列でない場合は空配列
 		 */
 		public static function get_options() {
-			// オプションを取得
 			$options = get_option( 'vk_filter_search' );
-
-			// 存在価値がないフォームデータを削除
-			$options = self::option_reduction( $options );
-
-			update_option( 'vk_filter_search', $options );
-
-			return $options;
+			return is_array( $options ) ? $options : array();
 		}
 
 		/**
-		 *  Option Reduction
+		 * 旧版のフォームの項目のうち、存在価値がないものを除いた option を返す
+		 *
+		 * 次のどれかに当たる項目を除く。値を返すだけで、option には書き込まない。
+		 * - 項目が配列でない・置いた投稿の ID が無い
+		 * - キー（FormID）の形式が正しくない
+		 * - 置いた投稿が無い・旧版のフォームを置けない投稿タイプ
+		 * - 置いた投稿の本文に、FormID が一致する検索フォームのブロックが無い（parse_blocks() で判定する）
+		 *
+		 * 置いた投稿の状態（公開・下書きなど）は、表示するときに確かめるためここでは見ない。
+		 *
+		 * @param array|mixed $options option vk_filter_search の値.
+		 * @return array|mixed 整理した option の値。配列でない場合はそのまま返す
 		 */
 		public static function option_reduction( $options ) {
-
-			// 検索結果のオプション値を整理
-			if ( ! empty( $options['display_on_result'] ) ) {
-
-				// オプション値のキーを取得
-				$block_id_array = array_keys( $options['display_on_result'] );
-
-				// ループ用の変数を初期化
-				$i = 0;
-
-				// それぞれのフォームデータに対して処理を実行
-				foreach ( $options['display_on_result'] as $the_post ) {
-					if ( ! is_array( $options['display_on_result'][ $block_id_array[ $i ] ] ) ) {
-						// フォームの保存データが配列でなければそのフォームのデータを削除
-						unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
-					} elseif ( ! empty( $the_post['form_post_id'] ) ) {
-						// フォームの保存データに投稿 ID がある場合はまず投稿を取得
-						$post_object = get_post( intval( $the_post['form_post_id'] ) );
-						if ( empty( $post_object ) ) {
-							// 投稿の中身がなければそのフォームのデータを削除
-							unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
-						} else {
-							// 投稿の中身に該当のブロックが設置されていなければそのフォームのデータを削除
-							$post_content = $post_object->post_content;
-							if ( false === strpos( $post_content, $block_id_array[ $i ] ) ) {
-								unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
-							}
-							// 公開済み or 非公開でなければそのフォームのデータを削除
-							if ( 'publish' !== $post_object->post_status && 'private' !== $post_object->post_status ) {
-								unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
-							}
-						}
-					} else {
-						// フォームの保存データに投稿 ID がない場合はそのフォームは削除
-						unset( $options['display_on_result'][ $block_id_array[ $i ] ] );
+			if ( ! is_array( $options ) ) {
+				return $options;
+			}
+			foreach ( VK_Filter_Search_Form_Display_Settings::get_legacy_option_keys() as $option_key ) {
+				if ( empty( $options[ $option_key ] ) || ! is_array( $options[ $option_key ] ) ) {
+					continue;
+				}
+				// 置いた投稿に、FormID が一致するブロックが無い項目を除く
+				foreach ( $options[ $option_key ] as $form_id => $entry ) {
+					if ( null === VK_Filter_Search_Form_Display_Settings::find_legacy_form_block( $form_id, $entry ) ) {
+						unset( $options[ $option_key ][ $form_id ] );
 					}
-					++$i;
 				}
 			}
-
-			// 投稿タイプアーカイブに関するオプション値を整理
-			if ( ! empty( $options['display_on_post_type_archive'] ) ) {
-
-				// オプション値のキーを取得
-				$block_id_array = array_keys( $options['display_on_post_type_archive'] );
-
-				// ループ用の変数を初期化
-				$i = 0;
-
-				// それぞれのフォームデータに対して処理を実行
-				foreach ( $options['display_on_post_type_archive'] as $the_post ) {
-					if ( ! is_array( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] ) ) {
-						// フォームの保存データが配列でなければそのフォームのデータを削除
-						unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
-					} elseif ( ! empty( $the_post['form_post_id'] ) ) {
-						// フォームの保存データに投稿 ID がある場合はまず投稿を取得
-						$post_object = get_post( intval( $the_post['form_post_id'] ) );
-						if ( empty( $post_object ) ) {
-							// 投稿の中身がなければそのフォームのデータを削除
-							unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
-						} else {
-							// 投稿の中身に該当のブロックが設置されていなければそのフォームのデータを削除
-							$post_content = $post_object->post_content;
-							if ( false === strpos( $post_content, $block_id_array[ $i ] ) ) {
-								unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
-							}
-							// 公開済み or 非公開でなければそのフォームのデータを削除
-							if ( 'publish' !== $post_object->post_status && 'private' !== $post_object->post_status ) {
-								unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
-							}
-						}
-					} else {
-						// フォームの保存データに投稿 ID がない場合はそのフォームは削除
-						unset( $options['display_on_post_type_archive'][ $block_id_array[ $i ] ] );
-					}
-					++$i;
-				}
-			}
-
 			return $options;
 		}
 
@@ -1451,8 +1737,13 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 
 		/**
 		 * Search Form on Loop
+		 * 検索結果ページ・投稿タイプアーカイブに表示するフォームの HTML を返す。
+		 *
+		 * On the search result page, only forms of the VK Filter Search post type (filter-search) are displayed, and password protected forms are not.
+		 * 検索結果ページでは、投稿タイプ VK Filter Search（filter-search）のフォームだけを表示し、パスワード保護されたフォームは表示しない。
 		 *
 		 * @param bool $force_display_result 検索結果を強制表示するかどうか
+		 * @return string 表示するフォームの HTML
 		 */
 		public static function search_result_form_content( $force_display_result = false ) {
 			$content  = '';
@@ -1472,7 +1763,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 				$target_post = is_numeric( $target_id ) ? get_post( $target_id ) : array();
 
 				// 投稿タイプ VK Filter Search のフォームがある場合はそちらを優先する
-				if ( ! empty( $target_post ) && ( 'publish' === $target_post->post_status || 'private' === $target_post->post_status ) ) {
+				if ( self::is_displayable_form_post( $target_post ) ) {
 					// 新しいのでフラグを消す
 
 					$old_flag = false;
@@ -1485,7 +1776,7 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 
 					// 上記フィールドが true か強制表示フラグが true ならその投稿を表示
 					if ( ! empty( $display_result ) || ! empty( $force_display_result ) ) {
-						$content  = str_replace( '[filter_search_result_input]', '<input type="hidden" name="vkfs_form_id" value="' . $target_id . '" />', $target_post->post_content );
+						$content  = str_replace( '[filter_search_result_input]', '<input type="hidden" name="vkfs_form_id" value="' . esc_attr( $target_id ) . '" />', $target_post->post_content );
 						$content  = apply_filters( 'filter_search_content', $content );
 						$content .= self::form_edit_content( $target_post->ID, $old_flag );
 					} else {
@@ -1494,15 +1785,28 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 				}
 
 				// 旧版のフォームを表示
-				if ( ! empty( $options['display_on_result'] ) ) {
+				if ( ! empty( $options['display_on_result'] ) && is_array( $options['display_on_result'] ) ) {
 
 					// 古いのでフラグを立てる
 					$old_flag = true;
 
-					// ID に該当する情報があればそれを表示
-					if ( array_key_exists( $target_id, $options['display_on_result'] ) ) {
-						$content  = $options['display_on_result'][ $target_id ]['form_content'];
-						$content .= self::form_edit_content( $options['display_on_result'][ $target_id ]['form_post_id'], $old_flag );
+					// ID に該当する情報があり、置き場所の投稿が今も表示してよい状態なら、置き場所の投稿のブロックを描画して表示
+					// 置き場所の投稿をパスワード保護・下書きにした後も option は残るため、表示時にも確かめる
+					$form         = array_key_exists( $target_id, $options['display_on_result'] ) ? $options['display_on_result'][ $target_id ] : null;
+					$form_post_id = VK_Filter_Search_Form_Display_Settings::get_entry_post_id( $form );
+					$block        = self::is_displayable_form_source_post( $form_post_id ) ? VK_Filter_Search_Form_Display_Settings::find_legacy_form_block( $target_id, $form ) : null;
+					// ブロックの今の設定でも検索結果ページに出す場合だけ表示する
+					if ( null !== $block ) {
+						$block_settings = VK_Filter_Search_Form_Display_Settings::get_block_display_settings( $block );
+						if ( $block_settings['result'] ) {
+							// 置き場所の投稿の作成者が編集者未満でも中身を変えられるため、出力の直前に無害化する
+							$form_html = self::sanitize_saved_form_content( VK_Filter_Search_Form_Display_Settings::render_form_block( $block ) );
+							// 描画できなかったフォームには、編集リンクも出さない
+							if ( '' !== $form_html ) {
+								$content  = $form_html;
+								$content .= self::form_edit_content( $form_post_id, $old_flag );
+							}
+						}
 					}
 				}
 			}
@@ -1527,6 +1831,11 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 
 					// 各投稿に対しループを回す
 					foreach ( $posts as $post ) {
+
+						// パスワード保護されたフォームは出さない
+						if ( ! self::is_displayable_form_post( $post ) ) {
+							continue;
+						}
 
 						// カスタムフィールドを取得
 						$display_archive = get_post_meta( $post->ID, 'vkfs_display_archive', true );
@@ -1561,6 +1870,8 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 
 										$content .= $pre_content;
 										$content .= self::form_edit_content( $post->ID, $old_flag );
+										// 同じフォームを2回以上出さない
+										break;
 									}
 								}
 							}
@@ -1569,24 +1880,143 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 				}
 
 				// 旧版のフォームを表示
-				if ( ! empty( $options['display_on_post_type_archive'] ) ) {
+				if ( ! empty( $options['display_on_post_type_archive'] ) && is_array( $options['display_on_post_type_archive'] ) ) {
 					// 古いのでフラグを立てる
-					$old_flag = true;
-					$forms    = $options['display_on_post_type_archive'];
-					foreach ( $forms as $form ) {
-						foreach ( $form['display_post_type'] as $post_type ) {
-							if ( in_array( get_post_type(), $form['display_post_type'], true ) ) {
-								if ( is_home() || is_post_type_archive( $post_type ) ) {
-									$content .= $form['form_content'];
-									$content .= self::form_edit_content( $form['form_post_id'], $old_flag );
-								}
+					$old_flag          = true;
+					$current_post_type = get_post_type();
+					foreach ( $options['display_on_post_type_archive'] as $form_id => $form ) {
+						// 保存した設定に今の投稿タイプが無い項目は、置き場所の投稿を読まずに飛ばす
+						$saved_post_types = isset( $form['display_post_type'] ) && is_array( $form['display_post_type'] ) ? $form['display_post_type'] : array();
+						if ( ! in_array( $current_post_type, $saved_post_types, true ) ) {
+							continue;
+						}
+						// 置き場所の投稿をパスワード保護・下書きにした後も option は残るため、表示時にも確かめる
+						$form_post_id = VK_Filter_Search_Form_Display_Settings::get_entry_post_id( $form );
+						if ( ! self::is_displayable_form_source_post( $form_post_id ) ) {
+							continue;
+						}
+						// 置き場所の投稿から、FormID が一致するブロックを探す（キーの形式もここで確かめる）
+						$block = VK_Filter_Search_Form_Display_Settings::find_legacy_form_block( $form_id, $form );
+						if ( null === $block ) {
+							continue;
+						}
+						// 保存した設定と、ブロックの今の設定の両方にある投稿タイプだけに出す
+						$block_settings = VK_Filter_Search_Form_Display_Settings::get_block_display_settings( $block );
+						$post_types     = array_values( array_intersect( $saved_post_types, $block_settings['archive'] ) );
+						if ( ! in_array( $current_post_type, $post_types, true ) ) {
+							continue;
+						}
+						// ホーム、またはそのどれかの投稿タイプのアーカイブなら、1つのフォームを1回だけ出す
+						$is_target_archive = is_home();
+						foreach ( $post_types as $post_type ) {
+							if ( is_post_type_archive( $post_type ) ) {
+								$is_target_archive = true;
+								break;
 							}
 						}
+						if ( ! $is_target_archive ) {
+							continue;
+						}
+						// 置き場所の投稿の作成者が編集者未満でも中身を変えられるため、出力の直前に無害化する
+						$form_html = self::sanitize_saved_form_content( VK_Filter_Search_Form_Display_Settings::render_form_block( $block ) );
+						// 描画できなかったフォームには、編集リンクも出さない
+						if ( '' === $form_html ) {
+							continue;
+						}
+						$content .= $form_html;
+						$content .= self::form_edit_content( $form_post_id, $old_flag );
 					}
 				}
 			}
 
 			return $content;
+		}
+
+		/**
+		 * 投稿タイプ VK Filter Search のフォームを、検索結果ページ・アーカイブに表示してよいか判定する
+		 *
+		 * 投稿タイプが filter-search で、状態が公開済みか非公開で、パスワードが付いていない投稿だけを対象にする。
+		 * パスワードは閲覧者のクッキーで結果が変わる post_password_required() ではなく、投稿に付いているかどうかで判定する。
+		 *
+		 * @param WP_Post|int|null $post 判定する投稿または投稿 ID.
+		 * @return bool 表示してよい場合は true
+		 */
+		public static function is_displayable_form_post( $post ) {
+			// get_post() は空の値を渡すと表示中の投稿を返すため、先に除外する
+			if ( empty( $post ) ) {
+				return false;
+			}
+			$post = get_post( $post );
+			if ( ! $post instanceof WP_Post || 'filter-search' !== $post->post_type ) {
+				return false;
+			}
+			return self::is_displayable_form_source_post( $post );
+		}
+
+		/**
+		 * 旧方式の検索フォームブロックを置いた投稿のフォームを、検索結果ページ・アーカイブに表示してよいか判定する
+		 *
+		 * 投稿タイプは問わず、状態が公開済みか非公開で、パスワードが付いていない投稿だけを対象にする。
+		 * パスワードは閲覧者のクッキーで結果が変わる post_password_required() ではなく、投稿に付いているかどうかで判定する。
+		 *
+		 * @param WP_Post|int|null $post 判定する投稿または投稿 ID.
+		 * @return bool 表示してよい場合は true
+		 */
+		public static function is_displayable_form_source_post( $post ) {
+			// get_post() は空の値を渡すと表示中の投稿を返すため、先に除外する
+			if ( empty( $post ) ) {
+				return false;
+			}
+			$post = get_post( $post );
+			if ( ! $post instanceof WP_Post ) {
+				return false;
+			}
+			if ( 'publish' !== $post->post_status && 'private' !== $post->post_status ) {
+				return false;
+			}
+			return '' === $post->post_password;
+		}
+
+		/**
+		 * フォームに設定した検索結果の移動先ページの URL を取得する
+		 *
+		 * フォームが is_displayable_form_post() を満たし、移動先が固定ページで、閲覧中の人が見られる場合
+		 * （一般公開されているか、閲覧中の人に読む権限がある）だけ URL を返す。
+		 * それ以外は空文字を返し、移動のスクリプトはサイト標準の検索結果ページへ移動する。
+		 *
+		 * @param string|int $form_id フォームの ID（投稿タイプ VK Filter Search の投稿 ID）.
+		 * @return string 移動先ページの URL。移動先を使わない場合は空文字
+		 */
+		public static function get_search_result_page_url( $form_id ) {
+			// 投稿タイプ VK Filter Search のフォーム ID は正の整数なので、それ以外（-5・1e1・1.9 等）は対象外
+			if ( ! is_int( $form_id ) && ! is_string( $form_id ) ) {
+				return '';
+			}
+			if ( ! ctype_digit( (string) $form_id ) ) {
+				return '';
+			}
+
+			// 表示してよいフォームだけを対象にする
+			$form_post = get_post( absint( $form_id ) );
+			if ( ! self::is_displayable_form_post( $form_post ) ) {
+				return '';
+			}
+
+			// 移動先ページを取得
+			$page_id = absint( get_post_meta( $form_post->ID, 'vkfs_search_result_page_id', true ) );
+			$page    = ! empty( $page_id ) ? get_post( $page_id ) : null;
+			// 移動先はエディタで固定ページから選ぶため、固定ページ以外は使わない
+			if ( ! $page instanceof WP_Post || 'page' !== $page->post_type ) {
+				return '';
+			}
+
+			// 閲覧中の人が見られない移動先ページの URL は出さない
+			if ( ! is_post_publicly_viewable( $page ) && ! current_user_can( 'read_post', $page->ID ) ) {
+				return '';
+			}
+
+			$url = get_permalink( $page );
+			return ! empty( $url ) ? $url : '';
 		}
 
 		/**
@@ -1605,15 +2035,11 @@ if ( ! class_exists( 'VK_Filter_Search' ) ) {
 		 */
 		public static function header_scripts() {
 			if ( isset( $_GET['vkfs_submitted'] ) ) {
-				$target_id             = ! empty( $_GET['vkfs_form_id'] ) ? sanitize_text_field( wp_unslash( $_GET['vkfs_form_id'] ) ) : '';
-				$search_result_page_id = ( ! empty( $target_id ) && is_numeric( $target_id ) )
-					? get_post_meta( absint( $target_id ), 'vkfs_search_result_page_id', true )
-					: '';
-				$search_result_url     = ! empty( $search_result_page_id ) ? get_permalink( $search_result_page_id ) : '';
+				$target_id = ! empty( $_GET['vkfs_form_id'] ) ? sanitize_text_field( wp_unslash( $_GET['vkfs_form_id'] ) ) : '';
 
 				$header_script_params = array(
 					'home_url'          => self::get_search_root_url(),
-					'search_result_url' => $search_result_url,
+					'search_result_url' => self::get_search_result_page_url( $target_id ),
 				);
 
 				$header_scripts  = '<script type="text/javascript" id="vk-filter-search-redirct-js-extra">/* <![CDATA[ */ var vk_filter_search_params = ' . json_encode( $header_script_params ) . '; /* ]]> */</script>';

@@ -40,7 +40,8 @@ if ( ! class_exists( 'VK_Filter_Search_Shortcode' ) ) {
 				$atts
 			);
 
-			$class_name = ! empty( $atts['class_name'] ) ? ' ' . $atts['class_name'] : '';
+			$class_name = ! empty( $atts['class_name'] ) ? VK_Filter_Search::sanitize_class_names( $atts['class_name'] ) : '';
+			$class_name = '' !== $class_name ? ' ' . $class_name : '';
 
 			$form_before_html  = '<form class="vk-filter-search vkfs' . $class_name . '" method="get" action="' . VK_Filter_Search::get_search_root_url() . '">';
 			$form_before_html .= '<div class="vkfs__labels">';

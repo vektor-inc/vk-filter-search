@@ -11,7 +11,7 @@ import {
 	PanelBody,
 	SelectControl,
 } from '@wordpress/components';
-import { useState } from '@wordpress/element';
+import { useCallback, useState } from '@wordpress/element';
 import { select } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import DOMPurify from 'dompurify';
@@ -32,7 +32,9 @@ export const destructiveDeleteFromArray = ( array, value ) => {
 };
 
 export const AdvancedCheckboxControl = ( props ) => {
-	const { schema, rawData, checkedData, setAttributes } = props;
+	// ariaDescribedBy: 各チェックボックスから参照させる説明の id（無ければ付けない）
+	const { schema, rawData, checkedData, setAttributes, ariaDescribedBy } =
+		props;
 	const [ checkedState, setCheckedState ] = useState( checkedData );
 
 	if ( ! rawData || ! checkedData ) {
@@ -48,6 +50,7 @@ export const AdvancedCheckboxControl = ( props ) => {
 			<CheckboxControl
 				key={ data.slug }
 				label={ data.label }
+				aria-describedby={ ariaDescribedBy }
 				checked={ checkedState.some( ( item ) => item === data.slug ) }
 				onChange={ ( value ) => {
 					if ( value ) {
@@ -218,5 +221,79 @@ export const SearchResultPageSettingPanel = ( props ) => {
 				options={ options }
 			/>
 		</PanelBody>
+	);
+};
+
+/**
+ * 旧版のフォームの「検索結果ページ・投稿タイプアーカイブに表示」の設定の下に、説明を出すか
+ *
+ * 権限が足りない人が、VK Filter Search 以外の投稿に置いたフォームを編集しているときだけ出す。
+ * 権限の判定は PHP から受け取る。
+ *
+ * @param {string} currentPostType 編集中の投稿の投稿タイプ.
+ * @return {boolean} 出す場合は true.
+ */
+export const isFormDisplaySettingNoteShown = ( currentPostType ) => {
+	// 投稿タイプ VK Filter Search と、再利用ブロック・テンプレートなどの wp_ で始まる投稿タイプには出さない
+	if (
+		! currentPostType ||
+		currentPostType === 'filter-search' ||
+		currentPostType.startsWith( 'wp_' )
+	) {
+		return false;
+	}
+	const canApprove =
+		// eslint-disable-next-line camelcase
+		typeof vk_filter_search_params !== 'undefined' &&
+		// eslint-disable-next-line no-undef
+		vk_filter_search_params.canApproveFormDisplay;
+	return ! canApprove;
+};
+
+/**
+ * 入力要素に aria-describedby を付ける ref を返す
+ *
+ * WordPress 6.6〜6.9 の ToggleControl は、渡した aria-describedby を入力要素へ渡さない。
+ * ref は入力要素まで届くため、ref で直接付ける（prop で渡す形に戻すと、古い WordPress で読み上げの関連付けが消える）。
+ *
+ * @param {string|undefined} describedBy 説明の要素の id。付けない場合は undefined.
+ * @return {Function} ToggleControl などの ref に渡す関数.
+ */
+export const useAriaDescribedByRef = ( describedBy ) =>
+	useCallback(
+		( node ) => {
+			if ( ! node ) {
+				return;
+			}
+			if ( describedBy ) {
+				node.setAttribute( 'aria-describedby', describedBy );
+			} else {
+				node.removeAttribute( 'aria-describedby' );
+			}
+		},
+		[ describedBy ]
+	);
+
+/**
+ * 旧版のフォームの「検索結果ページ・投稿タイプアーカイブに表示」の設定の下に出す説明
+ *
+ * 2つの設定から aria-describedby で参照させるため、id を受け取る。
+ *
+ * @param {Object} props                 プロパティ.
+ * @param {string} props.currentPostType 編集中の投稿の投稿タイプ.
+ * @param {string} props.id              説明の要素の id.
+ * @return {Element|null} 説明。出さない場合は null.
+ */
+export const FormDisplaySettingNote = ( { currentPostType, id } ) => {
+	if ( ! isFormDisplaySettingNoteShown( currentPostType ) ) {
+		return null;
+	}
+	return (
+		<p id={ id } className="vkfs-form-display-setting-note">
+			{ __(
+				'Display on the search result page and post type archives takes effect when saved by a user with the Editor role or higher.',
+				'vk-filter-search'
+			) }
+		</p>
 	);
 };

@@ -9,6 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+// 子タームの AJAX で使う、選択肢の並びを一時保存するウォーカー
+require_once __DIR__ . '/class-vk-walker-categorydropdown-cache.php';
 
 if ( ! function_exists( 'vk_dropdown_categories') ) {
 	/**
@@ -97,7 +99,7 @@ if ( ! function_exists( 'vk_dropdown_categories') ) {
 			 * @param string       $element  Category name.
 			 * @param WP_Term|null $category The category object, or null if there's no corresponding category.
 			 */
-			$show_option_none = apply_filters( 'list_cats', $parsed_args['show_option_none'], null );
+			$show_option_none = apply_filters( 'list_cats', esc_html( $parsed_args['show_option_none'] ), null );
 			$output          .= "\t<option value='" . esc_attr( $option_none_value ) . "' selected='selected'>$show_option_none</option>\n";
 		}
 
@@ -105,7 +107,7 @@ if ( ! function_exists( 'vk_dropdown_categories') ) {
 			if ( $parsed_args['show_option_all'] ) {
 
 				/** This filter is documented in wp-includes/category-template.php */
-				$show_option_all = apply_filters( 'list_cats', $parsed_args['show_option_all'], null );
+				$show_option_all = apply_filters( 'list_cats', esc_html( $parsed_args['show_option_all'] ), null );
 				$selected        = ( '0' === (string) $parsed_args['selected'] ) ? " selected='selected'" : '';
 				$output         .= "\t<option value='0'$selected>$show_option_all</option>\n";
 			}
@@ -113,7 +115,7 @@ if ( ! function_exists( 'vk_dropdown_categories') ) {
 			if ( $parsed_args['show_option_none'] ) {
 
 				/** This filter is documented in wp-includes/category-template.php */
-				$show_option_none = apply_filters( 'list_cats', $parsed_args['show_option_none'], null );
+				$show_option_none = apply_filters( 'list_cats', esc_html( $parsed_args['show_option_none'] ), null );
 				$selected         = selected( $option_none_value, $parsed_args['selected'], false );
 				$output          .= "\t<option value='" . esc_attr( $option_none_value ) . "'$selected>$show_option_none</option>\n";
 			}

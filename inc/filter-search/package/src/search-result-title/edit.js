@@ -1,4 +1,4 @@
-import { __, sprintf } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 import {
 	PanelBody,
 	BaseControl,
@@ -14,6 +14,7 @@ import {
 	AlignmentControl,
 } from '@wordpress/block-editor';
 import ServerSideRender from '@wordpress/server-side-render';
+import { replacePlaceholders } from '../common/replace-placeholders';
 
 /**
  * Allowed HTML tag names for the `outerTagName` attribute.
@@ -172,13 +173,13 @@ export default function SearchTitleEdit( props ) {
 		// 投稿日のタイトル
 		const postDateTitle =
 			postDateQueryTitle +
-			sprintf( queryDaterRangeFormat, minDate, maxDate ) +
+			replacePlaceholders( queryDaterRangeFormat, [ minDate, maxDate ] ) +
 			queryElementsAfter;
 
 		// 更新日のタイトル
 		const postModifiedTitle =
 			postModifiedaQueryTitle +
-			sprintf( queryDateMinFormat, minDate ) +
+			replacePlaceholders( queryDateMinFormat, [ minDate ] ) +
 			queryElementsAfter;
 
 		// キーワードのタイトル
@@ -191,19 +192,17 @@ export default function SearchTitleEdit( props ) {
 
 		// 検索結果のタイトル
 		let searchTitle = vkfsIsPro
-			? sprintf(
-					queriesFormat,
+			? replacePlaceholders( queriesFormat, [
 					postTypeTitle +
 						genreTitle +
 						areaTitle +
 						postDateTitle +
 						postModifiedTitle +
-						keywordTitle
-			  )
-			: sprintf(
-					queriesFormat,
-					postTypeTitle + genreTitle + areaTitle + keywordTitle
-			  );
+						keywordTitle,
+			  ] )
+			: replacePlaceholders( queriesFormat, [
+					postTypeTitle + genreTitle + areaTitle + keywordTitle,
+			  ] );
 		searchTitle = searchTitle.slice( 0, searchTitle.length - 3 );
 		// Restrict outerTagName to the allow list to prevent Stored XSS via attribute/tag injection in the editor (issue #526).
 		// outerTagName を許可リストに制限し、エディタ文脈での属性・タグインジェクションによる Stored XSS を防ぐ（issue #526）.

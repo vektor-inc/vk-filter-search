@@ -18,6 +18,6 @@
 	},
 	"supports": {
 		"contentRole": true,
-		"className": true
+		"className": false
 	}
 }

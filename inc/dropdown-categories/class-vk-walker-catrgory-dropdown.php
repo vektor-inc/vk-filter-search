@@ -60,8 +60,10 @@ if ( ! class_exists( 'VK_Walker_CategoryDropdown' ) ) {
 			$category = $data_object;
 			$pad      = str_repeat( '&nbsp;', $depth * 3 );
 
+			// カテゴリー名はフィルターに渡す前にエスケープする（WordPress 本体の Walker_Category と同じ方式）.
+			// フィルターで意図して差し込まれた HTML を残すため、戻り値はもう一度エスケープしない.
 			/** This filter is documented in wp-includes/category-template.php */
-			$cat_name = apply_filters( 'list_cats', $category->name, $category );
+			$cat_name = apply_filters( 'list_cats', esc_html( $category->name ), $category );
 
 			if ( isset( $args['value_field'] ) && isset( $category->{$args['value_field']} ) ) {
 				$value_field = $args['value_field'];

@@ -5,3 +5,13 @@ node_modules/
 temp/
 vendor/
 playwright-report/
+
+# Markdown は Prettier の対象外にする。
+# Prettier は Markdown では意味を保存しない（内容が変わりうる）。
+# 実測: .vkfs__labels → .vkfs**labels（命名規則の節が壊れた）
+#
+# この行を消しても普段は何も変わらないように見える。wp-scripts format は
+# 引数なしでは .md を対象にしないため。効くのは、エディタの保存時整形と、
+# ファイル名を明示した実行のとき。上の事故はその経路で起きた。
+# 「測ったら何も変わらないので、無いのと同じ」と判断しないこと。
+*.md

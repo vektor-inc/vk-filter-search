@@ -55,6 +55,48 @@ if ( ! class_exists( 'VK_Filter_Search_Title' ) ) {
 		}
 
 		/**
+		 * タイトルの書式の置き換える場所に値を入れる
+		 *
+		 * 設定画面で入力できる書式を sprintf() にそのまま渡すと、書式と値の数が合わないときにエラーになるため、
+		 * 次の3つだけを置き換え、それ以外の % は文字のまま残す。
+		 * - %%   : % にする
+		 * - %s   : 先頭から順番に値を入れる
+		 * - %n$s : n 番目の値を入れる（%s の順番は進めない）
+		 * 値が無い場所は空文字にする。
+		 * エディタのプレビュー（inc/filter-search/package/src/common/replace-placeholders.js）と同じ規則にそろえること。
+		 *
+		 * @param string $format 置き換える場所を含む書式.
+		 * @param array  $values 書式に入れる値の配列.
+		 * @return string 値を入れた文字列.
+		 */
+		public static function replace_placeholders( $format, $values = array() ) {
+			$values         = array_values( (array) $values );
+			$sequence_index = 0;
+
+			$replaced = preg_replace_callback(
+				'/%(?:(%)|([1-9][0-9]*)\$s|s)/',
+				function ( $matches ) use ( $values, &$sequence_index ) {
+					// %% は % にする.
+					if ( ! empty( $matches[1] ) ) {
+						return '%';
+					}
+					// %n$s は n 番目の値を入れる.
+					if ( ! empty( $matches[2] ) ) {
+						$position = (int) $matches[2] - 1;
+						return isset( $values[ $position ] ) ? (string) $values[ $position ] : '';
+					}
+					// %s は順番に値を入れる.
+					$value = isset( $values[ $sequence_index ] ) ? (string) $values[ $sequence_index ] : '';
+					++$sequence_index;
+					return $value;
+				},
+				(string) $format
+			);
+
+			return null === $replaced ? '' : $replaced;
+		}
+
+		/**
 		 * 投稿タイプの検索タイトルを取得
 		 *
 		 * @param array $search_title_args 区切り文字など設定項目の配列
@@ -67,10 +109,7 @@ if ( ! class_exists( 'VK_Filter_Search_Title' ) ) {
 			// 投稿タイプを取得
 			$post_type_value = get_query_var( 'post_type' );
 			if ( empty( $post_type_value ) || 'any' === $post_type_value ) {
-				$post_type_value = VK_Filter_Search::get_request_keys( 'vkfs_post_type' );
-			}
-			if ( empty( $post_type_value ) || 'any' === $post_type_value ) {
-				$post_type_value = VK_Filter_Search::get_request_keys( 'post_type' );
+				$post_type_value = VK_Filter_Search::get_request_post_types();
 			}
 			if ( ! empty( $post_type_value ) && 'any' !== $post_type_value ) {
 
@@ -82,27 +121,36 @@ if ( ! class_exists( 'VK_Filter_Search_Title' ) ) {
 					$post_type_value = array( $post_type_value );
 				}
 
-				$post_type_value = array_filter(
-					$post_type_value,
-					function( $post_type ) {
-						return 'any' !== $post_type;
+				// Create the array of labels of the post types allowed for the search.
+				// 検索対象にしてよい投稿タイプのラベルの配列を作成
+				$post_type_labels = array();
+				foreach ( VK_Filter_Search::get_allowed_post_types() as $post_type ) {
+					$post_type_object = get_post_type_object( $post_type );
+					if ( $post_type_object ) {
+						$post_type_labels[ $post_type ] = $post_type_object->labels->singular_name;
 					}
+				}
+
+				// Show only the post types that have a label (allowed for the search); 'any' has no label, so it is dropped.
+				// ラベルのある（検索対象にしてよい）種類だけを表示する（'any' はラベルが無いので外れる）
+				$post_type_value = array_values(
+					array_filter(
+						$post_type_value,
+						/**
+						 * Check whether the post type slug has a label (whether it may be shown in the title).
+						 * 投稿タイプのスラッグにラベルがあるか（タイトルに表示してよい種類か）を判定する.
+						 *
+						 * @param mixed $post_type Post type slug. 投稿タイプのスラッグ.
+						 * @return bool True if it has a label. ラベルがあれば true.
+						 */
+						function( $post_type ) use ( $post_type_labels ) {
+							return is_string( $post_type ) && isset( $post_type_labels[ $post_type ] );
+						}
+					)
 				);
 
 				if ( empty( $post_type_value ) ) {
 					return '';
-				}
-
-				// 投稿タイプのラベルの配列を作成
-				$post_types       = get_post_types(
-					array(
-						'public'   => true,
-					),
-					'names'
-				);
-				foreach ( $post_types as $post_type ) {
-					$post_type_object               = get_post_type_object( $post_type );
-					$post_type_labels[ $post_type ] = $post_type_object->labels->singular_name;
 				}
 
 				$count = 0;
@@ -382,7 +430,7 @@ if ( ! class_exists( 'VK_Filter_Search_Title' ) ) {
 
 			// query_title_display が display の場合は「除外{タクソノミーラベル}」を表示
 			if ( 'display' === $search_title_args['query_title_display'] ) {
-				$exclude_label = sprintf( $search_title_args['query_exclude_format'], $taxonomy_label );
+				$exclude_label = self::replace_placeholders( $search_title_args['query_exclude_format'], array( $taxonomy_label ) );
 				$title        .= $exclude_label . $search_title_args['query_title_after'];
 			}
 
@@ -514,7 +562,7 @@ if ( ! class_exists( 'VK_Filter_Search_Title' ) ) {
 			$queries = rtrim( $queries, $search_title_args['query_elements_after'] );
 
 			// 検索結果のクエリ関連文字列
-			$search_result_title = sprintf( $search_title_args['queries_format'], $queries );
+			$search_result_title = self::replace_placeholders( $search_title_args['queries_format'], array( $queries ) );
 
 			// 検索結果のクエリ関連文字列の末尾にサイト名を追加
 			$search_result_title .= $search_title_args['queries_after'];

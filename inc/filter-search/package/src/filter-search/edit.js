@@ -1,6 +1,9 @@
 import {
 	AdvancedCheckboxControl,
+	FormDisplaySettingNote,
+	isFormDisplaySettingNoteShown,
 	SearchResultPageSettingPanel,
+	useAriaDescribedByRef,
 } from '@vk-filter-search/common/component';
 
 import { __ } from '@wordpress/i18n';
@@ -181,6 +184,17 @@ export default function FilterSearchEdit( props ) {
 		);
 	}
 
+	// 旧版のフォームの表示の設定の説明。2つの設定から読み上げで参照させる
+	const formDisplayNoteId = `vkfs-form-display-setting-note-${ clientId }`;
+	const formDisplayNoteDescribedBy = isFormDisplaySettingNoteShown(
+		currentPostType
+	)
+		? formDisplayNoteId
+		: undefined;
+	const displayOnResultToggleRef = useAriaDescribedByRef(
+		formDisplayNoteDescribedBy
+	);
+
 	let formOptionControl = '';
 	if (
 		pathString.indexOf( 'site-editor.php' ) === -1 &&
@@ -195,6 +209,7 @@ export default function FilterSearchEdit( props ) {
 							'vk-filter-search'
 						) }
 						checked={ DisplayOnResult }
+						ref={ displayOnResultToggleRef }
 						onChange={ ( checked ) =>
 							setAttributes( {
 								DisplayOnResult: checked,
@@ -217,10 +232,15 @@ export default function FilterSearchEdit( props ) {
 							vk_filter_search_params.post_type_archive_checkbox
 						}
 						checkedData={ JSON.parse( DisplayOnPosttypeArchive ) }
+						ariaDescribedBy={ formDisplayNoteDescribedBy }
 						{ ...props }
 					/>
 					{ blockThemeAlertArchive }
 				</BaseControl>
+				<FormDisplaySettingNote
+					currentPostType={ currentPostType }
+					id={ formDisplayNoteId }
+				/>
 			</>
 		);
 	}

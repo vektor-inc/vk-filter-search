@@ -316,6 +316,8 @@ if ( ! class_exists( 'VK_Filter_Search_Block' ) ) {
 					'taxonomy_option'            => $block_data['taxonomy_option'],
 					'page_list'                  => $block_data['page_list'],
 					'isBlockTheme'               => self::is_block_theme(),
+					// 旧版のフォームを検索結果ページ・アーカイブに出す設定を、保存で反映できる権限があるか（説明の出し分けに使う）
+					'canApproveFormDisplay'      => current_user_can( VK_Filter_Search_Form_Display_Settings::APPROVE_CAPABILITY ),
 				)
 			);
 		}

@@ -5,7 +5,7 @@ Tags: Guternberg, Search
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.21.0
+Stable tag: 2.22.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -92,6 +92,33 @@ More languages will be added in the future. If you would like to help with trans
 4. Search Results page
 
 == Changelog ==
+
+= 2.22.0 =
+[ New Feature ][ VK Filter Search Pro ] Each condition in the list at the top of the form can now be cleared on the spot, and "Clear all" next to the heading clears every condition at once.
+[ New Feature ][ VK Filter Search Pro ] Added a list of the currently selected conditions at the top of forms placed with the Pro block. Shortcode and free block forms are not covered. Forms saved before this update keep the list off, and the block setting "Selected conditions" turns it on or off.
+[ Spec Change ][ VK Filter Search Pro / Taxonomy Search Pro ] Unified the size of the accordion toggle button, which differed by 2px depending on the theme. On themes without a CSS reset the button is now 2px smaller, and rows that have a sub-level become 2px shorter.
+[ Spec Change ][ Search Result Single Order ] In the custom field selector of the Search Result Single Order block, fields starting with "_" are now hidden by default and can be shown with the "Show internal fields (starting with "_")" option.
+[ Spec Change ][ Taxonomy Search / Taxonomy Search Pro ] When the same taxonomy appears in more than one form on a page, the second and later choice lists now get a numbered ID such as "vkfs_category-2" to avoid duplicate IDs. CSS that targets an ID such as #vkfs_category now applies only to the first form; use the class on every form instead, such as .vkfs__input-wrap--category_name (.vkfs__input-wrap--tag for tags, .vkfs__input-wrap--{taxonomy slug} for custom taxonomies, with "_not" added for exclusion checkboxes).
+[ Bug Fix ][ VK Filter Search Pro ] Fixed an issue where the label accordion could not be opened or closed with the keyboard and did not tell assistive technology whether an item was open or closed.
+[ Bug Fix ][ Taxonomy Search Pro ] Fixed an issue where the hierarchical accordion could not be opened or closed with the keyboard, lost the focus every time it was toggled, and kept the checkboxes of a closed level in the tab order.
+[ Bug Fix ][ Taxonomy Search Pro ] Fixed an issue where a level folded by the accordion or collapse display gave no sign that it contained selected terms, so search conditions stayed hidden from the user. The number of terms selected below the level is now shown next to it.
+[ Bug Fix ][ Taxonomy Search Pro ] Fixed an issue where a long term name pushed the accordion toggle button onto the next line, leaving an arrow on a line of its own so it was unclear which term it belonged to. Long term names now wrap inside their own row.
+[ Security Fix ][ VK Filter Search / VK Filter Search Pro ] Added escaping to the form ID output of the search form block.
+[ Security Fix ][ Search Result Form ] Fixed the search result form so that it does not display posts other than those of the VK Filter Search post type.
+[ Security Fix ][ VK Filter Search Pro ] Fixed the narrowing by the post type specified in the URL so that it is limited to publicly available post types.
+[ Security Fix ][ Search Result Single Order ] Limited the custom fields accepted for sorting the search results. Fields starting with "_" can be used only in forms saved by an Editor or Administrator, or when allowed with the vkfs_orderby_allowed_protected_meta_keys filter.
+[ Security Fix ][ Search Result Form ] Password-protected forms, and forms placed in a password-protected post, are no longer shown on the search result page or post type archives; remove the password to show them. Visitors who cannot view the selected search result page now go to the default search result page; publish the page to use it.
+[ Security Fix ][ VK Filter Search Pro ] The column min width is now applied only when it is a number with px, %, em, rem, vw or vh, in the editor preview as well (the Search Result Single Order block keeps its saved value). If you entered a value such as calc() in the code editor, set it again in the Column min width field.
+[ Security Fix ][ Search Result Title ] The title formats now replace only %s, numbered placeholders such as %1$s, and %%. Other codes such as %d are now shown as they are (use %s instead), and a format with a single % no longer breaks the page.
+[ Security Fix ][ Taxonomy Search / Taxonomy Search Pro ] HTML tags in term names and in the "Option Label for Non-Selected" text are now shown as text. HTML added through the list_cats filter is still output as before.
+[ Security Fix ][ VK Filter Search / VK Filter Search Pro ] Only letters (a-z, A-Z), numbers, hyphens and underscores are now kept in the "Additional CSS class(es)" of the search blocks and in the class_name of the shortcodes; other characters such as Japanese, ":" and "/" (e.g. md:w-1/2) are removed. If your class names use them, rename the classes with these characters only.
+[ Security Fix ][ VK Filter Search / VK Filter Search Pro ] Added sanitization to the output of the saved form HTML on the search result page and the post type archive page.
+[ Security Fix ][ Taxonomy Search Pro ] The child term dropdown now loads child terms only from publicly viewable taxonomies. Child terms of non-public taxonomies, including those registered with publicly_queryable set to false, are no longer shown.
+[ Security Fix ][ Taxonomy Search Pro ] The child term dropdown now uses the post count settings only when the server verifies them, counts only published posts, and caches its choices to reduce the load. Pages left in a page cache show child terms without counts until the cache is cleared. The saved search form on the search result page also shows child terms without counts until the original page is displayed again.
+[ Security Fix ][ Post Date Search Pro ] The "Post Type of Disable Future Post" setting in the block sidebar is now a site setting that only administrators can change, and changes are saved immediately. Other users see it as read-only, and the current setting is carried over.
+[ Security Fix ][ Custom Field Search Pro ] Only the fields of Custom Field Search blocks in saved content can now be used for narrowing, so fields of removed blocks no longer work. Fields starting with "_" work only in content saved by an Editor or Administrator, or in existing content created by one. Forms in theme template files work once the template is saved or the fields are allowed with the vkfs_custom_field_keys filter.
+[ Security Fix ][ VK Filter Search / VK Filter Search Pro ] The settings to show a search form placed directly in a post or page on the search result page and post type archives now take effect only when the post is saved by an Editor or Administrator. Forms made with the "VK Filter Search" post type are not affected; forms placed by users below the Editor role are not shown there until an Editor or Administrator saves the post again.
+[ Security Fix ][ VK Filter Search / VK Filter Search Pro ] The Call Filter Search Form block now shows nothing unless the selected post is a published or private search form without a password.
 
 = 2.21.0 =
 [ New Feature ][ VK Filter Search Pro ] Added an accordion option "Open items with search conditions" that keeps the items the user searched with open on the search result page.
