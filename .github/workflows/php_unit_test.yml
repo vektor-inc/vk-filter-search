@@ -14,8 +14,8 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php-versions: ['7.4', '8.2', '8.4']
-                wp-versions: ['6.9', '6.8', '6.7']
+                php-versions: ['7.4', '8.2', '8.3']
+                wp-versions: ['6.9', '7.0', '7.1']
         name: PHP Unit Test on PHP ${{ matrix.php-versions }} / WP ${{ matrix.wp-versions }} Test
         services:
             mysql:
@@ -44,6 +44,8 @@ jobs:
                   php-version: ${{ matrix.php-versions }}
             - name: install npm scripts
               run: npm install
+            - name: Allow apt to use the archived Debian repository (bullseye images only)
+              run: bash bin/ci/allow-expired-debian-release.sh ${{ matrix.php-versions }}
             - name: Install Composer Packages
               run: composer install
             - name: Install WP-CLI
@@ -52,22 +54,17 @@ jobs:
                   chmod +x wp-cli.phar
                   mv wp-cli.phar /usr/local/bin/wp
             - name: Install several WordPress version by wp-env.override.json
-              run: |
-                  n=0
-                  until [ $n -ge 5 ]
-                  do
-                      WP_ENV_CORE=WordPress/WordPress#${{ matrix.wp-versions }} WP_ENV_PHP_VERSION=${{ matrix.php-versions }} npm run wp-env start --update && break
-                      n=$[$n+1]
-                      echo "Retrying wp-env start --update ($n)..."
-                      sleep 15
-                  done
+              env:
+                  WP_ENV_CORE: WordPress/WordPress#${{ matrix.wp-versions }}
+                  WP_ENV_PHP_VERSION: ${{ matrix.php-versions }}
+              run: bash bin/ci/wp-env-start.sh
             - name: Check WordPress Version
-              run: npm run wp-env run cli wp core version
+              run: npm run wp-env -- run cli wp core version
             - name: Install Themes
               run: bash bin/install-theme.sh
             - name: Build
               run: npm run build
-            - name: Start Environment
-              run: npx wp-env start && sudo chmod -R 777 ~/wp-env
+            - name: Change Permission
+              run: sudo chmod -R 777 ~/wp-env
             - name: Run PHP Unit Test
               run: npm run phpunit
