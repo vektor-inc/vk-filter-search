@@ -18,7 +18,7 @@
 # wp-env 自身も stretch に対して同じ趣旨の書き換えを Dockerfile に入れている
 # （"Update apt sources for archived versions of Debian"）。
 # Dockerfile を組み立てるファイルの場所は wp-env の版で変わるため、下の
-# 候補から探す（Pro からの写し。Pro は lib/init-config.js だけを見ている）。
+# 候補から探す（Pro・無料版・海外版で同じ内容にそろえている。直すときは3つとも直す）。
 #   10.16 系: lib/init-config.js
 #   10.39 系: lib/runtime/docker/init-config.js
 #   12 系:    lib/runtime/docker/docker-config.js
